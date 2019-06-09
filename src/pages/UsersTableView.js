@@ -252,7 +252,7 @@ class UsersTableView extends Component {
                     </CustomTable>
                 </div>
             </div>
-            <Pagination prevPage={this.prevPage.bind(this)} displayPageData={this.displayPageData.bind(this)} nextPage={this.nextPage.bind(this)} rowLength={this.props.users.length} {...this.state}>
+            <Pagination prevPage={this.prevPage.bind(this)} displayPageData={this.displayPageData.bind(this)} nextPage={this.nextPage.bind(this)} rowLength={users.length} {...this.state}>
 
             </Pagination>
         </div>
