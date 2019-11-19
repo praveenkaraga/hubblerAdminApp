@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 const requestConfigs = {
 	getUsers:{
-        url:'http://demo9197058.mockable.io/users',
+        url:'/rest/users/?start=1&offset=20&sortKey=_id&sortOrder=dsc&filterKey=&filterQuery=',
         options:{
             method:'get'
         }
@@ -31,6 +31,7 @@ const optionDefaults = {
 		'Content-Type': 'application/json; charset=utf-8',
 		'X-Requested-With': 'XMLHttpRequest',
 		// "Content-Type": "application/x-www-form-urlencoded",
+		'Access-Control-Allow-Origin':'*'
 	},
 	redirect: 'follow', // manual, *follow, error
 	referrer: 'no-referrer', // no-referrer, *client

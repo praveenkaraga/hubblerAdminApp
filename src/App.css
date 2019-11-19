@@ -9,7 +9,7 @@ ul,li{
 }
 
 
-html,body,.App,.page-content,#root{
+body,.App,.page-content,#root{
   height: 100%;
 }
 

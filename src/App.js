@@ -10,10 +10,8 @@ import { BrowserRouter as Router, Route , Switch} from 'react-router-dom';
 
 class App extends Component{
     state = {
-        displayItems: [{name: 'First Name', id: 'first_name'}, {name: 'Last Name', id: 'last_name'},
-            {name: 'Company Name', id: 'company_name'}, {name: 'City', id: 'city'}, {name: 'State', id: 'state'},
-            {name: 'Zip', id: 'zip'}, {name: 'Email', id: 'email'}, {name: 'Web', id: 'web',link:true},
-            {name: 'Age', id: 'age'}],
+        displayItems: [{name: 'First Name', id: 'firstname'}, {name: 'Last Name', id: 'lastname'},
+            {name: 'Mobile', id: 'mobile'}, {name: 'Email', id: 'email'}],
     }
 
     componentDidMount(){

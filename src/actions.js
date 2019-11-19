@@ -1,17 +1,12 @@
 import apiCall from './apiCall'
-import randomcolor from 'randomcolor'
-import map from 'lodash/map'
+
 
 export function fetchPostsWithRedux() {
     return (dispatch) => {
         dispatch(fetchPostsRequest());
         return fetchPosts().then((resp)=>{
-            if(resp.length){
-                let data = map(resp,item => {
-                    item.pic_color = randomcolor({luminosity: 'dark'})
-                    return item
-                })
-                dispatch(fetchPostsSuccess(data))
+            if(resp.result.length){
+                dispatch(fetchPostsSuccess(resp.result))
             }
         })
     }

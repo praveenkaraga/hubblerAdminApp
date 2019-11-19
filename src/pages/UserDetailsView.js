@@ -7,8 +7,8 @@ import filter from 'lodash/filter'
 class UserDetailsView extends Component{
     render(){
         let {users,match,displayItems} = this.props
-        let user = find(users, item => item.id === parseInt(match.params.userId))
-        displayItems = filter(displayItems, item => item.id !== 'first_name' || item.id !== 'first_name')
+        let user = find(users, item => item._id === match.params.userId)
+        displayItems = filter(displayItems, item => item._id !== 'firstname' || item._id !== 'firstname')
         if(user){
             return <div className={'user-details-view'}>
                 <div className={'user-details-header'}>
@@ -18,10 +18,10 @@ class UserDetailsView extends Component{
                         </li>
                         <li className={'user-pic'}>
                             <div className={'profile-pic noPic'} style={{backgroundColor:user.pic_color}}>
-                                {user.first_name.substring(0,2)}</div>
+                                {user.firstname.substring(0,2)}</div>
                         </li>
                         <li className={'user-name'}>
-                            {user.first_name} {user.first_name}
+                            {user.firstname}
                         </li>
                     </ul>
                 </div>
