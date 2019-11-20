@@ -1,67 +1,40 @@
-import React from 'react';
-import _ from 'lodash';
 
 
+import axios from "axios";
 
-const requestConfigs = {
-	getUsers:{
-        url:'/rest/users/?start=1&offset=20&sortKey=_id&sortOrder=dsc&filterKey=&filterQuery=',
-        options:{
-            method:'get'
-        }
+axios.defaults.proxy = true;
+
+//getting CSRF token
+function getCSRFTokenFromCookie() {
+	let cookieValue = null;
+	let name = "csrftoken2";
+	if (document.cookie && document.cookie !== "") {
+		const cookies = document.cookie.split(";");
+		for (let i = 0; i < cookies.length; i++) {
+			let cookie = cookies[i];
+			cookie = cookie.trim();
+			if (cookie.substring(0, name.length + 1) === name + "=") {
+				cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+				break;
+			}
+		}
 	}
-};
-
-const generateGetUrl = (url, data) => {
-	if (!data) {
-		return url;
-	}
-	_.each(data, (value, index) => {
-		url = url.replace(':' + index, value);
-	});
-
-	return url;
+	return cookieValue;
 }
 
-
-const optionDefaults = {
-	cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-	credentials: 'same-origin', // include, same-origin, *omit
+let axiosConfig = {
 	headers: {
-		'Content-Type': 'application/json; charset=utf-8',
-		'X-Requested-With': 'XMLHttpRequest',
-		// "Content-Type": "application/x-www-form-urlencoded",
-		'Access-Control-Allow-Origin':'*'
+		"X-CSRFToken": getCSRFTokenFromCookie(),
+		"Content-Type": "application/json; charset=utf-8",
+		"X-Requested-With": "XMLHttpRequest"
 	},
-	redirect: 'follow', // manual, *follow, error
-	referrer: 'no-referrer', // no-referrer, *client
-	method: 'get'
+	cache: "no-cache",
+	credentials: "same-origin",
+	referrer: "no-referrer",
+	redirect: "follows" // manual, *follow, error
 };
-const formDataHeader = {
-    'X-Requested-With': 'XMLHttpRequest',
-}
-_.each(requestConfigs, (requestConfig) => {
-	let options = requestConfig.options || {};
-	options = _.extend({}, optionDefaults, options);
-	requestConfig.options = options;
-});
 
-export default function (requestId, urlParams = {}, postParams) {
-	const requestConfig = requestConfigs[requestId];
-	let {url} = requestConfig;
-	url = generateGetUrl(url, urlParams)
-	let options = {...requestConfig.options};
-	if(options.method === 'post' || options.method === 'put' || options.method === 'PATCH'){
-	    if(options.formData === true){
-            options.body = postParams
-            options.headers = formDataHeader
-        }else{
-            options.body = JSON.stringify(postParams)
-        }
-	}
-	return fetch(url, options)
-		.then(resp => {
-            let response = resp.json()
-            return response
-		});
-}
+
+export const getUsers = () => {
+	return axios.get("/rest/users/?start=1&offset=20&sortKey=_id&sortOrder=dsc&filterKey=&filterQuery=", axiosConfig);
+};
