@@ -1,11 +1,13 @@
-import React, {Component} from 'react';
-import {connect} from "react-redux";
+import React, { Component } from 'react';
+import { connect } from "react-redux";
 import './console.scss'
 
 
 class Console extends Component {
-    render(){
-        return <div>Console Component</div>
+    render() {
+        return (
+            <div>Nischal</div>
+        )
     }
 }
 
