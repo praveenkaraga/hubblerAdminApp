@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
-import {getUserData} from '../store/actions/actions'
-import Console from './console/Console'
-import TeamView from './teamView/TeamView'
+import React, { Component } from 'react';
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { getUserData } from '../store/actions/actions'
+import Console from '../components/console/Console'
+import TeamView from '../components/teamView/TeamView'
 import {
     BrowserRouter as Router,
     Switch,
@@ -17,11 +17,11 @@ const routes = [
     {
         path: "/",
         exact: true,
-        main: () => <Console/>
+        main: () => <Console />
     },
     {
         path: "/teamView",
-        main: () =>  <TeamView/>
+        main: () => <TeamView />
     },
     {
         path: "/departments",
@@ -43,7 +43,7 @@ class UserDetailsView extends Component {
     render() {
         return (
             <Router>
-                <div style={{display: "flex"}}>
+                <div style={{ display: "flex" }}>
                     <div
                         style={{
                             padding: "10px",
@@ -51,7 +51,7 @@ class UserDetailsView extends Component {
                             background: "#f0f0f0"
                         }}
                     >
-                        <ul style={{listStyleType: "none", padding: 0}}>
+                        <ul style={{ listStyleType: "none", padding: 0 }}>
                             <li>
                                 <Link to="/">Console</Link>
                             </li>
@@ -68,14 +68,14 @@ class UserDetailsView extends Component {
 
                     </div>
 
-                    <div style={{flex: 1, padding: "10px"}}>
+                    <div style={{ flex: 1, padding: "10px" }}>
                         <Switch>
                             {routes.map((route, index) => (
                                 <Route
                                     key={index}
                                     path={route.path}
                                     exact={route.exact}
-                                    children={<route.main/>}
+                                    children={<route.main />}
                                 />
                             ))}
                         </Switch>

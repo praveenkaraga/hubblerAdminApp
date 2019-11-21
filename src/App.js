@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import UserDetailsView from './components/UserDetailsView'
+import UserDetailsView from './container/UserDetailsView'
 //import './tableView.css'
 //import {connect} from 'react-redux'
 //import UsersTableView from './pages/UsersTableView'
