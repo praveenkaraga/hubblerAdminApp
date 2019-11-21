@@ -23,6 +23,13 @@
         color:#000000;
       }
 
+      .nav-link-wrap{
+        display: flex;
+        flex-direction: column;
+        list-style-type: none;
+        padding: 0;
+      }
+
       .people {
         background-image: url(../../images/people_main.svg);
         background-repeat: no-repeat;

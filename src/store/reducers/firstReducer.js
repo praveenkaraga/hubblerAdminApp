@@ -3,7 +3,7 @@ import * as actionTypes from '../actionTypes'
 
 const intialState = {
     count: 1,
-    activeLinkName : ''
+   activeLinkName : 'console'
 }
 
 export const firstReducer = (state = intialState, action) => {

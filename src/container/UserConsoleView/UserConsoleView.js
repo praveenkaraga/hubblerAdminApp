@@ -10,6 +10,7 @@ import {
     Route,
     Link,
     NavLink,
+    withRouter
 } from "react-router-dom";
 import './userConsoleView.scss'
 
@@ -36,9 +37,14 @@ const routes = [
 
 class UserConsoleView extends Component {
 
+    constructor(props){
+        super(props)
+    }
+
 
     componentDidMount() {
         this.props.getUserData()
+        this.props.createActiveLink(window.location.pathname.substr(1))
     }
 
     render() {
@@ -50,20 +56,20 @@ class UserConsoleView extends Component {
                     <div className={'user-console-view-wrap'}>
                         <div className={'left-panel'}>
                             <div className={'people'}>People</div>
-                            <ul style={{listStyleType: "none", padding: 0}}>
-                                <li className={`${activeLinkName === 'console' ? `link-active console-link-active` : `list-item console-link` }`} onClick={()=>this.props.createActiveLink("console")}>
-                                    <NavLink to="/console" className={'nav-link'} activeClassName={'nav-link-active'}>Console</NavLink>
-                                </li>
-                                <li className={`${activeLinkName === 'teamView' ? `link-active team-view-link-active`  : `list-item team-view-link` }`} onClick={()=>this.props.createActiveLink("teamView")}>
-                                    <NavLink to="/teamView" className={'nav-link'} activeClassName={'nav-link-active'}>Team View</NavLink>
-                                </li>
-                                <li className={`${activeLinkName === 'departments' ? `link-active departments-link-active` : `list-item departments-link` }`} onClick={()=>this.props.createActiveLink("departments")}>
-                                    <NavLink to="/departments" className={'nav-link'} activeClassName={'nav-link-active'}>Departments</NavLink>
-                                </li>
-                                <li className={`${activeLinkName === 'designations' ? `link-active designations-link-active`  : `list-item designations-link` }`} onClick={()=>this.props.createActiveLink("designations")}>
-                                    <NavLink to="/designations" className={'nav-link'} activeClassName={'nav-link-active'}>Designations</NavLink>
-                                </li>
-                            </ul>
+                            <div className={'nav-link-wrap'}>
+
+                                    <NavLink to="/console" className={`nav-link ${activeLinkName === 'console' ? `link-active console-link-active`  : `list-item console-link` }`} activeClassName={'nav-link-active'} onClick={()=>this.props.createActiveLink("console")}>Console</NavLink>
+
+
+                                    <NavLink to="/teamView" className={`nav-link ${activeLinkName === 'teamView' ? `link-active team-view-link-active`  : `list-item team-view-link` }`} activeClassName={'nav-link-active'} onClick={()=>this.props.createActiveLink("teamView")}>Team View</NavLink>
+
+
+                                    <NavLink to="/departments" className={`nav-link ${activeLinkName === 'departments' ? `link-active departments-link-active`  : `list-item departments-link` }`} activeClassName={'nav-link-active'} onClick={()=>this.props.createActiveLink("departments")}>Departments</NavLink>
+
+
+                                    <NavLink to="/designations" className={`nav-link ${activeLinkName === 'designations' ? `link-active designations-link-active`  : `list-item designations-link` }`} activeClassName={'nav-link-active'} onClick={()=>this.props.createActiveLink("designations")}>Designations</NavLink>
+
+                            </div>
 
                         </div>
 
