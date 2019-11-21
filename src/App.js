@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import UserDetailsView from './container/UserDetailsView'
+import UserConsoleView from './container/UserConsoleView/UserConsoleView'
 //import './tableView.css'
 //import {connect} from 'react-redux'
 //import UsersTableView from './pages/UsersTableView'
@@ -35,7 +35,7 @@ class App extends Component {
                         </Switch>
                     </div>
                 </Router> */}
-                <UserDetailsView />
+                <UserConsoleView />
             </div>
 
         );

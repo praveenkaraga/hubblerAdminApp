@@ -1,0 +1,14 @@
+.user-console-view{
+  height: 100%;
+  background-color: lightgray;
+  .user-console-view-wrap{
+    height: 100%;
+    display: flex;
+    .left-panel{
+      padding: 10px;
+      width: 18%;
+      background: white
+    }
+  }
+
+}
