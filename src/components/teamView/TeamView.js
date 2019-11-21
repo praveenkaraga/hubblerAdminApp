@@ -5,7 +5,13 @@ import './teamView.scss'
 
 class TeamView extends Component {
     render(){
-        return <div>TeamView Component</div>
+        return (
+            <div className={'team-view'}>
+                <div className={'component-header'}>Team View</div>
+
+
+            </div>
+        )
     }
 }
 

@@ -6,7 +6,7 @@ import './console.scss'
 class Console extends Component {
     render() {
         return (
-            <div>Nischal</div>
+            <div>Console Component</div>
         )
     }
 }
