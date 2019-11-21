@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {getUserData} from '../store/actions/actions'
-import Console from './console/Console'
-import TeamView from './teamView/TeamView'
+import Console from '../components/console/Console'
+import TeamView from '../components/teamView/TeamView'
 import {
     BrowserRouter as Router,
     Switch,
