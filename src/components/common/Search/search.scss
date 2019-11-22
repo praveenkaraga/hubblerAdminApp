@@ -1,0 +1,8 @@
+.search-transition{
+  .search-comp{
+    width: 200px;
+  }
+  .search-comp:focus{
+    width: 400px;
+  }
+}

@@ -8,9 +8,7 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link,
     NavLink,
-    withRouter
 } from "react-router-dom";
 import './userConsoleView.scss'
 

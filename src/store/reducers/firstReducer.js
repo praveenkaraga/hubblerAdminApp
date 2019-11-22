@@ -1,15 +1,17 @@
-import { checkError } from '../../utils/helper'
+import {checkError} from '../../utils/helper'
 import * as actionTypes from '../actionTypes'
 
 const intialState = {
     count: 1,
-   activeLinkName : 'console'
+    activeLinkName: 'console',
+    consoleDrawerVisible: false,
+
 }
 
 export const firstReducer = (state = intialState, action) => {
-    const { errorData, isError } = checkError(state, action);
+    const {errorData, isError} = checkError(state, action);
     if (isError) {
-        return { ...errorData }
+        return {...errorData}
     }
 
 
@@ -22,17 +24,21 @@ export const firstReducer = (state = intialState, action) => {
             }
 
 
-
         case actionTypes.CREATE_ACTIVE_LINK:
             return {
                 ...state,
-                activeLinkName : action.payload
+                activeLinkName: action.payload
+            }
+
+        case actionTypes.HAMBURGER_ICON_CLICK:
+            return {
+                ...state,
+                consoleDrawerVisible: action.payload
             }
     }
 
 
-
-    return { ...state }
+    return {...state}
 
 
 }
