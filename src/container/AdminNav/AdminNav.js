@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
-import {connect} from "react-redux";
+import React, { Component } from 'react';
+import { connect } from "react-redux";
 import UserConsoleView from '../UserConsoleView/UserConsoleView'
-import {Drawer} from 'antd';
+import { Drawer } from 'antd';
 import 'antd/dist/antd.css';
 import './adminNav.scss'
-import {bindActionCreators} from "redux";
-import {hamburgerIconClick} from "../../store/actions/actions";
+import { bindActionCreators } from "redux";
+import { hamburgerIconClick, createActiveLink } from "../../store/actions/actions";
 import {
     BrowserRouter as Router,
     Switch,
@@ -18,47 +18,48 @@ const routes = [
     {
         path: "/people",
         exact: true,
-        main: () => <UserConsoleView/>,
+        main: () => <UserConsoleView />,
         name: "People",
-        class_name:'people',
+        class_name: 'people',
     },
     {
         path: "/profile",
         main: () => 'Profile',
         name: "Profile",
-        class_name:'profile'
+        class_name: 'profile'
     },
     {
         path: "/appStudio",
         main: () => 'App Studio',
         name: "App Studio",
-        class_name:'app-studio'
+        class_name: 'app-studio'
     },
     {
         path: "/webApps",
         main: () => 'Web Apps',
         name: "Web Apps",
-        class_name:'web-apps'
+        class_name: 'web-apps'
     },
     {
         path: "/accounts",
         main: () => 'Accounts',
         name: "Accounts",
-        class_name:'accounts'
+        class_name: 'accounts'
     },
 
 ];
 
 class AdminNav extends Component {
+
     render() {
-        const {consoleDrawerVisible} = this.props.firstReducer
+        const { consoleDrawerVisible } = this.props.firstReducer
         return (
             <div className={'admin-nav'}>
                 <div className={'admin-nav-header'}>
                     <div className={'hamburger-icon'} onClick={() => this.props.hamburgerIconClick(true)}></div>
                     <div className={'header-text-hubbler'}>hubbler</div>
                 </div>
-               {/* <UserConsoleView/>*/}
+                {/* <UserConsoleView/>*/}
                 <Router>
                     <Drawer
                         className={'admin-drawer'}
@@ -83,7 +84,7 @@ class AdminNav extends Component {
                                     key={index}
                                     path={route.path}
                                     exact={route.exact}
-                                    children={<route.main/>}
+                                    children={<route.main />}
                                 />
                             ))}
                         </Switch>
@@ -104,7 +105,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return bindActionCreators(
         {
-            hamburgerIconClick
+            hamburgerIconClick,
+            createActiveLink
         },
         dispatch
     );

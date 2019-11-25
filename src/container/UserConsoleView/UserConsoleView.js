@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
-import {getUserData, createActiveLink} from '../../store/actions/actions'
+import React, { Component } from 'react';
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { getUserData, createActiveLink } from '../../store/actions/actions'
 import Console from '../../components/console/Console'
 import TeamView from '../../components/teamView/TeamView'
 import {
@@ -15,13 +15,13 @@ import './userConsoleView.scss'
 
 const routes = [
     {
-        path: "/console",
+        path: "/people/console",
         exact: true,
-        main: () => <Console/>
+        main: () => <Console />
     },
     {
         path: "/teamView",
-        main: () => <TeamView/>
+        main: () => <TeamView />
     },
     {
         path: "/departments",
@@ -47,7 +47,7 @@ class UserConsoleView extends Component {
 
     render() {
 
-        const {activeLinkName} = this.props.firstReducer
+        const { activeLinkName } = this.props.firstReducer
         return (
             <div className={'user-console-view'}>
                 <Router>
@@ -56,28 +56,28 @@ class UserConsoleView extends Component {
                             <div className={'people'}>People</div>
                             <div className={'nav-link-wrap'}>
 
-                                <NavLink to="/console"
-                                         className={`nav-link ${activeLinkName === 'console' ? `link-active console-link-active` : `list-item console-link`}`}
-                                         activeClassName={'nav-link-active'}
-                                         onClick={() => this.props.createActiveLink("console")}>Console</NavLink>
+                                <NavLink to="/people/console"
+                                    className={`nav-link ${activeLinkName === 'console' ? `link-active console-link-active` : `list-item console-link`}`}
+                                    activeClassName={'nav-link-active'}
+                                    onClick={() => this.props.createActiveLink("console")}>Console</NavLink>
 
 
-                                <NavLink to="/teamView"
-                                         className={`nav-link ${activeLinkName === 'teamView' ? `link-active team-view-link-active` : `list-item team-view-link`}`}
-                                         activeClassName={'nav-link-active'}
-                                         onClick={() => this.props.createActiveLink("teamView")}>Team View</NavLink>
+                                <NavLink to="people/teamView"
+                                    className={`nav-link ${activeLinkName === 'teamView' ? `link-active team-view-link-active` : `list-item team-view-link`}`}
+                                    activeClassName={'nav-link-active'}
+                                    onClick={() => this.props.createActiveLink("teamView")}>Team View</NavLink>
 
 
-                                <NavLink to="/departments"
-                                         className={`nav-link ${activeLinkName === 'departments' ? `link-active departments-link-active` : `list-item departments-link`}`}
-                                         activeClassName={'nav-link-active'}
-                                         onClick={() => this.props.createActiveLink("departments")}>Departments</NavLink>
+                                <NavLink to="people/departments"
+                                    className={`nav-link ${activeLinkName === 'departments' ? `link-active departments-link-active` : `list-item departments-link`}`}
+                                    activeClassName={'nav-link-active'}
+                                    onClick={() => this.props.createActiveLink("departments")}>Departments</NavLink>
 
 
-                                <NavLink to="/designations"
-                                         className={`nav-link ${activeLinkName === 'designations' ? `link-active designations-link-active` : `list-item designations-link`}`}
-                                         activeClassName={'nav-link-active'}
-                                         onClick={() => this.props.createActiveLink("designations")}>Designations</NavLink>
+                                <NavLink to="people/designations"
+                                    className={`nav-link ${activeLinkName === 'designations' ? `link-active designations-link-active` : `list-item designations-link`}`}
+                                    activeClassName={'nav-link-active'}
+                                    onClick={() => this.props.createActiveLink("designations")}>Designations</NavLink>
 
                             </div>
 
@@ -90,7 +90,7 @@ class UserConsoleView extends Component {
                                         key={index}
                                         path={route.path}
                                         exact={route.exact}
-                                        children={<route.main/>}
+                                        children={<route.main />}
                                     />
                                 ))}
                             </Switch>

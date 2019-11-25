@@ -7,8 +7,8 @@ export const createActiveLink = (payload) => {
     }
 }
 
-export const hamburgerIconClick = (payload) =>{
-    return{
+export const hamburgerIconClick = (payload) => {
+    return {
         type: actionTypes.HAMBURGER_ICON_CLICK,
         payload
     }
