@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux'
 import { firstReducer } from './firstReducer'
+import { teamViewReducer } from './teamViewReducer'
 
 const rootReducer = combineReducers({
-    firstReducer
+    firstReducer,
+    teamViewReducer
 });
 
 

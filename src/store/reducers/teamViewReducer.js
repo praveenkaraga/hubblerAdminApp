@@ -9,7 +9,7 @@ const intialState = {
 
 }
 
-export const firstReducer = (state = intialState, action) => {
+export const teamViewReducer = (state = intialState, action) => {
     const {errorData, isError} = checkError(state, action);
     if (isError) {
         return {...errorData}
@@ -40,6 +40,11 @@ export const firstReducer = (state = intialState, action) => {
             return {
                 ...state,
                 orgChartUsers: action.payload.data.reportees || state.orgChartUsers
+            }
+        case actionTypes.TEAM_VIEW_USER_CLICK:
+            return {
+                ...state,
+                teamViewUserDrawerVisible: action.payload
             }
     }
 

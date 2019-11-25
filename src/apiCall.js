@@ -37,3 +37,7 @@ let axiosConfig = {
 export const getUsers = () => {
 	return axios.get("/rest/users/?start=1&offset=20&sortKey=_id&sortOrder=dsc&filterKey=&filterQuery=", axiosConfig);
 };
+
+export const getTeamViewUsers = () => {
+	return axios.get("/reportees/orgchart//?sortKey=name&sortOrder=asc&filterKey=id&filterQuery=", axiosConfig);
+};
