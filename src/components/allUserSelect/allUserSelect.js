@@ -7,9 +7,7 @@ class AllUserSelect extends Component {
     render() {
         return (
             <div className="allUserSelect_main">
-
-                <div className="checkbox_img_name">
-                    <img src="" />
+                <div className="allUserSelect_container">
 
                 </div>
             </div>

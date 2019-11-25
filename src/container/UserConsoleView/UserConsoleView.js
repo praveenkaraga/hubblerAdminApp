@@ -20,7 +20,7 @@ const routes = [
         main: () => <Console />
     },
     {
-        path: "/teamView",
+        path: "people/teamView",
         main: () => <TeamView />
     },
     {
