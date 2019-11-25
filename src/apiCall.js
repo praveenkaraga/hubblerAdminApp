@@ -41,3 +41,6 @@ export const getUsers = () => {
 export const getTeamViewUsers = () => {
 	return axios.get("/reportees/orgchart//?sortKey=name&sortOrder=asc&filterKey=id&filterQuery=", axiosConfig);
 };
+export const getClickedTeamViewUser = (id) => {
+	return axios.get(`/rest/users/${id}/?page=`, axiosConfig);
+};
