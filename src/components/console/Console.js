@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
-import { connect } from "react-redux";
+//import { connect } from "react-redux";
 import './console.scss'
+import SingleUserDetails from '../singleUserDetails/singleUserDetails'
 
 
 class Console extends Component {
     render() {
         return (
-            <div>Nischal</div>
+            <div className="console_main">
+                <SingleUserDetails />
+            </div>
         )
     }
 }
