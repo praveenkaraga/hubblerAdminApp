@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="26" viewBox="0 0 20 26">
+  <defs>
+    <style>
+      .cls-1 {
+      fill: transparent;
+      fill-rule: evenodd;
+      stroke-dasharray: 120;
+      stroke-dashoffset: 120;
+      animation: dash 1.5s linear forwards;
+      animation-delay: 500ms;
+      stroke: #fff;
+      }
+      @keyframes dash {
+      from{
+      fill: transparent;
+      stroke: #fff;
+      }
+      to {
+      fill: #fff;
+      stroke-dashoffset: 0;
+      stroke: transparent;
+      }
+    </style>
+  </defs>
+  <path id="profile.svg" class="cls-1" d="M533.585,190.365H532.6v23.044h17.224v-1.183H533.585V190.365h0ZM532,214V189.774h1.581V188H552v24.226h-1.581V214H532Zm10.787-23.441-4.452,2.216v5.533l4.452,2.215,4.452-2.215v-5.533Zm0,0.874,3.667,1.825v4.567l-3.667,1.825-3.667-1.825v-4.567Zm0,1.147-1.407.7v1.493l1.232,0.613,0.175,0.088,1.408-.7V193.28Zm0,0.873,0.622,0.31v0.527l-0.622.31-0.622-.31v-0.527Zm2.423,2.088h-0.786v1.274l-1.637.815-1.637-.815v-1.274h-0.785V197.3l2.422,1.2,2.423-1.2v-1.757Zm3.8,7.24H536.57v0.781h12.442v-0.781Zm0,3.053H536.57v0.78h12.442v-0.78Zm0,3.052H536.57v0.78h12.442v-0.78Z" transform="translate(-532 -188)"/>
+</svg>

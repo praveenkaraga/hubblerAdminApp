@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
+  <defs>
+    <style>
+      .cls-1 {
+      fill: transparent;
+      fill-rule: evenodd;
+      stroke-dasharray: 120;
+      stroke-dashoffset: 120;
+      animation: dash 1.5s linear forwards;
+      animation-delay: 500ms;
+      stroke: #fff;
+      }
+      @keyframes dash {
+      from{
+      fill: transparent;
+      stroke: #fff;
+      }
+      to {
+      fill: #fff;
+      stroke-dashoffset: 0;
+      stroke: transparent;
+      }
+    </style>
+  </defs>
+  <path id="setting.svg" class="cls-1" d="M532,420.01h10v1.978H532V420.01Zm16,0h4v1.978h-4V420.01Zm-16,5.98h4v2.015h-4V425.99Zm10,0h10v2.015H542V425.99Zm6,7.022h4v1.978h-4v-1.978Zm-16,0h10v1.978H532v-1.978ZM545,436a2,2,0,1,0-2.012-2A2.006,2.006,0,0,0,545,436Zm-6-6.987a2,2,0,1,0-2.012-2A2.006,2.006,0,0,0,539,429.013ZM545,423a2,2,0,1,0-2.012-2A2.006,2.006,0,0,0,545,423Z" transform="translate(-532 -419)"/>
+</svg>
