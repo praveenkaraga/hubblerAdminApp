@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import './singleUserDetails.scss'
+import './allUserSelect.scss'
 
 
-class SingleUserDetails extends Component {
+class AllUserSelect extends Component {
     render() {
         return (
-            <div className="singleUserDetails_main">
+            <div className="allUserSelect_main">
+
                 <div className="checkbox_img_name">
                     <img src="" />
 
@@ -16,4 +17,4 @@ class SingleUserDetails extends Component {
     }
 }
 
-export default SingleUserDetails
+export default AllUserSelect

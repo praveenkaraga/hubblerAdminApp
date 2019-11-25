@@ -13,5 +13,5 @@ export const { getUserData } = createUserAction
 
 //-----------------       -------------------------
 
-export const {createActiveLink,hamburgerIconClick} = activeLinkAction
+export const { createActiveLink, hamburgerIconClick } = activeLinkAction
 //-------------------xxxxxxxxxxxxxxxxxxxxxxx------------

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import UserConsoleView from './container/UserConsoleView/UserConsoleView'
 import AdminNav from './container/AdminNav/AdminNav'
+
 //import './tableView.css'
 //import {connect} from 'react-redux'
 //import UsersTableView from './pages/UsersTableView'
@@ -19,6 +20,10 @@ class App extends Component {
     // componentDidMount(){
     //     this.props.fetchPostsWithRedux()
     // }
+
+    componentDidMount() {
+        // this.props.createActiveLink(window.location.pathname.substr(1))
+    }
 
     render() {
         // if(this.props.loading){
