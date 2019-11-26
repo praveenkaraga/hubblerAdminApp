@@ -44,3 +44,6 @@ export const getTeamViewUsers = () => {
 export const getClickedTeamViewUser = (id) => {
 	return axios.get(`/rest/users/${id}/?page=`, axiosConfig);
 };
+export const getClickedTeamViewOrgData = (id) => {
+	return axios.get(`/reportees/organization/${id}/?start=1&offset=100&sortKey=name&sortOrder=dsc&filterKey=_id&filterQuery=`, axiosConfig);
+};

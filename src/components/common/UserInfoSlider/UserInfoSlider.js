@@ -14,7 +14,8 @@ class UserInfoSlider extends Component {
     }
 
     render() {
-        const {visible,onCloseFunction} = this.props;
+        const {visible,onCloseFunction,teamUserData,userId} = this.props;
+
         return (
             <div className={'user-info-slider'}>
                 <Drawer
@@ -23,7 +24,7 @@ class UserInfoSlider extends Component {
                     closable={false}
                     onClose={() => onCloseFunction(false)}
                     visible={visible}>
-                    <UserInfoSliderContent />
+                    <UserInfoSliderContent teamUserData={teamUserData}/>
                 </Drawer>
             </div>
         )

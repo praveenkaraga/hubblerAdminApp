@@ -18,8 +18,8 @@ class TeamView extends Component {
         this.props.getTeamViewUsersData()
     }
     render() {
-        const {orgChartUsers,teamViewUserDrawerVisible} =  this.props.teamViewReducer
-        console.log(orgChartUsers)
+        const {orgChartUsers,teamViewUserDrawerVisible,clickedTeamUserData,teamViewClickedUserId} =  this.props.teamViewReducer
+        console.log(clickedTeamUserData)
         return (
             <div className={'team-view'}>
                 <div className={'component-header'}>Team View</div>
@@ -30,8 +30,7 @@ class TeamView extends Component {
                 </div>
                 <OrgChart/>
 
-                <UserInfoSlider visible={teamViewUserDrawerVisible} onCloseFunction={(flag)=>this.props.teamViewUserClick(flag)} />
-
+                <UserInfoSlider visible={teamViewUserDrawerVisible} onCloseFunction={(flag)=>this.props.teamViewUserClick(flag)} teamUserData={clickedTeamUserData} userId={teamViewClickedUserId}/>
 
 
             </div>

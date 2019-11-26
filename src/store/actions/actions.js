@@ -21,7 +21,7 @@ export const {createActiveLink,hamburgerIconClick} = activeLinkAction
 
 
 //-----------------------------Team View Chart Users---------------------------
-export const { getTeamViewUsersData ,teamViewUserClick ,getClickedTeamUserData} = teamViewActions
+export const { getTeamViewUsersData ,teamViewUserClick ,getClickedTeamUserData,getTeamViewOrgData,storeClickedUserId} = teamViewActions
 
 
 

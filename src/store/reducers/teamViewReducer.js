@@ -5,7 +5,8 @@ const intialState = {
     count: 1,
     activeLinkName: 'console',
     consoleDrawerVisible: false,
-    orgChartUsers : []
+    orgChartUsers: [],
+
 
 }
 
@@ -41,10 +42,28 @@ export const teamViewReducer = (state = intialState, action) => {
                 ...state,
                 orgChartUsers: action.payload.data.reportees || state.orgChartUsers
             }
+        case actionTypes.STORE_CLICKED_USER_ID:
+            return {
+                ...state,
+                teamViewClickedUserId: action.payload
+            }
         case actionTypes.TEAM_VIEW_USER_CLICK:
             return {
                 ...state,
                 teamViewUserDrawerVisible: action.payload
+            }
+        case actionTypes.GET_CLICKED_TEAM_USER_DATA:
+            console.log(action.payload.data.result)
+            return {
+                ...state,
+                clickedTeamUserData: action.payload.data.result || {}
+            }
+        case actionTypes.GET_TEAM_VIEW_ORG_DATA:
+            console.log(action.payload.data.result)
+            return {
+                ...state,
+                clickedUserOrgManagerData: action.payload.data.manager || {},
+                clickedUserOrgReporteesData: action.payload.data.reportees || [],
             }
     }
 
