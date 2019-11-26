@@ -15,21 +15,33 @@ import './userConsoleView.scss'
 
 const routes = [
     {
-        path: "/people/console",
+        path: "/console",
         exact: true,
-        main: () => <Console />
+        main: () => <Console />,
+        name: 'Console',
+        link_name: 'console',
+        class_name: 'console'
     },
     {
-        path: "people/teamView",
-        main: () => <TeamView />
+        path: "/teamView",
+        main: () => <TeamView />,
+        name: 'Team View',
+        link_name: 'teamView',
+        class_name: 'team-view'
     },
     {
         path: "/departments",
-        main: () => <h2>Departments</h2>
+        main: () => <h2>Departments</h2>,
+        name: 'Departments',
+        link_name: 'departments',
+        class_name: 'departments'
     },
     {
         path: "/designations",
-        main: () => <h2>Designations</h2>
+        main: () => <h2>Designations</h2>,
+        name: 'Designations',
+        link_name: 'designations',
+        class_name: 'designations'
     },
 ];
 
@@ -55,30 +67,15 @@ class UserConsoleView extends Component {
                         <div className={'left-panel'}>
                             <div className={'people'}>People</div>
                             <div className={'nav-link-wrap'}>
-
-                                <NavLink to="/people/console"
-                                    className={`nav-link ${activeLinkName === 'console' ? `link-active console-link-active` : `list-item console-link`}`}
-                                    activeClassName={'nav-link-active'}
-                                    onClick={() => this.props.createActiveLink("console")}>Console</NavLink>
-
-
-                                <NavLink to="people/teamView"
-                                    className={`nav-link ${activeLinkName === 'teamView' ? `link-active team-view-link-active` : `list-item team-view-link`}`}
-                                    activeClassName={'nav-link-active'}
-                                    onClick={() => this.props.createActiveLink("teamView")}>Team View</NavLink>
-
-
-                                <NavLink to="people/departments"
-                                    className={`nav-link ${activeLinkName === 'departments' ? `link-active departments-link-active` : `list-item departments-link`}`}
-                                    activeClassName={'nav-link-active'}
-                                    onClick={() => this.props.createActiveLink("departments")}>Departments</NavLink>
-
-
-                                <NavLink to="people/designations"
-                                    className={`nav-link ${activeLinkName === 'designations' ? `link-active designations-link-active` : `list-item designations-link`}`}
-                                    activeClassName={'nav-link-active'}
-                                    onClick={() => this.props.createActiveLink("designations")}>Designations</NavLink>
-
+                                {routes.map((route, index) => (
+                                    <NavLink
+                                        to={`/people${route.path}`}
+                                        className={`nav-link ${activeLinkName === route.link_name ? `link-active ${route.class_name}-link-active` : `list-item ${route.class_name}-link`}`}
+                                        key={index}
+                                        activeClassName={'nav-link-active'}
+                                        onClick={() => this.props.createActiveLink(route.link_name)}>{route.name}
+                                    </NavLink>
+                                ))}
                             </div>
 
                         </div>
@@ -88,7 +85,7 @@ class UserConsoleView extends Component {
                                 {routes.map((route, index) => (
                                     <Route
                                         key={index}
-                                        path={route.path}
+                                        path={`/people${route.path}`}
                                         exact={route.exact}
                                         children={<route.main />}
                                     />
