@@ -4,7 +4,7 @@
   .admin-nav-header {
     background-color: #ffffff;
     border-bottom: 1px solid #ccc;
-    height: 7vh;
+    height: 48px;
     display: flex;
 
     .hamburger-icon {
@@ -18,7 +18,7 @@
 
     .header-text-hubbler {
       font-weight: bold;
-      line-height: 7vh;
+      line-height: 48px;
     }
   }
 
@@ -29,10 +29,10 @@
 }
 
 .admin-drawer {
-  margin-top: 7vh;
+  margin-top: 48px;
 
   .ant-drawer-content-wrapper {
-    width: 18vw !important; /*250px*/
+    width: 250px !important; /*250px*/ /*18vw*/
   }
   .ant-drawer-wrapper-body{
     background: black;

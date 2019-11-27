@@ -10,7 +10,7 @@ class Personal extends Component {
             if(index !== departmentArray.length - 1){
                 return `${ele.name}, `
             }else{
-                return `${ele.name}`
+                return `${ele.name ? ele.name  : '- -'}`
             }
         })
     }
@@ -29,44 +29,48 @@ class Personal extends Component {
             <div className={'personal-information'}>
                 {isEmpty(teamUserData) ? <div className={'owner-details-loader'}></div> : <div>
                     <div className={'team-user-info'}>
+
                         <div className={'team-user-info-text'}>Primary Mobile</div>
                         <div
-                            className={'team-user-info-value'}> {` +${teamUserData.mobile_country_code.international_dialing} ${teamUserData.mobile}`}</div>
+                            className={'team-user-info-value'}> {` +${teamUserData.mobile_country_code ? teamUserData.mobile_country_code.international_dialing : ''} ${teamUserData.mobile ? teamUserData.mobile : '- -'}`}</div>
                     </div>
                     <div className={'team-user-info'}>
                         <div className={'team-user-info-text'}>Email</div>
                         <a href="mailto:hi@hubbler.in" className={'team-user-info-value'}>
-                            <div className={'team-user-info-value email'}> {teamUserData.email}</div>
+                            <div className={'team-user-info-value email'}> {teamUserData.email ? teamUserData.email : "- -"}</div>
                         </a>
                     </div>
                     <div className={'team-user-info'}>
                         <div className={'team-user-info-text'}>Gender</div>
-                        <div className={'team-user-info-value'}> {teamUserData.gender}</div>
+                        <div className={'team-user-info-value'}> {teamUserData.gender ? teamUserData.gender : '- -'}</div>
                     </div>
                     <div className={'team-user-info'}>
                         <div className={'team-user-info-text'}>Date Of Birth</div>
                         <div
-                            className={'team-user-info-value'}>{moment(teamUserData.dob, 'DD/MM/YYYY').format('DD MMM, YYYY')}</div>
+                            className={'team-user-info-value'}>{teamUserData.dob ? moment(teamUserData.dob, 'DD/MM/YYYY').format('DD MMM, YYYY') : '- -'}</div>
                     </div>
                     <div className={'team-user-info'}>
                         <div className={'team-user-info-text'}>Date Of Joining</div>
                         <div
-                            className={'team-user-info-value'}> {moment(teamUserData.doj, 'DD/MM/YYYY').format('DD MMM, YYYY')}</div>
+                            className={'team-user-info-value'}> {teamUserData.doj ? moment(teamUserData.doj, 'DD/MM/YYYY').format('DD MMM, YYYY') : '- -'}</div>
                     </div>
                     <div className={'team-user-info'}>
                         <div className={'team-user-info-text'}>Designation</div>
                         <div
-                            className={'team-user-info-value'}> {teamUserData.designations ? teamUserData.designations.length ? teamUserData.designations[0].name : '' : ''}</div>
+                            className={'team-user-info-value'}> {teamUserData.designations ? teamUserData.designations.length ? teamUserData.designations[0].name : '- -' : '- -'}</div>
                     </div>
                     <div className={'team-user-info'}>
                         <div className={'team-user-info-text'}>Departments</div>
-                        <div className={'team-user-info-value'}> {this.getDepartments(teamUserData.departments ?teamUserData.departments :  [])}</div>
+                        <div className={'team-user-info-value'}> {isEmpty(teamUserData.departments) ?   "- -" : this.getDepartments(teamUserData.departments) }</div>
                     </div>
 
 
                     {teamUserData.node_data ? <div>
                         <div className={'divider'}></div>
-                        {this.prepareNodeData(teamUserData.node_data)}
+                        <div className={'node-data-wrap'}>
+                            {this.prepareNodeData(teamUserData.node_data)}
+                        </div>
+
                     </div> : ''}
                 </div>}
             </div>
