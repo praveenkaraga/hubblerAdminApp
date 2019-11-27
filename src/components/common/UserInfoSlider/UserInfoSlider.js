@@ -24,7 +24,7 @@ class UserInfoSlider extends Component {
                     closable={false}
                     onClose={() => onCloseFunction(false)}
                     visible={visible}>
-                    <UserInfoSliderContent teamUserData={teamUserData}/>
+                    <UserInfoSliderContent teamUserData={teamUserData} userId={userId} onCloseFunction={onCloseFunction}/>
                 </Drawer>
             </div>
         )

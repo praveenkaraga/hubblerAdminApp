@@ -1,4 +1,7 @@
 .user-info-slider-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 
   .user-details-header-content {
     width: 100%;
@@ -26,8 +29,7 @@
       background-position: center;
       margin-top: auto;
       margin-bottom: auto;
-
-
+      cursor: pointer;
     }
 
     .edit-button {
@@ -104,7 +106,23 @@
   }
 
   .user-details-content {
-    .personal-information{
+    height: 100%;
+    overflow: hidden;
+
+    .division-header {
+      background-color: #f2f2f3;
+      color: #455a64;
+      height: 37px;
+      line-height: 37px;
+      text-transform: uppercase;
+      font-size: 12px;
+      font-family: robotoSemiBold;
+      padding: 0 15px;
+      margin-top: 10px;
+    }
+
+
+    .personal-information {
       padding: 15px;
 
       .team-user-info {
@@ -125,8 +143,9 @@
           width: 65%;
           text-transform: capitalize;
         }
-        .team-user-info-value.email{
-          text-transform: none!important;
+
+        .team-user-info-value.email {
+          text-transform: none !important;
           cursor: pointer;
         }
 
@@ -135,13 +154,162 @@
           color: #67BCDB;
         }
       }
-      .divider{
+
+      .divider {
         width: 100%;
         height: 1px;
         background: #f1f1f1;
-        //border: solid 1px #f1f1f1;
+      }
+      .node-data-wrap{
+        margin-top: 10px;
+      }
+    }
+
+    .organization-information {
+      height: 100%;
+
+      .org-stage-details {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+
+      .manager {
+        font-size: 12px;
+        color: #52646a;
+        text-transform: uppercase;
+        margin: 15px;
+      }
+
+      .manager-details {
+
 
       }
+
+      .list-wrap {
+        height: 100%;
+        overflow: scroll;
+      }
+
+      .user-template {
+        display: flex;
+        margin: 15px 20px;
+
+        .user-template-icon {
+          width: 40px;
+          height: 40px;
+          padding: 4px;
+          display: flex;
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: 40px;
+          flex-shrink: 0;
+          border-radius: 50%;
+          /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 255, 0, 0.19);*/
+
+
+          /*border: 2px solid #b7b7b7;
+          border-radius: 50%;
+          background-color: #eef0f2;*/
+        }
+
+        .user-template-details {
+          display: flex;
+          flex-direction: column;
+          margin-left: 15px;
+
+          .user-template-name {
+            font-size: 14px;
+            font-family: robotoBold;
+            color: #323232;
+          }
+
+          .designation-id-wrap {
+            display: flex;
+
+            .user-template-designation {
+              font-size: 13px;
+              color: #323232;
+            }
+
+            .user-template-id {
+              font-size: 12px;
+              color: #707070;
+            }
+
+            .user-template-id:before {
+              content: "•";
+              color: #50e3c2;
+              text-shadow: #50e3c2 0 0 5px;
+              margin: 0 5px;
+            }
+          }
+        }
+      }
+    }
+
+    .app-profile-wrap{
+      max-height: 350px;
+      overflow: scroll;
+      .icon-type.leave{
+        background-image: url(../../../images/leave_mgt.svg) !important;
+      }
+      .icon-type.holiday{
+        background-image: url(../../../images/holiday.svg) !important;
+      }
+      .icon-type.working-day{
+        background-image: url(../../../images/working-days.svg) !important;
+      }
+      .icon-type.reimbursement{
+        background-image: url(../../../images/reimbursement.svg) !important;
+      }
+      .icon-type.tracking{
+        background-image: url(../../../images/timeline-black.svg) !important;
+        background-size: 20px!important;
+      }
+    }
+    .apps-profile-template {
+      display: flex;
+      padding: 10px 22px;
+      justify-content: space-between;
+
+      .icon-name-wrap {
+        display: flex;
+
+        .icon-type {
+          background-position: left;
+          background-repeat: no-repeat;
+          background-size: auto;
+          padding-left: 40px;
+          font-size: 12px;
+          text-transform: capitalize;
+          color:rgb(89, 89, 89);
+        }
+
+        .name {
+          font-size: 13.5px;
+          text-transform: capitalize;
+        }
+      }
+
+      .type {
+        background: #b7b7b7;
+        border-radius: 2px;
+        padding: 0 5px;
+        color: white;
+        margin: auto 0;
+        font-family: robotoBold;
+        font-size: 10px;
+        text-transform: uppercase;
+
+      }
+
+    }
+
+    .apps-information {
+
+
     }
 
   }
@@ -160,6 +328,26 @@
 
   .ant-drawer-content {
     background-color: #ffffff;
+  }
+
+  .ant-drawer-wrapper-body { /**/
+    overflow: hidden !important;
+  }
+
+  .ant-tabs.ant-tabs-top.user-slider-tab.ant-tabs-line { /**/
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+  }
+
+  .ant-tabs-tabpane.ant-tabs-tabpane-active {
+    height: calc(100% - 230px);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tab-content {
+    height: 100%;
   }
 
   .ant-drawer-body {
