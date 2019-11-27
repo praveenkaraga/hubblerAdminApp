@@ -56,7 +56,20 @@ class AllUserSelect extends Component {
                         </div>
                     </div>
 
-                    <div className="total_users"></div>
+                    <div className="total_users">
+                        <div className="total_users_container">
+                            <div className="total_users_count">
+                                <p>Total Users: 5632</p>
+                            </div>
+                            <div className="pagination">
+                                <div className="rows_per_page"></div>
+                                <div className="page_no">
+                                    <div className="current_page">1 of 10</div>
+                                    <div className="change_page">  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
             </div>
