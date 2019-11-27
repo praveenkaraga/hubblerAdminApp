@@ -1,0 +1,139 @@
+.allUserSelect_main{
+    display: flex;
+    justify-content: center;
+    .allUserSelect_container{
+        width : 94%;
+        height : 80vh;
+        border-radius : 2px;
+        box-shadow : 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+        border : solid 1px #dbdee0;
+        background-color : #f5f5f5;
+
+        .search_and_buttons{
+            width : 100%;
+            display : flex;
+            padding: 10px;
+
+            .search_users{
+                width: 81%;
+        //         input{
+        //             border : none;
+        //             width: 20%;
+        //             padding: 5px;
+        //             background-color: #f5f5f5;
+        //             background-image: url("../../images/svg/search-grey.svg");
+        //             background-repeat : no-repeat;
+        //             text-indent: 24px;
+        //             font-size: 11px;
+        //             background-size : 12px ;
+        //             background-position : 3%;
+        //             color : #d7d7d7;
+        //         }
+                .ant-input-affix-wrapper{
+                    width : 27%; 
+                    .ant-input-suffix{
+                    left: 12px;
+                    right: unset;
+                    }           
+                }
+            
+                input, .ant-input-affix-wrapper{
+                    border: none;
+                }
+
+                input{
+                    text-indent: 24px;
+                    background-color : #f5f5f5;
+                }
+
+                
+                
+                input:focus, .ant-input-affix-wrapper:focus{
+                    border : none;
+                    outline : none;
+                    border-color: unset;
+                    box-shadow : unset
+                  }
+            }
+
+        //     .import_button{
+        //         border-radius : 3px;
+        //         background-color : #d9dadb;
+        //         color: #4a4a4a;
+        //         font-size: 12px;
+        //     }
+
+        .import_button, .import_button:focus{
+            color: #4a4a4a;
+            background-color: #d9dadb;
+            border-color: #d9dadb;
+        }
+
+        .import_button{
+            margin-right: 20px;
+        }
+
+        .import_button, .add_user_button{
+            font-size: 12px;
+        }
+
+        .add_user_button, .add_user_button:focus{
+              color: #f1f1f1;
+              background-color: #1e88e5;
+              border-color: #1e88e5;
+          }
+        //     .add_user_button{
+        //         border-radius : 3px;
+        //         background-color : #1e88e5;
+        //         color: #f1f1f1;
+           // }
+        }
+      }
+
+    .all_user_details{
+        font-size : 12px;
+
+        .upper_heading_details, .user_details_container{
+            display : flex;
+            border-top: solid 1px #e1e1e1;
+
+        }
+
+        .upper_heading_details{
+            padding: 2px 0px 2px 0px;
+        }
+
+        .user_details_container{
+            padding: 5px 0px 5px 0px;
+        }
+
+        .ant-checkbox-group{
+            width: 100%;
+        }
+
+        .lower_user_details{
+            height : 65vh;
+            background-color : #ffffff;
+        }
+
+        .upper_checkbox, .lower_checkbox{
+            text-align : center;
+            width : 3%;
+        }
+
+        .all_headings, .single_user_details{           
+             display : grid;
+             width : 94%;
+
+             div{
+                 display: flex;
+                 align-items: center;
+             }
+        }
+
+        .column_settings{
+            width: 3%;
+        }
+    }
+    
+}
