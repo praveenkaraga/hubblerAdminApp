@@ -1,6 +1,7 @@
 import * as createUserAction from './createUserAction'
 import * as activeLinkAction from './activeLinkAction'
 import * as teamViewActions from './teamViewActions'
+import * as consoleActions from './consoleActions'
 
 
 //------------------------------Create User Action---------------------------
@@ -8,21 +9,30 @@ export const { getUserData } = createUserAction
 
 
 
-//------------------xxxxxxxxxxxxxxxxx--------------------------------------------
+//-----------------------------xxxxxxxxxxxxxxxxx-----------------------------
+
+
+
+
+//------------------------------Console Action-------------------------------//
+
+export const { getTableColumnData, getConsoleUserData } = consoleActions
+
+//------------------------------xxxxxxxxxxxxxx-------------------------------//
 
 
 
 //-----------------       -------------------------
 
-export const {createActiveLink,hamburgerIconClick} = activeLinkAction
+export const { createActiveLink, hamburgerIconClick } = activeLinkAction
 //-------------------xxxxxxxxxxxxxxxxxxxxxxx------------
 
 
 
 
 //-----------------------------Team View Chart Users---------------------------
-export const { getTeamViewUsersData ,teamViewUserClick ,getClickedTeamUserData} = teamViewActions
+export const { getTeamViewUsersData, teamViewUserClick, getClickedTeamUserData, getTeamViewOrgData, storeClickedUserId } = teamViewActions
 
 
 
-//------------------xxxxxxxxxxxxxxxxx--------------------------------------------
+//------------------------------xxxxxxxxxxxxxxxxx--------------------------------

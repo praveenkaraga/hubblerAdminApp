@@ -4,7 +4,7 @@ import '../teamView.scss'
 import {bindActionCreators} from "redux";
 import DefaultImageMale from '../../../images/profile-male.svg'
 import DefaultImageFemale from '../../../images/profile-female.svg'
-import {teamViewUserClick,getClickedTeamUserData} from "../../../store/actions/actions";
+import {teamViewUserClick,getClickedTeamUserData,storeClickedUserId} from "../../../store/actions/actions";
 
 
 
@@ -15,6 +15,7 @@ class TeamViewUserCard extends Component {
     onUserClick(userId){
         this.props.teamViewUserClick(true)
         this.props.getClickedTeamUserData(userId)
+        this.props.storeClickedUserId(userId)
     }
 
     render() {
@@ -59,7 +60,8 @@ const mapDispatchToProps = dispatch => {
     return bindActionCreators(
         {
             teamViewUserClick,
-            getClickedTeamUserData
+            getClickedTeamUserData,
+            storeClickedUserId
 
         },
         dispatch

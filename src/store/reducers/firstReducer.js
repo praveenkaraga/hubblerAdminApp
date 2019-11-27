@@ -1,24 +1,24 @@
-import {checkError} from '../../utils/helper'
+import { checkError } from '../../utils/helper'
 import * as actionTypes from '../actionTypes'
 
 const intialState = {
     count: 1,
     activeLinkName: 'console',
     consoleDrawerVisible: false,
-    orgChartUsers : []
+    orgChartUsers: []
 
 }
 
 export const firstReducer = (state = intialState, action) => {
-    const {errorData, isError} = checkError(state, action);
+    const { errorData, isError } = checkError(state, action);
     if (isError) {
-        return {...errorData}
+        return { ...errorData }
     }
 
 
     switch (action.type) {
         case actionTypes.GET_USER_DATA:
-            console.log(action.payload)
+            // console.log(action.payload)
             return {
                 ...state,
                 count: 2
@@ -36,6 +36,7 @@ export const firstReducer = (state = intialState, action) => {
                 ...state,
                 consoleDrawerVisible: action.payload
             }
+
         case actionTypes.GET_TEAM_VIEW_USER_DATA:
             return {
                 ...state,
@@ -44,7 +45,7 @@ export const firstReducer = (state = intialState, action) => {
     }
 
 
-    return {...state}
+    return { ...state }
 
 
 }

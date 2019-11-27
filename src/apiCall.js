@@ -41,6 +41,15 @@ export const getUsers = () => {
 export const getTeamViewUsers = () => {
 	return axios.get("/reportees/orgchart//?sortKey=name&sortOrder=asc&filterKey=id&filterQuery=", axiosConfig);
 };
+
 export const getClickedTeamViewUser = (id) => {
 	return axios.get(`/rest/users/${id}/?page=`, axiosConfig);
 };
+
+export const getClickedTeamViewOrgData = (id) => {
+	return axios.get(`/reportees/organization/${id}/?start=1&offset=100&sortKey=name&sortOrder=dsc&filterKey=_id&filterQuery=`, axiosConfig);
+};
+
+export const getTableColumns = () => {
+	return axios.get("https://demo1025512.mockable.io/user-table-details")
+}

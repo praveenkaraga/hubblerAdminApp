@@ -1,19 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import { Checkbox, Input, Button } from 'antd';
 import './allUserSelect.scss'
+import { getTableColumnData, getConsoleUserData } from '../../store/actions/actions'
 
 
 class AllUserSelect extends Component {
 
+    componentDidMount() {
+        this.props.getTableColumnData()
+    }
 
     render() {
+
+        const { consoleColumnData } = this.props.consoleReducer
+        console.log(consoleColumnData, "consoleColumnData")
         return (
             <div className="allUserSelect_main">
                 <div className="allUserSelect_container">
                     <div className="search_and_buttons">
                         <div className="search_users">
-                            {/* <input type="search" placeholder="Search Users / Managers / Designation" /> */}
                             <Input.Search placeholder="Search Users / Managers / Designation" loading={false} />
                         </div>
                         <div className="all_buttons">
@@ -21,7 +28,7 @@ class AllUserSelect extends Component {
                                 IMPORT USERS
                             </Button>
                             <Button className="add_user_button" type="primary" loading={false}>
-                                ADD USERS
+                                ADD USER
                             </Button>
                         </div>
                     </div>
@@ -30,12 +37,14 @@ class AllUserSelect extends Component {
                             <div className="upper_checkbox">
                                 <Checkbox value="A" />
                             </div>
-                            <div className="all_headings" style={{ "grid-template-columns": `repeat(3, auto)` }}>
-                                <div>Nis</div>
-                                <div>Nis</div>
-                                <div>Nis</div>
+
+                            <div className="all_headings" style={{ "grid-template-columns": `repeat(${consoleColumnData.length}, auto)` }}>
+                                {consoleColumnData.map(data => (<div key={data._id}>{data.lbl}</div>))}
                             </div>
-                            <div className="column_settings"></div>
+
+                            <div className="column_settings">
+                                {/* <img src={}/> */}
+                            </div>
                         </div>
                         <div className="lower_user_details">
                             <div className="lower_user_details_container">
@@ -49,7 +58,6 @@ class AllUserSelect extends Component {
                                             <div>nis</div>
                                             <div>nis</div>
                                         </div>
-                                        <div className="column_settings"></div>
                                     </div>
                                 </Checkbox.Group>
                             </div>
@@ -77,4 +85,24 @@ class AllUserSelect extends Component {
     }
 }
 
-export default AllUserSelect
+
+const mapStateToProps = state => {
+    return {
+        consoleReducer: state.consoleReducer
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return bindActionCreators(
+        {
+            getTableColumnData,
+            getConsoleUserData
+        },
+        dispatch
+    );
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(AllUserSelect)

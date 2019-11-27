@@ -4,6 +4,7 @@ html,body,div,ul{
 }
 html,body{
   height: 100%;
+
 }
 @font-face {
   font-family: roboto;
@@ -22,6 +23,10 @@ html,body{
   font-family: robotoBold;
   src: url(../../hubblerAdminApp/src/utils/fonts/robotoBold.ttf)
 }
+@font-face {
+  font-family: robotoMedium;
+  src: url(../../hubblerAdminApp/src/utils/fonts/robotoMedium.ttf)
+}
 
 
 ul,li{
@@ -31,6 +36,7 @@ ul,li{
 
 body,.App,.page-content,#root{
   height: 100%;
+  font-family: roboto;
 }
 
 .page-content{

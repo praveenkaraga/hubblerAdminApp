@@ -53,7 +53,6 @@ class UserConsoleView extends Component {
 
 
     componentDidMount() {
-        this.props.getUserData()
         this.props.createActiveLink(window.location.pathname.substr(1))
     }
 

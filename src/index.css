@@ -1,8 +1,29 @@
+@font-face {
+  font-family: roboto;
+  src: url(../../hubblerAdminApp/src/utils/fonts/robotoRegular.ttf)
+}
+@font-face {
+  font-family: robotoLight;
+  src: url(../../hubblerAdminApp/src/utils/fonts/robotoLight.ttf)
+}
+@font-face {
+  font-family: robotoSemiBold;
+  src: url(../../hubblerAdminApp/src/utils/fonts/robotoSemiBold.ttf)
+}
+
+@font-face {
+  font-family: robotoBold;
+  src: url(../../hubblerAdminApp/src/utils/fonts/robotoBold.ttf)
+}
+@font-face {
+  font-family: robotoMedium;
+  src: url(../../hubblerAdminApp/src/utils/fonts/robotoMedium.ttf)
+}
+
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: roboto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
