@@ -246,5 +246,16 @@
     }
 
   }
+  .loader{
+    background-image: url(../../images/loader_medium.gif);
+    background-size: 70px;
+    background-position: center;
+    background-repeat: no-repeat;
+    left: 251px;
+    top: 0;
+    right: 0;
+    width: auto;
+    height: 100%;
+  }
 
 }

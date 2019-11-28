@@ -32,10 +32,25 @@ export const getTeamViewOrgData = (userId) =>{
     }
 }
 
-export const storeClickedUserId = (payload) =>{
+export const storeClickedUserId = (userID,member) =>{
     return {
         type: actionTypes.STORE_CLICKED_USER_ID,
-        payload
+        payload : {
+            teamViewClickedUserId : userID,
+            clickedMemberData :member
+        }
     }
+};
+
+export const changeLoaderStatus = (payload) =>{
+    return{
+        type: actionTypes.CHANGE_LOADER_STATUS,
+        payload : {
+            contentLoader : payload
+        }
+
+    }
+
 }
+
 

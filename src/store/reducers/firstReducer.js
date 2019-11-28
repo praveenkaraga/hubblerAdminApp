@@ -37,11 +37,11 @@ export const firstReducer = (state = intialState, action) => {
                 consoleDrawerVisible: action.payload
             }
 
-        case actionTypes.GET_TEAM_VIEW_USER_DATA:
+        /*case actionTypes.GET_TEAM_VIEW_USER_DATA:
             return {
                 ...state,
                 orgChartUsers: action.payload.data.reportees || state.orgChartUsers
-            }
+            }*/
     }
 
 

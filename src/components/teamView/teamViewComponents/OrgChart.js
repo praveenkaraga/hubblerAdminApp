@@ -12,7 +12,7 @@ class OrgChart extends Component {
     }
 
     render() {
-        const {orgChartUsers} = this.props.teamViewReducer
+        const {orgChartUsers,loader} = this.props.teamViewReducer
 
         return (
             <div className={'org-chart'}>

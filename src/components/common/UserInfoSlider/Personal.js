@@ -63,8 +63,6 @@ class Personal extends Component {
                         <div className={'team-user-info-text'}>Departments</div>
                         <div className={'team-user-info-value'}> {isEmpty(teamUserData.departments) ?   "- -" : this.getDepartments(teamUserData.departments) }</div>
                     </div>
-
-
                     {teamUserData.node_data ? <div>
                         <div className={'divider'}></div>
                         <div className={'node-data-wrap'}>
