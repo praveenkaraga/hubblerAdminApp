@@ -12,91 +12,36 @@
         border : solid 1px #dbdee0;
         background-color : #f5f5f5;
 
-        .search_and_buttons{
-            width : 100%;
-            display : flex;
-            padding: 10px;
-            justify-content : space-between;
-
-            .search_users{
-                width: 56%;
-                .ant-input-affix-wrapper{
-                    width : 63%; 
-                    .ant-input-suffix{
-                    left: 12px;
-                    right: unset;
-                    }           
-                }
-            
-                input, .ant-input-affix-wrapper{
-                    border: none;
-                }
-
-                input{
-                    text-indent: 24px;
-                    background-color : #f5f5f5;
-                }
-
-                
-                
-                input:focus, .ant-input-affix-wrapper:focus{
-                    border : none;
-                    outline : none;
-                    border-color: unset;
-                    box-shadow : unset
-                  }
-            }
-
-        .import_button, .import_button:focus{
-            color: #4a4a4a;
-            background-color: #d9dadb;
-            border-color: #d9dadb;
-        }
-
-        .import_button{
-            margin-right: 20px;
-        }
-
-        .import_button, .add_user_button{
-            font-size: 12px;
-        }
-
-        .add_user_button, .add_user_button:focus{
-              color: #f1f1f1;
-              background-color: #1e88e5;
-              border-color: #1e88e5;
-          }
-               
-        }
       }
 
     .all_user_details{
         font-size : 12px;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
+        height : 100%;
+        display : flex;
+        flex-direction : column;
 
         .upper_heading_details, .user_details_container{
             display : flex;
-            border-top: solid 1px #e1e1e1;
-
+            border-top : solid 1px #e1e1e1;
+            width : 100%;
         }
 
         .upper_heading_details{
-            padding: 2px 0px 2px 0px;
+            padding : 2px 0px 2px 0px;
         }
 
         .user_details_container{
-            padding: 5px 0px 5px 0px;
+            padding : 5px 0px 5px 0px;
         }
 
         .ant-checkbox-group{
-            width: 100%;
+            width : 100%;
         }
 
         .lower_user_details{
             height : 100%;
             background-color : #ffffff;
+            overflow : scroll;
         }
 
         .upper_checkbox, .lower_checkbox{
@@ -106,16 +51,63 @@
 
         .all_headings, .single_user_details{           
              display : grid;
-             width : 94%;
+             width : 95%;
 
              div{
-                 display: flex;
-                 align-items: center;
+                 display : flex;
+                 align-items : center;
              }
         }
 
         .column_settings{
-            width: 3%;
+            width : 2%;
+
+            img{
+                height: 10px;
+                cursor : pointer;
+            }
+        }
+    }
+
+    .total_users{
+        .total_users_container{
+            display : flex;
+            justify-content : space-between;
+            padding : 18px 30px 4px 24px;
+            color: #707070;
+
+            .pagination , .rows_per_page, .page_no{
+                display : flex;
+            }
+
+            .ant-select-selection--single{
+                border: none;
+                background-color: #f5f5f5; 
+                height: 24px;
+            }
+
+            .current_page{
+                margin-right: 28px;
+                margin-left: 42px; 
+            }
+
+            .ant-select-selection__rendered{
+                line-height: 23px;
+            }
+
+            .ant-select-selection:focus{
+                box-shadow: unset;
+            }
+
+            .change_page{
+                font-size: 24px;
+                width: 72px;
+                line-height: 23px;
+
+                .prev_page{
+                    margin-right: 31px;  
+                }
+            }
         }
     }
     

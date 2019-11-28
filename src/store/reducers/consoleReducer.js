@@ -3,7 +3,8 @@ import * as actionTypes from '../actionTypes'
 
 const intialState = {
     initial: 0,
-    consoleColumnData: []
+    consoleColumnData: [],
+    consoleUserData: []
 }
 
 export const consoleReducer = (state = intialState, action) => {
@@ -14,16 +15,17 @@ export const consoleReducer = (state = intialState, action) => {
 
     switch (action.type) {
         case actionTypes.GET_TABLE_COLUMN_DATA:
-            const columnData = action.payload.data.result
+            const columnData = action.payload.data.result || []
             return {
                 ...state,
                 consoleColumnData: columnData
             }
 
         case actionTypes.GET_CONSOLE_USER_DATA:
-            console.log(action.payload)
+            const consoleUserData = action.payload.data.result || []
             return {
-                ...state
+                ...state,
+                consoleUserData
             }
     }
 

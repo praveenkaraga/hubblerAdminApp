@@ -35,7 +35,7 @@ let axiosConfig = {
 
 
 export const getUsers = () => {
-	return axios.get("/rest/users/?start=1&offset=20&sortKey=_id&sortOrder=dsc&filterKey=&filterQuery=", axiosConfig);
+	return axios.get("/rest/users/?start=1&offset=0&sortKey=_id&sortOrder=dsc&filterKey=&filterQuery=", axiosConfig);
 };
 
 export const getTeamViewUsers = () => {
