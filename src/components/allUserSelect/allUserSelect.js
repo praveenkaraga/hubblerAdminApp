@@ -70,7 +70,7 @@ class AllUserSelect extends Component {
                                 </div>
                                 <div className="page_no">
                                     <div className="current_page">1 of 10</div>
-                                    <div className="change_page"><span className="prev_page">&lt;</span>  <span className="next_page">&gt;</span></div>
+                                    <div className="change_page"><span className="prev_page"><img src={require("../../images/svg/left-arrow.svg")} /></span>  <span className="next_page"><img src={require("../../images/svg/right-arrow.svg")} /></span></div>
                                 </div>
                             </div>
                         </div>

@@ -59,6 +59,22 @@
              }
         }
 
+        .all_headings{
+            color: #707070;
+            font-weight: 600;
+        }
+
+        .single_user_details{
+            div{
+            display: inline-block;
+            white-space: nowrap;
+            width: 92%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            }
+            
+        }
+
         .column_settings{
             width : 2%;
 
@@ -74,7 +90,7 @@
             display : flex;
             justify-content : space-between;
             padding : 18px 30px 4px 24px;
-            color: #707070;
+            color: #989898;
 
             .pagination , .rows_per_page, .page_no{
                 display : flex;
@@ -99,10 +115,18 @@
                 box-shadow: unset;
             }
 
+            .ant-select-selection-selected-value{
+                color: #989898;
+            }
+
             .change_page{
-                font-size: 24px;
                 width: 72px;
-                line-height: 23px;
+
+                .prev_page, .next_page{
+                    img{
+                        height: 12px;
+                    }
+                }
 
                 .prev_page{
                     margin-right: 31px;  
