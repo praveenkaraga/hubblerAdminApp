@@ -6,6 +6,7 @@
     "antd": "^3.25.2",
     "axios": "^0.19.0",
     "lodash": "^4.17.11",
+    "moment": "^2.24.0",
     "node-sass": "^4.13.0",
     "randomcolor": "^0.5.4",
     "react": "^16.8.6",
@@ -16,6 +17,7 @@
     "redux": "^4.0.1",
     "redux-promise": "^0.6.0",
     "sass-loader": "^8.0.0",
+    "ua-parser-js": "^0.7.20",
     "yarn": "^1.19.1"
   },
   "scripts": {

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20.031" height="20" viewBox="0 0 20.031 20">
+  <defs>
+    <style>
+      .cls-1 {
+      fill: transparent;
+      fill-rule: evenodd;
+      stroke-dasharray: 120;
+      stroke-dashoffset: 120;
+      animation: dash 1.5s linear forwards;
+      animation-delay: 500ms;
+      stroke: #fff;
+      }
+      @keyframes dash {
+      from{
+      fill: transparent;
+      stroke: #fff;
+      }
+      to {
+      fill: #fff;
+      stroke-dashoffset: 0;
+      stroke: transparent;
+      }
+    </style>
+  </defs>
+  <path id="appstudio.svg" class="cls-1" d="M541.306,257.858a4.724,4.724,0,0,0-6.157-5.59l2.873,2.874a1.018,1.018,0,0,1,0,1.437l-0.622.622c-0.036.032-.072,0.062-0.106,0.1s-0.064.07-.1,0.1l-0.622.623a1.016,1.016,0,0,1-1.436,0l-2.872-2.875a4.725,4.725,0,0,0,5.586,6.162l9.94,9.947a2.441,2.441,0,1,0,3.451-3.453Zm8.869,12.329a1.124,1.124,0,1,1,0-1.59A1.123,1.123,0,0,1,550.175,270.187ZM543.445,259l5.4-5.4a0.336,0.336,0,1,1,.475.476l-5.395,5.4,0.778,0.779,5.4-5.4a0.337,0.337,0,1,1,.476.477l-5.4,5.4h0l0.86,0.861,5.248-5.251a2.441,2.441,0,1,0-3.451-3.454l-5.248,5.252L543.445,259h0Zm-4.352,4.7-3.189,3.312-1.59.426-2.139,3.312,1.171,1.172,3.31-2.14,0.426-1.592L540.391,265Z" transform="translate(-532 -252)"/>
+</svg>

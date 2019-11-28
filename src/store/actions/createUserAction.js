@@ -8,3 +8,4 @@ export const getUserData = (data) => {
         payload
     }
 }
+

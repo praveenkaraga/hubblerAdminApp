@@ -1,0 +1,78 @@
+.admin-nav {
+  height: 100%;
+
+  .admin-nav-header {
+    background-color: #ffffff;
+    border-bottom: 1px solid #ccc;
+    height: 48px;
+    display: flex;
+
+    .hamburger-icon {
+      background-image: url(../../images/menuBlack.svg);
+      background-repeat: no-repeat;
+      background-position: 20px;
+      cursor: pointer;
+      height: 100%;
+      width: 60px;
+    }
+
+    .header-text-hubbler {
+      font-weight: bold;
+      line-height: 48px;
+    }
+  }
+
+  .console-main-route-wrap {
+    height: 93vh;
+  }
+
+}
+
+.admin-drawer {
+  margin-top: 48px;
+
+  .ant-drawer-content-wrapper {
+    width: 250px !important; /*250px*/ /*18vw*/
+  }
+  .ant-drawer-wrapper-body{
+    background: black;
+    opacity: 0.9;
+  }
+
+  .ant-drawer-body{
+    padding: 0!important;
+  }
+
+  .admin-main-links {
+    display: flex;
+    flex-direction: column;
+    .admin-link{
+      text-decoration: none;
+      color: #000000;
+      font-size: 14px;
+    }
+    .list-item{
+      background-repeat: no-repeat;
+      background-position: 20px;
+      background-size: 20px;
+      padding: 22px 0 21px 65px;
+      cursor: pointer;
+      color: #ffffff;
+    }
+    .people-link{
+      background-image: url(../../images/adminLinkImages/people_main.svg);
+    }
+    .profile-link{
+      background-image: url(../../images/adminLinkImages/profile.svg);
+    }
+    .app-studio-link{
+      background-image: url(../../images/adminLinkImages/app_studio.svg);
+    }
+    .web-apps-link{
+      background-image: url(../../images/adminLinkImages/app_studio.svg);
+    }
+    .accounts-link{
+      background-image: url(../../images/adminLinkImages/accounts.svg);
+    }
+  }
+}

@@ -1,0 +1,114 @@
+.allUserSelect_main{
+    display : flex;
+    justify-content : center;
+    height : 100%;
+    .allUserSelect_container{
+        width : 94%;    
+        display : flex;
+        flex-direction : column;
+        height : 100%;
+        border-radius : 2px;
+        box-shadow : 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+        border : solid 1px #dbdee0;
+        background-color : #f5f5f5;
+
+      }
+
+    .all_user_details{
+        font-size : 12px;
+        height : 100%;
+        display : flex;
+        flex-direction : column;
+
+        .upper_heading_details, .user_details_container{
+            display : flex;
+            border-top : solid 1px #e1e1e1;
+            width : 100%;
+        }
+
+        .upper_heading_details{
+            padding : 2px 0px 2px 0px;
+        }
+
+        .user_details_container{
+            padding : 5px 0px 5px 0px;
+        }
+
+        .ant-checkbox-group{
+            width : 100%;
+        }
+
+        .lower_user_details{
+            height : 100%;
+            background-color : #ffffff;
+            overflow : scroll;
+        }
+
+        .upper_checkbox, .lower_checkbox{
+            text-align : center;
+            width : 3%;
+        }
+
+        .all_headings, .single_user_details{           
+             display : grid;
+             width : 95%;
+
+             div{
+                 display : flex;
+                 align-items : center;
+             }
+        }
+
+        .column_settings{
+            width : 2%;
+
+            img{
+                height: 10px;
+                cursor : pointer;
+            }
+        }
+    }
+
+    .total_users{
+        .total_users_container{
+            display : flex;
+            justify-content : space-between;
+            padding : 18px 30px 4px 24px;
+            color: #707070;
+
+            .pagination , .rows_per_page, .page_no{
+                display : flex;
+            }
+
+            .ant-select-selection--single{
+                border: none;
+                background-color: #f5f5f5; 
+                height: 24px;
+            }
+
+            .current_page{
+                margin-right: 28px;
+                margin-left: 42px; 
+            }
+
+            .ant-select-selection__rendered{
+                line-height: 23px;
+            }
+
+            .ant-select-selection:focus{
+                box-shadow: unset;
+            }
+
+            .change_page{
+                font-size: 24px;
+                width: 72px;
+                line-height: 23px;
+
+                .prev_page{
+                    margin-right: 31px;  
+                }
+            }
+        }
+    }
+    
+}

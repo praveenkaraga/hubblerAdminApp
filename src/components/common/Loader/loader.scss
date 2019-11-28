@@ -1,0 +1,55 @@
+.loading-part{
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+.loading-text{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  text-align: center;
+  margin: auto;
+  background-image: url("../../../images/hubbler-logo.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100px;
+  background-size: 52px;
+  color: transparent;
+}
+
+.line-loading {
+  height: 2px;
+  overflow: hidden;position: absolute;
+  width: 100px;
+  top: 95px;
+  bottom: 0;
+  margin: auto;
+  left: 0;
+  right: 0;
+  background-color: #ddd;
+}
+.line-loading:before{
+  display: block;
+  position: absolute;
+  content: "";
+  left: -200px;
+  width: 200px;
+  height: 4px;
+  background-color: #2980b9;
+  animation: loading 2s linear infinite;
+}
+@keyframes loading {
+  from {left: -50px; width: 30%;}
+  50% {width: 50%;}
+  70% {width: 70%;}
+  80% { left: 50%;}
+  95% {left: 120%;}
+  to {left: 100%;}
+}
+
