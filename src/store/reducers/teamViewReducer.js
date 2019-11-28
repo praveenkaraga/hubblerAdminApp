@@ -1,4 +1,4 @@
-import { checkError } from '../../utils/helper'
+import {checkError} from '../../utils/helper'
 import * as actionTypes from '../actionTypes'
 
 const intialState = {
@@ -6,14 +6,16 @@ const intialState = {
     activeLinkName: 'console',
     consoleDrawerVisible: false,
     orgChartUsers: [],
+    loader: true,
+    contentLoader:true,
 
 
 }
 
 export const teamViewReducer = (state = intialState, action) => {
-    const { errorData, isError } = checkError(state, action);
+    const {errorData, isError} = checkError(state, action);
     if (isError) {
-        return { ...errorData }
+        return {...errorData}
     }
 
 
@@ -39,12 +41,12 @@ export const teamViewReducer = (state = intialState, action) => {
         case actionTypes.GET_TEAM_VIEW_USER_DATA:
             return {
                 ...state,
-                orgChartUsers: action.payload.data.reportees || state.orgChartUsers
+                orgChartUsers: action.payload.data ? action.payload.data.reportees : [] || state.orgChartUsers,
+                loader: false,
             }
         case actionTypes.STORE_CLICKED_USER_ID:
             return {
-                ...state,
-                teamViewClickedUserId: action.payload
+                ...state, ...action.payload
             }
         case actionTypes.TEAM_VIEW_USER_CLICK:
             return {
@@ -54,7 +56,9 @@ export const teamViewReducer = (state = intialState, action) => {
         case actionTypes.GET_CLICKED_TEAM_USER_DATA:
             return {
                 ...state,
-                clickedTeamUserData: action.payload.data.result || {}
+                clickedTeamUserData: action.payload.data.result || {},
+                contentLoader: false
+
             }
         case actionTypes.GET_TEAM_VIEW_ORG_DATA:
             console.log(action.payload.data.result)
@@ -62,12 +66,19 @@ export const teamViewReducer = (state = intialState, action) => {
                 ...state,
                 clickedUserOrgManagerData: [action.payload.data.manager] || [],
                 clickedUserOrgReporteesData: action.payload.data.reportees || [],
-                total_Count : action.payload.data.total_count || ''
+                total_Count: action.payload.data.total_count || '',
+                contentLoader :false,
             }
+
+        case actionTypes.CHANGE_LOADER_STATUS:
+            return {
+                ...state, ...action.payload
+            }
+
     }
 
 
-    return { ...state }
+    return {...state}
 
 
 }

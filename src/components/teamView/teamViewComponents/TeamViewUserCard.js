@@ -4,7 +4,7 @@ import '../teamView.scss'
 import {bindActionCreators} from "redux";
 import DefaultImageMale from '../../../images/profile-male.svg'
 import DefaultImageFemale from '../../../images/profile-female.svg'
-import {teamViewUserClick,getClickedTeamUserData,storeClickedUserId} from "../../../store/actions/actions";
+import {teamViewUserClick,getClickedTeamUserData,storeClickedUserId,changeLoaderStatus} from "../../../store/actions/actions";
 
 
 
@@ -12,10 +12,13 @@ class TeamViewUserCard extends Component {
     componentDidMount() {
     }
 
-    onUserClick(userId){
+    onUserClick(userId,member){
         this.props.teamViewUserClick(true)
+        this.props.changeLoaderStatus(true)
         this.props.getClickedTeamUserData(userId)
-        this.props.storeClickedUserId(userId)
+        this.props.storeClickedUserId(userId,member)
+
+
     }
 
     render() {
@@ -41,7 +44,7 @@ class TeamViewUserCard extends Component {
                             <div className={'hub-id'}>{member.employee_id ? member.employee_id :""}</div>
                         </div>
                     </div>
-                    <div className={'show-slider-icon'} onClick={() => this.onUserClick(member._id)}></div>
+                    <div className={'show-slider-icon'} onClick={() => this.onUserClick(member._id,member)}></div>
                 </div>
 
 
@@ -61,7 +64,8 @@ const mapDispatchToProps = dispatch => {
         {
             teamViewUserClick,
             getClickedTeamUserData,
-            storeClickedUserId
+            storeClickedUserId,
+            changeLoaderStatus,
 
         },
         dispatch

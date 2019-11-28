@@ -7,14 +7,12 @@ import './userInfoSlider.scss'
 import UserInfoSliderContent from '../UserInfoSlider/UserInfoSliderContent'
 
 
-
-
 class UserInfoSlider extends Component {
     componentDidMount() {
     }
 
     render() {
-        const {visible,onCloseFunction,teamUserData,userId} = this.props;
+        const {visible, onCloseFunction, teamUserData, userId, getTeamViewOrgData, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count,clickedMemberData,contentLoader,changeLoaderStatus} = this.props;
 
         return (
             <div className={'user-info-slider'}>
@@ -24,7 +22,11 @@ class UserInfoSlider extends Component {
                     closable={false}
                     onClose={() => onCloseFunction(false)}
                     visible={visible}>
-                    <UserInfoSliderContent teamUserData={teamUserData} userId={userId} onCloseFunction={onCloseFunction}/>
+                    <UserInfoSliderContent teamUserData={teamUserData} userId={userId} onCloseFunction={onCloseFunction}
+                                           getTeamViewOrgData={getTeamViewOrgData}
+                                           clickedUserOrgManagerData={clickedUserOrgManagerData}
+                                           clickedUserOrgReporteesData={clickedUserOrgReporteesData}
+                                           total_Count={total_Count} clickedMemberData={clickedMemberData} contentLoader={contentLoader} changeLoaderStatus={changeLoaderStatus}/>
                 </Drawer>
             </div>
         )
@@ -39,8 +41,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return bindActionCreators(
-        {
-        },
+        {},
         dispatch
     );
 };

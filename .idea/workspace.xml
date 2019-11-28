@@ -2,21 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="27933bc1-8e6c-4933-a9e1-8fc6c29f6b91" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/common/UserInfoSlider/Apps.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/common/UserInfoSlider/AppsProfileTemplate.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/images/holiday.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/images/leave_mgt.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/images/reimbursement.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/images/timeline-black.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/images/working-days.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/images/loader-black.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/images/loader_medium.gif" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/Loader/Loader.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/Loader/Loader.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/common/UserInfoSlider/Organization.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/UserInfoSlider/Organization.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/common/UserInfoSlider/Personal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/UserInfoSlider/Personal.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/common/UserInfoSlider/UserInfoSlider.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/UserInfoSlider/UserInfoSlider.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/common/UserInfoSlider/UserInfoSliderContent.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/UserInfoSlider/UserInfoSliderContent.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/common/UserInfoSlider/userInfoSlider.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/UserInfoSlider/userInfoSlider.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/container/AdminNav/adminNav.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/container/AdminNav/adminNav.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/container/UserConsoleView/userConsoleView.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/container/UserConsoleView/userConsoleView.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/teamView/TeamView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/teamView/TeamView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/teamView/teamView.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/teamView/teamView.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/teamView/teamViewComponents/OrgChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/teamView/teamViewComponents/OrgChart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/teamView/teamViewComponents/TeamViewUserCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/teamView/teamViewComponents/TeamViewUserCard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/actionTypes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/actionTypes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/actions/actions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/actions/actions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/actions/teamViewActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/actions/teamViewActions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/reducers/firstReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/reducers/firstReducer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/store/reducers/teamViewReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/reducers/teamViewReducer.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -34,22 +36,22 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/container/AdminNav/AdminNav.js">
+        <entry file="file://$PROJECT_DIR$/src/components/teamView/TeamView.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="15" lean-forward="true" selection-start-line="5" selection-start-column="15" selection-end-line="5" selection-end-column="15" />
+            <state relative-caret-position="127">
+              <caret line="32" column="32" selection-start-line="32" selection-start-column="32" selection-end-line="32" selection-end-column="32" />
+              <folding>
+                <element signature="e#0#39#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/common/UserInfoSlider/Organization.js">
+        <entry file="file://$PROJECT_DIR$/src/components/teamView/teamView.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="177">
-              <caret line="17" column="55" selection-start-line="17" selection-start-column="55" selection-end-line="17" selection-end-column="55" />
-              <folding>
-                <element signature="e#0#39#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="345">
+              <caret line="257" column="17" selection-start-line="249" selection-start-column="3" selection-end-line="257" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -57,8 +59,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/common/UserInfoSlider/UserInfoSliderContent.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="645">
-              <caret line="43" column="26" selection-start-line="43" selection-start-column="26" selection-end-line="43" selection-end-column="26" />
+            <state relative-caret-position="298">
+              <caret line="68" column="34" selection-start-line="68" selection-start-column="34" selection-end-line="68" selection-end-column="34" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
               </folding>
@@ -67,10 +69,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/store/reducers/teamViewReducer.js">
+        <entry file="file://$PROJECT_DIR$/src/store/actions/teamViewActions.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="124">
-              <caret line="19" column="26" lean-forward="true" selection-start-line="19" selection-start-column="26" selection-end-line="19" selection-end-column="26" />
+            <state relative-caret-position="180">
+              <caret line="12" column="11" lean-forward="true" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="11" />
               <folding>
                 <element signature="e#0#45#0" expanded="true" />
               </folding>
@@ -79,43 +81,31 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/common/UserInfoSlider/Personal.js">
+        <entry file="file://$PROJECT_DIR$/src/components/common/UserInfoSlider/userInfoSlider.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="313">
-              <caret line="69" column="55" selection-start-line="69" selection-start-column="41" selection-end-line="69" selection-end-column="55" />
+            <state relative-caret-position="315">
+              <caret line="417" column="17" selection-start-line="417" selection-start-column="3" selection-end-line="417" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/store/reducers/teamViewReducer.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="268">
+              <caret line="71" selection-start-line="71" selection-end-line="71" />
               <folding>
-                <element signature="e#0#39#0" expanded="true" />
+                <element signature="e#0#47#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/components/common/UserInfoSlider/userInfoSlider.scss">
+        <entry file="file://$PROJECT_DIR$/src/components/teamView/teamViewComponents/TeamViewUserCard.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="162" column="22" lean-forward="true" selection-start-line="162" selection-start-column="22" selection-end-line="162" selection-end-column="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/common/UserInfoSlider/AppsProfileTemplate.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="246">
-              <caret line="38" column="9" lean-forward="true" selection-start-line="38" selection-start-column="9" selection-end-line="38" selection-end-column="9" />
-              <folding>
-                <element signature="e#0#37#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/common/UserInfoSlider/UserInfoSlider.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="269">
-              <caret line="26" column="35" lean-forward="true" selection-start-line="26" selection-start-column="35" selection-end-line="26" selection-end-column="35" />
+            <state relative-caret-position="104">
+              <caret line="22" lean-forward="true" selection-start-line="22" selection-end-line="22" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
               </folding>
@@ -124,12 +114,12 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/teamView/TeamView.js">
+        <entry file="file://$PROJECT_DIR$/src/store/actions/actions.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="256">
-              <caret line="32" column="27" lean-forward="true" selection-start-line="32" selection-start-column="27" selection-end-line="32" selection-end-column="27" />
+            <state relative-caret-position="361">
+              <caret line="33" column="137" selection-start-line="33" selection-start-column="137" selection-end-line="33" selection-end-column="137" />
               <folding>
-                <element signature="e#0#39#0" expanded="true" />
+                <element signature="e#0#54#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -139,11 +129,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>history</find>
-      <find>CustomTable</find>
-      <find>bindActionCreators</find>
-      <find>onClic</find>
-      <find>consoleDrawerVisible</find>
       <find>UserConsoleView</find>
       <find>peop</find>
       <find>link</find>
@@ -158,17 +143,22 @@
       <find>user-i</find>
       <find>team-user</find>
       <find>getTeamViewOrgData</find>
-      <find>teamViewUserClick</find>
       <find>left-panel</find>
       <find>v</find>
       <find>admin-nav-header</find>
       <find>user-icon</find>
       <find>text-sha</find>
       <find>orga</find>
-      <find>list</find>
       <find>reportees</find>
       <find>user-info-slider-close</find>
       <find>tot</find>
+      <find>list</find>
+      <find>STORE_CLICKED_USER_ID</find>
+      <find>TEAM_VIEW_USER_CLICK</find>
+      <find>contentLoader</find>
+      <find>GET_CLICKED_TEAM_USER_DATA</find>
+      <find>teamViewUserClick</find>
+      <find>GET_TEAM_VIEW_ORG_DATA</find>
     </findStrings>
     <replaceStrings>
       <replace>team-user</replace>
@@ -194,33 +184,33 @@
         <option value="$PROJECT_DIR$/src/components/common/Search/SearchTransition.js" />
         <option value="$PROJECT_DIR$/src/store/actions/createUserAction.js" />
         <option value="$PROJECT_DIR$/src/components/common/Search/search.scss" />
-        <option value="$PROJECT_DIR$/src/store/reducers/firstReducer.js" />
         <option value="$PROJECT_DIR$/public/index.html" />
-        <option value="$PROJECT_DIR$/src/components/common/Loader/Loader.js" />
         <option value="$PROJECT_DIR$/src/store/reducers/rootReducer.js" />
-        <option value="$PROJECT_DIR$/src/components/teamView/teamViewComponents/OrgChart.js" />
         <option value="$PROJECT_DIR$/src/components/common/Loader/loader.scss" />
         <option value="$PROJECT_DIR$/src/container/UserConsoleView/UserConsoleView.js" />
         <option value="$PROJECT_DIR$/src/images/close-app.svg" />
-        <option value="$PROJECT_DIR$/src/components/teamView/teamView.scss" />
         <option value="$PROJECT_DIR$/src/App.css" />
         <option value="$PROJECT_DIR$/src/index.css" />
-        <option value="$PROJECT_DIR$/src/store/actionTypes.js" />
-        <option value="$PROJECT_DIR$/src/store/actions/teamViewActions.js" />
-        <option value="$PROJECT_DIR$/src/store/actions/actions.js" />
-        <option value="$PROJECT_DIR$/src/components/teamView/teamViewComponents/TeamViewUserCard.js" />
-        <option value="$PROJECT_DIR$/src/components/teamView/TeamView.js" />
         <option value="$PROJECT_DIR$/src/container/UserConsoleView/userConsoleView.scss" />
         <option value="$PROJECT_DIR$/src/container/AdminNav/adminNav.scss" />
         <option value="$PROJECT_DIR$/src/apiCall.js" />
-        <option value="$PROJECT_DIR$/src/store/reducers/teamViewReducer.js" />
-        <option value="$PROJECT_DIR$/src/components/common/UserInfoSlider/Organization.js" />
         <option value="$PROJECT_DIR$/src/components/common/UserInfoSlider/Apps.js" />
         <option value="$PROJECT_DIR$/src/components/common/UserInfoSlider/AppsProfileTemplate.js" />
+        <option value="$PROJECT_DIR$/src/components/common/Loader/Loader.js" />
+        <option value="$PROJECT_DIR$/src/components/common/UserInfoSlider/Organization.js" />
+        <option value="$PROJECT_DIR$/src/components/common/UserInfoSlider/Personal.js" />
+        <option value="$PROJECT_DIR$/src/components/teamView/teamViewComponents/OrgChart.js" />
+        <option value="$PROJECT_DIR$/src/components/teamView/teamView.scss" />
+        <option value="$PROJECT_DIR$/src/store/reducers/firstReducer.js" />
+        <option value="$PROJECT_DIR$/src/components/common/UserInfoSlider/userInfoSlider.scss" />
+        <option value="$PROJECT_DIR$/src/store/actionTypes.js" />
+        <option value="$PROJECT_DIR$/src/store/actions/actions.js" />
+        <option value="$PROJECT_DIR$/src/components/teamView/teamViewComponents/TeamViewUserCard.js" />
+        <option value="$PROJECT_DIR$/src/components/teamView/TeamView.js" />
         <option value="$PROJECT_DIR$/src/components/common/UserInfoSlider/UserInfoSlider.js" />
         <option value="$PROJECT_DIR$/src/components/common/UserInfoSlider/UserInfoSliderContent.js" />
-        <option value="$PROJECT_DIR$/src/components/common/UserInfoSlider/Personal.js" />
-        <option value="$PROJECT_DIR$/src/components/common/UserInfoSlider/userInfoSlider.scss" />
+        <option value="$PROJECT_DIR$/src/store/reducers/teamViewReducer.js" />
+        <option value="$PROJECT_DIR$/src/store/actions/teamViewActions.js" />
       </list>
     </option>
   </component>
@@ -230,7 +220,7 @@
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
-    <navigator currentView="Scope" currentSubView="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope" proportions="" version="1">
+    <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
@@ -258,14 +248,6 @@
               <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
               <item name="components" type="9f88c78c:ScopeViewTreeModel$FileNode" />
               <item name="common" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="hubblerAdminApp" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="~/WebstormProjects/hubblerAdminApp" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="components" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="common" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="Loader" type="9f88c78c:ScopeViewTreeModel$FileNode" />
             </path>
             <path>
               <item name="hubblerAdminApp" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
@@ -347,7 +329,35 @@
           <select />
         </subPane>
       </pane>
-      <pane id="ProjectPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="hubblerAdminApp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hubblerAdminApp" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hubblerAdminApp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hubblerAdminApp" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hubblerAdminApp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hubblerAdminApp" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="store" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hubblerAdminApp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hubblerAdminApp" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="store" type="462c0819:PsiDirectoryNode" />
+              <item name="actions" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -362,17 +372,17 @@
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/images" />
-      <recent name="$PROJECT_DIR$/src/utils/fonts" />
-      <recent name="$PROJECT_DIR$/src/images/adminLinkImages" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/components/common/Search" />
       <recent name="$PROJECT_DIR$/src/components/common" />
       <recent name="$PROJECT_DIR$/src/container/UserConsoleView" />
       <recent name="$PROJECT_DIR$/src/container" />
       <recent name="$PROJECT_DIR$/src/components/teamView" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/images" />
+      <recent name="$PROJECT_DIR$/src/utils/fonts" />
+      <recent name="$PROJECT_DIR$/src/images/adminLinkImages" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -400,7 +410,8 @@
       <workItem from="1574156426612" duration="5065000" />
       <workItem from="1574248567639" duration="26478000" />
       <workItem from="1574403797323" duration="44259000" />
-      <workItem from="1574739881706" duration="41101000" />
+      <workItem from="1574739881706" duration="41787000" />
+      <workItem from="1574916079684" duration="16776000" />
     </task>
     <task id="LOCAL-00001" summary="changes">
       <created>1574317980497</created>
@@ -479,11 +490,18 @@
       <option name="project" value="LOCAL" />
       <updated>1574828136884</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="User Console - Team View:&#10;1)User Information Slider &#10;&#10;&#10;Files Changed:&#10;adminNav.scss&#10;Apps.js&#10;AppsProfileTemplate.js&#10;holiday.svg&#10;leave_mgt.svg&#10;Organization.js&#10;Personal.js&#10;reimbursement.svg&#10;teamViewReducer.js&#10;timeline-black.svg&#10;userConsoleView.scss&#10;UserInfoSlider.js&#10;userInfoSlider.scss&#10;UserInfoSliderContent.js&#10;working-days.svg&#10;workspace.xml">
+      <created>1574862000936</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1574862000936</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="116903000" />
+    <option name="totallyTimeSpent" value="134365000" />
   </component>
   <component name="TodoView" selected-index="2">
     <todo-panel id="selected-file">
@@ -497,7 +515,7 @@
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4982699" visible="true" weight="0.24947146" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4982699" visible="true" weight="0.21705426" />
       <window_info id="Structure" order="1" sideWeight="0.5017301" side_tool="true" weight="0.24583334" />
       <window_info id="npm" order="2" sideWeight="0.50089765" side_tool="true" weight="0.24947146" />
       <window_info id="Favorites" order="3" sideWeight="0.50089765" side_tool="true" weight="0.24947146" />
@@ -521,6 +539,46 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list />
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="changes" />
     <MESSAGE value="User Console:&#10;1. Css changes&#10;&#10;Files changed:&#10;App.css&#10;App.js&#10;index.css&#10;UserConsoleView.js&#10;userConsoleView.scss" />
@@ -533,12 +591,10 @@
     <MESSAGE value="User Console:&#10;1) User-Console - Navigation links refactored&#10;Files Changed:&#10;actions.js&#10;actionTypes.js&#10;apiCall.js&#10;teamViewActions.js&#10;TeamViewUserCard.js&#10;UserConsoleView.js" />
     <MESSAGE value="User Console:&#10;1) Team View - User Info Slider &#10;Files Changed:&#10;actions.js&#10;actionTypes.js&#10;apiCall.js&#10;App.css&#10;close-app.svg&#10;close-black.svg&#10;index.css&#10;Organization.js&#10;package.json&#10;Personal.js&#10;robotoMedium.ttf&#10;TeamView.js&#10;teamView.scss&#10;teamViewActions.js&#10;teamViewReducer.js&#10;TeamViewUserCard.js&#10;UserInfoSlider.js&#10;userInfoSlider.scss&#10;UserInfoSliderContent.js&#10;workspace.xml" />
     <MESSAGE value="Merge branch 'user_console_v2' of https://github.com/praveenkaraga/hubblerAdminApp into user_console_v2&#10;&#10;# Please enter a commit message to explain why this merge is necessary,&#10;# especially if it merges an updated upstream into a topic branch.&#10;#&#10;# Lines starting with '#' will be ignored, and an empty message aborts&#10;# the commit." />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge branch 'user_console_v2' of https://github.com/praveenkaraga/hubblerAdminApp into user_console_v2&#10;&#10;# Please enter a commit message to explain why this merge is necessary,&#10;# especially if it merges an updated upstream into a topic branch.&#10;#&#10;# Lines starting with '#' will be ignored, and an empty message aborts&#10;# the commit." />
+    <MESSAGE value="User Console - Team View:&#10;1)User Information Slider &#10;&#10;&#10;Files Changed:&#10;adminNav.scss&#10;Apps.js&#10;AppsProfileTemplate.js&#10;holiday.svg&#10;leave_mgt.svg&#10;Organization.js&#10;Personal.js&#10;reimbursement.svg&#10;teamViewReducer.js&#10;timeline-black.svg&#10;userConsoleView.scss&#10;UserInfoSlider.js&#10;userInfoSlider.scss&#10;UserInfoSliderContent.js&#10;working-days.svg&#10;workspace.xml" />
+    <option name="LAST_COMMIT_MESSAGE" value="User Console - Team View:&#10;1)User Information Slider &#10;&#10;&#10;Files Changed:&#10;adminNav.scss&#10;Apps.js&#10;AppsProfileTemplate.js&#10;holiday.svg&#10;leave_mgt.svg&#10;Organization.js&#10;Personal.js&#10;reimbursement.svg&#10;teamViewReducer.js&#10;timeline-black.svg&#10;userConsoleView.scss&#10;UserInfoSlider.js&#10;userInfoSlider.scss&#10;UserInfoSliderContent.js&#10;working-days.svg&#10;workspace.xml" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/images/adminLinkImages/app_studio.svg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/images/adminLinkImages/mis_icon.svg">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -606,13 +662,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/store/reducers/firstReducer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="12" column="59" lean-forward="true" selection-start-line="12" selection-start-column="59" selection-end-line="12" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/utils/helper.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -633,30 +682,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/teamView/teamViewComponents/OrgChart.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="25" column="26" lean-forward="true" selection-start-line="25" selection-start-column="26" selection-end-line="25" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/common/Loader/loader.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="450">
           <caret line="54" selection-start-line="54" selection-end-line="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/common/Loader/Loader.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="1" lean-forward="true" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -691,13 +720,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/store/actionTypes.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="59" selection-start-line="7" selection-start-column="38" selection-end-line="7" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/allUserSelect/allUserSelect.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-395">
@@ -712,40 +734,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/store/actions/actions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="23" column="88" selection-start-line="23" selection-start-column="88" selection-end-line="23" selection-end-column="88" />
-          <folding>
-            <element signature="e#0#54#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/store/actions/teamViewActions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="41" selection-start-line="41" selection-end-line="41" />
-          <folding>
-            <element signature="e#0#45#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/@types/react/index.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
           <caret line="1657" column="8" selection-start-line="1657" selection-start-column="8" selection-end-line="1657" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/teamView/teamViewComponents/TeamViewUserCard.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="35" column="25" selection-start-line="28" selection-start-column="24" selection-end-line="35" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -770,20 +762,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/teamView/teamView.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="20" lean-forward="true" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/container/AdminNav/AdminNav.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="15" lean-forward="true" selection-start-line="5" selection-start-column="15" selection-end-line="5" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/apiCall.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="417">
@@ -793,16 +771,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/images/holiday.svg">
       <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/common/UserInfoSlider/AppsProfileTemplate.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246">
-          <caret line="38" column="9" lean-forward="true" selection-start-line="38" selection-start-column="9" selection-end-line="38" selection-end-column="9" />
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/common/UserInfoSlider/Apps.js">
       <provider selected="true" editor-type-id="text-editor">
@@ -814,50 +782,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/teamView/TeamView.js">
+    <entry file="file://$PROJECT_DIR$/src/container/AdminNav/AdminNav.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
-          <caret line="32" column="27" lean-forward="true" selection-start-line="32" selection-start-column="27" selection-end-line="32" selection-end-column="27" />
+        <state relative-caret-position="75">
+          <caret line="5" column="15" selection-start-line="5" selection-start-column="15" selection-end-line="5" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/common/UserInfoSlider/AppsProfileTemplate.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="555">
+          <caret line="38" column="9" lean-forward="true" selection-start-line="38" selection-start-column="9" selection-end-line="38" selection-end-column="9" />
           <folding>
-            <element signature="e#0#39#0" expanded="true" />
+            <element signature="e#0#37#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/store/reducers/teamViewReducer.js">
+    <entry file="file://$PROJECT_DIR$/src/components/common/Loader/Loader.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="19" column="26" lean-forward="true" selection-start-line="19" selection-start-column="26" selection-end-line="19" selection-end-column="26" />
+        <state relative-caret-position="105">
+          <caret line="7" column="1" lean-forward="true" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
           <folding>
-            <element signature="e#0#45#0" expanded="true" />
+            <element signature="e#0#26#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/common/UserInfoSlider/Organization.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="17" column="55" selection-start-line="17" selection-start-column="55" selection-end-line="17" selection-end-column="55" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/common/UserInfoSlider/UserInfoSliderContent.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="645">
-          <caret line="43" column="26" selection-start-line="43" selection-start-column="26" selection-end-line="43" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/common/UserInfoSlider/UserInfoSlider.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="269">
-          <caret line="26" column="35" lean-forward="true" selection-start-line="26" selection-start-column="35" selection-end-line="26" selection-end-column="35" />
+        <state relative-caret-position="960">
+          <caret line="64" column="18" lean-forward="true" selection-start-line="64" selection-start-column="18" selection-end-line="64" selection-end-column="18" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
           </folding>
@@ -866,18 +821,122 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/common/UserInfoSlider/Personal.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="313">
-          <caret line="69" column="55" selection-start-line="69" selection-start-column="41" selection-end-line="69" selection-end-column="55" />
+        <state relative-caret-position="1005">
+          <caret line="67" column="39" selection-start-line="67" selection-start-column="39" selection-end-line="67" selection-end-column="39" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/teamView/teamViewComponents/OrgChart.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="14" column="35" selection-start-line="14" selection-start-column="35" selection-end-line="14" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/teamView/teamView.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="257" column="17" selection-start-line="249" selection-start-column="3" selection-end-line="257" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/images/loader-black.svg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/common/UserInfoSlider/userInfoSlider.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="162" column="22" lean-forward="true" selection-start-line="162" selection-start-column="22" selection-end-line="162" selection-end-column="22" />
+        <state relative-caret-position="315">
+          <caret line="417" column="17" selection-start-line="417" selection-start-column="3" selection-end-line="417" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/store/reducers/firstReducer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="600">
+          <caret line="41" column="25" lean-forward="true" selection-start-line="41" selection-start-column="25" selection-end-line="41" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/store/actions/actions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="33" column="137" selection-start-line="33" selection-start-column="137" selection-end-line="33" selection-end-column="137" />
+          <folding>
+            <element signature="e#0#54#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/teamView/TeamView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="127">
+          <caret line="32" column="32" selection-start-line="32" selection-start-column="32" selection-end-line="32" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/common/UserInfoSlider/UserInfoSlider.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="215">
+          <caret line="24" column="40" selection-start-line="24" selection-start-column="40" selection-end-line="24" selection-end-column="40" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/store/actionTypes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="57" selection-start-line="8" selection-start-column="37" selection-end-line="8" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/common/UserInfoSlider/UserInfoSliderContent.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="298">
+          <caret line="68" column="34" selection-start-line="68" selection-start-column="34" selection-end-line="68" selection-end-column="34" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/store/reducers/teamViewReducer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="268">
+          <caret line="71" selection-start-line="71" selection-end-line="71" />
+          <folding>
+            <element signature="e#0#47#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/store/actions/teamViewActions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="11" lean-forward="true" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="11" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/teamView/teamViewComponents/TeamViewUserCard.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="104">
+          <caret line="22" lean-forward="true" selection-start-line="22" selection-end-line="22" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
