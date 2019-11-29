@@ -1,5 +1,6 @@
 import * as actionTypes from '../actionTypes'
-import { getTeamViewUsers,getClickedTeamViewUser,getClickedTeamViewOrgData } from '../../apiCall'
+import { getTeamViewUsers,getClickedTeamViewUser,getClickedTeamViewOrgData,getClickedUserReporteeData } from '../../apiCall'
+import uniqBy from "lodash/uniqBy";
 
 export const getTeamViewUsersData = (data) => {
     const payload = getTeamViewUsers()
@@ -50,7 +51,27 @@ export const changeLoaderStatus = (payload) =>{
         }
 
     }
+};
 
+export const getClickedTeamUserReporteeData = (userId) =>{
+    const payload = getClickedUserReporteeData(userId)
+    return {
+        type: actionTypes.GET_CLICKED_TEAM_USER_REPORTEE_DATA,
+        payload
+    }
 }
+export const updateRollBackData = (reportees,preservedData,rootData) =>{
+    debugger
+    return {
+        type: actionTypes.GET_BACK_MANAGER_DATA,
+        payload : {
+            orgChartUsers: reportees,
+            preservedData: preservedData,
+            rootData: rootData
+        }
+    }
+}
+
+
 
 

@@ -18,7 +18,6 @@ class TeamView extends Component {
 
     render() {
         const {orgChartUsers, teamViewUserDrawerVisible, clickedTeamUserData, teamViewClickedUserId, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, loader, clickedMemberData, contentLoader} = this.props.teamViewReducer
-        console.log(clickedTeamUserData)
         return (
             <div className={'team-view'}>
                 {loader ? <div className={'loader'}></div> : <div>
