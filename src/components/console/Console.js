@@ -19,6 +19,10 @@ class Console extends Component {
         this.props.getConsoleUserData()
     }
 
+    onChangeCheckBox = (value) => {
+        console.log(value)
+    }
+
 
     render() {
 
@@ -27,7 +31,7 @@ class Console extends Component {
             <div className="console_main">
                 <div className="console_heading"><h3>Console</h3></div>
                 <AllUserSelect allHeadingsData={consoleColumnData} userData={consoleUserData} searchFirstButtonName={"IMPORT USERS"} searchSecondButtonName={"ADD USER"} onSearch={this.userSearchData}
-                    searchPlaceHolder={"Search Users / Managers / Designation"} searchFirstButtonLoader={false} searchSecondButtonLoader={false} searchLoader={false} />
+                    searchPlaceHolder={"Search Users / Managers / Designation"} searchFirstButtonLoader={false} searchSecondButtonLoader={false} searchLoader={false} onChangeCheckBox={this.onChangeCheckBox} />
             </div>
         )
     }
