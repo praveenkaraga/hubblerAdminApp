@@ -16,22 +16,29 @@ class Console extends Component {
 
     componentDidMount() {
         this.props.getTableColumnData()
-        this.props.getConsoleUserData()
+        this.props.getConsoleUserData(30)
     }
 
     onChangeCheckBox = (value) => {
         console.log(value)
     }
 
+    onChangeRowsPerPage = (value) => {
+        console.log(value)
+        this.props.getConsoleUserData(value)
+    }
+
 
     render() {
 
-        const { consoleColumnData, consoleUserData } = this.props.consoleReducer
+        const { consoleColumnData, consoleUserData, totalUsers } = this.props.consoleReducer
         return (
             <div className="console_main">
                 <div className="console_heading"><h3>Console</h3></div>
                 <AllUserSelect allHeadingsData={consoleColumnData} userData={consoleUserData} searchFirstButtonName={"IMPORT USERS"} searchSecondButtonName={"ADD USER"} onSearch={this.userSearchData}
-                    searchPlaceHolder={"Search Users / Managers / Designation"} searchFirstButtonLoader={false} searchSecondButtonLoader={false} searchLoader={false} onChangeCheckBox={this.onChangeCheckBox} />
+                    searchPlaceHolder={"Search Users / Managers / Designation"} searchFirstButtonLoader={false} searchSecondButtonLoader={false} searchLoader={false} onChangeCheckBox={this.onChangeCheckBox}
+                    totalUsers={totalUsers} onChangeRowsPerPage={this.onChangeRowsPerPage}
+                />
             </div>
         )
     }

@@ -12,6 +12,7 @@ class AllUserSelect extends Component {
             checkedList: [],
             indeterminate: false,
             checkAll: false,
+            rowsPerPage: 10
         }
         this.plainOptions = []
 
@@ -21,7 +22,7 @@ class AllUserSelect extends Component {
         await this.setState({
             checkedList: checkedItem,
             indeterminate: !!checkedItem.length && checkedItem.length < this.plainOptions.length,
-            checkAll: checkedItem.length === this.plainOptions.length
+            checkAll: checkedItem.length === this.plainOptions.length,
         })
         this.props.onChangeCheckBox(this.state.checkedList)
     }
@@ -35,12 +36,17 @@ class AllUserSelect extends Component {
         this.props.onChangeCheckBox(this.state.checkedList)
     }
 
+    onChangeRowsPerPage = (value) => {
+        this.setState({ rowsPerPage: value })
+        this.props.onChangeRowsPerPage(value)
+    }
+
 
     render() {
         const { allHeadingsData, userData, searchFirstButtonName, searchSecondButtonName, searchPlaceHolder, searchFirstButtonLoader,
-            searchSecondButtonLoader, searchLoader, onSearch } = this.props
-        const perPageOptions = [10, 20, 30, 40, 50]
-        const { checkedList, indeterminate, checkAll } = this.state
+            searchSecondButtonLoader, searchLoader, onSearch, totalUsers } = this.props
+        const perPageOptions = [10, 20, 30, 40, 50, 100]
+        const { checkedList, indeterminate, checkAll, rowsPerPage } = this.state
         if (!this.plainOptions.length) {
             userData.forEach(element => {
                 this.plainOptions.push(element._id)
@@ -90,18 +96,18 @@ class AllUserSelect extends Component {
                     <div className="total_users">
                         <div className="total_users_container">
                             <div className="total_users_count">
-                                <p>Total Users: 5632</p>
+                                <p>Total Users: {totalUsers}</p>
                             </div>
                             <div className="pagination">
                                 <div className="rows_per_page">
                                     <p>Rows per page :</p>
 
-                                    <Select defaultValue={10} style={{ width: 60 }} loading={false}>
+                                    <Select defaultValue={30} style={{ width: 60 }} loading={false} onChange={this.onChangeRowsPerPage}>
                                         {perPageOptions.map(data => (<Select.Option value={data}>{data}</Select.Option>))}
                                     </Select>
                                 </div>
                                 <div className="page_no">
-                                    <div className="current_page">1 of 10</div>
+                                    <div className="current_page">1 of {Math.ceil(totalUsers / rowsPerPage)}</div>
                                     <div className="change_page">
                                         <span className="prev_page">
                                             <img src={require("../../images/svg/left-arrow.svg")} />
