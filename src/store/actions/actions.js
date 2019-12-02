@@ -16,7 +16,7 @@ export const { getUserData } = createUserAction
 
 //------------------------------Console Action-------------------------------//
 
-export const { getTableColumnData, getConsoleUserData } = consoleActions
+export const { getTableColumnData, getConsoleUserData, commonConsoleAction } = consoleActions
 
 //------------------------------xxxxxxxxxxxxxx-------------------------------//
 
