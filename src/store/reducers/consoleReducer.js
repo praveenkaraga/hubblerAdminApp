@@ -5,7 +5,9 @@ const intialState = {
     initial: 0,
     consoleColumnData: [],
     consoleUserData: [],
-    totalUsers: 0
+    totalUsers: 0,
+    rowsPerPage: 30,
+    currentPageNumber: 1
 }
 
 export const consoleReducer = (state = intialState, action) => {
@@ -31,6 +33,12 @@ export const consoleReducer = (state = intialState, action) => {
                 ...state,
                 consoleUserData,
                 totalUsers
+            }
+
+        case actionTypes.COMMON_CONSOLE_ACTION:
+            return {
+                ...state,
+                ...action.payload
             }
     }
 

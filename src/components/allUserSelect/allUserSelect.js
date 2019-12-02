@@ -12,7 +12,7 @@ class AllUserSelect extends Component {
             checkedList: [],
             indeterminate: false,
             checkAll: false,
-            rowsPerPage: 10
+            rowsPerPage: 30
         }
         this.plainOptions = []
 
@@ -37,22 +37,29 @@ class AllUserSelect extends Component {
     }
 
     onChangeRowsPerPage = (value) => {
-        this.setState({ rowsPerPage: value })
+        this.setState({
+            rowsPerPage: value,
+            checkedList: [],
+            indeterminate: false,
+            checkAll: false,
+        })
         this.props.onChangeRowsPerPage(value)
     }
 
-
-    render() {
-        const { allHeadingsData, userData, searchFirstButtonName, searchSecondButtonName, searchPlaceHolder, searchFirstButtonLoader,
-            searchSecondButtonLoader, searchLoader, onSearch, totalUsers } = this.props
-        const perPageOptions = [10, 20, 30, 40, 50, 100]
-        const { checkedList, indeterminate, checkAll, rowsPerPage } = this.state
-        if (!this.plainOptions.length) {
-            userData.forEach(element => {
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.userData.length != this.props.userData) {
+            this.plainOptions = []
+            this.props.userData.forEach(element => {
                 this.plainOptions.push(element._id)
             });
         }
+    }
 
+    render() {
+        const { allHeadingsData, userData, searchFirstButtonName, searchSecondButtonName, searchPlaceHolder, searchFirstButtonLoader,
+            searchSecondButtonLoader, searchLoader, onSearch, totalUsers, goPrevPage, goNextPage, currentPageNumber } = this.props
+        const perPageOptions = [7, 10, 20, 30, 40, 50, 100]
+        const { checkedList, indeterminate, checkAll, rowsPerPage } = this.state
 
         return (
             <div className="allUserSelect_main">
@@ -77,16 +84,19 @@ class AllUserSelect extends Component {
                         <div className="lower_user_details">
                             <div className="lower_user_details_container">
                                 <Checkbox.Group value={checkedList} onChange={this.onChangeCheckBoxGroup}>
-                                    {userData.map(user => (
-                                        <div className="user_details_container">
-                                            <div className="lower_checkbox">
-                                                <Checkbox value={user._id} onChange={this.onChangeSingleCheckBox} />
+                                    {userData.map(user => {
+
+                                        return (
+                                            <div className="user_details_container">
+                                                <div className="lower_checkbox">
+                                                    <Checkbox value={user._id} onChange={this.onChangeSingleCheckBox} />
+                                                </div>
+                                                <div className="single_user_details" style={{ "grid-template-columns": `repeat(${allHeadingsData.length}, calc(100%/${allHeadingsData.length}))` }}>
+                                                    {allHeadingsData.map(columnData => (<div>{user[columnData._id] || "--"}</div>))}
+                                                </div>
                                             </div>
-                                            <div className="single_user_details" style={{ "grid-template-columns": `repeat(${allHeadingsData.length}, calc(100%/${allHeadingsData.length}))` }}>
-                                                {allHeadingsData.map(columnData => (<div>{user[columnData._id] || "--"}</div>))}
-                                            </div>
-                                        </div>
-                                    )
+                                        )
+                                    }
                                     )}
                                 </Checkbox.Group>
                             </div>
@@ -107,13 +117,13 @@ class AllUserSelect extends Component {
                                     </Select>
                                 </div>
                                 <div className="page_no">
-                                    <div className="current_page">1 of {Math.ceil(totalUsers / rowsPerPage)}</div>
+                                    <div className="current_page">{currentPageNumber} of {Math.ceil(totalUsers / rowsPerPage)}</div>
                                     <div className="change_page">
                                         <span className="prev_page">
-                                            <img src={require("../../images/svg/left-arrow.svg")} />
+                                            <img src={require("../../images/svg/left-arrow.svg")} onClick={goPrevPage} />
                                         </span>
                                         <span className="next_page">
-                                            <img src={require("../../images/svg/right-arrow.svg")} />
+                                            <img src={require("../../images/svg/right-arrow.svg")} onClick={goNextPage} />
                                         </span></div>
                                 </div>
                             </div>
