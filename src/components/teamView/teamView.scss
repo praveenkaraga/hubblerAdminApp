@@ -13,14 +13,20 @@
     padding: 0 10px;
   }
 
-  .import-excel {
+  .import-users {
     background: #e0e0e0;
     border-color: #e0e0e0;
     color: #323232;
     margin-right: 20px;
   }
 
-  .import-excel:hover {
+  .import-users:hover {
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    background: #e0e0e0;
+    border-color: #e0e0e0; /*cccccc*/
+    color: #323232;
+  }
+  .import-users:focus {
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
     background: #e0e0e0;
     border-color: #e0e0e0; /*cccccc*/
@@ -128,7 +134,8 @@
           width: 100%;
           transition: background 0.5s;
         }
-        .up-arrow{
+
+        .up-arrow {
           height: 30px;
           width: 30px;
           background-position: center;
@@ -161,10 +168,7 @@
         position: relative;
 
         .display-cards-wrap {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-wrap: wrap;
+
         }
 
         .team-view-user-card {
@@ -197,6 +201,10 @@
               .user-name {
                 color: rgb(50, 50, 50);
                 font-weight: 600;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                width: 130px;
               }
 
               .hub-id {
@@ -249,27 +257,37 @@
           }
         }
 
-        .manager-list-wrap ul{
+        .manager-list-wrap {
           display: flex;
-          flex-direction: column;
-          max-width: 1000px;
-          overflow: scroll;
-          margin-left: 0;
-          margin-top: 0;
+
+          ul {
+            display: flex;
+            flex-direction: column;
+            max-width: 1000px;
+            overflow: scroll;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 0 auto;
+          }
         }
 
-        .reportee-list-wrap ul{
+
+        .reportee-list-wrap {
           display: flex;
-          flex-direction: row;
-          max-width: 1700px;
-          max-height: 350px;
-          overflow: scroll;
-          margin-left: 0;
-          margin-top: 0;
+
+          ul {
+            display: flex;
+            flex-direction: row;
+            max-width: 1700px;
+            max-height: 350px;
+            overflow: scroll;
+            margin: 0 auto;
+          }
         }
-        .user-list-item{
+
+        .user-list-item {
           cursor: pointer;
-          color: #1e88e5;
         }
 
       }
@@ -277,7 +295,8 @@
     }
 
   }
-  .loader{
+
+  .loader {
     background-image: url(../../images/loader_medium.gif);
     background-size: 70px;
     background-position: center;

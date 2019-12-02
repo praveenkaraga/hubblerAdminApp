@@ -18,7 +18,7 @@ class UserList extends Component {
     };
 
     render() {
-        const {member,index} = this.props
+        const {member, index} = this.props
         return (
             <li className={'user-list-item'} onClick={() => this.generateTree(member)}>
                 <TeamViewUserCard member={member} index={index}/>
@@ -38,20 +38,24 @@ class OrgChart extends Component {
     };
 
     getBackManagerData = () => {
-        const {rootData, preservedData, clickedMemberData,mainData} = this.props.teamViewReducer
+        const {rootData, preservedData, clickedMemberData, mainData} = this.props.teamViewReducer
         let lastUser = last(rootData)
         if (lastUser.manager) {
             lastUser = find(rootData, item => item._id === lastUser.manager._id);
             this.props.storeClickedUserId(lastUser._id, lastUser);
             const id = clickedMemberData._id;
             let userIndex = findIndex(preservedData, {id: id});
-            let requiredReportessData = find(preservedData, (ele, index) => {if(index === userIndex - 1){return ele}})
+            let requiredReportessData = find(preservedData, (ele, index) => {
+                if (index === userIndex - 1) {
+                    return ele
+                }
+            })
             let newPreservedData = slice(preservedData, 0, (userIndex));
-            let newRootData = slice(rootData, 0, (userIndex ));
-            this.props.updateRollBackData(requiredReportessData.reportees,newPreservedData,newRootData)
+            let newRootData = slice(rootData, 0, (userIndex));
+            this.props.updateRollBackData(requiredReportessData.reportees, newPreservedData, newRootData)
 
         } else {
-            this.props.updateRollBackData(mainData,[],[])
+            this.props.updateRollBackData(mainData, [], [])
         }
     };
 
@@ -64,9 +68,9 @@ class OrgChart extends Component {
 
         return (
             <div className={'org-chart'}>
-                <div className={'manager-hold'}>
+               {/* <div className={'manager-hold'}>
                     <div className={'user-hold'}>Root User</div>
-                </div>
+                </div>*/}
                 <div className={'users-section'}>
                     <div className={'left-area'}>
                         <div className={'icon-search'}></div>
