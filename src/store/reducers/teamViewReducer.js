@@ -1,15 +1,19 @@
 import {checkError} from '../../utils/helper'
 import * as actionTypes from '../actionTypes'
+import findIndex from "lodash/findIndex";
+import slice from 'lodash/slice'
+import uniqBy from "lodash/uniqBy";
 
 const intialState = {
     count: 1,
     activeLinkName: 'console',
     consoleDrawerVisible: false,
     orgChartUsers: [],
+    mainData:[],
     loader: true,
-    contentLoader:true,
-
-
+    contentLoader: true,
+    rootData: [],
+    preservedData: [],
 }
 
 export const teamViewReducer = (state = intialState, action) => {
@@ -42,6 +46,7 @@ export const teamViewReducer = (state = intialState, action) => {
             return {
                 ...state,
                 orgChartUsers: action.payload.data ? action.payload.data.reportees : [] || state.orgChartUsers,
+                mainData: action.payload.data ? action.payload.data.reportees :  state.mainData,
                 loader: false,
             }
         case actionTypes.STORE_CLICKED_USER_ID:
@@ -67,7 +72,7 @@ export const teamViewReducer = (state = intialState, action) => {
                 clickedUserOrgManagerData: [action.payload.data.manager] || [],
                 clickedUserOrgReporteesData: action.payload.data.reportees || [],
                 total_Count: action.payload.data.total_count || '',
-                contentLoader :false,
+                contentLoader: false,
             }
 
         case actionTypes.CHANGE_LOADER_STATUS:
@@ -75,8 +80,33 @@ export const teamViewReducer = (state = intialState, action) => {
                 ...state, ...action.payload
             }
 
-    }
+        case actionTypes.GET_CLICKED_TEAM_USER_REPORTEE_DATA :
+            const rootData = state.rootData;
+            const id = state.clickedMemberData._id;
+            const user = state.clickedMemberData;
+            if (!user.userSelected) {
+                rootData.push({...user, userSelected: true})
+            }
+            let userIndex = findIndex(rootData, {_id: id});
+            let newRootData = slice(rootData, 0, (userIndex + 1));
+            return {
+                ...state,
+                orgChartUsers: action.payload.data ? action.payload.data.reportees : [] || state.orgChartUsers,
+                preservedData: [...state.preservedData, {
+                    id: id,
+                    reportees: action.payload.data ? action.payload.data.reportees : []
+                }],
+                rootData: uniqBy(newRootData, '_id')
 
+            }
+
+        case actionTypes.GET_BACK_MANAGER_DATA :
+            console.log(action.payload)
+            return {
+                ...state,...action.payload
+            }
+
+    }
 
     return {...state}
 
