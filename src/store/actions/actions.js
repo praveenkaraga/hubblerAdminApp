@@ -16,7 +16,7 @@ export const { getUserData } = createUserAction
 
 //------------------------------Console Action-------------------------------//
 
-export const { getTableColumnData, getConsoleUserData } = consoleActions
+export const { getTableColumnData, getConsoleUserData, commonConsoleAction } = consoleActions
 
 //------------------------------xxxxxxxxxxxxxx-------------------------------//
 
@@ -31,7 +31,7 @@ export const { createActiveLink, hamburgerIconClick } = activeLinkAction
 
 
 //-----------------------------Team View Chart Users---------------------------
-export const { getTeamViewUsersData, teamViewUserClick, getClickedTeamUserData, getTeamViewOrgData, storeClickedUserId,changeLoaderStatus } = teamViewActions
+export const { getTeamViewUsersData, teamViewUserClick, getClickedTeamUserData, getTeamViewOrgData, storeClickedUserId, changeLoaderStatus } = teamViewActions
 
 
 

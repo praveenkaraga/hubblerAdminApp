@@ -34,8 +34,8 @@ let axiosConfig = {
 };
 
 
-export const getUsers = (perPageRows) => {
-	return axios.get(`/rest/users/?start=1&offset=${perPageRows || 0}&sortKey=_id&sortOrder=dsc&filterKey=&filterQuery=`, axiosConfig);
+export const getUsers = (perPageRows, currentPage) => {
+	return axios.get(`/rest/users/?start=${currentPage || 1}&offset=${perPageRows || 0}&sortKey=_id&sortOrder=dsc&filterKey=&filterQuery=`, axiosConfig);
 };
 
 export const getTeamViewUsers = () => {
