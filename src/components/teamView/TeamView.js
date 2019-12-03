@@ -6,9 +6,15 @@ import 'antd/dist/antd.css';
 import SearchTransition from '../common/Search/SearchTransition'
 import OrgChart from './teamViewComponents/OrgChart'
 import {bindActionCreators} from "redux";
-import {getTeamViewUsersData, teamViewUserClick, getTeamViewOrgData,changeLoaderStatus} from "../../store/actions/actions";
+import {
+    getTeamViewUsersData,
+    teamViewUserClick,
+    getTeamViewOrgData,
+    changeLoaderStatus,importUsersPopUPVisibility
+} from "../../store/actions/actions";
 import {teamViewReducer} from "../../store/reducers/teamViewReducer";
 import UserInfoSlider from '../../components/common/UserInfoSlider/UserInfoSlider'
+import ImportUsersPopUp from '../../components/common/ImportUsersPopUp/ImportUsersPopUp'
 
 
 class TeamView extends Component {
@@ -16,15 +22,24 @@ class TeamView extends Component {
         this.props.getTeamViewUsersData()
     }
 
+    showModal = () => {
+        this.props.importUsersPopUPVisibility(true)
+    };
+
+    closeModal =() =>{
+        this.props.importUsersPopUPVisibility(false)
+    }
+
+
     render() {
-        const {orgChartUsers, teamViewUserDrawerVisible, clickedTeamUserData, teamViewClickedUserId, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, loader, clickedMemberData, contentLoader} = this.props.teamViewReducer
+        const {orgChartUsers, teamViewUserDrawerVisible, clickedTeamUserData, teamViewClickedUserId, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, loader, clickedMemberData, contentLoader,importUsersPopUpVisiblity} = this.props.teamViewReducer
         return (
             <div className={'team-view'}>
                 {loader ? <div className={'loader'}></div> : <div>
                     <div className={'component-header'}>Team View</div>
                     <div className={'team-view-buttons-wrap'}>
                         <SearchTransition/>
-                        <Button type="primary" className={'import-excel'}>Import Excel</Button>
+                        <Button type="primary" className={'import-users'} onClick={this.showModal}>Import Users</Button>
                         <Button type="primary">Create New User</Button>
                     </div>
                     <OrgChart/>
@@ -36,8 +51,10 @@ class TeamView extends Component {
                                     clickedUserOrgManagerData={clickedUserOrgManagerData}
                                     clickedUserOrgReporteesData={clickedUserOrgReporteesData}
                                     total_Count={total_Count} clickedMemberData={clickedMemberData}
-                                    contentLoader={contentLoader} changeLoaderStatus={(flag) => this.props.changeLoaderStatus(flag)}
+                                    contentLoader={contentLoader}
+                                    changeLoaderStatus={(flag) => this.props.changeLoaderStatus(flag)}
                     />
+                    <ImportUsersPopUp visible={importUsersPopUpVisiblity} modalClose={()=> this.closeModal()}/>
                 </div>}
 
 
@@ -58,7 +75,8 @@ const mapDispatchToProps = dispatch => {
             getTeamViewUsersData,
             teamViewUserClick,
             getTeamViewOrgData,
-            changeLoaderStatus
+            changeLoaderStatus,
+            importUsersPopUPVisibility
         },
         dispatch
     );

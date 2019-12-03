@@ -61,7 +61,6 @@ export const getClickedTeamUserReporteeData = (userId) =>{
     }
 }
 export const updateRollBackData = (reportees,preservedData,rootData) =>{
-    debugger
     return {
         type: actionTypes.GET_BACK_MANAGER_DATA,
         payload : {
@@ -71,6 +70,18 @@ export const updateRollBackData = (reportees,preservedData,rootData) =>{
         }
     }
 }
+
+export const importUsersPopUPVisibility = (flag) =>{
+    return{
+        type: actionTypes.IMPORT_USERS_POPUP_VISIBILITY,
+        payload:{
+            importUsersPopUpVisiblity : flag
+        }
+    }
+
+}
+
+
 
 
 

@@ -31,7 +31,7 @@ export const { createActiveLink, hamburgerIconClick } = activeLinkAction
 
 
 //-----------------------------Team View Chart Users---------------------------
-export const { getTeamViewUsersData, teamViewUserClick, getClickedTeamUserData, getTeamViewOrgData, storeClickedUserId, changeLoaderStatus, getClickedTeamUserReporteeData, updateRollBackData } = teamViewActions
+export const { getTeamViewUsersData, teamViewUserClick, getClickedTeamUserData, getTeamViewOrgData, storeClickedUserId,changeLoaderStatus,getClickedTeamUserReporteeData ,updateRollBackData,importUsersPopUPVisibility} = teamViewActions
 
 
 

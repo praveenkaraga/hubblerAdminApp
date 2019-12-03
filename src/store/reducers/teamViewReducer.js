@@ -14,6 +14,7 @@ const intialState = {
     contentLoader: true,
     rootData: [],
     preservedData: [],
+    importUsersPopUpVisiblity:false,
 }
 
 export const teamViewReducer = (state = intialState, action) => {
@@ -102,6 +103,11 @@ export const teamViewReducer = (state = intialState, action) => {
 
         case actionTypes.GET_BACK_MANAGER_DATA :
             console.log(action.payload)
+            return {
+                ...state,...action.payload
+            }
+
+        case actionTypes.IMPORT_USERS_POPUP_VISIBILITY :
             return {
                 ...state,...action.payload
             }

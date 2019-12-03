@@ -12,13 +12,12 @@ class TeamViewUserCard extends Component {
     componentDidMount() {
     }
 
-    onUserClick(userId,member){
+    onUserClick(userId,member,event){
+        event.stopPropagation()
         this.props.teamViewUserClick(true)
         this.props.changeLoaderStatus(true)
         this.props.getClickedTeamUserData(userId)
         this.props.storeClickedUserId(userId,member)
-
-
     }
 
     render() {
@@ -44,7 +43,7 @@ class TeamViewUserCard extends Component {
                             <div className={'hub-id'}>{member.employee_id ? member.employee_id :""}</div>
                         </div>
                     </div>
-                    <div className={'show-slider-icon'} onClick={() => this.onUserClick(member._id,member)}></div>
+                    <div className={'show-slider-icon'} onClick={(event) => this.onUserClick(member._id,member,event)}></div>
                 </div>
 
 
