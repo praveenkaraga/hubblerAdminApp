@@ -24,14 +24,20 @@
             display : flex;
             border-top : solid 1px #e1e1e1;
             width : 100%;
+            align-items: center;
         }
 
         .upper_heading_details{
-            padding : 2px 0px 2px 0px;
+            height: 30px;
         }
 
         .user_details_container{
             padding : 5px 0px 5px 0px;
+            cursor: pointer;
+        }
+
+        .user_details_container:hover{
+            background-color: rgba(3,155,229,.1);
         }
 
         .ant-checkbox-group{
@@ -56,12 +62,38 @@
              div{
                  display : flex;
                  align-items : center;
+                 padding-left: 4px;
+                 padding-right: 4px;
              }
         }
+
+       
 
         .all_headings{
             color: #707070;
             font-weight: 600;
+            height: 100%;
+            div{
+                cursor: pointer;
+            }
+            div:hover{
+                background-color: #e9eded;
+            }
+
+            .data_dsc,  .data_asc{
+                background-size: 11px;
+                background-repeat: no-repeat;
+                background-position: 86%;
+            }
+
+            .data_dsc{
+                background-image: url("../../images/svg/down-arrow-medium.svg");
+            }
+
+            .data_asc{
+                background-image: url("../../images/svg/up-arrow-medium.svg");
+
+            }
         }
 
         .single_user_details{
@@ -77,6 +109,7 @@
 
         .column_settings{
             width : 2%;
+            padding: 3px 0 3px 0;
 
             img{
                 height: 10px;
@@ -127,6 +160,11 @@
                         height: 12px;
                         cursor: pointer;
                     }
+                }
+
+                .prev_page_blocked , .next_page_blocked{
+                    pointer-events: none;
+                     opacity: 0.4;
                 }
 
                 .prev_page{
