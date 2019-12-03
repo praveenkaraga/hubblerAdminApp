@@ -50,10 +50,19 @@ export const getClickedTeamViewOrgData = (id) => {
 	return axios.get(`/reportees/organization/${id}/?start=1&offset=100&sortKey=name&sortOrder=dsc&filterKey=_id&filterQuery=`, axiosConfig);
 };
 
+export const downloadExcelCall = (id) => {
+	return axios.get(`/bulk-upload/sample-file/users/`, axiosConfig);
+};
+
 export const getClickedUserReporteeData = (id) => {
 	return axios.get(`/reportees/orgchart/${id}/?sortKey=name&sortOrder=asc&filterKey=id&filterQuery=`, axiosConfig);
 };
 
+export const getUploadFieldData = () => {
+	return axios.get(`/bulk-upload/users/`, axiosConfig);
+};
+
+
 export const getTableColumns = () => {
 	return axios.get("https://demo1025512.mockable.io/user-table-details")
-}
+};

@@ -1,5 +1,5 @@
 import * as actionTypes from '../actionTypes'
-import { getTeamViewUsers,getClickedTeamViewUser,getClickedTeamViewOrgData,getClickedUserReporteeData } from '../../apiCall'
+import { getTeamViewUsers,getClickedTeamViewUser,getClickedTeamViewOrgData,getClickedUserReporteeData ,downloadExcelCall,getUploadFieldData} from '../../apiCall'
 import uniqBy from "lodash/uniqBy";
 
 export const getTeamViewUsersData = (data) => {
@@ -80,6 +80,22 @@ export const importUsersPopUPVisibility = (flag) =>{
     }
 
 }
+
+export const onClickOfDownloadExcel = () =>{
+    const payload = downloadExcelCall()
+    return {
+        type: actionTypes.DOWNLOAD_SAMPLE_EXCEL,
+        payload
+    }
+}
+export const getImportUserUploadDetails = () =>{
+    const payload = getUploadFieldData()
+    return {
+        type: actionTypes.GET_UPLOAD_FIELDS_DETAILS,
+        payload
+    }
+}
+
 
 
 

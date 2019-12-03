@@ -9,12 +9,13 @@ const intialState = {
     activeLinkName: 'console',
     consoleDrawerVisible: false,
     orgChartUsers: [],
-    mainData:[],
+    mainData: [],
     loader: true,
     contentLoader: true,
     rootData: [],
     preservedData: [],
-    importUsersPopUpVisiblity:false,
+    importUsersPopUpVisiblity: false,
+    uploadPopUpVisibility : false,
 }
 
 export const teamViewReducer = (state = intialState, action) => {
@@ -47,7 +48,7 @@ export const teamViewReducer = (state = intialState, action) => {
             return {
                 ...state,
                 orgChartUsers: action.payload.data ? action.payload.data.reportees : [] || state.orgChartUsers,
-                mainData: action.payload.data ? action.payload.data.reportees :  state.mainData,
+                mainData: action.payload.data ? action.payload.data.reportees : state.mainData,
                 loader: false,
             }
         case actionTypes.STORE_CLICKED_USER_ID:
@@ -67,7 +68,6 @@ export const teamViewReducer = (state = intialState, action) => {
 
             }
         case actionTypes.GET_TEAM_VIEW_ORG_DATA:
-            console.log(action.payload.data.result)
             return {
                 ...state,
                 clickedUserOrgManagerData: [action.payload.data.manager] || [],
@@ -102,19 +102,29 @@ export const teamViewReducer = (state = intialState, action) => {
             }
 
         case actionTypes.GET_BACK_MANAGER_DATA :
-            console.log(action.payload)
             return {
-                ...state,...action.payload
+                ...state, ...action.payload
             }
 
         case actionTypes.IMPORT_USERS_POPUP_VISIBILITY :
             return {
-                ...state,...action.payload
+                ...state, ...action.payload
+            }
+        case actionTypes.DOWNLOAD_SAMPLE_EXCEL :
+            return {
+                ...state,
+                sampleExcelFile: action.payload.data.result
+            }
+
+        case actionTypes.GET_UPLOAD_FIELDS_DETAILS :
+            console.log(action.payload)
+            return {
+                ...state,
+                uploadPopUpData: action.payload.data.result ?  action.payload.data.result[0] : {},
+                uploadPopUpVisibility:true
             }
 
     }
 
     return {...state}
-
-
 }

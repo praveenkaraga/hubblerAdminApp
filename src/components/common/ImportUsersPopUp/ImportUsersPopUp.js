@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import 'antd/dist/antd.css';
-import {Modal, Button,Upload, Icon, message} from 'antd';
+import {Modal, Button, Upload, Icon, message} from 'antd';
 import './importUsersPopUp.scss'
+import ImportUsersUploadPopUp from '../../common/ImportUsersUploadPopUp/ImportUsersUploadPopUp'
 
 class ImportUsersPopUp extends Component {
     state = {
@@ -20,8 +21,8 @@ class ImportUsersPopUp extends Component {
     };
 
     render() {
-        const {visible, modalClose} = this.props;
-        const { uploading, fileList } = this.state;
+        const {visible, modalClose, onClickDownload, sampleExcelFile, onClickStartUpload, uploadPopUpData, uploadPopUpVisibility} = this.props;
+        const {uploading, fileList} = this.state;
         const props = {
             onRemove: file => {
                 this.setState(state => {
@@ -51,21 +52,18 @@ class ImportUsersPopUp extends Component {
                 centered
                 footer={[
                     <div>
-                        <Button key="download" onClick={this.handleCancel}>
-                            Download Sample Excel
+                        <Button key="download" onClick={onClickDownload}>
+                            <a href={sampleExcelFile || ''} download> Download Sample Excel</a>
                         </Button>
+
                     </div>,
                     <div>
                         <Button key="cancel" onClick={() => modalClose()}>
                             Cancel
                         </Button>
-                        {/*<Button disabled={true} key="upload" type="primary" loading={this.state.loading}
-                                onClick={this.handleOk}>
-                            Upload
-                        </Button>*/}
                         <Button
                             type="primary"
-                            onClick={this.handleUpload}
+                            onClick={onClickStartUpload}
                             disabled={fileList.length === 0}
                             loading={uploading}
                         >
@@ -76,18 +74,21 @@ class ImportUsersPopUp extends Component {
                 ]}
             >
                 <div className={'import-user-modal-content'}>
-                    <Upload {...props} className={'upload-wrap'}>
-                        <Button className={'nusha'}>
-                            <Icon type="upload" /> Select File
+                    <Upload {...props} className={'upload-wrap'}
+                            accept={'.csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'}>
+                        <Button>
+                            <Icon type="upload"/> Select File
                         </Button>
                     </Upload>
-                    {/*<Button key="choose" onClick={this.handleCancel} type={'file'}>
-                       Choose File
-                    </Button>*/}
-                    {/*<div className={'file-content'}>Anusha</div>*/}
                 </div>
             </Modal>
+
+            {uploadPopUpVisibility ? <ImportUsersUploadPopUp uploadPopUpVisibility={uploadPopUpVisibility}
+                                                             uploadPopUpData={uploadPopUpData}/> : ''}
+
+
         </div>
+
     }
 }
 
