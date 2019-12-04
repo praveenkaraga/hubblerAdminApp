@@ -32,10 +32,11 @@ export const consoleReducer = (state = intialState, action) => {
         case actionTypes.GET_CONSOLE_USER_DATA:
             const consoleUserDataIntital = action.payload.data
             const consoleUserData = consoleUserDataIntital ? consoleUserDataIntital.result : []
+            const consoleUserDataCopy = JSON.parse(JSON.stringify(consoleUserData))
             const totalUsers = consoleUserDataIntital ? consoleUserDataIntital.total_count : 0
             return {
                 ...state,
-                consoleUserData,
+                consoleUserData: consoleUserDataCopy,
                 totalUsers,
                 searchLoader: false
             }
