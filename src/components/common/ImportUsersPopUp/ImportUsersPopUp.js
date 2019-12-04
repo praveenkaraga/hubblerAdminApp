@@ -84,6 +84,7 @@ class ImportUsersPopUp extends Component {
             </Modal>
 
             {uploadPopUpVisibility ? <ImportUsersUploadPopUp uploadPopUpVisibility={uploadPopUpVisibility}
+                                                             fileName={fileList[0].name}
                                                              uploadPopUpData={uploadPopUpData}/> : ''}
 
 

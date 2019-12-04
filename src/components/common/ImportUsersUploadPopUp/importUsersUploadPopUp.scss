@@ -1,0 +1,104 @@
+.upload-modal {
+  margin: 0 30px !important;
+  width: auto !important;
+
+  .upload-pop-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .import-another-file {
+      display: flex;
+      color: #323232;
+      cursor: pointer;
+      float: right;
+      text-align: center;
+      background-color: #e0e0e0;
+      width: auto;
+      border-radius: 4px;
+      padding: 0 20px;
+      //border: 1px solid #ccc;
+      font-family: robotoMedium;
+      height: 37px;
+      line-height: 37px;
+      white-space: nowrap;
+
+    }
+
+    .import-another-file:hover {
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+      background: #e0e0e0;
+      border-color: #e0e0e0;
+      color: #323232;
+    }
+  }
+
+  .divider {
+    border-top: 0 solid #eee;
+    width: 100%;
+    margin: 50px auto;
+    margin-bottom: 10px;
+  }
+
+  .record-count-wrap {
+
+  }
+
+  .records-wrap {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .records-header-wrap {
+    margin-top: 20px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+
+    .record-headings {
+      width: calc(100% / 3);
+      border-top: 1px solid #c7cccb;
+      border-bottom: 1px solid #c7cccb;
+      background-color: rgba(207, 216, 220, .4);
+      border-left-color: #b7b4b4;
+      padding: 4px 20px;
+      border-right: 1px solid #c7cccb;
+
+    }
+  }
+
+  .system-field-list-item {
+    background-image: url(../../../images/long-right-arrow.svg);
+    background-repeat: no-repeat;
+    background-position: center right 25%;
+    background-size: 30px;
+  }
+
+  .field-holder{
+    width: 200px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .field-holder em {
+    color: red;
+    padding-left: 5px;
+
+  }
+
+  .record-content-wrap {
+    display: flex;
+
+    .system-fields-List, .excel-fields-list, .sample-data-list {
+      width: calc(100% / 3);
+    }
+
+    .system-field-list-item, .excel-field-list-item, .sample-data-list-item {
+      padding: 15px 20px;
+      text-transform: capitalize;
+      border-bottom: 1px solid #c7cccb;
+
+    }
+  }
+}
