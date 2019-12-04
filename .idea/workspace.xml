@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="27933bc1-8e6c-4933-a9e1-8fc6c29f6b91" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/common/ImportUsersUploadPopUp/ImportUsersUploadPopUp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/apiCall.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/apiCall.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/common/ImportUsersPopUp/ImportUsersPopUp.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/ImportUsersPopUp/ImportUsersPopUp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/common/ImportUsersPopUp/importUsersPopUp.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/ImportUsersPopUp/importUsersPopUp.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/teamView/TeamView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/teamView/TeamView.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/actionTypes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/actionTypes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/actions/actions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/actions/actions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/actions/teamViewActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/actions/teamViewActions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/reducers/teamViewReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/reducers/teamViewReducer.js" afterDir="false" />
-    </list>
+    <list default="true" id="27933bc1-8e6c-4933-a9e1-8fc6c29f6b91" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -42,8 +31,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/components/common/ImportUsersUploadPopUp/ImportUsersUploadPopUp.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="267">
-              <caret line="36" column="48" lean-forward="true" selection-start-line="36" selection-start-column="48" selection-end-line="36" selection-end-column="48" />
+            <state relative-caret-position="417">
+              <caret line="45" column="37" lean-forward="true" selection-start-line="45" selection-start-column="37" selection-end-line="45" selection-end-column="37" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
               </folding>
@@ -486,7 +475,7 @@
       <workItem from="1574403797323" duration="44259000" />
       <workItem from="1574739881706" duration="41787000" />
       <workItem from="1574916079684" duration="43331000" />
-      <workItem from="1575274107517" duration="21195000" />
+      <workItem from="1575274107517" duration="21793000" />
     </task>
     <task id="LOCAL-00001" summary="changes">
       <created>1574317980497</created>
@@ -614,11 +603,18 @@
       <option name="project" value="LOCAL" />
       <updated>1575293331182</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="User Console - Team View : &#10;1)Download Excel Sample&#10;2)Import User PopUP &#10;&#10;Files Changed:&#10;actions.js&#10;actionTypes.js&#10;apiCall.js&#10;ImportUsersPopUp.js&#10;importUsersPopUp.scss&#10;ImportUsersUploadPopUp.js&#10;TeamView.js&#10;teamViewActions.js&#10;teamViewReducer.js&#10;workspace.xml">
+      <created>1575379816014</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1575379816014</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="182115000" />
+    <option name="totallyTimeSpent" value="182713000" />
   </component>
   <component name="TodoView" selected-index="2">
     <todo-panel id="selected-file">
@@ -715,7 +711,8 @@
     <MESSAGE value="User Console - Team View&#10;Import Users Component  - upload&#10;&#10;Files Changed:&#10;actions.js&#10;actionTypes.js&#10;ImportUsersPopUp.js&#10;importUsersPopUp.scss&#10;OrgChart.js&#10;TeamView.js&#10;teamView.scss&#10;teamViewActions.js&#10;teamViewReducer.js&#10;TeamViewUserCard.js&#10;workspace.xml" />
     <MESSAGE value="Merge branch 'user_console_v2' of https://github.com/praveenkaraga/hubblerAdminApp into user_console_v2&#10;&#10;# Conflicts:&#10;#&#9;src/store/actions/actions.js&#10;&#10;Files Changed:&#10;actionTypes.js&#10;allUserSelect.js&#10;apiCall.js&#10;Console.js&#10;consoleActions.js&#10;consoleReducer.js" />
     <MESSAGE value="Merge branch 'user_console_v2' of https://github.com/praveenkaraga/hubblerAdminApp into user_console_v2&#10;&#10;# Conflicts:&#10;#&#9;src/store/actions/actions.js&#10;&#10;Files Changed:&#10;actions.js&#10;workspace.xml" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge branch 'user_console_v2' of https://github.com/praveenkaraga/hubblerAdminApp into user_console_v2&#10;&#10;# Conflicts:&#10;#&#9;src/store/actions/actions.js&#10;&#10;Files Changed:&#10;actions.js&#10;workspace.xml" />
+    <MESSAGE value="User Console - Team View : &#10;1)Download Excel Sample&#10;2)Import User PopUP &#10;&#10;Files Changed:&#10;actions.js&#10;actionTypes.js&#10;apiCall.js&#10;ImportUsersPopUp.js&#10;importUsersPopUp.scss&#10;ImportUsersUploadPopUp.js&#10;TeamView.js&#10;teamViewActions.js&#10;teamViewReducer.js&#10;workspace.xml" />
+    <option name="LAST_COMMIT_MESSAGE" value="User Console - Team View : &#10;1)Download Excel Sample&#10;2)Import User PopUP &#10;&#10;Files Changed:&#10;actions.js&#10;actionTypes.js&#10;apiCall.js&#10;ImportUsersPopUp.js&#10;importUsersPopUp.scss&#10;ImportUsersUploadPopUp.js&#10;TeamView.js&#10;teamViewActions.js&#10;teamViewReducer.js&#10;workspace.xml" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/images/adminLinkImages/audit_trail.svg">
@@ -1073,8 +1070,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/common/ImportUsersUploadPopUp/ImportUsersUploadPopUp.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="267">
-          <caret line="36" column="48" lean-forward="true" selection-start-line="36" selection-start-column="48" selection-end-line="36" selection-end-column="48" />
+        <state relative-caret-position="417">
+          <caret line="45" column="37" lean-forward="true" selection-start-line="45" selection-start-column="37" selection-end-line="45" selection-end-column="37" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
           </folding>
