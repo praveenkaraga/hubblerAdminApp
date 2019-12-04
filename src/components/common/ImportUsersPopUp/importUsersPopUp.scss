@@ -21,10 +21,10 @@
     .ant-upload-list.ant-upload-list-text{
       position: relative;
       border-radius: 3px;
-      border: 1px solid;
-      border-color: #ccc;
+      border: 1px solid #ccc;
       background: #fff;
       width: 100%;
+      margin-left: 5px;
       .ant-upload-list-item.ant-upload-list-item-undefined.ant-upload-list-item-list-type-text{
         margin-top: 4px!important;
       }
