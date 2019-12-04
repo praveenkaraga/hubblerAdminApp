@@ -69,39 +69,41 @@ class AllUserSelect extends Component {
     }
 
 
-    modellingData = (userData, allHeadingsData) => {
+    modellingData = (userData, allHeadingsData) => { //handelling datas and modifying accordingly
         if (userData.length) {
-            allHeadingsData.forEach(data => {
-                // if(data.type == "text"){
-                //     if(data._id == "name"){
-                //         userData["name"] = userData.firstname+" "+userData.lastname
-                //     }
-                // }else if(data.type == "number"){
+            userData.forEach(singleUserData => {
+                allHeadingsData.forEach(data => {
+                    const dataType = data.type
+                    switch (dataType) {
+                        case "text":
+                            singleUserData["name"] = singleUserData.firstname + " " + singleUserData.lastname
+                            break;
+                        case "number":
+                            break;
+                        case "object":
+                            if (singleUserData[data._id]) {
+                                if (Array.isArray(singleUserData[data._id])) {
+                                    let tempData = []
+                                    singleUserData[data._id].forEach(arrayData => {
+                                        tempData.push(arrayData.name)
+                                    })
+                                    singleUserData[data._id] = tempData.join(", ")
+                                } else {
+                                    singleUserData[data._id] = singleUserData[data._id]["firstname"] + " " + singleUserData[data._id]["lastname"]
+                                }
+                            } else {
+                                singleUserData[data._id] = ""
+                            }
+                            break;
 
-                // }
-                // console.log(data.type)
-                switch (data.type) {
-                    case "text":
-                        console.log("text")
-
-                        break;
-                    case "number":
-                        console.log("number")
-
-                        break;
-                    case "object":
-                        console.log("object")
-
-                        break;
-
-                }
+                        default:
+                            singleUserData[data._id] = ""
+                    }
+                })
             })
+
         }
     }
-
-    // componentDidMount() {
-    //     this.modellingData("componentDidMount")
-    // }
 
 
     render() {
