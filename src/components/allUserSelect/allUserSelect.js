@@ -69,39 +69,44 @@ class AllUserSelect extends Component {
     }
 
 
-    modellingData = (userData, allHeadingsData) => {
-        if (userData.length) {
-            allHeadingsData.forEach(data => {
-                // if(data.type == "text"){
-                //     if(data._id == "name"){
-                //         userData["name"] = userData.firstname+" "+userData.lastname
-                //     }
-                // }else if(data.type == "number"){
+    modellingData = (userData, allHeadingsData) => { //handelling datas and modifying accordingly
+        let modifiedUserData = JSON.parse(JSON.stringify(userData))
+        if (modifiedUserData.length) {
+            modifiedUserData.forEach(singleUserData => {
+                allHeadingsData.forEach(data => {
+                    const dataType = data.type
+                    switch (dataType) {
+                        case "text":
+                            singleUserData["name"] = singleUserData.firstname + " " + singleUserData.lastname
+                            break;
+                        case "number":
+                            break;
+                        case "object":
+                            if (singleUserData[data._id]) {
+                                if (Array.isArray(singleUserData[data._id])) {
+                                    let tempData = []
+                                    singleUserData[data._id].forEach(arrayData => {
+                                        tempData.push(arrayData.name)
+                                    })
+                                    singleUserData[data._id] = tempData.join(", ")
+                                } else {
+                                    singleUserData[data._id] = singleUserData[data._id]["firstname"] + " " + singleUserData[data._id]["lastname"]
+                                }
+                            } else {
+                                singleUserData[data._id] = ""
+                            }
+                            break;
 
-                // }
-                // console.log(data.type)
-                switch (data.type) {
-                    case "text":
-                        console.log("text")
-
-                        break;
-                    case "number":
-                        console.log("number")
-
-                        break;
-                    case "object":
-                        console.log("object")
-
-                        break;
-
-                }
+                        default:
+                            singleUserData[data._id] = ""
+                    }
+                })
             })
-        }
-    }
 
-    // componentDidMount() {
-    //     this.modellingData("componentDidMount")
-    // }
+        }
+
+        return modifiedUserData
+    }
 
 
     render() {
@@ -114,7 +119,8 @@ class AllUserSelect extends Component {
         userData.forEach(element => {
             this.plainOptions.push(element._id)
         });
-        this.modellingData(userData, allHeadingsData)
+        const modifiedUserData = this.modellingData(userData, allHeadingsData)
+
 
         return (
             <div className="allUserSelect_main">
@@ -139,7 +145,7 @@ class AllUserSelect extends Component {
                         <div className="lower_user_details">
                             <div className="lower_user_details_container">
                                 <Checkbox.Group value={checkedList} onChange={this.onChangeCheckBoxGroup}>
-                                    {userData.map(user => {
+                                    {modifiedUserData.map(user => {
 
                                         return (
                                             <div className="user_details_container">
@@ -147,7 +153,22 @@ class AllUserSelect extends Component {
                                                     <Checkbox value={user._id} onChange={this.onChangeSingleCheckBox} />
                                                 </div>
                                                 <div className="single_user_details" style={{ "grid-template-columns": `repeat(${allHeadingsData.length}, calc(100%/${allHeadingsData.length}))` }}>
-                                                    {allHeadingsData.map(columnData => (<div>{user[columnData._id] || "--"}</div>))}
+                                                    {allHeadingsData.map(columnData => {
+                                                        let profileImage = require("../../images/svg/defaultProfile.svg")
+                                                        if (user["profile_image"]) {
+                                                            profileImage = user["profile_image"]["thumbnail"]
+                                                            //console.log(user["profile_image"]["thumbnail"])
+                                                        }
+                                                        return (
+                                                            <div>
+                                                                {columnData._id == "name" ?
+                                                                    <span>
+                                                                        <img src={profileImage} />
+                                                                    </span>
+                                                                    : ""}{user[columnData._id] || "--"}
+                                                            </div>
+                                                        )
+                                                    })}
                                                 </div>
                                             </div>
                                         )

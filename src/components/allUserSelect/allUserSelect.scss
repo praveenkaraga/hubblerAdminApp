@@ -97,12 +97,23 @@
         }
 
         .single_user_details{
+            align-items: center;
             div{
             display: inline-block;
             white-space: nowrap;
             width: 92%;
             overflow: hidden;
             text-overflow: ellipsis;
+
+            img{
+                height: 36px;
+                width:  36px;
+                border-radius: 50%;
+            }
+
+            span{
+                margin-right: 10px;
+            }
             }
             
         }

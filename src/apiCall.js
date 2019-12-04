@@ -35,7 +35,8 @@ let axiosConfig = {
 
 
 export const getUsers = (perPageRows, currentPage, searchData, headingData, sortingType) => {
-	return axios.get(`/rest/users/?start=${currentPage || 1}&offset=${perPageRows || 0}&sortKey=${headingData || ""}&sortOrder=${sortingType || "dsc"}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}`, axiosConfig);
+	const startNumber = ((currentPage - 1) * perPageRows) + 1
+	return axios.get(`/rest/users/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || ""}&sortOrder=${sortingType || "dsc"}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}`, axiosConfig);
 };
 
 export const getTeamViewUsers = () => {
@@ -64,5 +65,5 @@ export const getUploadFieldData = () => {
 
 
 export const getTableColumns = () => {
-	return axios.get("https://demo1025512.mockable.io/user-table-details")
+	return axios.get("https://demo1025512.mockable.io/user-table-details2")
 };

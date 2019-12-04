@@ -22,9 +22,9 @@ class Console extends Component {
     }
 
     onChangeRowsPerPage = (rowsPerPage) => {
-        const { currentPageNumber, searchData, activeheading, sortingType } = this.props.consoleReducer
-        this.props.getConsoleUserData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
-        this.props.commonConsoleAction({ rowsPerPage })
+        const { searchData, activeheading, sortingType } = this.props.consoleReducer
+        this.props.getConsoleUserData(rowsPerPage, 1, searchData, activeheading, sortingType)
+        this.props.commonConsoleAction({ rowsPerPage, currentPageNumber: 1 })
     }
 
     changePage = (calcData) => {
