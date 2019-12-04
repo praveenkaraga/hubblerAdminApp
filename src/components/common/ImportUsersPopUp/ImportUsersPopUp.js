@@ -21,7 +21,7 @@ class ImportUsersPopUp extends Component {
     };
 
     render() {
-        const {visible, modalClose, onClickDownload, sampleExcelFile, onClickStartUpload, uploadPopUpData, uploadPopUpVisibility} = this.props;
+        const {visible, modalClose, onClickDownload, sampleExcelFile, onClickStartUpload, uploadPopUpData, uploadPopUpVisibility,uploadImportUsersPopUPVisibility} = this.props;
         const {uploading, fileList} = this.state;
         const props = {
             onRemove: file => {
@@ -83,7 +83,7 @@ class ImportUsersPopUp extends Component {
                 </div>
             </Modal>
 
-            {uploadPopUpVisibility ? <ImportUsersUploadPopUp uploadPopUpVisibility={uploadPopUpVisibility}
+            {uploadPopUpVisibility ? <ImportUsersUploadPopUp uploadPopUpVisibility={uploadPopUpVisibility} uploadImportUsersPopUPVisibility={uploadImportUsersPopUPVisibility}
                                                              fileName={fileList[0].name}
                                                              uploadPopUpData={uploadPopUpData}/> : ''}
 

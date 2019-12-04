@@ -23,6 +23,7 @@ class SystemFieldsList extends Component {
         )
     }
 }
+
 class ExcelFieldsList extends Component {
     render() {
         const {uploadPopUpData} = this.props;
@@ -40,6 +41,7 @@ class ExcelFieldsList extends Component {
         )
     }
 }
+
 class SampleDataList extends Component {
     render() {
         const {uploadPopUpData} = this.props;
@@ -61,7 +63,6 @@ class SampleDataList extends Component {
 
 class ImportUsersUploadPopUp extends Component {
     state = {
-        visible: true,
         uploading: false,
     };
 
@@ -78,26 +79,20 @@ class ImportUsersUploadPopUp extends Component {
         });
     };
 
-    handleCancel = e => {
-        console.log(e);
-        this.setState({
-            visible: false,
-        });
-    };
 
     render() {
-        const {uploadPopUpData, fileName} = this.props;
+        const {uploadPopUpData, fileName, uploadImportUsersPopUPVisibility} = this.props;
         return (
             <div>
                 <Modal
                     title="IMPORT USERS"
                     visible={uploadPopUpData}
                     onOk={this.handleOk}
-                    onCancel={this.handleCancel}
+                    onCancel={() => uploadImportUsersPopUPVisibility()}
                     className={'upload-modal'}
                     footer={[
                         <div>
-                            <Button key="cancel">
+                            <Button key="cancel" onClick={() => uploadImportUsersPopUPVisibility()}>
                                 Cancel
                             </Button>
                             <Button
@@ -110,7 +105,7 @@ class ImportUsersUploadPopUp extends Component {
 
                     ]}>
                     <div className={'upload-pop-header'}>
-                        <div>{`File Name: ${fileName}`}</div>
+                        <div onClick={'file-name'}>{`File Name: ${fileName}`}</div>
                         <div className={'import-another-file'}>Import Another File</div>
                     </div>
                     <hr className={'divider'}/>

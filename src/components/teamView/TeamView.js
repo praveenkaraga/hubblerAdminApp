@@ -10,7 +10,11 @@ import {
     getTeamViewUsersData,
     teamViewUserClick,
     getTeamViewOrgData,
-    changeLoaderStatus,importUsersPopUPVisibility,onClickOfDownloadExcel,getImportUserUploadDetails
+    changeLoaderStatus,
+    importUsersPopUPVisibility,
+    onClickOfDownloadExcel,
+    getImportUserUploadDetails,
+    uploadImportUsersPopUPVisibility
 } from "../../store/actions/actions";
 import {teamViewReducer} from "../../store/reducers/teamViewReducer";
 import UserInfoSlider from '../../components/common/UserInfoSlider/UserInfoSlider'
@@ -28,20 +32,20 @@ class TeamView extends Component {
         this.props.importUsersPopUPVisibility(true)
     };
 
-    closeModal =() =>{
+    closeModal = () => {
         this.props.importUsersPopUPVisibility(false)
     }
 
-    downloadExcel = ()=> {
+    downloadExcel = () => {
         this.props.onClickOfDownloadExcel()
     }
-    onClickOfUpload = ()=> {
+    onClickOfUpload = () => {
         this.props.getImportUserUploadDetails()
     }
 
 
     render() {
-        const {orgChartUsers, teamViewUserDrawerVisible, clickedTeamUserData, teamViewClickedUserId, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, loader, clickedMemberData, contentLoader,importUsersPopUpVisiblity,sampleExcelFile,uploadPopUpVisibility,uploadPopUpData} = this.props.teamViewReducer
+        const {orgChartUsers, teamViewUserDrawerVisible, clickedTeamUserData, teamViewClickedUserId, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, loader, clickedMemberData, contentLoader, importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpVisibility, uploadPopUpData} = this.props.teamViewReducer
         return (
             <div className={'team-view'}>
                 {loader ? <div className={'loader'}></div> : <div>
@@ -63,7 +67,14 @@ class TeamView extends Component {
                                     contentLoader={contentLoader}
                                     changeLoaderStatus={(flag) => this.props.changeLoaderStatus(flag)}
                     />
-                    <ImportUsersPopUp visible={importUsersPopUpVisiblity} modalClose={()=> this.closeModal()} onClickDownload={()=>this.downloadExcel()} sampleExcelFile={sampleExcelFile} onClickStartUpload={()=>this.onClickOfUpload()} uploadPopUpVisibility={uploadPopUpVisibility} uploadPopUpData={uploadPopUpData}/>
+                    <ImportUsersPopUp visible={importUsersPopUpVisiblity} modalClose={() => this.closeModal()}
+                                      onClickDownload={() => this.downloadExcel()} sampleExcelFile={sampleExcelFile}
+                                      onClickStartUpload={() => this.onClickOfUpload()}
+                                      uploadPopUpVisibility={uploadPopUpVisibility} uploadPopUpData={uploadPopUpData}
+                                      uploadImportUsersPopUPVisibility={() => this.props.uploadImportUsersPopUPVisibility()}
+                    />
+
+
                 </div>}
 
 
@@ -85,7 +96,10 @@ const mapDispatchToProps = dispatch => {
             teamViewUserClick,
             getTeamViewOrgData,
             changeLoaderStatus,
-            importUsersPopUPVisibility,onClickOfDownloadExcel,getImportUserUploadDetails
+            importUsersPopUPVisibility,
+            onClickOfDownloadExcel,
+            getImportUserUploadDetails,
+            uploadImportUsersPopUPVisibility
         },
         dispatch
     );

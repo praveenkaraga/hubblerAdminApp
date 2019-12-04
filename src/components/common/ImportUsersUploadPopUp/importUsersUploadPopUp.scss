@@ -6,6 +6,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    .file-name{
+      font-family: robotoMedium;
+    }
 
     .import-another-file {
       display: flex;
@@ -72,10 +75,13 @@
     background-repeat: no-repeat;
     background-position: center right 25%;
     background-size: 30px;
+    .field-holder{
+      width: 200px!important;
+    }
   }
 
   .field-holder{
-    width: 200px;
+    width: 360px;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
@@ -89,6 +95,8 @@
 
   .record-content-wrap {
     display: flex;
+    height: 270px;
+    overflow: scroll;
 
     .system-fields-List, .excel-fields-list, .sample-data-list {
       width: calc(100% / 3);

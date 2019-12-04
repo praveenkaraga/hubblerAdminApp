@@ -15,7 +15,7 @@ const intialState = {
     rootData: [],
     preservedData: [],
     importUsersPopUpVisiblity: false,
-    uploadPopUpVisibility : false,
+    uploadPopUpVisibility: false,
 }
 
 export const teamViewReducer = (state = intialState, action) => {
@@ -120,8 +120,13 @@ export const teamViewReducer = (state = intialState, action) => {
             console.log(action.payload)
             return {
                 ...state,
-                uploadPopUpData: action.payload.data.result ?  action.payload.data.result[0] : {},
-                uploadPopUpVisibility:true
+                uploadPopUpData: action.payload.data.result ? action.payload.data.result[0] : {},
+                uploadPopUpVisibility: true,
+                /*importUsersPopUpVisiblity:false*/
+            }
+        case actionTypes.UPLOAD_IMPORT_USERS_POPUP_VISIBILITY :
+            return {
+                ...state, ...action.payload
             }
 
     }
