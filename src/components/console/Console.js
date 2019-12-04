@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-//import { connect } from "react-redux";
 import './console.scss'
 import AllUserSelect from '../allUserSelect/allUserSelect'
 import { connect } from "react-redux";
@@ -11,7 +10,28 @@ class Console extends Component {
 
 
     userSearchData = (e) => {
-        console.log(e.target.value)
+        const searchData = e.target.value
+        const { rowsPerPage, activeheading, sortingType } = this.props.consoleReducer
+        this.props.getConsoleUserData(rowsPerPage, 1, searchData, activeheading, sortingType)
+        this.props.commonConsoleAction({ currentPageNumber: 1, searchData, searchLoader: true })
+    }
+
+
+    onChangeCheckBox = (value) => {
+        console.log(value)
+    }
+
+    onChangeRowsPerPage = (rowsPerPage) => {
+        const { currentPageNumber, searchData, activeheading, sortingType } = this.props.consoleReducer
+        this.props.getConsoleUserData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
+        this.props.commonConsoleAction({ rowsPerPage })
+    }
+
+    changePage = (calcData) => {
+        const { currentPageNumber, rowsPerPage, searchData, activeheading, sortingType } = this.props.consoleReducer
+        const goToPage = currentPageNumber + calcData
+        this.props.getConsoleUserData(rowsPerPage, goToPage, searchData, activeheading, sortingType)
+        this.props.commonConsoleAction({ currentPageNumber: goToPage })
     }
 
     componentDidMount() {
@@ -19,38 +39,24 @@ class Console extends Component {
         this.props.getConsoleUserData(30)
     }
 
-    onChangeCheckBox = (value) => {
-        console.log(value)
+    onClickHeadingColumn = (activeheading, sortingType) => {
+        const { currentPageNumber, rowsPerPage, searchData } = this.props.consoleReducer
+        this.props.getConsoleUserData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
+        this.props.commonConsoleAction({ activeheading, sortingType })
     }
 
-    onChangeRowsPerPage = (rowsPerPage) => {
-        this.props.getConsoleUserData(rowsPerPage, this.props.consoleReducer.currentPageNumber)
-        this.props.commonConsoleAction({ rowsPerPage })
-    }
-
-    goPrevPage = () => {
-        const prevPageNUmber = this.props.consoleReducer.currentPageNumber - 1
-        this.props.getConsoleUserData(this.props.consoleReducer.rowsPerPage, prevPageNUmber)
-        this.props.commonConsoleAction({ currentPageNumber: prevPageNUmber })
-
-    }
-
-    goNextPage = () => {
-        const nextPageNUmber = this.props.consoleReducer.currentPageNumber + 1
-        this.props.getConsoleUserData(this.props.consoleReducer.rowsPerPage, nextPageNUmber)
-        this.props.commonConsoleAction({ currentPageNumber: nextPageNUmber })
-    }
 
 
     render() {
 
-        const { consoleColumnData, consoleUserData, totalUsers, currentPageNumber } = this.props.consoleReducer
+        const { consoleColumnData, consoleUserData, totalUsers, currentPageNumber, searchLoader } = this.props.consoleReducer
         return (
             <div className="console_main">
                 <div className="console_heading"><h3>Console</h3></div>
                 <AllUserSelect allHeadingsData={consoleColumnData} userData={consoleUserData} searchFirstButtonName={"IMPORT USERS"} searchSecondButtonName={"ADD USER"} onSearch={this.userSearchData}
-                    searchPlaceHolder={"Search Users / Managers / Designation"} searchFirstButtonLoader={false} searchSecondButtonLoader={false} searchLoader={false} onChangeCheckBox={this.onChangeCheckBox}
-                    totalUsers={totalUsers} onChangeRowsPerPage={this.onChangeRowsPerPage} goPrevPage={this.goPrevPage} goNextPage={this.goNextPage} currentPageNumber={currentPageNumber}
+                    searchPlaceHolder={"Search Users / Managers / Designation"} searchFirstButtonLoader={false} searchSecondButtonLoader={false} searchLoader={searchLoader} onChangeCheckBox={this.onChangeCheckBox}
+                    totalUsers={totalUsers} onChangeRowsPerPage={this.onChangeRowsPerPage} goPrevPage={() => this.changePage(-1)} goNextPage={() => this.changePage(1)} currentPageNumber={currentPageNumber}
+                    headingClickData={this.onClickHeadingColumn}
                 />
             </div>
         )

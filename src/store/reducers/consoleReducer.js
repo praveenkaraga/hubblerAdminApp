@@ -7,7 +7,11 @@ const intialState = {
     consoleUserData: [],
     totalUsers: 0,
     rowsPerPage: 30,
-    currentPageNumber: 1
+    currentPageNumber: 1,
+    searchData: "",
+    searchLoader: false,
+    activeheading: "",
+    sortingType: "dsc"
 }
 
 export const consoleReducer = (state = intialState, action) => {
@@ -32,7 +36,8 @@ export const consoleReducer = (state = intialState, action) => {
             return {
                 ...state,
                 consoleUserData,
-                totalUsers
+                totalUsers,
+                searchLoader: false
             }
 
         case actionTypes.COMMON_CONSOLE_ACTION:
