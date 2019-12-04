@@ -34,8 +34,9 @@ let axiosConfig = {
 };
 
 
-export const getUsers = () => {
-	return axios.get("/rest/users/?start=1&offset=0&sortKey=_id&sortOrder=dsc&filterKey=&filterQuery=", axiosConfig);
+export const getUsers = (perPageRows, currentPage, searchData, headingData, sortingType) => {
+	const startNumber = ((currentPage - 1) * perPageRows) + 1
+	return axios.get(`/rest/users/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || ""}&sortOrder=${sortingType || "dsc"}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}`, axiosConfig);
 };
 
 export const getTeamViewUsers = () => {
@@ -50,6 +51,19 @@ export const getClickedTeamViewOrgData = (id) => {
 	return axios.get(`/reportees/organization/${id}/?start=1&offset=100&sortKey=name&sortOrder=dsc&filterKey=_id&filterQuery=`, axiosConfig);
 };
 
+export const downloadExcelCall = (id) => {
+	return axios.get(`/bulk-upload/sample-file/users/`, axiosConfig);
+};
+
+export const getClickedUserReporteeData = (id) => {
+	return axios.get(`/reportees/orgchart/${id}/?sortKey=name&sortOrder=asc&filterKey=id&filterQuery=`, axiosConfig);
+};
+
+export const getUploadFieldData = () => {
+	return axios.get(`/bulk-upload/users/`, axiosConfig);
+};
+
+
 export const getTableColumns = () => {
-	return axios.get("https://demo1025512.mockable.io/user-table-details")
-}
+	return axios.get("https://demo1025512.mockable.io/user-table-details2")
+};

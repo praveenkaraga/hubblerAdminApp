@@ -10,10 +10,18 @@ export const getTableColumnData = () => {
 
 }
 
-export const getConsoleUserData = () => {
-    const payload = getUsers()
+export const getConsoleUserData = (perPageRows, currentPage, searchData, headingData, sortingType) => {
+    const payload = getUsers(perPageRows, currentPage, searchData, headingData, sortingType)
     return {
         type: actionTypes.GET_CONSOLE_USER_DATA,
         payload
     }
-} 
+}
+
+
+export const commonConsoleAction = (payload) => {
+    return {
+        type: actionTypes.COMMON_CONSOLE_ACTION,
+        payload
+    }
+}

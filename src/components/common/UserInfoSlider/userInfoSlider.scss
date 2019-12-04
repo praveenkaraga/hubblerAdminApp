@@ -147,6 +147,9 @@
         .team-user-info-value.email {
           text-transform: none !important;
           cursor: pointer;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         .team-user-info-value.email:hover {
