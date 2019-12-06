@@ -6,7 +6,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    .file-name{
+
+    .file-name {
       font-family: robotoMedium;
     }
 
@@ -52,6 +53,10 @@
     flex-direction: column;
   }
 
+  .records-wrap-blurred{
+    background-color: #ffecb3;
+  }
+
   .records-header-wrap {
     margin-top: 20px;
     display: flex;
@@ -75,12 +80,13 @@
     background-repeat: no-repeat;
     background-position: center right 25%;
     background-size: 30px;
-    .field-holder{
-      width: 200px!important;
+
+    .field-holder {
+      width: 200px !important;
     }
   }
 
-  .field-holder{
+  .field-holder {
     width: 360px;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -107,6 +113,22 @@
       text-transform: capitalize;
       border-bottom: 1px solid #c7cccb;
 
+    }
+
+    .dropDown {
+      display: none;
+    }
+
+    .excel-field-list-item:hover .dropDown {
+      display: block;
+    }
+
+    .excel-field-list-item:hover .field-holder {
+      display: none;
+    }
+
+    .excel-field-list-item:hover {
+      padding: 9.5px 20px;
     }
   }
 }
