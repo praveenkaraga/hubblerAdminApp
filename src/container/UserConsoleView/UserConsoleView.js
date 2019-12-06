@@ -4,6 +4,7 @@ import { bindActionCreators } from "redux";
 import { getUserData, createActiveLink } from '../../store/actions/actions'
 import Console from '../../components/console/Console'
 import TeamView from '../../components/teamView/TeamView'
+import Departments from '../../components/departments/departments'
 import {
     BrowserRouter as Router,
     Switch,
@@ -31,7 +32,7 @@ const routes = [
     },
     {
         path: "/departments",
-        main: () => <h2>Departments</h2>,
+        main: () => <Departments />,
         name: 'Departments',
         link_name: 'departments',
         class_name: 'departments'

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Checkbox, Select, Option } from 'antd';
 import './allUserSelect.scss'
 import UserSearch from '../common/UserSearch/userSearch'
-
+import AddUser from '../addUser/addUser'
 
 class AllUserSelect extends Component {
 
@@ -20,13 +20,14 @@ class AllUserSelect extends Component {
         console.log("hai bhai mai constructor", this.props.userData)
     }
 
-    onChangeCheckBoxGroup = async (checkedItem) => { //on click of every single checkbox
-        await this.setState({
-            checkedList: checkedItem,
-            indeterminate: !!checkedItem.length && checkedItem.length < this.plainOptions.length,
-            checkAll: checkedItem.length === this.plainOptions.length,
+    onChangeCheckBoxGroup = (checkedValue) => { //on click of every single checkbox
+        console.log(checkedValue)
+        this.setState({
+            checkedList: checkedValue,
+            indeterminate: !!checkedValue.length && checkedValue.length < this.plainOptions.length,
+            checkAll: checkedValue.length === this.plainOptions.length,
         })
-        this.props.onChangeCheckBox(this.state.checkedList)
+        this.props.onChangeCheckBox(checkedValue)
     }
 
     onCheckAll = async (e) => { //when clicked on main checkbox(click all)
@@ -150,22 +151,20 @@ class AllUserSelect extends Component {
                                         return (
                                             <div className="user_details_container">
                                                 <div className="lower_checkbox">
-                                                    <Checkbox value={user._id} onChange={this.onChangeSingleCheckBox} />
+                                                    <Checkbox value={user._id} />
                                                 </div>
                                                 <div className="single_user_details" style={{ "grid-template-columns": `repeat(${allHeadingsData.length}, calc(100%/${allHeadingsData.length}))` }}>
                                                     {allHeadingsData.map(columnData => {
-                                                        let profileImage = require("../../images/svg/defaultProfile.svg")
-                                                        if (user["profile_image"]) {
-                                                            profileImage = user["profile_image"]["thumbnail"]
-                                                            //console.log(user["profile_image"]["thumbnail"])
-                                                        }
+
                                                         return (
                                                             <div>
                                                                 {columnData._id == "name" ?
                                                                     <span>
-                                                                        <img src={profileImage} />
+                                                                        <img src={user["profile_image"] ? user["profile_image"]["thumbnail"] : require("../../images/svg/defaultProfile.svg")} />
                                                                     </span>
-                                                                    : ""}{user[columnData._id] || "--"}
+                                                                    : ""
+                                                                }
+                                                                {user[columnData._id] || "--"}
                                                             </div>
                                                         )
                                                     })}
@@ -207,6 +206,8 @@ class AllUserSelect extends Component {
                     </div>
 
                 </div>
+
+                {/* <AddUser /> */}
             </div>
         )
     }

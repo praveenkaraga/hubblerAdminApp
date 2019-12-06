@@ -1,0 +1,83 @@
+.add_user_main{
+    background-color: #fff;
+    position: absolute;
+    width: 60%;
+    top: 3%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    height: 96.8%;
+
+    .add_user_container{
+        // padding: 15px;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+
+        .heading{
+            padding: 15px 15px 0px 15px;
+        }
+
+        .profile_pic_with_details{
+            display: flex;
+            padding: 24px 24px 24px 35px;
+
+            .profile_pic{
+                height: 100px;
+                width: 80px;
+                border: 1px solid #e5e5e5;
+                border-radius: 3px;
+                overflow: hidden; 
+
+                .change_photo{
+                    padding: 2px;
+                    margin: 0;
+                    text-align: center;
+                    color: #1890ff;
+                    font-size: 0.8em;
+                    background: #f8f8f8;
+                    border-top: 1px solid #e5e5e5;
+                    cursor: pointer;
+               }
+            }
+
+            img{
+                height: 78px;
+                width: 78px;
+                padding: 1px;
+            }
+        }
+
+        .add_user_tab_container{
+            padding: 0px 15px 0px 15px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+
+            .ant-tabs-content{
+                height: 100%;
+            }
+        }
+
+
+        .bottom_buttons{
+            height: 63px;
+            padding: 4px 10px 4px 10px;;
+            background: #F6F6F6;
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+
+            button:first-child, button:nth-child(2){
+               margin-right: 10px;
+            }
+            
+        }
+
+    }
+
+    
+}
