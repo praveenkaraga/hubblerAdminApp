@@ -7,7 +7,6 @@ import map from 'lodash/map'
 class SystemFieldsList extends Component {
     render() {
         const {uploadPopUpData} = this.props;
-        console.log(uploadPopUpData)
         return (
             <ul className={'system-fields-List'}>
                 {
