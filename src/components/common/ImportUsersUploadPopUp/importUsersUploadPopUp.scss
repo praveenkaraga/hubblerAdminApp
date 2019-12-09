@@ -2,6 +2,8 @@
   margin: 0 30px !important;
   width: auto !important;
 
+
+
   .upload-pop-header {
     display: flex;
     align-items: center;
@@ -42,6 +44,17 @@
     width: 100%;
     margin: 50px auto;
     margin-bottom: 10px;
+  }
+
+  .switch-type{
+    padding: 10px;
+    display: flex;
+    background-color: rgba(207,216,220,.4);
+    margin-top: 10px;
+    .switch-type-text{
+      margin-left: 10px;
+    }
+
   }
 
   .record-count-wrap {
@@ -91,6 +104,7 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    position: relative;
   }
 
   .field-holder em {
@@ -119,16 +133,42 @@
       display: none;
     }
 
-    .excel-field-list-item:hover .dropDown {
+    .field-holder:hover .dropDown {
       display: block;
+      .ant-select-dropdown-menu.ant-select-dropdown-menu-root.ant-select-dropdown-menu-vertical{
+        z-index: 55;
+      }
     }
 
-    .excel-field-list-item:hover .field-holder {
+   /* .excel-field-list-item:hover .field-holder {
       display: none;
     }
-
-    .excel-field-list-item:hover {
-      padding: 9.5px 20px;
+*/
+    .excel-field-list-item {
+      padding: 25.5px 20px;
     }
   }
 }
+
+.import-another-file-modal{
+  .ant-modal-content{
+
+  }
+  .ant-modal-body{
+    background-color: #fbe9e7;
+    color: #d50000;
+    margin: 15px;
+  }
+  .ant-modal-footer{
+    display: flex;
+    justify-content: space-around;
+    .ant-btn{
+      text-transform: uppercase;
+    }
+    .ant-btn.okay{
+      box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
+      background-color: #ff5252!important;
+    }
+  }
+}
+

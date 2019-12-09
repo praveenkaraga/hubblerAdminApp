@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import 'antd/dist/antd.css';
-import {Modal, Button, Upload, Icon, message, Select} from 'antd';
+import {Modal, Button, Upload, Icon, message, Select,Switch} from 'antd';
 import './importUsersUploadPopUp.scss'
 import map from 'lodash/map'
 
@@ -27,7 +27,6 @@ class SystemFieldsList extends Component {
 }
 
 class ExcelFieldsList extends Component {
-
     render() {
         function onChange(value) {
             console.log(`selected ${value}`);
@@ -38,6 +37,7 @@ class ExcelFieldsList extends Component {
         }
 
         function onBlur() {
+
             console.log('blur');
         }
 
@@ -52,25 +52,26 @@ class ExcelFieldsList extends Component {
                 {
                     map(uploadPopUpData.sheet_columns, function (ele, index) {
                         return (<li className={'excel-field-list-item'} key={index}>
-                            <Select
-                                showSearch
-                                placeholder={ele.name}
-                                style={{width: 300}}
-                                className={'dropDown'}
-                                optionFilterProp="children"
-                                onFocus={onFocus}
-                                onBlur={onBlur}
-                                onChange={onChange}
-                                onSearch={onSearch}
-                                filterOption={(input, option) =>
-                                    option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                                }
-                            >
-                                <Option value="jack">Jack</Option>
-                                <Option value="lucy">Lucy</Option>
-                                <Option value="tom">Tom</Option>
-                            </Select>
+
                             <div className={'field-holder'}>{ele.name}
+                                <Select
+                                    showSearch
+                                    placeholder={ele.name}
+                                    style={{width: 300}}
+                                    className={'dropDown'}
+                                    optionFilterProp="children"
+                                    onFocus={onFocus}
+                                    onBlur={onBlur}
+                                    onChange={onChange}
+                                    onSearch={onSearch}
+                                    filterOption={(input, option) =>
+                                        option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                    }
+                                >
+                                    <Option value="jack">Jack</Option>
+                                    <Option value="lucy">Lucy</Option>
+                                    <Option value="tom">Tom</Option>
+                                </Select>
                             </div>
                         </li>)
                     })
@@ -125,17 +126,22 @@ class ImportUsersUploadPopUp extends Component {
         });
     }
 
-    openAnotherFileModal =()=>{
+    openAnotherFileModal = () => {
         this.setState({
             open: true,
         });
     };
 
-    handleCancel = () =>{
+    handleCancel = () => {
         this.setState({
             open: false,
         });
     }
+
+    onChangeSwitch = (checked) => {
+        console.log(`switch to ${checked}`);
+    }
+
 
 
     render() {
@@ -163,20 +169,33 @@ class ImportUsersUploadPopUp extends Component {
                     ]}>
                     {this.state.open ?
                         <Modal
-                            title="Basic Modal"
+                            className={'import-another-file-modal'}
+                            title="Import Another File"
                             visible={this.state.visible}
                             onOk={this.handleOk}
                             centered
                             onCancel={this.handleCancel}
+                            footer={[
+                                <Button key="ok" onClick={this.handleOk} className={'okay'}>
+                                    Ok
+                                </Button>,
+                                <Button key="cancel" onClick={this.handleCancel}>
+                                    Cancel
+                                </Button>
+                            ]}
                         >
-                            <p>Some contents...</p>
-                            <p>Some contents...</p>
-                            <p>Some contents...</p>
+                            Are you sure you want to cancel the Excel Upload and Import another file ?
                         </Modal> : ''
                     }
                     <div className={'upload-pop-header'}>
                         <div onClick={'file-name'}>{`File Name: ${fileName}`}</div>
-                        <div className={'import-another-file'} onClick={()=>this.openAnotherFileModal()}>Import Another File</div>
+                        <div className={'import-another-file'} onClick={() => this.openAnotherFileModal()}>Import
+                            Another File
+                        </div>
+                    </div>
+                    <div className={'switch-type'}>
+                        <Switch defaultChecked onChange={this.onChangeSwitch}/>
+                        <div className={'switch-type-text'}>First row contains field names</div>
                     </div>
                     <hr className={'divider'}/>
                     <div className={'record-count-wrap'}>1 Record Found</div>
@@ -188,7 +207,8 @@ class ImportUsersUploadPopUp extends Component {
                         </div>
                         <div className={'record-content-wrap'}>
                             <SystemFieldsList {...this.props}/>
-                            <ExcelFieldsList {...this.props} activateBlur={this.activateBlur.bind(this)}/>
+                            <ExcelFieldsList {...this.props} activateBlur={this.activateBlur.bind(this)}
+                                             uploadImportUsersPopUPVisibility={uploadImportUsersPopUPVisibility}/>
                             <SampleDataList {...this.props}/>
                         </div>
                     </div>
