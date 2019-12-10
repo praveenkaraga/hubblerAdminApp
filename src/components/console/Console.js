@@ -3,7 +3,7 @@ import './console.scss'
 import AllUserSelect from '../allUserSelect/allUserSelect'
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { getTableColumnData, getConsoleUserData, commonConsoleAction } from '../../store/actions/actions'
+import { getTableColumnData, getConsoleUserData, commonConsoleAction, tableColumnSetting } from '../../store/actions/actions'
 
 
 class Console extends Component {
@@ -45,18 +45,24 @@ class Console extends Component {
         this.props.commonConsoleAction({ activeheading, sortingType })
     }
 
+    onClickColumnSetting = () => {
+        const { columnSettingDataOriginal } = this.props.consoleReducer
+        if (!Object.keys(columnSettingDataOriginal).length) {
+            this.props.tableColumnSetting()
+        }
+    }
 
 
     render() {
 
-        const { consoleColumnData, consoleUserData, totalUsers, currentPageNumber, searchLoader } = this.props.consoleReducer
+        const { consoleColumnData, consoleUserData, totalUsers, currentPageNumber, searchLoader, columnSettingData } = this.props.consoleReducer
         return (
             <div className="console_main">
                 <div className="console_heading"><h3>Console</h3></div>
                 <AllUserSelect allHeadingsData={consoleColumnData} userData={consoleUserData} searchFirstButtonName={"IMPORT USERS"} searchSecondButtonName={"ADD USER"} onSearch={this.userSearchData}
                     searchPlaceHolder={"Search Users / Managers / Designation"} searchFirstButtonLoader={false} searchSecondButtonLoader={false} searchLoader={searchLoader} onChangeCheckBox={this.onChangeCheckBox}
                     totalUsers={totalUsers} onChangeRowsPerPage={this.onChangeRowsPerPage} goPrevPage={() => this.changePage(-1)} goNextPage={() => this.changePage(1)} currentPageNumber={currentPageNumber}
-                    headingClickData={this.onClickHeadingColumn}
+                    headingClickData={this.onClickHeadingColumn} onClickColumnSetting={this.onClickColumnSetting} columnSettingData={columnSettingData}
                 />
             </div>
         )
@@ -75,7 +81,8 @@ const mapDispatchToProps = dispatch => {
         {
             getTableColumnData,
             getConsoleUserData,
-            commonConsoleAction
+            commonConsoleAction,
+            tableColumnSetting
         },
         dispatch
     );

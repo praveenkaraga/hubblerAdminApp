@@ -1,0 +1,106 @@
+//.ant-popover
+
+.column_setting_main{
+    .draggable_part{
+        margin-bottom: 6px;
+        .single_draggable, .single_notDraggable{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 3px 8px 3px 8px;
+            .column_and_dots{
+                display: flex;
+                align-items: center;
+                .draggable_dots{
+                    height: 12px;
+                    visibility: hidden;
+                }
+                .column_name{
+                    font-size: 13px;
+                    margin: 0;
+                    margin-left: 6px;
+                }
+            }
+
+            .cross_img{
+                height: 7px;
+                cursor: pointer;
+                visibility: hidden;
+            }
+        }
+
+        .single_draggable:hover{
+            cursor: ns-resize;
+            background-color: #f5f5f5;
+            .cross_img, .draggable_dots{
+                visibility: unset;
+            }
+
+        }
+        
+    }
+
+
+    .selection_part_and_search{
+        border-top: solid 3px #f3f3f3;
+        
+        .selection_heading{
+            font-size: 12px;
+            color: #323232;
+            font-weight: 600;
+            padding-left: 10px;
+            margin-top: 5px;
+            margin-bottom: 0;
+        }
+
+        .selection_part_main{
+            max-height: 150px;
+            overflow: scroll;
+
+            .user_selection_group{
+                .group_heading{
+                    color: #455a64;
+                    background-color: #f7f7f7;
+                    font-size: 12px; 
+                    padding: 2px 2px 2px 10px;
+                }
+
+                .group_heading_names{
+                    padding: 0 8px 8px 10px;
+
+                    .single_heading_name{
+                        margin-bottom: 5px;
+
+                        .ant-checkbox-wrapper{
+                            span:nth-child(2){
+                                font-size: 13px;
+                                color: #707070;
+                                font-weight: 600;
+                            }
+                     }
+                    }
+                }
+            }
+        }
+        
+    }
+
+
+    .save_and_cancel{
+        border-top: solid 1px #d2d2d2;
+        background-color: #efefef;
+        display: flex;
+        padding: 4px 2px;
+        justify-content: space-around;
+        font-size: 13px;
+        color: #323232;
+
+        div{
+            cursor: pointer;
+        }
+
+        .save_button{
+            font-weight: 600;
+        }
+    }
+}

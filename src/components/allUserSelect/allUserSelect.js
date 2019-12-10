@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Checkbox, Select, Option } from 'antd';
+import { Checkbox, Select, Popover } from 'antd';
 import './allUserSelect.scss'
 import UserSearch from '../common/UserSearch/userSearch'
 import AddUser from '../addUser/addUser'
+import ColumnSetting from './columnSetting/columnSetting'
 
 class AllUserSelect extends Component {
 
@@ -14,7 +15,9 @@ class AllUserSelect extends Component {
             checkAll: false,
             rowsPerPage: 30,
             activeheading: "",
-            sortingtype: "dsc"
+            sortingtype: "dsc",
+            popUpActive: false,
+            visibleColumnSetting: false,
         }
         this.plainOptions = []
         console.log("hai bhai mai constructor", this.props.userData)
@@ -110,11 +113,23 @@ class AllUserSelect extends Component {
     }
 
 
+    addUserPopup = (status) => {
+        this.setState({
+            popUpActive: status
+        })
+    }
+
+    handleVisibleChange = visible => {
+        this.setState({ visibleColumnSetting: visible });
+        this.props.onClickColumnSetting()
+    };
+
+
     render() {
         const { allHeadingsData, userData, searchFirstButtonName, searchSecondButtonName, searchPlaceHolder, searchFirstButtonLoader,
-            searchSecondButtonLoader, searchLoader, onSearch, totalUsers, goPrevPage, goNextPage, currentPageNumber, headingClickData } = this.props
+            searchSecondButtonLoader, searchLoader, onSearch, totalUsers, goPrevPage, goNextPage, currentPageNumber, onClickColumnSetting, columnSettingData } = this.props
         const perPageOptions = [7, 10, 20, 30, 40, 50, 100]
-        const { checkedList, indeterminate, checkAll, rowsPerPage, activeheading } = this.state
+        const { checkedList, indeterminate, checkAll, rowsPerPage, activeheading, popUpActive, visibleColumnSetting } = this.state
         const totalPages = Math.ceil(totalUsers / rowsPerPage)
         this.plainOptions = []
         userData.forEach(element => {
@@ -127,7 +142,7 @@ class AllUserSelect extends Component {
             <div className="allUserSelect_main">
                 <div className="allUserSelect_container">
                     <UserSearch firstButtonName={searchFirstButtonName} secondButtonName={searchSecondButtonName} searchPlaceHolder={searchPlaceHolder}
-                        firstButtonLoader={searchFirstButtonLoader} secondButtonLoader={searchSecondButtonLoader} searchLoader={searchLoader} onSearch={onSearch} />
+                        firstButtonLoader={searchFirstButtonLoader} secondButtonLoader={searchSecondButtonLoader} searchLoader={searchLoader} onSearch={onSearch} onClickSecond={() => this.addUserPopup(true)} />
 
                     <div className="all_user_details" >
                         <div className="upper_heading_details">
@@ -140,7 +155,17 @@ class AllUserSelect extends Component {
                             </div>
 
                             <div className="column_settings">
-                                <img src={require('../../images/svg/settings_grey.svg')} />
+                                <Popover
+                                    content={<ColumnSetting columnData={allHeadingsData} columnSettingData={columnSettingData} />}
+                                    title="Column Setting"
+                                    trigger="click"
+                                    visible={this.state.visibleColumnSetting}
+                                    placement="bottomRight"
+                                    autoAdjustOverflow
+                                >
+                                    <img src={require(`../../images/svg/${!visibleColumnSetting ? "settings_grey" : "close-app"}.svg`)} onClick={() => this.handleVisibleChange(visibleColumnSetting ? false : true)} />
+
+                                </Popover>
                             </div>
                         </div>
                         <div className="lower_user_details">
@@ -149,7 +174,7 @@ class AllUserSelect extends Component {
                                     {modifiedUserData.map(user => {
 
                                         return (
-                                            <div className="user_details_container">
+                                            <div className="user_details_container" >
                                                 <div className="lower_checkbox">
                                                     <Checkbox value={user._id} />
                                                 </div>
@@ -207,7 +232,7 @@ class AllUserSelect extends Component {
 
                 </div>
 
-                {/* <AddUser /> */}
+                {popUpActive ? <AddUser onClickClose={() => this.addUserPopup(false)} /> : ""}
             </div>
         )
     }

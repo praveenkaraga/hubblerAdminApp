@@ -67,3 +67,8 @@ export const getUploadFieldData = () => {
 export const getTableColumns = () => {
 	return axios.get("https://demo1025512.mockable.io/user-table-details2")
 };
+
+
+export const getTableColumnSetting = () => {
+	return axios.get("https://demo1025512.mockable.io/user-table-setting")
+}

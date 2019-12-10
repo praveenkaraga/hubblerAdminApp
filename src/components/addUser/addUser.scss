@@ -1,4 +1,5 @@
 .add_user_main{
+    z-index: 10;
     background-color: #fff;
     position: absolute;
     width: 60%;
@@ -7,7 +8,8 @@
     transform: translateX(-50%);
     display: flex;
     flex-direction: column;
-    height: 96.8%;
+    height: 95.8%;
+    box-shadow: 0 5px 10px 5px rgba(0,0,0,.2);
 
     .add_user_container{
         // padding: 15px;
@@ -15,8 +17,17 @@
         flex-direction: column;
         height: 100%;
 
-        .heading{
+        
+
+        .heading-with-close{
             padding: 15px 15px 0px 15px;
+            display: flex;
+            justify-content: space-between;
+            img{
+                margin-top: 2px;
+                height: 14px;
+                cursor: pointer;
+            }
         }
 
         .profile_pic_with_details{
@@ -47,6 +58,15 @@
                 width: 78px;
                 padding: 1px;
             }
+
+            .user_details{
+                margin-left: 20px;
+
+                p{
+                    margin-bottom: 0.4em;
+                    font-size: 12px;
+                }
+            }
         }
 
         .add_user_tab_container{
@@ -62,7 +82,7 @@
 
 
         .bottom_buttons{
-            height: 63px;
+            height: 70px;
             padding: 4px 10px 4px 10px;;
             background: #F6F6F6;
             border-top: 1px solid #ccc;
@@ -80,4 +100,15 @@
     }
 
     
+}
+
+.pop_up_display_block{
+    z-index: 9;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: #000;
+    top: 0;
+    left: 0;
+    opacity: 0.5;
 }
