@@ -15,6 +15,7 @@
     "react-reorder": "^3.0.0-alpha.7",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
+    "react-starter-components": "^1.0.134",
     "redux": "^4.0.1",
     "redux-promise": "^0.6.0",
     "sass-loader": "^8.0.0",

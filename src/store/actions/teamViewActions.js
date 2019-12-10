@@ -96,6 +96,18 @@ export const getImportUserUploadDetails = () =>{
     }
 }
 
+export const uploadImportUsersPopUPVisibility = (flag) =>{
+    return{
+        type: actionTypes.UPLOAD_IMPORT_USERS_POPUP_VISIBILITY,
+        payload:{
+            uploadPopUpVisibility : flag
+        }
+    }
+
+}
+
+
+
 
 
 
