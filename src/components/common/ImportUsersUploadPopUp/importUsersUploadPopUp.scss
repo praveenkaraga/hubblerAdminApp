@@ -3,7 +3,6 @@
   width: auto !important;
 
 
-
   .upload-pop-header {
     display: flex;
     align-items: center;
@@ -46,12 +45,13 @@
     margin-bottom: 10px;
   }
 
-  .switch-type{
+  .switch-type {
     padding: 10px;
     display: flex;
-    background-color: rgba(207,216,220,.4);
+    background-color: rgba(207, 216, 220, .4);
     margin-top: 10px;
-    .switch-type-text{
+
+    .switch-type-text {
       margin-left: 10px;
     }
 
@@ -66,7 +66,7 @@
     flex-direction: column;
   }
 
-  .records-wrap-blurred{
+  .records-wrap-blurred {
     background-color: #ffecb3;
   }
 
@@ -129,45 +129,79 @@
 
     }
 
-    .dropDown {
-      display: none;
+    .excel-field-list-item {
+      .dropDown {
+        .ant-select-arrow {
+          display: none;
+        }
+
+        .ant-select-selection.ant-select-selection--single {
+          border: none;
+        }
+
+        .ant-select-selection__placeholder {
+          color: #444
+        }
+      }
     }
 
-    .field-holder:hover .dropDown {
+
+    .excel-field-list-item:hover {
+      .dropDown {
+        .ant-select-arrow {
+          display: inline-block;
+        }
+
+        .ant-select-selection.ant-select-selection--single {
+          border: 1px solid #d9d9d9;
+        }
+
+        .ant-select-selection__placeholder {
+          color: #444/*#bfbfbf*/
+        }
+      }
+    }
+
+    .excel-field-list-item:hover .dropDown {
       display: block;
-      .ant-select-dropdown-menu.ant-select-dropdown-menu-root.ant-select-dropdown-menu-vertical{
+
+      .ant-select-dropdown-menu.ant-select-dropdown-menu-root.ant-select-dropdown-menu-vertical {
         z-index: 55;
       }
     }
 
-   /* .excel-field-list-item:hover .field-holder {
+    /*.excel-field-list-item:hover .field-holder {
       display: none;
-    }
-*/
+    }*/
     .excel-field-list-item {
-      padding: 25.5px 20px;
+      padding: 9.5px 20px;
     }
+
   }
 }
 
-.import-another-file-modal{
-  .ant-modal-content{
+.import-another-file-modal {
+  .ant-modal-content {
 
   }
-  .ant-modal-body{
+
+  .ant-modal-body {
     background-color: #fbe9e7;
     color: #d50000;
     margin: 15px;
   }
-  .ant-modal-footer{
+
+  .ant-modal-footer {
     display: flex;
     justify-content: space-around;
-    .ant-btn{
+
+    .ant-btn {
       text-transform: uppercase;
     }
-    .ant-btn.okay{
-      box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
-      background-color: #ff5252!important;
+
+    .ant-btn.okay {
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .26);
+      background-color: #ff5252 !important;
     }
   }
 }

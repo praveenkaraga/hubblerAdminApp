@@ -3,6 +3,7 @@ import * as actionTypes from '../actionTypes'
 import findIndex from "lodash/findIndex";
 import slice from 'lodash/slice'
 import uniqBy from "lodash/uniqBy";
+import first from 'lodash/first'
 
 const intialState = {
     count: 1,
@@ -120,7 +121,7 @@ export const teamViewReducer = (state = intialState, action) => {
             console.log(action.payload)
             return {
                 ...state,
-                uploadPopUpData: action.payload.data.result ? action.payload.data.result[0] : {},
+                uploadPopUpData: action.payload.data.result ? action.payload.data.result.length ?  first(action.payload.data.result) : {} : {},
                 uploadPopUpVisibility: true,
                 /*importUsersPopUpVisiblity:false*/
             }

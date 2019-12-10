@@ -3,9 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="27933bc1-8e6c-4933-a9e1-8fc6c29f6b91" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/common/ImportUsersPopUp/importUsersPopUp.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/ImportUsersPopUp/importUsersPopUp.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/common/ImportUsersUploadPopUp/ImportUsersUploadPopUp.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/ImportUsersUploadPopUp/ImportUsersUploadPopUp.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/common/ImportUsersUploadPopUp/importUsersUploadPopUp.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/ImportUsersUploadPopUp/importUsersUploadPopUp.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/reducers/teamViewReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/reducers/teamViewReducer.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -22,18 +25,6 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/teamView/TeamView.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
-              <caret line="69" column="35" selection-start-line="69" selection-start-column="35" selection-end-line="69" selection-end-column="35" />
-              <folding>
-                <element signature="e#0#39#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/store/actionTypes.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="330">
@@ -45,8 +36,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/common/ImportUsersUploadPopUp/ImportUsersUploadPopUp.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="205">
-              <caret line="178" column="89" selection-start-line="178" selection-start-column="85" selection-end-line="178" selection-end-column="89" />
+            <state relative-caret-position="-875">
+              <caret line="112" column="5" lean-forward="true" selection-start-line="112" selection-start-column="5" selection-end-line="112" selection-end-column="5" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
               </folding>
@@ -57,17 +48,29 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/components/common/ImportUsersUploadPopUp/importUsersUploadPopUp.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="248">
-              <caret line="163" column="20" lean-forward="true" selection-start-line="163" selection-start-column="20" selection-end-line="163" selection-end-column="20" />
+            <state relative-caret-position="291">
+              <caret line="159" column="21" selection-start-line="159" selection-start-column="18" selection-end-line="159" selection-end-column="21" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/common/ImportUsersPopUp/importUsersPopUp.scss">
+        <entry file="file://$PROJECT_DIR$/src/index.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="525">
-              <caret line="35" column="1" selection-start-line="35" selection-start-column="1" selection-end-line="35" selection-end-column="1" />
+            <state relative-caret-position="432">
+              <caret line="36" column="12" lean-forward="true" selection-start-line="36" selection-start-column="12" selection-end-line="36" selection-end-column="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/store/reducers/teamViewReducer.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="327">
+              <caret line="129" column="43" lean-forward="true" selection-start-line="129" selection-start-column="43" selection-end-line="129" selection-end-column="43" />
+              <folding>
+                <element signature="e#0#45#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -76,33 +79,9 @@
         <entry file="file://$PROJECT_DIR$/src/components/common/ImportUsersPopUp/ImportUsersPopUp.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="214">
-              <caret line="62" column="33" lean-forward="true" selection-start-line="60" selection-start-column="24" selection-end-line="62" selection-end-column="33" />
+              <caret line="62" column="33" selection-start-line="60" selection-start-column="24" selection-end-line="62" selection-end-column="33" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/store/actions/actions.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="358">
-              <caret line="27" column="300" selection-start-line="27" selection-start-column="300" selection-end-line="27" selection-end-column="300" />
-              <folding>
-                <element signature="e#0#54#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/store/actions/teamViewActions.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="353">
-              <caret line="98" column="45" selection-start-line="98" selection-start-column="13" selection-end-line="98" selection-end-column="45" />
-              <folding>
-                <element signature="e#0#45#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -112,7 +91,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>orgChartUsers</find>
       <find>GET_TEAM_VIEW_USER_DATA</find>
       <find>display-sec</find>
       <find>display-cards-wrap</find>
@@ -140,8 +118,9 @@
       <find>ant</find>
       <find>ant-mod</find>
       <find>upload-pp</find>
-      <find>upload-mo</find>
       <find>File N</find>
+      <find>upload-mo</find>
+      <find>File</find>
     </findStrings>
     <replaceStrings>
       <replace>team-user</replace>
@@ -173,7 +152,6 @@
         <option value="$PROJECT_DIR$/src/container/UserConsoleView/UserConsoleView.js" />
         <option value="$PROJECT_DIR$/src/images/close-app.svg" />
         <option value="$PROJECT_DIR$/src/App.css" />
-        <option value="$PROJECT_DIR$/src/index.css" />
         <option value="$PROJECT_DIR$/src/container/UserConsoleView/userConsoleView.scss" />
         <option value="$PROJECT_DIR$/src/components/common/UserInfoSlider/Apps.js" />
         <option value="$PROJECT_DIR$/src/components/common/UserInfoSlider/AppsProfileTemplate.js" />
@@ -192,11 +170,12 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/store/actionTypes.js" />
         <option value="$PROJECT_DIR$/src/store/actions/teamViewActions.js" />
-        <option value="$PROJECT_DIR$/src/store/reducers/teamViewReducer.js" />
         <option value="$PROJECT_DIR$/src/store/actions/actions.js" />
         <option value="$PROJECT_DIR$/src/components/teamView/TeamView.js" />
         <option value="$PROJECT_DIR$/src/components/common/ImportUsersPopUp/ImportUsersPopUp.js" />
         <option value="$PROJECT_DIR$/src/components/common/ImportUsersPopUp/importUsersPopUp.scss" />
+        <option value="$PROJECT_DIR$/src/index.css" />
+        <option value="$PROJECT_DIR$/src/store/reducers/teamViewReducer.js" />
         <option value="$PROJECT_DIR$/src/components/common/ImportUsersUploadPopUp/ImportUsersUploadPopUp.js" />
         <option value="$PROJECT_DIR$/src/components/common/ImportUsersUploadPopUp/importUsersUploadPopUp.scss" />
       </list>
@@ -486,7 +465,7 @@
       <workItem from="1574403797323" duration="44259000" />
       <workItem from="1574739881706" duration="41787000" />
       <workItem from="1574916079684" duration="43331000" />
-      <workItem from="1575274107517" duration="62196000" />
+      <workItem from="1575274107517" duration="78406000" />
     </task>
     <task id="LOCAL-00001" summary="changes">
       <created>1574317980497</created>
@@ -663,11 +642,18 @@
       <option name="project" value="LOCAL" />
       <updated>1575638320222</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="User Console - Team View&#10;1.Files Change Switch design &#10;2.Choose another file popup&#10;&#10;Files Changed:&#10;importUsersPopUp.scss&#10;ImportUsersUploadPopUp.js&#10;importUsersUploadPopUp.scss&#10;workspace.xml">
+      <created>1575901003788</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1575901003788</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="223116000" />
+    <option name="totallyTimeSpent" value="239326000" />
   </component>
   <component name="TodoView" selected-index="2">
     <todo-panel id="selected-file">
@@ -746,7 +732,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="changes" />
     <MESSAGE value="User Console:&#10;1. Css changes&#10;&#10;Files changed:&#10;App.css&#10;App.js&#10;index.css&#10;UserConsoleView.js&#10;userConsoleView.scss" />
     <MESSAGE value="User Console:&#10;1. Left-Panel selection&#10;&#10;Files changed:&#10;actions.js&#10;actionTypes.js&#10;activeLinkAction.js&#10;console.svg&#10;console_select.svg&#10;department-active.svg&#10;department.svg&#10;designation-active.svg&#10;designation.svg&#10;firstReducer.js&#10;package-lock.json&#10;package.json&#10;people_main.svg&#10;teamview-active.svg&#10;teamview.svg&#10;UserConsoleView.js&#10;userConsoleView.scss&#10;Unversioned Files" />
     <MESSAGE value="User Console:&#10;1. Routing-css change&#10;&#10;Files changed:&#10;firstReducer.js&#10;UserConsoleView.js&#10;userConsoleView.scss" />
@@ -771,29 +756,10 @@
     <MESSAGE value="User View - Team View&#10;&#10;Files changed:&#10;ImportUsersUploadPopUp.js&#10;workspace.xml" />
     <MESSAGE value="&#10;&#10;Files Changed:&#10;addUser.js&#10;addUser.scss&#10;allUserSelect.js&#10;departments.js&#10;departments.scss&#10;UserConsoleView.js" />
     <MESSAGE value="User Console - Team View&#10;1.Data Modeling for import users popup&#10;&#10;Files Changed:&#10;ImportUsersUploadPopUp.js&#10;importUsersUploadPopUp.scss&#10;workspace.xml" />
-    <option name="LAST_COMMIT_MESSAGE" value="User Console - Team View&#10;1.Data Modeling for import users popup&#10;&#10;Files Changed:&#10;ImportUsersUploadPopUp.js&#10;importUsersUploadPopUp.scss&#10;workspace.xml" />
+    <MESSAGE value="User Console - Team View&#10;1.Files Change Switch design &#10;2.Choose another file popup&#10;&#10;Files Changed:&#10;importUsersPopUp.scss&#10;ImportUsersUploadPopUp.js&#10;importUsersUploadPopUp.scss&#10;workspace.xml" />
+    <option name="LAST_COMMIT_MESSAGE" value="User Console - Team View&#10;1.Files Change Switch design &#10;2.Choose another file popup&#10;&#10;Files Changed:&#10;importUsersPopUp.scss&#10;ImportUsersUploadPopUp.js&#10;importUsersUploadPopUp.scss&#10;workspace.xml" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/images/adminLinkImages/people_main.svg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/common/Search/SearchTransition.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="51" selection-start-line="14" selection-start-column="51" selection-end-line="14" selection-end-column="51" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/common/Search/search.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="1" lean-forward="true" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/images/profile-female.svg">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -853,20 +819,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/images/close-app.svg">
       <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/App.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="117">
-          <caret line="38" column="22" lean-forward="true" selection-start-line="38" selection-start-column="22" selection-end-line="38" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/index.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="29" column="1" selection-start-line="29" selection-start-column="1" selection-end-line="29" selection-end-column="1" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/store/actions/createUserAction.js">
       <provider selected="true" editor-type-id="text-editor">
@@ -1061,16 +1013,6 @@
     <entry file="file://$PROJECT_DIR$/src/images/long-right-arrow.svg">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/store/reducers/teamViewReducer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="373">
-          <caret line="129" column="13" lean-forward="true" selection-start-line="129" selection-start-column="13" selection-end-line="129" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#45#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/teamView/TeamView.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="132">
@@ -1101,20 +1043,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/store/actionTypes.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" selection-start-line="22" selection-end-line="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/antd/lib/select/index.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="27" column="16" lean-forward="true" selection-start-line="27" selection-start-column="16" selection-end-line="27" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/common/ImportUsersPopUp/importUsersPopUp.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="525">
@@ -1125,17 +1053,76 @@
     <entry file="file://$PROJECT_DIR$/src/components/common/ImportUsersPopUp/ImportUsersPopUp.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="214">
-          <caret line="62" column="33" lean-forward="true" selection-start-line="60" selection-start-column="24" selection-end-line="62" selection-end-column="33" />
+          <caret line="62" column="33" selection-start-line="60" selection-start-column="24" selection-end-line="62" selection-end-column="33" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/antd/lib/select/index.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-543">
+          <caret line="52" column="4" selection-start-line="52" selection-start-column="4" selection-end-line="52" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/store/actionTypes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" selection-start-line="22" selection-end-line="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/react-starter-components/lib/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="164" column="19" selection-start-line="164" selection-start-column="4" selection-end-line="164" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/App.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="319">
+          <caret line="50" column="11" selection-start-line="50" selection-start-column="11" selection-end-line="50" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/index.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="36" column="12" lean-forward="true" selection-start-line="36" selection-start-column="12" selection-end-line="36" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/react-starter-components/src/components/common/InlineModalGroup.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3599">
+          <caret line="77" column="13" selection-start-line="77" selection-start-column="4" selection-end-line="77" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="23" column="14" selection-start-line="23" selection-start-column="14" selection-end-line="23" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/store/reducers/teamViewReducer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="327">
+          <caret line="129" column="43" lean-forward="true" selection-start-line="129" selection-start-column="43" selection-end-line="129" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/common/ImportUsersUploadPopUp/ImportUsersUploadPopUp.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="178" column="89" selection-start-line="178" selection-start-column="85" selection-end-line="178" selection-end-column="89" />
+        <state relative-caret-position="-875">
+          <caret line="112" column="5" lean-forward="true" selection-start-line="112" selection-start-column="5" selection-end-line="112" selection-end-column="5" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
           </folding>
@@ -1144,8 +1131,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/common/ImportUsersUploadPopUp/importUsersUploadPopUp.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="163" column="20" lean-forward="true" selection-start-line="163" selection-start-column="20" selection-end-line="163" selection-end-column="20" />
+        <state relative-caret-position="291">
+          <caret line="159" column="21" selection-start-line="159" selection-start-column="18" selection-end-line="159" selection-end-column="21" />
         </state>
       </provider>
     </entry>

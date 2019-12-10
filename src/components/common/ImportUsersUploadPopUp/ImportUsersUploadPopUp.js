@@ -1,8 +1,10 @@
 import React, {Component} from 'react'
 import 'antd/dist/antd.css';
-import {Modal, Button, Upload, Icon, message, Select,Switch} from 'antd';
+import {Modal, Button, Upload, Icon, message, Select, Switch} from 'antd';
 import './importUsersUploadPopUp.scss'
 import map from 'lodash/map'
+import find from 'lodash/find'
+import {InlineModal, InlineModalBody, InlineModalButton, List} from 'react-starter-components'
 
 const {Option} = Select;
 
@@ -26,51 +28,61 @@ class SystemFieldsList extends Component {
     }
 }
 
-class ExcelFieldsList extends Component {
+class ExtendedInlineModalButton extends InlineModalButton {
     render() {
-        function onChange(value) {
-            console.log(`selected ${value}`);
+        const childNode = React.Children.only(this.props.children);
+        return React.cloneElement(childNode, {
+            onMouseOver: this.props.togglePopup,
+            ref: element => this.rootEl = element
+        });
+    }
+}
+
+
+class ExcelFieldsList extends Component {
+    onChange(index, ele, value) {
+        let matchedObj = find(this.props.uploadPopUpData.sheet_columns, ['_id', value]);
+        let dataObj = {
+            value: value,
+            index: index,
+            ele: ele,
+            patchData: matchedObj
+
         }
+        this.props.setDropValue(dataObj)
+        console.log(index)
+    }
 
-        function onSearch(val) {
-            console.log('search:', val);
-        }
 
-        function onBlur() {
+    onSearch() {
+        console.log('searched')
+    }
 
-            console.log('blur');
-        }
-
-        function onFocus() {
-            console.log('focus')
-        }
-
+    render() {
         const {uploadPopUpData} = this.props;
-        console.log(this.props)
+        let _this = this
         return (
             <ul className={'excel-fields-list'}>
                 {
                     map(uploadPopUpData.sheet_columns, function (ele, index) {
                         return (<li className={'excel-field-list-item'} key={index}>
-
-                            <div className={'field-holder'}>{ele.name}
+                            <div className={'field-holder'}>
                                 <Select
                                     showSearch
                                     placeholder={ele.name}
                                     style={{width: 300}}
                                     className={'dropDown'}
                                     optionFilterProp="children"
-                                    onFocus={onFocus}
-                                    onBlur={onBlur}
-                                    onChange={onChange}
-                                    onSearch={onSearch}
+                                    onChange={_this.onChange.bind(_this, index, ele)}
+                                    onSearch={_this.onSearch.bind(_this)}
                                     filterOption={(input, option) =>
                                         option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                     }
                                 >
-                                    <Option value="jack">Jack</Option>
-                                    <Option value="lucy">Lucy</Option>
-                                    <Option value="tom">Tom</Option>
+                                    {map(uploadPopUpData.sheet_columns_original, function (inele, inde) {
+                                        return <Option value={inele._id} key={inele._id}>{inele.name}</Option>
+
+                                    })}
                                 </Select>
                             </div>
                         </li>)
@@ -83,14 +95,16 @@ class ExcelFieldsList extends Component {
 
 class SampleDataList extends Component {
     render() {
-        const {uploadPopUpData} = this.props;
+        const {uploadPopUpData, dropDownObj} = this.props;
+        console.log(dropDownObj);
         return (
             <ul className={'sample-data-list'}>
                 {
                     map(uploadPopUpData.sheet_columns, function (ele, index) {
                         return (<li className={'sample-data-list-item'} key={index}>
-                            <div className={'field-holder'}>{ele.data}
-                            </div>
+                            {dropDownObj.index === index ?
+                                <div className={'field-holder'}>{dropDownObj.patchData.data} </div> :
+                                <div className={'field-holder'}>{ele.data} </div>}
                         </li>)
                     })
                 }
@@ -103,9 +117,16 @@ class SampleDataList extends Component {
 class ImportUsersUploadPopUp extends Component {
     state = {
         uploading: false,
-        blur: false,
         visible: true,
+        dropDownObj: {}
     };
+
+    setDropValue = (dataObj) => {
+        this.setState({
+                dropDownObj: dataObj
+            }
+        )
+    }
 
     showModal = () => {
         this.setState({
@@ -119,12 +140,6 @@ class ImportUsersUploadPopUp extends Component {
             visible: false,
         });
     };
-
-    activateBlur = (flag) => {
-        this.setState({
-            blur: flag,
-        });
-    }
 
     openAnotherFileModal = () => {
         this.setState({
@@ -141,7 +156,6 @@ class ImportUsersUploadPopUp extends Component {
     onChangeSwitch = (checked) => {
         console.log(`switch to ${checked}`);
     }
-
 
 
     render() {
@@ -207,9 +221,8 @@ class ImportUsersUploadPopUp extends Component {
                         </div>
                         <div className={'record-content-wrap'}>
                             <SystemFieldsList {...this.props}/>
-                            <ExcelFieldsList {...this.props} activateBlur={this.activateBlur.bind(this)}
-                                             uploadImportUsersPopUPVisibility={uploadImportUsersPopUPVisibility}/>
-                            <SampleDataList {...this.props}/>
+                            <ExcelFieldsList {...this.props} setDropValue={(obj) => this.setDropValue(obj)}/>
+                            <SampleDataList {...this.props} dropDownObj={this.state.dropDownObj}/>
                         </div>
                     </div>
 
