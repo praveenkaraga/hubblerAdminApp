@@ -4,6 +4,8 @@ import {Modal, Button, Upload, Icon, message, Select, Switch} from 'antd';
 import './importUsersUploadPopUp.scss'
 import map from 'lodash/map'
 import find from 'lodash/find'
+import slice from 'lodash/slice'
+import fill from 'lodash/fill'
 import {InlineModal, InlineModalBody, InlineModalButton, List} from 'react-starter-components'
 
 const {Option} = Select;
@@ -40,17 +42,24 @@ class ExtendedInlineModalButton extends InlineModalButton {
 
 
 class ExcelFieldsList extends Component {
-    onChange(index, ele, value) {
+    onChange(index, ele, mappings, value) {
         let matchedObj = find(this.props.uploadPopUpData.sheet_columns, ['_id', value]);
         let dataObj = {
             value: value,
             index: index,
             ele: ele,
             patchData: matchedObj
+        };
+        let dob = map(mappings,function (inEle,ind) {
+            if(index === ind){
+                return {...inEle,matchedId:value}
+            }else{
+                return {...inEle}
+            }
+        })
 
-        }
-        this.props.setDropValue(dataObj)
-        console.log(index)
+        this.props.setDropValue(dataObj);
+        console.log(dob)
     }
 
 
@@ -59,28 +68,34 @@ class ExcelFieldsList extends Component {
     }
 
     render() {
-        const {uploadPopUpData} = this.props;
+        const {uploadPopUpData, switchStatus, mappings} = this.props;
+        console.log(mappings)
+        let slicedData = slice(uploadPopUpData.sheet_columns,0,uploadPopUpData.fields.length)
+        let count = slicedData.length < uploadPopUpData.fields.length ?  uploadPopUpData.fields.length - slicedData.length   : ''
+        let fillArrayData = fill(Array(count), {columnName:'None',name:"None"})
+        let slicedDataFilled = count ? slicedData.concat(fillArrayData) : slicedData
         let _this = this
         return (
             <ul className={'excel-fields-list'}>
                 {
-                    map(uploadPopUpData.sheet_columns, function (ele, index) {
+                    map(slicedDataFilled, function (ele, index) {
                         return (<li className={'excel-field-list-item'} key={index}>
                             <div className={'field-holder'}>
                                 <Select
                                     showSearch
-                                    placeholder={ele.name}
+                                    placeholder={switchStatus ? ele.name : `Column ${ele.columnName}`}
                                     style={{width: 300}}
                                     className={'dropDown'}
                                     optionFilterProp="children"
-                                    onChange={_this.onChange.bind(_this, index, ele)}
+                                    onChange={_this.onChange.bind(_this, index, ele,mappings)}
                                     onSearch={_this.onSearch.bind(_this)}
                                     filterOption={(input, option) =>
                                         option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                     }
                                 >
                                     {map(uploadPopUpData.sheet_columns_original, function (inele, inde) {
-                                        return <Option value={inele._id} key={inele._id}>{inele.name}</Option>
+                                        return <Option value={inele._id}
+                                                       key={inele._id}>{switchStatus ? inele.name : `Column ${inele.columnName}`}</Option>
 
                                     })}
                                 </Select>
@@ -95,16 +110,21 @@ class ExcelFieldsList extends Component {
 
 class SampleDataList extends Component {
     render() {
-        const {uploadPopUpData, dropDownObj} = this.props;
+        const {uploadPopUpData, dropDownObj, switchStatus} = this.props;
         console.log(dropDownObj);
+        let slicedData = slice(uploadPopUpData.sheet_columns,0,uploadPopUpData.fields.length);
+        let count = slicedData.length < uploadPopUpData.fields.length ?  uploadPopUpData.fields.length - slicedData.length   : ''
+        let fillArrayData = fill(Array(count), {data:'None',name:"None"})
+        let slicedDataFilled = count ? slicedData.concat(fillArrayData) : slicedData
         return (
             <ul className={'sample-data-list'}>
                 {
-                    map(uploadPopUpData.sheet_columns, function (ele, index) {
+                    map(slicedDataFilled, function (ele, index) {
                         return (<li className={'sample-data-list-item'} key={index}>
                             {dropDownObj.index === index ?
-                                <div className={'field-holder'}>{dropDownObj.patchData.data} </div> :
-                                <div className={'field-holder'}>{ele.data} </div>}
+                                <div
+                                    className={'field-holder'}>{switchStatus ? dropDownObj.patchData.data : dropDownObj.patchData.name} </div> :
+                                <div className={'field-holder'}>{switchStatus ? ele.data : ele.name} </div>}
                         </li>)
                     })
                 }
@@ -118,7 +138,9 @@ class ImportUsersUploadPopUp extends Component {
     state = {
         uploading: false,
         visible: true,
-        dropDownObj: {}
+        dropDownObj: {},
+        switchStatus: true,
+        mappings: []
     };
 
     setDropValue = (dataObj) => {
@@ -154,12 +176,39 @@ class ImportUsersUploadPopUp extends Component {
     }
 
     onChangeSwitch = (checked) => {
+        this.setState({
+            switchStatus: checked
+        })
         console.log(`switch to ${checked}`);
     }
 
+    getMatchedFieldsId(data, index) {
+        let matchedData = find(data, function (ele, ind) {
+            if (index === ind) {
+                return ele
+            }
+        })
+        return matchedData ? matchedData._id : ''
+    }
+
+    componentDidMount() {
+        let _this = this
+        let mappingData = map(_this.props.uploadPopUpData.fields, function (ele, index) {
+            return {
+                _id: ele._id,
+                index: index,
+                matchedId: _this.getMatchedFieldsId(_this.props.uploadPopUpData.sheet_columns, index)
+            }
+        })
+        this.setState({
+                mappings: mappingData
+            }
+        )
+    }
 
     render() {
         const {uploadPopUpData, fileName, uploadImportUsersPopUPVisibility} = this.props;
+
         return (
             <div>
                 <Modal
@@ -221,14 +270,12 @@ class ImportUsersUploadPopUp extends Component {
                         </div>
                         <div className={'record-content-wrap'}>
                             <SystemFieldsList {...this.props}/>
-                            <ExcelFieldsList {...this.props} setDropValue={(obj) => this.setDropValue(obj)}/>
-                            <SampleDataList {...this.props} dropDownObj={this.state.dropDownObj}/>
+                            <ExcelFieldsList {...this.props}
+                                             setDropValue={(obj) => this.setDropValue(obj)}{...this.state}/>
+                            <SampleDataList {...this.props} {...this.state}/>
                         </div>
                     </div>
-
                 </Modal>
-
-
             </div>
         )
     }
