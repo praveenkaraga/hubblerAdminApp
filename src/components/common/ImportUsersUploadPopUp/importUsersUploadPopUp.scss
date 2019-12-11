@@ -186,22 +186,29 @@
   }
 
   .ant-modal-body {
-    background-color: #fbe9e7;
-    color: #d50000;
-    margin: 15px;
+    flex-wrap: nowrap;
+    width: 500px;
+    font-size: 16px;
   }
 
+  .ant-modal-header{
+    border-bottom: none;
+  }
   .ant-modal-footer {
-    display: flex;
-    justify-content: space-around;
+    border-top: none;
 
     .ant-btn {
       text-transform: uppercase;
+      height: 37px;
+      line-height: 37px;
+      border: none;
+    }
+    .ant-btn:hover{
+      background: rgba(0,0,0,.06);
     }
 
     .ant-btn.okay {
-      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .26);
-      background-color: #ff5252 !important;
+      color: #1e88e5 !important;
     }
   }
 }
