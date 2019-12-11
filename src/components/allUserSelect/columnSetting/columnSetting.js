@@ -11,13 +11,15 @@ class ColumnSetting extends Component {
         this.state = {
             columnData: this.props.columnData,
             columnDataDraggable: this.props.columnData.filter(data => data.isDraggable),
-            columnDataNotDraggable: this.props.columnData.filter(data => !data.isDraggable)
+            columnDataNotDraggable: this.props.columnData.filter(data => !data.isDraggable),
+            checkedList: this.props.columnData.map(data => data._id),
+            columnSettingData: this.props.columnSettingData
         }
+        this.filterDraggablesData = []
     }
 
     //reordering the element inside the console column setting
     onReorder = (event, previousIndex, nextIndex) => {
-        //const { columnDataDraggable, columnDataNotDraggable } = this.state
         let updatedColumnData = reorder(
             this.state.columnDataDraggable,
             previousIndex,
@@ -28,14 +30,34 @@ class ColumnSetting extends Component {
 
     onRemoveColumn = (id) => { //removing column when clicked remove
         const updatedColumn = this.state.columnDataDraggable.filter(data => !(data._id == id))
-        this.setState({ columnDataDraggable: updatedColumn })
+        const newCheckedList = [...this.state.columnDataNotDraggable.map(data => data._id), ...updatedColumn.map(data => data._id)]
+        this.setState({ columnDataDraggable: updatedColumn, checkedList: newCheckedList })
     }
 
+
+    onCheckColumn = (checkedValue) => {
+        const filterDraggablesData = this.filterDraggables(this.props.columnSettingData, checkedValue)
+        this.setState({ checkedList: checkedValue, columnDataDraggable: filterDraggablesData })
+
+    }
+
+
+    filterDraggables = (columnSettingData, columnDataIds) => {
+        let combinedData = []
+        Object.keys(columnSettingData).forEach(columnKey => {
+            combinedData.push(...columnSettingData[columnKey])
+        })
+        let filteredData = combinedData.filter(data => columnDataIds.includes(data._id))
+        let filteredDataDraggable = filteredData.filter(data => data.isDraggable)
+        return filteredDataDraggable
+    }
 
 
     render() {
 
-        const { columnDataDraggable, columnDataNotDraggable, columnData, columnSettingData } = this.state
+        const { columnDataDraggable, columnDataNotDraggable, checkedList } = this.state
+        const { columnSettingData, columnData } = this.props
+
         return (<div className="column_setting_main">
             <div className="column_setting_main_container">
                 <div className="draggable_part">
@@ -80,17 +102,17 @@ class ColumnSetting extends Component {
                         <CustomSearch searchPlaceHolder={"Search Fields"} />
                     </div>
                     <div className="selection_part_main">
-                        <Checkbox.Group style={{ width: '100%' }} >
-                            <div className="user_selection_group">
-                                <h4 className="group_heading">Basic Fields</h4>
-                                <div className="group_heading_names">
-                                    <div className="single_heading_name"><Checkbox value="A">Name</Checkbox></div>
-                                    <div className="single_heading_name"><Checkbox value="A">Name</Checkbox></div>
-                                    <div className="single_heading_name"><Checkbox value="A">Name</Checkbox></div>
-                                    <div className="single_heading_name"><Checkbox value="A">Name</Checkbox></div>
-                                    <div className="single_heading_name"><Checkbox value="A">Name</Checkbox></div>
-                                </div>
-                            </div>
+                        <Checkbox.Group value={checkedList} style={{ width: '100%' }} onChange={this.onCheckColumn}>
+                            {Object.keys(columnSettingData).map((columnName, i) => (
+                                <div key={columnName} className="user_selection_group">
+                                    <h4 className="group_heading">{columnName.toUpperCase()}</h4>
+                                    <div className="group_heading_names">
+                                        {columnSettingData[columnName].map(columnData => (
+                                            <div key={columnData._id} className="single_heading_name">
+                                                <Checkbox value={columnData._id} disabled={columnData.isDraggable ? false : true}>{columnData.lbl}</Checkbox>
+                                            </div>))}
+                                    </div>
+                                </div>))}
                         </Checkbox.Group>
                     </div>
 

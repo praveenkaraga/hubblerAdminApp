@@ -34,6 +34,7 @@ class AllUserSelect extends Component {
     }
 
     onCheckAll = async (e) => { //when clicked on main checkbox(click all)
+        console.log(e.target.checked)
         await this.setState({
             checkedList: e.target.checked ? this.plainOptions : [],
             indeterminate: false,
@@ -136,7 +137,6 @@ class AllUserSelect extends Component {
             this.plainOptions.push(element._id)
         });
         const modifiedUserData = this.modellingData(userData, allHeadingsData)
-
 
         return (
             <div className="allUserSelect_main">
