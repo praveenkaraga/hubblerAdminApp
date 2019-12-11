@@ -52,6 +52,20 @@ class ColumnSetting extends Component {
         return filteredDataDraggable
     }
 
+    sample = (element) => {
+        console.log(element)
+    }
+
+
+    checkBoxValidation = (checkedList, id) => {
+        if ((checkedList.length == 6 && !checkedList.includes(id)) || (checkedList.length < 4 && checkedList.includes(id))) {
+            return true
+        } else {
+            return false
+        }
+        // checkedList.length == 6 && !checkedList.includes(columnData._id) ? true : false
+    }
+
 
     render() {
 
@@ -107,9 +121,9 @@ class ColumnSetting extends Component {
                                 <div key={columnName} className="user_selection_group">
                                     <h4 className="group_heading">{columnName.toUpperCase()}</h4>
                                     <div className="group_heading_names">
-                                        {columnSettingData[columnName].map(columnData => (
-                                            <div key={columnData._id} className="single_heading_name">
-                                                <Checkbox value={columnData._id} disabled={columnData.isDraggable ? false : true}>{columnData.lbl}</Checkbox>
+                                        {columnSettingData[columnName].map((columnData, columnDataI) => (
+                                            <div key={columnData._id} className="single_heading_name" >
+                                                <Checkbox value={columnData._id} disabled={columnData.isDraggable ? (this.checkBoxValidation(checkedList, columnData._id)) : true} >{columnData.lbl}</Checkbox>
                                             </div>))}
                                     </div>
                                 </div>))}

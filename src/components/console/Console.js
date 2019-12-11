@@ -47,10 +47,8 @@ class Console extends Component {
 
     onClickColumnSetting = () => {
         const { columnSettingDataOriginal } = this.props.consoleReducer
-        console.log(columnSettingDataOriginal, "columnSettingDataOriginal")
         if (!Object.keys(columnSettingDataOriginal).length) {
             this.props.tableColumnSetting()
-            console.log(columnSettingDataOriginal, "columnginal")
         }
     }
 
