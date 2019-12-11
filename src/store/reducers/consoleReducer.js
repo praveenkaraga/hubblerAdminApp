@@ -13,7 +13,7 @@ const intialState = {
     activeheading: "",
     sortingType: "dsc",
     columnSettingData: [],
-    columnSettingDataOriginal: []
+    columnSettingDataOriginal: {}
 }
 
 export const consoleReducer = (state = intialState, action) => {
@@ -50,11 +50,10 @@ export const consoleReducer = (state = intialState, action) => {
             }
 
         case actionTypes.TABLE_COLUMN_SETTING_DATA:
-            console.log(action.payload.data.result)
             const columnSettingData = action.payload.data.result
             return {
                 ...state,
-                conlumnSettingDataOriginal: columnSettingData,
+                columnSettingDataOriginal: columnSettingData,
                 columnSettingData: JSON.parse(JSON.stringify(columnSettingData))
             }
     }
