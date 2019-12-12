@@ -53,16 +53,43 @@ class Console extends Component {
     }
 
 
+    onClickUserActions = (typeOfAction) => {
+        switch (typeOfAction) {
+            case "activate":
+                console.log("activate")
+                break;
+
+            case "deactivate":
+                console.log("deactivate")
+                break;
+
+            case "delete":
+                console.log("delete")
+                break;
+
+            case "edit":
+                console.log("edit")
+                break;
+
+            default:
+                console.log("default")
+        }
+    }
+
+
     render() {
 
         const { consoleColumnData, consoleUserData, totalUsers, currentPageNumber, searchLoader, columnSettingData } = this.props.consoleReducer
         return (
             <div className="console_main">
                 <div className="console_heading"><h3>Console</h3></div>
-                <AllUserSelect allHeadingsData={consoleColumnData} userData={consoleUserData} searchFirstButtonName={"IMPORT USERS"} searchSecondButtonName={"ADD USER"} onSearch={this.userSearchData}
-                    searchPlaceHolder={"Search Users / Managers / Designation"} searchFirstButtonLoader={false} searchSecondButtonLoader={false} searchLoader={searchLoader} onChangeCheckBox={this.onChangeCheckBox}
-                    totalUsers={totalUsers} onChangeRowsPerPage={this.onChangeRowsPerPage} goPrevPage={() => this.changePage(-1)} goNextPage={() => this.changePage(1)} currentPageNumber={currentPageNumber}
-                    headingClickData={this.onClickHeadingColumn} onClickColumnSetting={this.onClickColumnSetting} columnSettingData={columnSettingData}
+
+                <AllUserSelect allHeadingsData={consoleColumnData} userData={consoleUserData} searchFirstButtonName={"IMPORT USERS"} searchSecondButtonName={"ADD USER"}
+                    onSearch={this.userSearchData} searchPlaceHolder={"Search Users / Managers / Designation"} searchFirstButtonLoader={false} searchSecondButtonLoader={false}
+                    searchLoader={searchLoader} onChangeCheckBox={this.onChangeCheckBox} totalUsers={totalUsers} onChangeRowsPerPage={this.onChangeRowsPerPage} goPrevPage={() => this.changePage(-1)}
+                    goNextPage={() => this.changePage(1)} currentPageNumber={currentPageNumber} headingClickData={this.onClickHeadingColumn} onClickColumnSetting={this.onClickColumnSetting}
+                    columnSettingData={columnSettingData} onClickUserActivate={() => this.onClickUserActions("activate")} onClickUserDeactivate={() => this.onClickUserActions("deactivate")}
+                    onClickUserDelete={() => this.onClickUserActions("delete")} onClickUserEdit={() => this.onClickUserActions("edit")}
                 />
             </div>
         )
