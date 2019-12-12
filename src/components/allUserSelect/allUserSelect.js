@@ -128,7 +128,8 @@ class AllUserSelect extends Component {
 
     render() {
         const { allHeadingsData, userData, searchFirstButtonName, searchSecondButtonName, searchPlaceHolder, searchFirstButtonLoader,
-            searchSecondButtonLoader, searchLoader, onSearch, totalUsers, goPrevPage, goNextPage, currentPageNumber, onClickColumnSetting, columnSettingData } = this.props
+            searchSecondButtonLoader, searchLoader, onSearch, totalUsers, goPrevPage, goNextPage, currentPageNumber, columnSettingData,
+            onClickUserActivate, onClickUserDeactivate, onClickUserDelete, onClickUserEdit } = this.props
         const perPageOptions = [7, 10, 20, 30, 40, 50, 100]
         const { checkedList, indeterminate, checkAll, rowsPerPage, activeheading, popUpActive, visibleColumnSetting } = this.state
         const totalPages = Math.ceil(totalUsers / rowsPerPage)
@@ -142,7 +143,8 @@ class AllUserSelect extends Component {
             <div className="allUserSelect_main">
                 <div className="allUserSelect_container">
                     <UserSearch firstButtonName={searchFirstButtonName} secondButtonName={searchSecondButtonName} searchPlaceHolder={searchPlaceHolder}
-                        firstButtonLoader={searchFirstButtonLoader} secondButtonLoader={searchSecondButtonLoader} searchLoader={searchLoader} onSearch={onSearch} onClickSecond={() => this.addUserPopup(true)} />
+                        firstButtonLoader={searchFirstButtonLoader} secondButtonLoader={searchSecondButtonLoader} searchLoader={searchLoader} onSearch={onSearch}
+                        onClickSecond={() => this.addUserPopup(true)} userSelected={checkedList.length} onUserActivate={onClickUserActivate} onUserDeactivate={onClickUserDeactivate} onUserDelete={onClickUserDelete} onUserEdit={onClickUserEdit} />
 
                     <div className="all_user_details" >
                         <div className="upper_heading_details">
@@ -151,7 +153,7 @@ class AllUserSelect extends Component {
                             </div>
 
                             <div className="all_headings" style={{ "grid-template-columns": `repeat(${allHeadingsData.length}, calc(100%/${allHeadingsData.length}))` }}>
-                                {allHeadingsData.map(data => (<div key={data._id} className={`single_heading ${activeheading == data._id ? "active_heading" : "inactive_heading"}`} ref={ele => this[data._id] = ele} onClick={() => this.onheadingClick(data._id)}>{data.lbl}</div>))}
+                                {allHeadingsData.map(data => (<div key={data._id} className={`single_heading ${activeheading === data._id ? "active_heading" : "inactive_heading"}`} ref={ele => this[data._id] = ele} onClick={() => this.onheadingClick(data._id)}>{data.lbl}</div>))}
                             </div>
 
                             <div className="column_settings">
@@ -163,7 +165,7 @@ class AllUserSelect extends Component {
                                     placement="bottomRight"
                                     autoAdjustOverflow
                                 >
-                                    <img src={require(`../../images/svg/${!visibleColumnSetting ? "settings_grey" : "close-app"}.svg`)} onClick={() => this.handleVisibleChange(visibleColumnSetting ? false : true)} />
+                                    <img src={require(`../../images/svg/${!visibleColumnSetting ? "settings_grey" : "close-app"}.svg`)} onClick={() => this.handleVisibleChange(visibleColumnSetting ? false : true)} alt="Column Setting" />
 
                                 </Popover>
                             </div>
@@ -183,9 +185,9 @@ class AllUserSelect extends Component {
 
                                                         return (
                                                             <div>
-                                                                {columnData._id == "name" ?
+                                                                {columnData._id === "name" ?
                                                                     <span>
-                                                                        <img src={user["profile_image"] ? user["profile_image"]["thumbnail"] : require("../../images/svg/defaultProfile.svg")} />
+                                                                        <img src={user["profile_image"] ? user["profile_image"]["thumbnail"] : require("../../images/svg/defaultProfile.svg")} alt="Profile Pic" />
                                                                     </span>
                                                                     : ""
                                                                 }
@@ -220,9 +222,9 @@ class AllUserSelect extends Component {
                                     <div className="current_page">{currentPageNumber} of {totalPages}</div>
                                     <div className="change_page">
                                         <span className={`prev_page ${currentPageNumber === 1 ? "prev_page_blocked" : ""}`}>
-                                            <img src={require("../../images/svg/left-arrow.svg")} onClick={goPrevPage} />
+                                            <img src={require("../../images/svg/left-arrow.svg")} onClick={goPrevPage} alt="Left Arrow" />
                                         </span>
-                                        <span className={`next_page ${currentPageNumber === totalPages ? "next_page_blocked" : ""}`}>
+                                        <span className={`next_page ${currentPageNumber === totalPages ? "next_page_blocked" : ""}`} alt="Right Arrow">
                                             <img src={require("../../images/svg/right-arrow.svg")} onClick={goNextPage} />
                                         </span></div>
                                 </div>

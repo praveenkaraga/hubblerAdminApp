@@ -20,7 +20,7 @@ class AddUser extends Component {
                 <div className="add_user_main">
                     <div className="add_user_container">
                         <div className="heading-with-close">
-                            <h2 className="heading">Edit User</h2>
+                            <h2 className="heading">Add New User</h2>
                             <span className="close-popup">
                                 <img src={require("../../images/close-app.svg")} onClick={onClickClose} />
                             </span>
