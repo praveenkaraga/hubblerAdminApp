@@ -18,10 +18,17 @@ class ImportUsersPopUp extends Component {
         setTimeout(() => {
             this.setState({loading: false, visible: false});
         }, 3000);
+
+    };
+
+    closeModal = (uploadProps) => {
+        let _this = this
+        _this.props.modalClose()
+        uploadProps.onRemove(_this.props.sampleExcelFile)
     };
 
     render() {
-        const {visible, modalClose, onClickDownload, sampleExcelFile, onClickStartUpload, uploadPopUpData, uploadPopUpVisibility,uploadImportUsersPopUPVisibility} = this.props;
+        const {visible, modalClose, onClickDownload, sampleExcelFile, onClickStartUpload, uploadPopUpData, uploadPopUpVisibility, uploadImportUsersPopUPVisibility, patchImportUsersData, importUsersUploadResponseData, uploadFileStatus, commonTeamReducerAction, importStatus} = this.props;
         const {uploading, fileList} = this.state;
         const props = {
             onRemove: file => {
@@ -48,17 +55,17 @@ class ImportUsersPopUp extends Component {
                 title="Import Users"
                 onOk={this.handleOk}
                 className={'import-users-modal'}
-                onCancel={() => modalClose()}
+                onCancel={() => this.closeModal(props)}
                 centered
                 footer={[
                     <div>
-                        <Button key="download" onClick={onClickDownload}>
+                        <Button key="download" onClick={onClickDownload} disabled={fileList.length === 0}>
                             <a href={sampleExcelFile || ''} download> Download Sample Excel</a>
                         </Button>
 
                     </div>,
                     <div>
-                        <Button key="cancel" onClick={() => modalClose()}>
+                        <Button key="cancel" onClick={() => this.closeModal(props)}>
                             Cancel
                         </Button>
                         <Button
@@ -83,9 +90,17 @@ class ImportUsersPopUp extends Component {
                 </div>
             </Modal>
 
-            {uploadPopUpVisibility ? <ImportUsersUploadPopUp uploadPopUpVisibility={uploadPopUpVisibility} uploadImportUsersPopUPVisibility={uploadImportUsersPopUPVisibility}
-                                                             fileName={fileList[0].name}
-                                                             uploadPopUpData={uploadPopUpData}/> : ''}
+            {uploadPopUpVisibility ? <ImportUsersUploadPopUp uploadPopUpVisibility={uploadPopUpVisibility}
+                                                             uploadImportUsersPopUPVisibility={uploadImportUsersPopUPVisibility}
+                                                             fileName={fileList[0] ? fileList[0].name : ''}
+                                                             modalClose={modalClose}
+                                                             uploadProps={props}
+                                                             sampleExcelFile={sampleExcelFile}
+                                                             uploadPopUpData={uploadPopUpData}
+                                                             patchImportUsersData={patchImportUsersData}
+                                                             importUsersUploadResponseData={importUsersUploadResponseData}
+                                                             uploadFileStatus={uploadFileStatus}
+                                                             commonTeamReducerAction={commonTeamReducerAction} importStatus={importStatus}/> : ''}
 
 
         </div>

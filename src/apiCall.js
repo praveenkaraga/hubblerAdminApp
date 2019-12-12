@@ -72,3 +72,7 @@ export const getTableColumns = () => {
 export const getTableColumnSetting = () => {
 	return axios.get("https://demo1025512.mockable.io/user-table-setting")
 }
+
+export const patchUploadData = (id,data) =>{
+	return axios.patch(`/bulk-upload/users/${id}/`,data,axiosConfig)
+}

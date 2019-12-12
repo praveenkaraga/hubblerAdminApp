@@ -6,6 +6,7 @@ import map from 'lodash/map'
 import find from 'lodash/find'
 import slice from 'lodash/slice'
 import fill from 'lodash/fill'
+import isEmpty from 'lodash/isEmpty'
 import {InlineModal, InlineModalBody, InlineModalButton, List} from 'react-starter-components'
 
 const {Option} = Select;
@@ -50,10 +51,10 @@ class ExcelFieldsList extends Component {
             ele: ele,
             patchData: matchedObj
         };
-        let dob = map(mappings,function (inEle,ind) {
-            if(index === ind){
-                return {...inEle,matchedId:value}
-            }else{
+        let dob = map(mappings, function (inEle, ind) {
+            if (index === ind) {
+                return {...inEle, matchedId: value}
+            } else {
                 return {...inEle}
             }
         })
@@ -69,10 +70,9 @@ class ExcelFieldsList extends Component {
 
     render() {
         const {uploadPopUpData, switchStatus, mappings} = this.props;
-        console.log(mappings)
-        let slicedData = slice(uploadPopUpData.sheet_columns,0,uploadPopUpData.fields.length)
-        let count = slicedData.length < uploadPopUpData.fields.length ?  uploadPopUpData.fields.length - slicedData.length   : ''
-        let fillArrayData = fill(Array(count), {columnName:'None',name:"None"})
+        let slicedData = slice(uploadPopUpData.sheet_columns, 0, uploadPopUpData.fields.length)
+        let count = slicedData.length < uploadPopUpData.fields.length ? uploadPopUpData.fields.length - slicedData.length : ''
+        let fillArrayData = fill(Array(count), {columnName: 'None', name: "None"})
         let slicedDataFilled = count ? slicedData.concat(fillArrayData) : slicedData
         let _this = this
         return (
@@ -87,7 +87,7 @@ class ExcelFieldsList extends Component {
                                     style={{width: 300}}
                                     className={'dropDown'}
                                     optionFilterProp="children"
-                                    onChange={_this.onChange.bind(_this, index, ele,mappings)}
+                                    onChange={_this.onChange.bind(_this, index, ele, mappings)}
                                     onSearch={_this.onSearch.bind(_this)}
                                     filterOption={(input, option) =>
                                         option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
@@ -111,10 +111,9 @@ class ExcelFieldsList extends Component {
 class SampleDataList extends Component {
     render() {
         const {uploadPopUpData, dropDownObj, switchStatus} = this.props;
-        console.log(dropDownObj);
-        let slicedData = slice(uploadPopUpData.sheet_columns,0,uploadPopUpData.fields.length);
-        let count = slicedData.length < uploadPopUpData.fields.length ?  uploadPopUpData.fields.length - slicedData.length   : ''
-        let fillArrayData = fill(Array(count), {data:'None',name:"None"})
+        let slicedData = slice(uploadPopUpData.sheet_columns, 0, uploadPopUpData.fields.length);
+        let count = slicedData.length < uploadPopUpData.fields.length ? uploadPopUpData.fields.length - slicedData.length : ''
+        let fillArrayData = fill(Array(count), {data: 'None', name: "None"})
         let slicedDataFilled = count ? slicedData.concat(fillArrayData) : slicedData
         return (
             <ul className={'sample-data-list'}>
@@ -136,7 +135,6 @@ class SampleDataList extends Component {
 
 class ImportUsersUploadPopUp extends Component {
     state = {
-        uploading: false,
         visible: true,
         dropDownObj: {},
         switchStatus: true,
@@ -157,15 +155,29 @@ class ImportUsersUploadPopUp extends Component {
     };
 
     handleOk = e => {
-        console.log(e);
+        let _this = this
+        const {uploadImportUsersPopUPVisibility, uploadProps, sampleExcelFile, modalClose} = _this.props
+        uploadImportUsersPopUPVisibility()
+        uploadProps.onRemove(sampleExcelFile)
+        if (_this.state.activateCancel) {
+            modalClose()
+        }
         this.setState({
             visible: false,
         });
+
     };
 
-    openAnotherFileModal = () => {
+    openSubModal = (type) => {
+        let activateCancel = ''
+        if (type === 'importUser') {
+            activateCancel = true
+        } else {
+            activateCancel = false
+        }
         this.setState({
             open: true,
+            activateCancel: activateCancel
         });
     };
 
@@ -191,6 +203,18 @@ class ImportUsersUploadPopUp extends Component {
         return matchedData ? matchedData._id : ''
     }
 
+    processImportUsersData = () => {
+        const {uploadPopUpData, patchImportUsersData, importUsersUploadResponseData, commonTeamReducerAction} = this.props;
+        commonTeamReducerAction({uploadFileStatus: 'true'})
+        let patchData = {
+            mappings: this.state.mappings,
+            skip_first_row: true,
+            upload_type: "create",
+        }
+        patchImportUsersData(uploadPopUpData._id, patchData)
+
+    }
+
     componentDidMount() {
         let _this = this
         let mappingData = map(_this.props.uploadPopUpData.fields, function (ele, index) {
@@ -207,25 +231,35 @@ class ImportUsersUploadPopUp extends Component {
     }
 
     render() {
-        const {uploadPopUpData, fileName, uploadImportUsersPopUPVisibility} = this.props;
+        const {uploadPopUpData, fileName, importUsersUploadResponseData, uploadFileStatus, importStatus} = this.props;
+        let _this = this
 
         return (
             <div>
                 <Modal
-                    title="IMPORT USERS"
+                    title={importStatus ? 'Import Status' : "IMPORT USERS"}
                     visible={uploadPopUpData}
                     onOk={this.handleOk}
-                    onCancel={() => uploadImportUsersPopUPVisibility()}
+                    onCancel={() => this.openSubModal('importUser')}
                     className={'upload-modal'}
-                    footer={[
+                    footer={importStatus ? [
                         <div>
-                            <Button key="cancel" onClick={() => uploadImportUsersPopUPVisibility()}>
+                            <Button key="cancel" >
+                                <a href={importUsersUploadResponseData.error_file || ''} download> Download Error Log</a>
+                            </Button>
+                            <Button onClick={_this.processImportUsersData}>Ok</Button>
+                        </div>
+
+                    ] : [
+                        <div>
+                            <Button key="cancel" onClick={() => this.openSubModal('importUser')}>
                                 Cancel
                             </Button>
                             <Button
+                                onClick={_this.processImportUsersData}
                                 type="primary"
-                                loading={this.state.uploading}>
-                                {this.state.uploading ? 'Processing' : 'Process'}
+                                loading={uploadFileStatus}>
+                                {uploadFileStatus ? 'Processing' : 'Process'}
                             </Button>
                         </div>
 
@@ -233,48 +267,57 @@ class ImportUsersUploadPopUp extends Component {
                     {this.state.open ?
                         <Modal
                             className={'import-another-file-modal'}
-                            title="Import Another File"
+                            title={this.state.activateCancel ? 'Cancel Excel Upload' : "Import Another File"}
                             visible={this.state.visible}
                             onOk={this.handleOk}
                             centered
                             onCancel={this.handleCancel}
                             footer={[
-                                <Button key="ok" onClick={this.handleOk} className={'okay'}>
-                                    Ok
-                                </Button>,
                                 <Button key="cancel" onClick={this.handleCancel}>
                                     Cancel
-                                </Button>
+                                </Button>,
+                                <Button key="ok" onClick={this.handleOk} className={'okay'}>
+                                    {this.state.activateCancel ? 'Ok' : 'Import'}
+                                </Button>,
                             ]}
                         >
-                            Are you sure you want to cancel the Excel Upload and Import another file ?
+                            {`Are you sure you want to cancel the ${this.state.activateCancel ? 'Excel Upload ' : 'Excel Upload and Import another file ?'}`}
                         </Modal> : ''
                     }
-                    <div className={'upload-pop-header'}>
-                        <div onClick={'file-name'}>{`File Name: ${fileName}`}</div>
-                        <div className={'import-another-file'} onClick={() => this.openAnotherFileModal()}>Import
-                            Another File
+                    {importStatus ? <div>
+                        {isEmpty(importUsersUploadResponseData.result)?'':<div>
+                            <div>{`Success : ${importUsersUploadResponseData.result[0].created} ${importUsersUploadResponseData.result[0].lbl} Created`}</div>
+                            <div>{`Failure : ${importUsersUploadResponseData.result[0].invalid} ${importUsersUploadResponseData.result[0].lbl} Created`}</div>
+                        </div>}
+
+                    </div> : <div>
+                        <div className={'upload-pop-header'}>
+                            <div onClick={'file-name'}>{`File Name: ${fileName}`}</div>
+                            <div className={'import-another-file'}
+                                 onClick={() => this.openSubModal('importFile')}>Import
+                                Another File
+                            </div>
                         </div>
-                    </div>
-                    <div className={'switch-type'}>
-                        <Switch defaultChecked onChange={this.onChangeSwitch}/>
-                        <div className={'switch-type-text'}>First row contains field names</div>
-                    </div>
-                    <hr className={'divider'}/>
-                    <div className={'record-count-wrap'}>1 Record Found</div>
-                    <div className={this.state.blur ? 'records-wrap-blurred' : 'records-wrap'}>
-                        <div className={'records-header-wrap'}>
-                            <div className={'record-headings'}>System Fields</div>
-                            <div className={'record-headings'}>Excel Fields (Select To Change)</div>
-                            <div className={'record-headings'}>Sample Data From The Excel</div>
+                        <div className={'switch-type'}>
+                            <Switch defaultChecked onChange={this.onChangeSwitch}/>
+                            <div className={'switch-type-text'}>First row contains field names</div>
                         </div>
-                        <div className={'record-content-wrap'}>
-                            <SystemFieldsList {...this.props}/>
-                            <ExcelFieldsList {...this.props}
-                                             setDropValue={(obj) => this.setDropValue(obj)}{...this.state}/>
-                            <SampleDataList {...this.props} {...this.state}/>
+                        <hr className={'divider'}/>
+                        <div className={'record-count-wrap'}>1 Record Found</div>
+                        <div className={this.state.blur ? 'records-wrap-blurred' : 'records-wrap'}>
+                            <div className={'records-header-wrap'}>
+                                <div className={'record-headings'}>System Fields</div>
+                                <div className={'record-headings'}>Excel Fields (Select To Change)</div>
+                                <div className={'record-headings'}>Sample Data From The Excel</div>
+                            </div>
+                            <div className={'record-content-wrap'}>
+                                <SystemFieldsList {...this.props}/>
+                                <ExcelFieldsList {...this.props}
+                                                 setDropValue={(obj) => this.setDropValue(obj)}{...this.state}/>
+                                <SampleDataList {...this.props} {...this.state}/>
+                            </div>
                         </div>
-                    </div>
+                    </div>}
                 </Modal>
             </div>
         )
