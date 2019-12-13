@@ -144,7 +144,8 @@ class AllUserSelect extends Component {
                 <div className="allUserSelect_container">
                     <UserSearch firstButtonName={searchFirstButtonName} secondButtonName={searchSecondButtonName} searchPlaceHolder={searchPlaceHolder}
                         firstButtonLoader={searchFirstButtonLoader} secondButtonLoader={searchSecondButtonLoader} searchLoader={searchLoader} onSearch={onSearch}
-                        onClickSecond={() => this.addUserPopup(true)} userSelected={checkedList.length} onUserActivate={onClickUserActivate} onUserDeactivate={onClickUserDeactivate} onUserDelete={onClickUserDelete} onUserEdit={onClickUserEdit} />
+                        onClickSecond={() => this.addUserPopup(true)} userSelected={checkedList.length} onUserActivate={onClickUserActivate} onUserDeactivate={onClickUserDeactivate}
+                        onUserDelete={onClickUserDelete} onUserEdit={onClickUserEdit} />
 
                     <div className="all_user_details" >
                         <div className="upper_heading_details">
