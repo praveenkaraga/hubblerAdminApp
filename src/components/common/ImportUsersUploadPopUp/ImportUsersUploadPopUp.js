@@ -7,7 +7,6 @@ import find from 'lodash/find'
 import slice from 'lodash/slice'
 import fill from 'lodash/fill'
 import isEmpty from 'lodash/isEmpty'
-import {InlineModal, InlineModalBody, InlineModalButton, List} from 'react-starter-components'
 
 const {Option} = Select;
 
@@ -30,17 +29,6 @@ class SystemFieldsList extends Component {
         )
     }
 }
-
-class ExtendedInlineModalButton extends InlineModalButton {
-    render() {
-        const childNode = React.Children.only(this.props.children);
-        return React.cloneElement(childNode, {
-            onMouseOver: this.props.togglePopup,
-            ref: element => this.rootEl = element
-        });
-    }
-}
-
 
 class ExcelFieldsList extends Component {
     onChange(index, ele, mappings, value) {
@@ -156,16 +144,15 @@ class ImportUsersUploadPopUp extends Component {
 
     handleOk = e => {
         let _this = this
-        const {uploadImportUsersPopUPVisibility, uploadProps, sampleExcelFile, modalClose} = _this.props
+        const {uploadImportUsersPopUPVisibility, uploadProps, sampleExcelFile, modalClose,importStatus} = _this.props
         uploadImportUsersPopUPVisibility()
         uploadProps.onRemove(sampleExcelFile)
-        if (_this.state.activateCancel) {
+        if (_this.state.activateCancel || importStatus) {
             modalClose()
         }
         this.setState({
             visible: false,
         });
-
     };
 
     openSubModal = (type) => {
@@ -232,22 +219,24 @@ class ImportUsersUploadPopUp extends Component {
 
     render() {
         const {uploadPopUpData, fileName, importUsersUploadResponseData, uploadFileStatus, importStatus} = this.props;
-        let _this = this
-
+        let _this = this;
+        console.log(importStatus)
         return (
             <div>
                 <Modal
                     title={importStatus ? 'Import Status' : "IMPORT USERS"}
                     visible={uploadPopUpData}
                     onOk={this.handleOk}
-                    onCancel={() => this.openSubModal('importUser')}
-                    className={'upload-modal'}
+                    onCancel={importStatus ? this.handleOk :() => this.openSubModal('importUser')}
+                    centered={importStatus ? true : false}
+                    className={importStatus  ? 'upload-modal import-status-pop': 'upload-modal'}
                     footer={importStatus ? [
-                        <div>
-                            <Button key="cancel" >
-                                <a href={importUsersUploadResponseData.error_file || ''} download> Download Error Log</a>
+                        <div className={'import-status-footer'}>
+                            <Button key="cancel">
+                                <a href={importUsersUploadResponseData.error_file || ''} download> Download Error
+                                    Log</a>
                             </Button>
-                            <Button onClick={_this.processImportUsersData}>Ok</Button>
+                            <Button onClick={this.handleOk}>Done</Button>
                         </div>
 
                     ] : [
@@ -285,7 +274,7 @@ class ImportUsersUploadPopUp extends Component {
                         </Modal> : ''
                     }
                     {importStatus ? <div>
-                        {isEmpty(importUsersUploadResponseData.result)?'':<div>
+                        {isEmpty(importUsersUploadResponseData.result) ? '' : <div>
                             <div>{`Success : ${importUsersUploadResponseData.result[0].created} ${importUsersUploadResponseData.result[0].lbl} Created`}</div>
                             <div>{`Failure : ${importUsersUploadResponseData.result[0].invalid} ${importUsersUploadResponseData.result[0].lbl} Created`}</div>
                         </div>}

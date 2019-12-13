@@ -24,24 +24,27 @@ import ImportUsersPopUp from '../../components/common/ImportUsersPopUp/ImportUse
 class TeamView extends Component {
 
     componentDidMount() {
-        this.props.getTeamViewUsersData()
+        this.props.getTeamViewUsersData();
         this.downloadExcel()
     }
 
     showModal = () => {
-        this.props.importUsersPopUPVisibility(true)
+        this.props.importUsersPopUPVisibility(true);
+        this.props.commonTeamReducerAction({importStatus : false})
+
     };
 
     closeModal = () => {
         this.props.importUsersPopUPVisibility(false)
-    }
+    };
 
     downloadExcel = () => {
         this.props.onClickOfDownloadExcel()
-    }
+    };
+
     onClickOfUpload = () => {
         this.props.getImportUserUploadDetails()
-    }
+    };
 
 
     render() {

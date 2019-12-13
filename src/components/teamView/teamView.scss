@@ -279,10 +279,11 @@
           ul {
             display: flex;
             flex-direction: row;
-            max-width: 1700px;
+            //max-width: 1700px;
             max-height: 350px;
             overflow: scroll;
             margin: 0 auto;
+            flex-wrap: wrap;
           }
         }
 
