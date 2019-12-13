@@ -71,3 +71,49 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+
+
+
+
+
+
+
+### User Search Component
+
+ **props**
+
+--firstButtonName{"string"} : Name for the First Button
+
+--secondButtonName{"string"} : Name for the Second Button
+
+--searchPlaceHolder{"string"} : Placeholder for search
+
+--firstButtonLoader{"boolean"} : Loader for first button
+
+--secondButtonLoader{"boolean"} : Loader for second button
+
+--searchLoader{"boolean"} : Loader for search
+
+--onSearch : onChange of Search Input {function(e){}}
+
+--onClickFirst : onClick of First Button
+
+--onClickSecond : onClick of Second Button 
+
+
+
+--XX--Use this if You Want To Do actions On Users Like {Activate, Deactivate, Delete, Edit}--XX--
+
+--userSelected{Number} : Pass No. Of User Selected {If valid all  below options will get active}
+
+--onUserActivate : action on onClick of Activate Button 
+
+--onUserDeactivate : action on onClick of Deactivate Button 
+
+--onUserDelete : action on onClick of Delete Button 
+
+--onUserEdit : action on onClick of Edit Button {Will automatically get disabled when user greater than 1 i.e; if userSelected is greater than 1}
+
+
+**XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX** 

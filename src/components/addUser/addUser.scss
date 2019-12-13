@@ -23,6 +23,13 @@
             padding: 15px 15px 0px 15px;
             display: flex;
             justify-content: space-between;
+            
+            .heading{
+                color: #323232;
+                font-size: 15px;
+                font-weight: 600;
+            }
+
             img{
                 margin-top: 2px;
                 height: 14px;
@@ -32,7 +39,13 @@
 
         .profile_pic_with_details{
             display: flex;
-            padding: 24px 24px 24px 35px;
+            position: absolute;
+            flex-direction: column;
+            top: 10%;
+            align-items: center;
+            width: 26.3%;
+            border-bottom: 1px solid #f1f1f1;
+            z-index: 12;
 
             .profile_pic{
                 height: 100px;
@@ -70,13 +83,32 @@
         }
 
         .add_user_tab_container{
-            padding: 0px 15px 0px 15px;
+        //    padding: 0 5px;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             height: 100%;
 
             .ant-tabs-content{
                 height: 100%;
+                width: 100%;
+            }
+
+            .ant-tabs-nav-animated>div{
+                display: flex;
+                flex-direction: column;
+                align-items: baseline;
+            }
+
+            .ant-tabs-nav-wrap{
+               margin-top: 266px;
+            }
+
+            .ant-tabs-left-bar{
+                width: 225px ;
+            }
+
+            .ant-tabs-nav-scroll{
+                width: 100%;
             }
         }
 
