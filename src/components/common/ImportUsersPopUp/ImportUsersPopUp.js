@@ -18,10 +18,24 @@ class ImportUsersPopUp extends Component {
         setTimeout(() => {
             this.setState({loading: false, visible: false});
         }, 3000);
+
     };
 
+    closeModal = (uploadProps) => {
+        let _this = this
+        _this.props.modalClose()
+        uploadProps.onRemove(_this.props.sampleExcelFile)
+    };
+
+    startUpload = () => {
+        const {onClickStartUpload, commonTeamReducerAction} = this.props;
+
+        commonTeamReducerAction({startUploadStatus: 'true'});
+        onClickStartUpload()
+    }
+
     render() {
-        const {visible, modalClose, onClickDownload, sampleExcelFile, onClickStartUpload, uploadPopUpData, uploadPopUpVisibility} = this.props;
+        const {visible, modalClose, onClickDownload, sampleExcelFile, onClickStartUpload, uploadPopUpData, uploadPopUpVisibility, uploadImportUsersPopUPVisibility, patchImportUsersData, importUsersUploadResponseData, uploadFileStatus, commonTeamReducerAction, importStatus, startUploadStatus} = this.props;
         const {uploading, fileList} = this.state;
         const props = {
             onRemove: file => {
@@ -48,7 +62,7 @@ class ImportUsersPopUp extends Component {
                 title="Import Users"
                 onOk={this.handleOk}
                 className={'import-users-modal'}
-                onCancel={() => modalClose()}
+                onCancel={() => this.closeModal(props)}
                 centered
                 footer={[
                     <div>
@@ -58,16 +72,15 @@ class ImportUsersPopUp extends Component {
 
                     </div>,
                     <div>
-                        <Button key="cancel" onClick={() => modalClose()}>
+                        <Button key="cancel" onClick={() => this.closeModal(props)}>
                             Cancel
                         </Button>
                         <Button
                             type="primary"
-                            onClick={onClickStartUpload}
+                            onClick={this.startUpload}
                             disabled={fileList.length === 0}
-                            loading={uploading}
-                        >
-                            {uploading ? 'Uploading' : 'Start Upload'}
+                            loading={startUploadStatus}>
+                            {startUploadStatus ? 'Uploading' : 'Start Upload'}
                         </Button>
                     </div>
 
@@ -84,10 +97,17 @@ class ImportUsersPopUp extends Component {
             </Modal>
 
             {uploadPopUpVisibility ? <ImportUsersUploadPopUp uploadPopUpVisibility={uploadPopUpVisibility}
-                                                             fileName={fileList[0].name}
-                                                             uploadPopUpData={uploadPopUpData}/> : ''}
-
-
+                                                             uploadImportUsersPopUPVisibility={uploadImportUsersPopUPVisibility}
+                                                             fileName={fileList[0] ? fileList[0].name : ''}
+                                                             modalClose={modalClose}
+                                                             uploadProps={props}
+                                                             sampleExcelFile={sampleExcelFile}
+                                                             uploadPopUpData={uploadPopUpData}
+                                                             patchImportUsersData={patchImportUsersData}
+                                                             importUsersUploadResponseData={importUsersUploadResponseData}
+                                                             uploadFileStatus={uploadFileStatus}
+                                                             commonTeamReducerAction={commonTeamReducerAction}
+                                                             importStatus={importStatus}/> : ''}
         </div>
 
     }

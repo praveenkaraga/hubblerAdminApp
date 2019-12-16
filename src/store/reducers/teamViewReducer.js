@@ -3,6 +3,7 @@ import * as actionTypes from '../actionTypes'
 import findIndex from "lodash/findIndex";
 import slice from 'lodash/slice'
 import uniqBy from "lodash/uniqBy";
+import first from 'lodash/first'
 
 const intialState = {
     count: 1,
@@ -15,7 +16,11 @@ const intialState = {
     rootData: [],
     preservedData: [],
     importUsersPopUpVisiblity: false,
-    uploadPopUpVisibility : false,
+    uploadPopUpVisibility: false,
+    importUsersUploadResponseData: {},
+    uploadFileStatus: false,
+    startUploadStatus: false,
+    importStatus:false,
 }
 
 export const teamViewReducer = (state = intialState, action) => {
@@ -109,20 +114,39 @@ export const teamViewReducer = (state = intialState, action) => {
         case actionTypes.IMPORT_USERS_POPUP_VISIBILITY :
             return {
                 ...state, ...action.payload
-            }
+            };
         case actionTypes.DOWNLOAD_SAMPLE_EXCEL :
             return {
                 ...state,
                 sampleExcelFile: action.payload.data.result
-            }
+            };
 
         case actionTypes.GET_UPLOAD_FIELDS_DETAILS :
-            console.log(action.payload)
             return {
                 ...state,
-                uploadPopUpData: action.payload.data.result ?  action.payload.data.result[0] : {},
-                uploadPopUpVisibility:true
-            }
+                uploadPopUpData: action.payload.data.result ? action.payload.data.result.length ? first(action.payload.data.result) : {} : {},
+                uploadPopUpVisibility: true,
+                startUploadStatus:false,
+
+                /*importUsersPopUpVisiblity:false*/
+            };
+        case actionTypes.UPLOAD_IMPORT_USERS_POPUP_VISIBILITY :
+            return {
+                ...state, ...action.payload
+            };
+        case actionTypes.PATCH_IMPORT_USERS_DATA :
+            console.log(action.payload);
+            return {
+                ...state,
+                importUsersUploadResponseData: action.payload.data || {},
+                uploadFileStatus: false,
+                importStatus: true,
+                importUsersPopUpVisiblity: false
+            };
+        case actionTypes.COMMON_ACTION :
+            return {
+                ...state, ...action.payload
+            };
 
     }
 

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Checkbox, Select, Option } from 'antd';
+import { Checkbox, Select, Popover } from 'antd';
 import './allUserSelect.scss'
 import UserSearch from '../common/UserSearch/userSearch'
-
+import AddUser from '../addUser/addUser'
+import ColumnSetting from './columnSetting/columnSetting'
 
 class AllUserSelect extends Component {
 
@@ -14,22 +15,26 @@ class AllUserSelect extends Component {
             checkAll: false,
             rowsPerPage: 30,
             activeheading: "",
-            sortingtype: "dsc"
+            sortingtype: "dsc",
+            popUpActive: false,
+            visibleColumnSetting: false,
         }
         this.plainOptions = []
         console.log("hai bhai mai constructor", this.props.userData)
     }
 
-    onChangeCheckBoxGroup = async (checkedItem) => { //on click of every single checkbox
-        await this.setState({
-            checkedList: checkedItem,
-            indeterminate: !!checkedItem.length && checkedItem.length < this.plainOptions.length,
-            checkAll: checkedItem.length === this.plainOptions.length,
+    onChangeCheckBoxGroup = (checkedValue) => { //on click of every single checkbox
+        console.log(checkedValue)
+        this.setState({
+            checkedList: checkedValue,
+            indeterminate: !!checkedValue.length && checkedValue.length < this.plainOptions.length,
+            checkAll: checkedValue.length === this.plainOptions.length,
         })
-        this.props.onChangeCheckBox(this.state.checkedList)
+        this.props.onChangeCheckBox(checkedValue)
     }
 
     onCheckAll = async (e) => { //when clicked on main checkbox(click all)
+        console.log(e.target.checked)
         await this.setState({
             checkedList: e.target.checked ? this.plainOptions : [],
             indeterminate: false,
@@ -109,11 +114,24 @@ class AllUserSelect extends Component {
     }
 
 
+    addUserPopup = (status) => {
+        this.setState({
+            popUpActive: status
+        })
+    }
+
+    handleVisibleChange = visible => {
+        this.setState({ visibleColumnSetting: visible });
+        this.props.onClickColumnSetting()
+    };
+
+
     render() {
         const { allHeadingsData, userData, searchFirstButtonName, searchSecondButtonName, searchPlaceHolder, searchFirstButtonLoader,
-            searchSecondButtonLoader, searchLoader, onSearch, totalUsers, goPrevPage, goNextPage, currentPageNumber, headingClickData } = this.props
+            searchSecondButtonLoader, searchLoader, onSearch, totalUsers, goPrevPage, goNextPage, currentPageNumber, columnSettingData,
+            onClickUserActivate, onClickUserDeactivate, onClickUserDelete, onClickUserEdit } = this.props
         const perPageOptions = [7, 10, 20, 30, 40, 50, 100]
-        const { checkedList, indeterminate, checkAll, rowsPerPage, activeheading } = this.state
+        const { checkedList, indeterminate, checkAll, rowsPerPage, activeheading, popUpActive, visibleColumnSetting } = this.state
         const totalPages = Math.ceil(totalUsers / rowsPerPage)
         this.plainOptions = []
         userData.forEach(element => {
@@ -121,12 +139,13 @@ class AllUserSelect extends Component {
         });
         const modifiedUserData = this.modellingData(userData, allHeadingsData)
 
-
         return (
             <div className="allUserSelect_main">
                 <div className="allUserSelect_container">
                     <UserSearch firstButtonName={searchFirstButtonName} secondButtonName={searchSecondButtonName} searchPlaceHolder={searchPlaceHolder}
-                        firstButtonLoader={searchFirstButtonLoader} secondButtonLoader={searchSecondButtonLoader} searchLoader={searchLoader} onSearch={onSearch} />
+                        firstButtonLoader={searchFirstButtonLoader} secondButtonLoader={searchSecondButtonLoader} searchLoader={searchLoader} onSearch={onSearch}
+                        onClickSecond={() => this.addUserPopup(true)} userSelected={checkedList.length} onUserActivate={onClickUserActivate} onUserDeactivate={onClickUserDeactivate}
+                        onUserDelete={onClickUserDelete} onUserEdit={onClickUserEdit} />
 
                     <div className="all_user_details" >
                         <div className="upper_heading_details">
@@ -135,11 +154,21 @@ class AllUserSelect extends Component {
                             </div>
 
                             <div className="all_headings" style={{ "grid-template-columns": `repeat(${allHeadingsData.length}, calc(100%/${allHeadingsData.length}))` }}>
-                                {allHeadingsData.map(data => (<div key={data._id} className={`single_heading ${activeheading == data._id ? "active_heading" : "inactive_heading"}`} ref={ele => this[data._id] = ele} onClick={() => this.onheadingClick(data._id)}>{data.lbl}</div>))}
+                                {allHeadingsData.map(data => (<div key={data._id} className={`single_heading ${activeheading === data._id ? "active_heading" : "inactive_heading"}`} ref={ele => this[data._id] = ele} onClick={() => this.onheadingClick(data._id)}>{data.lbl}</div>))}
                             </div>
 
                             <div className="column_settings">
-                                <img src={require('../../images/svg/settings_grey.svg')} />
+                                <Popover
+                                    content={<ColumnSetting columnData={allHeadingsData} columnSettingData={columnSettingData} />}
+                                    title="Column Setting"
+                                    trigger="click"
+                                    visible={this.state.visibleColumnSetting}
+                                    placement="bottomRight"
+                                    autoAdjustOverflow
+                                >
+                                    <img src={require(`../../images/svg/${!visibleColumnSetting ? "settings_grey" : "close-app"}.svg`)} onClick={() => this.handleVisibleChange(visibleColumnSetting ? false : true)} alt="Column Setting" />
+
+                                </Popover>
                             </div>
                         </div>
                         <div className="lower_user_details">
@@ -148,24 +177,22 @@ class AllUserSelect extends Component {
                                     {modifiedUserData.map(user => {
 
                                         return (
-                                            <div className="user_details_container">
+                                            <div className="user_details_container" >
                                                 <div className="lower_checkbox">
-                                                    <Checkbox value={user._id} onChange={this.onChangeSingleCheckBox} />
+                                                    <Checkbox value={user._id} />
                                                 </div>
                                                 <div className="single_user_details" style={{ "grid-template-columns": `repeat(${allHeadingsData.length}, calc(100%/${allHeadingsData.length}))` }}>
                                                     {allHeadingsData.map(columnData => {
-                                                        let profileImage = require("../../images/svg/defaultProfile.svg")
-                                                        if (user["profile_image"]) {
-                                                            profileImage = user["profile_image"]["thumbnail"]
-                                                            //console.log(user["profile_image"]["thumbnail"])
-                                                        }
+
                                                         return (
                                                             <div>
-                                                                {columnData._id == "name" ?
+                                                                {columnData._id === "name" ?
                                                                     <span>
-                                                                        <img src={profileImage} />
+                                                                        <img src={user["profile_image"] ? user["profile_image"]["thumbnail"] : require("../../images/svg/defaultProfile.svg")} alt="Profile Pic" />
                                                                     </span>
-                                                                    : ""}{user[columnData._id] || "--"}
+                                                                    : ""
+                                                                }
+                                                                {user[columnData._id] || "--"}
                                                             </div>
                                                         )
                                                     })}
@@ -196,9 +223,9 @@ class AllUserSelect extends Component {
                                     <div className="current_page">{currentPageNumber} of {totalPages}</div>
                                     <div className="change_page">
                                         <span className={`prev_page ${currentPageNumber === 1 ? "prev_page_blocked" : ""}`}>
-                                            <img src={require("../../images/svg/left-arrow.svg")} onClick={goPrevPage} />
+                                            <img src={require("../../images/svg/left-arrow.svg")} onClick={goPrevPage} alt="Left Arrow" />
                                         </span>
-                                        <span className={`next_page ${currentPageNumber === totalPages ? "next_page_blocked" : ""}`}>
+                                        <span className={`next_page ${currentPageNumber === totalPages ? "next_page_blocked" : ""}`} alt="Right Arrow">
                                             <img src={require("../../images/svg/right-arrow.svg")} onClick={goNextPage} />
                                         </span></div>
                                 </div>
@@ -207,6 +234,8 @@ class AllUserSelect extends Component {
                     </div>
 
                 </div>
+
+                {popUpActive ? <AddUser onClickClose={() => this.addUserPopup(false)} /> : ""}
             </div>
         )
     }

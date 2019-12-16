@@ -1,5 +1,5 @@
 import * as actionTypes from '../actionTypes'
-import { getTableColumns, getUsers } from '../../apiCall'
+import { getTableColumns, getUsers, getTableColumnSetting } from '../../apiCall'
 
 export const getTableColumnData = () => {
     const payload = getTableColumns()
@@ -22,6 +22,15 @@ export const getConsoleUserData = (perPageRows, currentPage, searchData, heading
 export const commonConsoleAction = (payload) => {
     return {
         type: actionTypes.COMMON_CONSOLE_ACTION,
+        payload
+    }
+}
+
+
+export const tableColumnSetting = () => {
+    const payload = getTableColumnSetting()
+    return {
+        type: actionTypes.TABLE_COLUMN_SETTING_DATA,
         payload
     }
 }

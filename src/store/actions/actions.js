@@ -5,7 +5,7 @@ import * as consoleActions from './consoleActions'
 
 
 //------------------------------Create User Action---------------------------
-export const {getUserData} = createUserAction
+export const { getUserData } = createUserAction
 
 
 //-----------------------------xxxxxxxxxxxxxxxxx-----------------------------
@@ -13,19 +13,19 @@ export const {getUserData} = createUserAction
 
 //------------------------------Console Action-------------------------------//
 
-export const {getTableColumnData, getConsoleUserData, commonConsoleAction} = consoleActions
+export const { getTableColumnData, getConsoleUserData, commonConsoleAction, tableColumnSetting } = consoleActions
 
 //------------------------------xxxxxxxxxxxxxx-------------------------------//
 
 
 //-----------------       -------------------------
 
-export const {createActiveLink, hamburgerIconClick} = activeLinkAction
+export const { createActiveLink, hamburgerIconClick } = activeLinkAction
 //-------------------xxxxxxxxxxxxxxxxxxxxxxx------------
 
 
 //-----------------------------Team View Chart Users---------------------------
-export const {getTeamViewUsersData, teamViewUserClick, getClickedTeamUserData, getTeamViewOrgData, storeClickedUserId, changeLoaderStatus, getClickedTeamUserReporteeData, updateRollBackData, importUsersPopUPVisibility,onClickOfDownloadExcel,getImportUserUploadDetails} = teamViewActions
+export const { getTeamViewUsersData, teamViewUserClick, getClickedTeamUserData, getTeamViewOrgData, storeClickedUserId, changeLoaderStatus, getClickedTeamUserReporteeData, updateRollBackData, importUsersPopUPVisibility, onClickOfDownloadExcel, getImportUserUploadDetails, uploadImportUsersPopUPVisibility,patchImportUsersData,commonTeamReducerAction } = teamViewActions
 
 
 //------------------------------xxxxxxxxxxxxxxxxx--------------------------------

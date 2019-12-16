@@ -1,0 +1,26 @@
+.custom_search_main{
+    .ant-input-affix-wrapper{
+        font-size: 12px;
+         .ant-input-suffix{
+         left: 8px;
+         right: unset;
+         }           
+     }
+     
+     input, .ant-input-affix-wrapper{
+         border: none;
+     }
+     
+     input{
+        text-indent: 15px;
+         background-color : #fff;
+         font-size: 13px;
+     }
+     
+     input:focus, .ant-input-affix-wrapper:focus{
+         border : none;
+         outline : none;
+         border-color: unset;
+         box-shadow : unset
+       }
+}

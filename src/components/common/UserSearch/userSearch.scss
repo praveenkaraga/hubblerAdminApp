@@ -54,3 +54,57 @@
   }
        
 }
+
+
+.user_selected{
+    
+    background-color: #707070;
+
+    .search_users{
+        input{
+            background-color: #707070;
+            color: #d7d7d7;
+        }
+    }
+
+    .ant-input-suffix svg{
+        color: #d7d7d7;
+    }
+
+    .all_buttons{
+        display: flex;
+        align-items: center;
+        width: 23%;
+        .user_action_buttons{
+            display: flex;
+            width: 100%;
+            justify-content: space-evenly;
+            align-items: center;
+
+            .user_activate, .user_deactivate{
+                height: 20px;
+            }
+
+            .partition_div{
+                height: 26px;
+                border: 0.5px solid #979797;
+            }
+
+            .user_delete{
+                height: 18px;
+            }
+
+            .action_deactivated{
+                pointer-events: none;
+                opacity: 0.5;
+            }
+
+            .user_edit{
+                height: 16px;
+            }
+            img{
+                cursor: pointer;
+            }
+        }
+    }
+}

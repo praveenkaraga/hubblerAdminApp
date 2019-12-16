@@ -1,5 +1,8 @@
 .import-users-modal{
   width: 620px!important;
+  .ant-modal-content{
+    margin-top: -48px !important;
+  }
   .ant-modal-footer{
     display: flex;
     justify-content: space-between;
@@ -30,4 +33,7 @@
       }
     }
   }
+}
+.ant-modal-content{
+  margin-top: -48px !important;
 }

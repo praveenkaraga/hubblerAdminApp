@@ -2,10 +2,39 @@
   margin: 0 30px !important;
   width: auto !important;
 
+  .upload-option-wrap{
+    margin-top: 10px;
+    display: flex;
+    .upload-options-text-wrap{
+      display: flex;
+    }
+    .update-create{
+      margin-left: 20px;
+    }
+
+    .upload-options-type-wrap{
+      display: flex;
+    }
+    .upload-update-select{
+      min-width: 250px;
+      margin-top: 5px;
+    }
+  }
+
+  .upload-option-select{
+    width: 250px;
+    margin-top: 5px;
+  }
+
+
   .upload-pop-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    .file-name {
+      font-family: robotoMedium;
+    }
 
     .import-another-file {
       display: flex;
@@ -36,8 +65,20 @@
   .divider {
     border-top: 0 solid #eee;
     width: 100%;
-    margin: 50px auto;
+    margin: 20px auto;
     margin-bottom: 10px;
+  }
+
+  .switch-type {
+    padding: 10px;
+    display: flex;
+    background-color: rgba(207, 216, 220, .4);
+    margin-top: 10px;
+
+    .switch-type-text {
+      margin-left: 10px;
+    }
+
   }
 
   .record-count-wrap {
@@ -47,6 +88,10 @@
   .records-wrap {
     display: flex;
     flex-direction: column;
+  }
+
+  .records-wrap-blurred {
+    background-color: #ffecb3;
   }
 
   .records-header-wrap {
@@ -72,13 +117,18 @@
     background-repeat: no-repeat;
     background-position: center right 25%;
     background-size: 30px;
+
+    .field-holder {
+      width: 200px !important;
+    }
   }
 
-  .field-holder{
-    width: 200px;
+  .field-holder {
+    width: 360px;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    position: relative;
   }
 
   .field-holder em {
@@ -89,6 +139,8 @@
 
   .record-content-wrap {
     display: flex;
+    height: 270px;
+    overflow: scroll;
 
     .system-fields-List, .excel-fields-list, .sample-data-list {
       width: calc(100% / 3);
@@ -100,5 +152,102 @@
       border-bottom: 1px solid #c7cccb;
 
     }
+
+    .excel-field-list-item {
+      .dropDown {
+        .ant-select-arrow {
+          display: none;
+        }
+
+        .ant-select-selection.ant-select-selection--single {
+          border: none;
+        }
+
+        .ant-select-selection__placeholder {
+          color: #444
+        }
+      }
+    }
+
+
+    .excel-field-list-item:hover {
+      .dropDown {
+        .ant-select-arrow {
+          display: inline-block;
+        }
+
+        .ant-select-selection.ant-select-selection--single {
+          border: 1px solid #d9d9d9;
+        }
+
+        .ant-select-selection__placeholder {
+          color: #444/*#bfbfbf*/
+        }
+      }
+    }
+
+    .excel-field-list-item:hover .dropDown {
+      display: block;
+
+      .ant-select-dropdown-menu.ant-select-dropdown-menu-root.ant-select-dropdown-menu-vertical {
+        z-index: 55;
+      }
+    }
+
+    /*.excel-field-list-item:hover .field-holder {
+      display: none;
+    }*/
+    .excel-field-list-item {
+      padding: 9.5px 20px;
+    }
+
+  }
+  .import-status-footer{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
   }
 }
+
+.upload-modal.import-status-pop{
+  .ant-modal-body{
+    width: 600px;
+  }
+}
+
+.import-another-file-modal {
+  .ant-modal-content {
+
+  }
+
+  .ant-modal-body {
+    flex-wrap: nowrap;
+    width: 500px;
+    font-size: 16px;
+  }
+
+  .ant-modal-header{
+    border-bottom: none;
+  }
+  .ant-modal-footer {
+    border-top: none;
+
+
+
+    .ant-btn {
+      text-transform: uppercase;
+      height: 37px;
+      line-height: 37px;
+      border: none;
+    }
+    .ant-btn:hover{
+      background: rgba(0,0,0,.06);
+    }
+
+    .ant-btn.okay {
+      color: #1e88e5 !important;
+    }
+  }
+
+}
+
