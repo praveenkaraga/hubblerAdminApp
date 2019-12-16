@@ -27,8 +27,15 @@ class ImportUsersPopUp extends Component {
         uploadProps.onRemove(_this.props.sampleExcelFile)
     };
 
+    startUpload = () => {
+        const {onClickStartUpload, commonTeamReducerAction} = this.props;
+
+        commonTeamReducerAction({startUploadStatus: 'true'});
+        onClickStartUpload()
+    }
+
     render() {
-        const {visible, modalClose, onClickDownload, sampleExcelFile, onClickStartUpload, uploadPopUpData, uploadPopUpVisibility, uploadImportUsersPopUPVisibility, patchImportUsersData, importUsersUploadResponseData, uploadFileStatus, commonTeamReducerAction, importStatus} = this.props;
+        const {visible, modalClose, onClickDownload, sampleExcelFile, onClickStartUpload, uploadPopUpData, uploadPopUpVisibility, uploadImportUsersPopUPVisibility, patchImportUsersData, importUsersUploadResponseData, uploadFileStatus, commonTeamReducerAction, importStatus, startUploadStatus} = this.props;
         const {uploading, fileList} = this.state;
         const props = {
             onRemove: file => {
@@ -59,7 +66,7 @@ class ImportUsersPopUp extends Component {
                 centered
                 footer={[
                     <div>
-                        <Button key="download" onClick={onClickDownload} disabled={fileList.length === 0}>
+                        <Button key="download" onClick={onClickDownload}>
                             <a href={sampleExcelFile || ''} download> Download Sample Excel</a>
                         </Button>
 
@@ -70,11 +77,10 @@ class ImportUsersPopUp extends Component {
                         </Button>
                         <Button
                             type="primary"
-                            onClick={onClickStartUpload}
+                            onClick={this.startUpload}
                             disabled={fileList.length === 0}
-                            loading={uploading}
-                        >
-                            {uploading ? 'Uploading' : 'Start Upload'}
+                            loading={startUploadStatus}>
+                            {startUploadStatus ? 'Uploading' : 'Start Upload'}
                         </Button>
                     </div>
 
@@ -100,9 +106,8 @@ class ImportUsersPopUp extends Component {
                                                              patchImportUsersData={patchImportUsersData}
                                                              importUsersUploadResponseData={importUsersUploadResponseData}
                                                              uploadFileStatus={uploadFileStatus}
-                                                             commonTeamReducerAction={commonTeamReducerAction} importStatus={importStatus}/> : ''}
-
-
+                                                             commonTeamReducerAction={commonTeamReducerAction}
+                                                             importStatus={importStatus}/> : ''}
         </div>
 
     }

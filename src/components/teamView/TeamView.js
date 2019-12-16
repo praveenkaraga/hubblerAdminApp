@@ -24,28 +24,31 @@ import ImportUsersPopUp from '../../components/common/ImportUsersPopUp/ImportUse
 class TeamView extends Component {
 
     componentDidMount() {
-        this.props.getTeamViewUsersData()
+        this.props.getTeamViewUsersData();
         this.downloadExcel()
     }
 
     showModal = () => {
-        this.props.importUsersPopUPVisibility(true)
+        this.props.importUsersPopUPVisibility(true);
+        this.props.commonTeamReducerAction({importStatus : false})
+
     };
 
     closeModal = () => {
         this.props.importUsersPopUPVisibility(false)
-    }
+    };
 
     downloadExcel = () => {
         this.props.onClickOfDownloadExcel()
-    }
+    };
+
     onClickOfUpload = () => {
         this.props.getImportUserUploadDetails()
-    }
+    };
 
 
     render() {
-        const {orgChartUsers, teamViewUserDrawerVisible, clickedTeamUserData, teamViewClickedUserId, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, loader, clickedMemberData, contentLoader, importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpVisibility, uploadPopUpData, importUsersUploadResponseData,uploadFileStatus,importStatus} = this.props.teamViewReducer
+        const {orgChartUsers, teamViewUserDrawerVisible, clickedTeamUserData, teamViewClickedUserId, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, loader, clickedMemberData, contentLoader, importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpVisibility, uploadPopUpData, importUsersUploadResponseData,uploadFileStatus,importStatus,startUploadStatus} = this.props.teamViewReducer
         console.log(importUsersUploadResponseData)
         return (
             <div className={'team-view'}>
@@ -73,7 +76,7 @@ class TeamView extends Component {
                                       uploadPopUpVisibility={uploadPopUpVisibility} uploadPopUpData={uploadPopUpData}
                                       uploadImportUsersPopUPVisibility={() => this.props.uploadImportUsersPopUPVisibility()}
                                       patchImportUsersData={(id, data) => this.props.patchImportUsersData(id, data)}
-                                      importUsersUploadResponseData={importUsersUploadResponseData} uploadFileStatus={uploadFileStatus} commonTeamReducerAction={this.props.commonTeamReducerAction} importStatus={importStatus}/>
+                                      importUsersUploadResponseData={importUsersUploadResponseData} uploadFileStatus={uploadFileStatus} commonTeamReducerAction={this.props.commonTeamReducerAction} importStatus={importStatus} startUploadStatus={startUploadStatus}/>
                 </div>}
             </div>
         )

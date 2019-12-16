@@ -19,6 +19,7 @@ const intialState = {
     uploadPopUpVisibility: false,
     importUsersUploadResponseData: {},
     uploadFileStatus: false,
+    startUploadStatus: false,
     importStatus:false,
 }
 
@@ -125,6 +126,8 @@ export const teamViewReducer = (state = intialState, action) => {
                 ...state,
                 uploadPopUpData: action.payload.data.result ? action.payload.data.result.length ? first(action.payload.data.result) : {} : {},
                 uploadPopUpVisibility: true,
+                startUploadStatus:false,
+
                 /*importUsersPopUpVisiblity:false*/
             };
         case actionTypes.UPLOAD_IMPORT_USERS_POPUP_VISIBILITY :
