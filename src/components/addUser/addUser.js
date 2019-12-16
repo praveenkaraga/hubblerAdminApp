@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Tabs, Icon, Button } from 'antd';
 import './addUser.scss'
+import AllTypes from '../common/AddUserFiledsType/AllTypes'
 
 
 const { TabPane } = Tabs;
@@ -13,6 +14,7 @@ class AddUser extends Component {
     render() {
 
         const { onClickClose } = this.props
+        const allButtons = ["Cancel", "Next", "Done"]
         return (
 
             <>
@@ -40,24 +42,22 @@ class AddUser extends Component {
 
                         <Tabs defaultActiveKey="1" tabPosition="left" className="add_user_tab_container" >
                             <TabPane key="1" tab="Personal">
-                                Tab 1
-                                </TabPane>
+                                <AllTypes type="text" />
+                            </TabPane>
                             <TabPane key="2" tab="Organisation">
                                 Tab 2
-                                </TabPane>
+                            </TabPane>
                             <TabPane key="3" tab="Apps">
                                 Tab 3
-                                </TabPane>
+                            </TabPane>
                             <TabPane key="4" tab="Profiles">
                                 Tab 4
-                                </TabPane>
+                            </TabPane>
                         </Tabs>
 
 
                         <div className="bottom_buttons">
-                            <Button type="primary">Cancel</Button>
-                            <Button type="primary">Next</Button>
-                            <Button type="primary">Done</Button>
+                            {allButtons.map(buttonType => (<Button type="primary">{buttonType}</Button>))}
                         </div>
                     </div>
                 </div>
