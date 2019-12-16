@@ -7,6 +7,8 @@ import find from 'lodash/find'
 import slice from 'lodash/slice'
 import fill from 'lodash/fill'
 import isEmpty from 'lodash/isEmpty'
+import compact from 'lodash/compact'
+import omit from 'lodash/omit'
 
 const {Option} = Select;
 
@@ -126,7 +128,9 @@ class ImportUsersUploadPopUp extends Component {
         visible: true,
         dropDownObj: {},
         switchStatus: true,
-        mappings: []
+        mappings: [],
+        uploadOption: 'create',
+        reqFieldIds :[],
     };
 
     setDropValue = (dataObj) => {
@@ -144,7 +148,7 @@ class ImportUsersUploadPopUp extends Component {
 
     handleOk = e => {
         let _this = this
-        const {uploadImportUsersPopUPVisibility, uploadProps, sampleExcelFile, modalClose,importStatus} = _this.props
+        const {uploadImportUsersPopUPVisibility, uploadProps, sampleExcelFile, modalClose, importStatus} = _this.props
         uploadImportUsersPopUPVisibility()
         uploadProps.onRemove(sampleExcelFile)
         if (_this.state.activateCancel || importStatus) {
@@ -192,14 +196,19 @@ class ImportUsersUploadPopUp extends Component {
 
     processImportUsersData = () => {
         const {uploadPopUpData, patchImportUsersData, importUsersUploadResponseData, commonTeamReducerAction} = this.props;
-        commonTeamReducerAction({uploadFileStatus: 'true'})
+        let _this = this
+        let addingUpdatedBy = this.state.mappings.map(function(ele){
+            var result=_this.state.reqFieldIds.filter(inEle=> inEle === ele._id);
+            if(result.length>0) { ele.update_by = true;}
+            return ele})
+        let omitIndexes = map(addingUpdatedBy, item => omit(item, 'index'));
+        commonTeamReducerAction({uploadFileStatus: 'true'});
         let patchData = {
-            mappings: this.state.mappings,
+            mappings: omitIndexes,
             skip_first_row: true,
-            upload_type: "create",
+            upload_type: this.state.uploadOption,
         }
         patchImportUsersData(uploadPopUpData._id, patchData)
-
     }
 
     componentDidMount() {
@@ -211,25 +220,44 @@ class ImportUsersUploadPopUp extends Component {
                 matchedId: _this.getMatchedFieldsId(_this.props.uploadPopUpData.sheet_columns, index)
             }
         })
+
+        let reqFields = map(_this.props.uploadPopUpData.fields, function (ele) {
+            if (ele.required) {
+                return ele
+            }
+        });
         this.setState({
-                mappings: mappingData
+                mappings: mappingData,
+                reqFields: compact(reqFields),
             }
         )
+    }
+
+    uploadOptionChange(value) {
+        let _this = this
+        _this.setState({
+            uploadOption: value
+        })
+    }
+
+    uploadUpdateOptionChange(value) {
+        this.setState({
+            reqFieldIds: value
+        })
     }
 
     render() {
         const {uploadPopUpData, fileName, importUsersUploadResponseData, uploadFileStatus, importStatus} = this.props;
         let _this = this;
-        console.log(importStatus)
         return (
             <div>
                 <Modal
                     title={importStatus ? 'Import Status' : "IMPORT USERS"}
                     visible={uploadPopUpData}
                     onOk={this.handleOk}
-                    onCancel={importStatus ? this.handleOk :() => this.openSubModal('importUser')}
+                    onCancel={importStatus ? this.handleOk : () => this.openSubModal('importUser')}
                     centered={importStatus ? true : false}
-                    className={importStatus  ? 'upload-modal import-status-pop': 'upload-modal'}
+                    className={importStatus ? 'upload-modal import-status-pop' : 'upload-modal'}
                     footer={importStatus ? [
                         <div className={'import-status-footer'}>
                             <Button key="cancel">
@@ -239,20 +267,17 @@ class ImportUsersUploadPopUp extends Component {
                             <Button onClick={this.handleOk}>Done</Button>
                         </div>
 
-                    ] : [
-                        <div>
-                            <Button key="cancel" onClick={() => this.openSubModal('importUser')}>
-                                Cancel
-                            </Button>
-                            <Button
-                                onClick={_this.processImportUsersData}
-                                type="primary"
-                                loading={uploadFileStatus}>
-                                {uploadFileStatus ? 'Processing' : 'Process'}
-                            </Button>
-                        </div>
-
-                    ]}>
+                    ] : [<div>
+                        <Button key="cancel" onClick={() => this.openSubModal('importUser')}>
+                            Cancel
+                        </Button>
+                        <Button
+                            onClick={_this.processImportUsersData}
+                            type="primary"
+                            loading={uploadFileStatus}>
+                            {uploadFileStatus ? 'Processing' : 'Process'}
+                        </Button>
+                    </div>]}>
                     {this.state.open ?
                         <Modal
                             className={'import-another-file-modal'}
@@ -290,6 +315,34 @@ class ImportUsersUploadPopUp extends Component {
                         <div className={'switch-type'}>
                             <Switch defaultChecked onChange={this.onChangeSwitch}/>
                             <div className={'switch-type-text'}>First row contains field names</div>
+                        </div>
+                        <div className={'upload-option-wrap'}>
+                            <div>
+                                <div>Upload Option</div>
+                                <Select defaultValue="create" onChange={_this.uploadOptionChange.bind(_this)}
+                                        className={'upload-option-select'}>
+                                    <Option value="create">Create</Option>
+                                    <Option value="update">Update</Option>
+                                    <Option value="updateOrCreate">Update Or Create</Option>
+                                </Select>
+                            </div>
+                            {this.state.uploadOption === 'update' || this.state.uploadOption === 'updateOrCreate' ?
+                                <div className={'update-create'}>
+                                    <div>Select reference fields to find reports</div>
+                                    <div>
+                                        <Select onChange={_this.uploadUpdateOptionChange.bind(_this)}
+                                                mode="multiple"
+                                                placeholder={'Select'}
+                                                className={'upload-update-select'}>
+                                            {map(this.state.reqFields, function (inele, inde) {
+                                                return <Option value={inele._id}
+                                                               key={inele._id}>{inele.title}</Option>
+
+                                            })}
+                                        </Select>
+                                    </div>
+                                </div> : ''}
+
                         </div>
                         <hr className={'divider'}/>
                         <div className={'record-count-wrap'}>1 Record Found</div>
