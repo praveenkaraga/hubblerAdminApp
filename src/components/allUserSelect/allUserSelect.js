@@ -128,24 +128,23 @@ class AllUserSelect extends Component {
 
     render() {
         const { allHeadingsData, userData, searchFirstButtonName, searchSecondButtonName, searchPlaceHolder, searchFirstButtonLoader,
-            searchSecondButtonLoader, searchLoader, onSearch, totalUsers, goPrevPage, goNextPage, currentPageNumber, columnSettingData,
-            onClickUserActivate, onClickUserDeactivate, onClickUserDelete, onClickUserEdit } = this.props
+            searchSecondButtonLoader, searchFirstButtonClick, searchSecondButtonClick, searchLoader, onSearch, totalUsers, goPrevPage, goNextPage, currentPageNumber, columnSettingData,
+            onClickUserActivate, onClickUserDeactivate, onClickUserDelete, onClickUserEdit, addUserPopUpActive, addUserCloseButton, addUserDataForm } = this.props
         const perPageOptions = [7, 10, 20, 30, 40, 50, 100]
-        const { checkedList, indeterminate, checkAll, rowsPerPage, activeheading, popUpActive, visibleColumnSetting } = this.state
+        const { checkedList, indeterminate, checkAll, rowsPerPage, activeheading, visibleColumnSetting } = this.state
         const totalPages = Math.ceil(totalUsers / rowsPerPage)
         this.plainOptions = []
         userData.forEach(element => {
             this.plainOptions.push(element._id)
         });
         const modifiedUserData = this.modellingData(userData, allHeadingsData)
-
         return (
             <div className="allUserSelect_main">
                 <div className="allUserSelect_container">
                     <UserSearch firstButtonName={searchFirstButtonName} secondButtonName={searchSecondButtonName} searchPlaceHolder={searchPlaceHolder}
                         firstButtonLoader={searchFirstButtonLoader} secondButtonLoader={searchSecondButtonLoader} searchLoader={searchLoader} onSearch={onSearch}
-                        onClickSecond={() => this.addUserPopup(true)} userSelected={checkedList.length} onUserActivate={onClickUserActivate} onUserDeactivate={onClickUserDeactivate}
-                        onUserDelete={onClickUserDelete} onUserEdit={onClickUserEdit} />
+                        onClickSecond={() => this.addUserPopup(true)} onClickSecond={searchSecondButtonClick} userSelected={checkedList.length} onUserActivate={onClickUserActivate} onUserDeactivate={onClickUserDeactivate}
+                        onUserDelete={onClickUserDelete} onUserEdit={onClickUserEdit} addUserPopUpActive={addUserPopUpActive} />
 
                     <div className="all_user_details" >
                         <div className="upper_heading_details">
@@ -235,7 +234,7 @@ class AllUserSelect extends Component {
 
                 </div>
 
-                {popUpActive ? <AddUser onClickClose={() => this.addUserPopup(false)} /> : ""}
+                {addUserPopUpActive ? <AddUser onClickClose={addUserCloseButton} addUserDataForm={addUserDataForm} /> : ""}
             </div>
         )
     }

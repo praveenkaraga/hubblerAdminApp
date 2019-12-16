@@ -13,7 +13,9 @@ const intialState = {
     activeheading: "",
     sortingType: "dsc",
     columnSettingData: [],
-    columnSettingDataOriginal: {}
+    columnSettingDataOriginal: {},
+    addUserDataForm: [],
+    addUserDataFormMain: []
 }
 
 export const consoleReducer = (state = intialState, action) => {
@@ -55,6 +57,14 @@ export const consoleReducer = (state = intialState, action) => {
                 ...state,
                 columnSettingDataOriginal: columnSettingData,
                 columnSettingData: JSON.parse(JSON.stringify(columnSettingData))
+            }
+
+        case actionTypes.ADD_USER_DATA_FORM:
+            const addUserDataFormInitial = action.payload.data.result
+            return {
+                ...state,
+                addUserDataFormMain: addUserDataFormInitial,
+                addUserDataForm: JSON.parse(JSON.stringify(addUserDataFormInitial))
             }
     }
 

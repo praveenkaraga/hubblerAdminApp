@@ -79,6 +79,6 @@ export const getTableColumnSetting = () => {
 }
 
 
-export const getAddUserData = () => {
+export const getAddUserDataForm = () => {
 	return axios.get("https://demo1025512.mockable.io/add-users-form-types")
 }

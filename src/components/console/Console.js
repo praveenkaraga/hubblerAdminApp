@@ -3,10 +3,17 @@ import './console.scss'
 import AllUserSelect from '../allUserSelect/allUserSelect'
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { getTableColumnData, getConsoleUserData, commonConsoleAction, tableColumnSetting } from '../../store/actions/actions'
+import { getTableColumnData, getConsoleUserData, commonConsoleAction, tableColumnSetting, addUserDataForm } from '../../store/actions/actions'
 
 
 class Console extends Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            popUpActive: false
+        }
+    }
 
 
     userSearchData = (e) => {
@@ -77,19 +84,37 @@ class Console extends Component {
     }
 
 
+    searchSecondButtonClick = (status) => {
+        if (status && !this.props.consoleReducer.addUserDataFormMain.length) {
+            this.props.addUserDataForm()
+        }
+        this.setState({
+            popUpActive: status
+        })
+    }
+
+    searchFirstButtonClick = () => {
+        console.log("searchFirstButtonClick")
+    }
+
+
     render() {
 
-        const { consoleColumnData, consoleUserData, totalUsers, currentPageNumber, searchLoader, columnSettingData } = this.props.consoleReducer
+        const { consoleColumnData, consoleUserData, totalUsers, currentPageNumber, searchLoader, columnSettingData, addUserDataForm } = this.props.consoleReducer
+
+        const { popUpActive } = this.state
         return (
             <div className="console_main">
                 <div className="console_heading"><h3>Console</h3></div>
 
                 <AllUserSelect allHeadingsData={consoleColumnData} userData={consoleUserData} searchFirstButtonName={"IMPORT USERS"} searchSecondButtonName={"ADD USER"}
+                    searchFirstButtonClick={this.searchFirstButtonClick} searchSecondButtonClick={() => this.searchSecondButtonClick(true)}
                     onSearch={this.userSearchData} searchPlaceHolder={"Search Users / Managers / Designation"} searchFirstButtonLoader={false} searchSecondButtonLoader={false}
                     searchLoader={searchLoader} onChangeCheckBox={this.onChangeCheckBox} totalUsers={totalUsers} onChangeRowsPerPage={this.onChangeRowsPerPage} goPrevPage={() => this.changePage(-1)}
                     goNextPage={() => this.changePage(1)} currentPageNumber={currentPageNumber} headingClickData={this.onClickHeadingColumn} onClickColumnSetting={this.onClickColumnSetting}
                     columnSettingData={columnSettingData} onClickUserActivate={() => this.onClickUserActions("activate")} onClickUserDeactivate={() => this.onClickUserActions("deactivate")}
-                    onClickUserDelete={() => this.onClickUserActions("delete")} onClickUserEdit={() => this.onClickUserActions("edit")}
+                    onClickUserDelete={() => this.onClickUserActions("delete")} onClickUserEdit={() => this.onClickUserActions("edit")} addUserPopUpActive={popUpActive}
+                    addUserCloseButton={() => this.searchSecondButtonClick(false)} addUserDataForm={addUserDataForm}
                 />
             </div>
         )
@@ -109,7 +134,8 @@ const mapDispatchToProps = dispatch => {
             getTableColumnData,
             getConsoleUserData,
             commonConsoleAction,
-            tableColumnSetting
+            tableColumnSetting,
+            addUserDataForm
         },
         dispatch
     );

@@ -13,7 +13,7 @@ class AddUser extends Component {
     }
     render() {
 
-        const { onClickClose } = this.props
+        const { onClickClose, addUserDataForm } = this.props
         const allButtons = ["Cancel", "Next", "Done"]
         return (
 
@@ -42,7 +42,7 @@ class AddUser extends Component {
 
                         <Tabs defaultActiveKey="1" tabPosition="left" className="add_user_tab_container" >
                             <TabPane key="1" tab="Personal">
-                                <AllTypes type="text" />
+                                {addUserDataForm.map(data => (<AllTypes type={data.type} />))}
                             </TabPane>
                             <TabPane key="2" tab="Organisation">
                                 Tab 2
