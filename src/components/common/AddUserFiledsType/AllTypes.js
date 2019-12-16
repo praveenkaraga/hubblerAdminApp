@@ -22,34 +22,32 @@ class AllTypes extends Component {
         switch (type) {
             case "text":
                 return <div>text</div>
-                break;
             case "number":
-                return console.log("number")
-                break;
+                return <div>number</div>
+
             case "phone":
-                return console.log("phone")
-                break;
+                return <div>phone</div>
+
             case "email":
-                return console.log("email")
-                break;
+                return <div>email</div>
+
             case "dropdown":
-                return console.log("dropdown")
-                break;
+                return <div>dropdown</div>
+
             case "multiselect":
-                return console.log("multiselect")
-                break;
+                return <div>multiselect</div>
+
             case "date":
-                return console.log("date")
-                break;
+                return <div>date</div>
+
             case "date-time":
-                return console.log("date-time")
-                break;
+                return <div>date-time</div>
+
             case "location":
-                return console.log("location")
-                break;
+                return <div>location</div>
+
 
             default: return <div>Nischal</div>
-                break;
         }
     }
 }
