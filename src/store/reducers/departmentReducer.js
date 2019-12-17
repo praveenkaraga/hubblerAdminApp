@@ -21,11 +21,11 @@ export const departmentReducer = (state = initialState, action) => {
             const departmentsDataDataInitial = action.payload.data
             const departmentsData = departmentsDataDataInitial ? departmentsDataDataInitial.result : []
             const departmentsDataCopy = JSON.parse(JSON.stringify(departmentsData))
-            const d = map(departmentsDataCopy,ele => ({...ele, departments : true}))
+            const d = map(departmentsDataCopy,ele => ({...ele, departments : ele.name , people: ele.count}))
             const totalUsers = departmentsDataDataInitial ? departmentsDataDataInitial.total_count : 0
             return {
                 ...state,
-                departmentsData: departmentsDataCopy,
+                departmentsData: d,
                 totalUsers,
             };
 
