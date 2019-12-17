@@ -29,8 +29,9 @@ class AddUser extends Component {
                         </div>
                         <div className="profile_pic_with_details ">
                             <div className="profile_pic">
-                                <img src={require("../../images/svg/defaultProfile.svg")} />
-                                <p className="change_photo">Change Photo</p>
+                                {/* <img className="profile_image" src={require("../../images/svg/defaultProfile.svg")} /> */}
+                                <div className="no_profile_image"><p>Upload Pic</p></div>
+                                <img className="camera" src={require("../../images/svg/camera-profile.svg")} />
                             </div>
                             <div className="user_details">
                                 <h3 className="name">User Details</h3>

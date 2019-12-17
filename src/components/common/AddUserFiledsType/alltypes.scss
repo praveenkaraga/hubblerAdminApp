@@ -35,6 +35,11 @@
                 font-size: 12px;
             }
         }
+
+        .single_gender_container:hover, .selected-gender{
+            background-color: #e5faff;
+            cursor: pointer;
+        }
     }
 }
 

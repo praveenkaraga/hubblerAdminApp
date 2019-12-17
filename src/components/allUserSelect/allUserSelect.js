@@ -82,7 +82,7 @@ class AllUserSelect extends Component {
                     const dataType = data.type
                     switch (dataType) {
                         case "text":
-                            singleUserData["name"] = singleUserData.firstname + " " + singleUserData.lastname
+                            singleUserData["name"] = (singleUserData.firstname || "") + " " + (singleUserData.lastname || "")
                             break;
                         case "number":
                             break;
