@@ -2,6 +2,7 @@ import * as createUserAction from './createUserAction'
 import * as activeLinkAction from './activeLinkAction'
 import * as teamViewActions from './teamViewActions'
 import * as consoleActions from './consoleActions'
+import * as departmentActions from './departmentActions'
 
 
 //------------------------------Create User Action---------------------------
@@ -29,3 +30,10 @@ export const { getTeamViewUsersData, teamViewUserClick, getClickedTeamUserData, 
 
 
 //------------------------------xxxxxxxxxxxxxxxxx--------------------------------
+
+
+//------------------------------ Department Action -------------------------------//
+
+export const {getDepartmentData,commonDepartmentAction,getDeptTableColumnData} = departmentActions
+
+//------------------------------xxxxxxxxxxxxxx-------------------------------//
