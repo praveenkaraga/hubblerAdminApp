@@ -63,16 +63,24 @@ export const getUploadFieldData = () => {
 	return axios.get(`/bulk-upload/users/`, axiosConfig);
 };
 
+
+export const patchUploadData = (id, data) => {
+	return axios.patch(`/bulk-upload/users/${id}/`, data, axiosConfig)
+}
+
+
 export const getTableColumns = () => {
 	return axios.get("https://demo1025512.mockable.io/user-table-details2")
 };
+
 
 export const getTableColumnSetting = () => {
 	return axios.get("https://demo1025512.mockable.io/user-table-setting")
 }
 
-export const patchUploadData = (id,data) =>{
-	return axios.patch(`/bulk-upload/users/${id}/`,data,axiosConfig)
+
+export const getAddUserDataForm = () => {
+	return axios.get("https://demo1025512.mockable.io/add-users-form-types")
 }
 
 export const getDepartmentsData = () => {

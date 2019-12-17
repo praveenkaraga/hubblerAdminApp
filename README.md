@@ -83,11 +83,11 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
  **props**
 
---firstButtonName{"string"} : Name for the First Button
+**firstButtonName**  {"string"} : Name for the First Button
 
---secondButtonName{"string"} : Name for the Second Button
+**secondButtonName** {"string"} : Name for the Second Button
 
---searchPlaceHolder{"string"} : Placeholder for search
+**searchPlaceHolder** {"string"} : Placeholder for search
 
 --firstButtonLoader{"boolean"} : Loader for first button
 
@@ -103,7 +103,7 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 
 
---XX--Use this if You Want To Do actions On Users Like {Activate, Deactivate, Delete, Edit}--XX--
+**--XX--Use below ones if You Want To Do actions On Users Like {Activate, Deactivate, Delete, Edit}--XX--**
 
 --userSelected{Number} : Pass No. Of User Selected {If valid all  below options will get active}
 
