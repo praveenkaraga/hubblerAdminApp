@@ -8,6 +8,7 @@ import Email from '../AddUserFiledsType/Email'
 import MultiSelect from '../AddUserFiledsType/MultiSelect'
 import Number from '../AddUserFiledsType/Number'
 import Phone from '../AddUserFiledsType/Phone'
+import Gender from '../AddUserFiledsType/Gender'
 
 
 
@@ -21,31 +22,34 @@ class AllTypes extends Component {
         const { type } = this.props
         switch (type) {
             case "text":
-                return <div>text</div>
+                return <Text />
+
             case "number":
-                return <div>number</div>
+                return < Number />
 
             case "phone":
-                return <div>phone</div>
+                return < Phone />
 
             case "email":
-                return <div>email</div>
+                return <Email />
 
             case "dropdown":
-                return <div>dropdown</div>
+                return < Dropdown />
 
             case "multiselect":
-                return <div>multiselect</div>
+                return < MultiSelect />
 
             case "date":
-                return <div>date</div>
+                return <Date />
 
             case "date-time":
-                return <div>date-time</div>
+                return <DateTime />
 
             case "location":
                 return <div>location</div>
 
+            case "gender":
+                return <Gender />
 
             default: return <div>Nischal</div>
         }

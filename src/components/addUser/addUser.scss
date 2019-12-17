@@ -53,11 +53,11 @@
             width: 220px;
 
             .profile_pic{
-                height: 100px;
+                height: 87px;
                 width: 80px;
-                border: 1px solid #e5e5e5;
                 border-radius: 3px;
                 overflow: hidden; 
+                position: relative;
 
                 .change_photo{
                     padding: 2px;
@@ -71,15 +71,45 @@
                }
             }
 
-            img{
+            .profile_image{
                 height: 78px;
                 width: 78px;
                 padding: 1px;
+                cursor: pointer;
+            }
+
+            .no_profile_image{
+                height: 78px;
+                width: 78px;
+                background-color: #eef0f2;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+
+                p{
+                    margin: 0;
+                    color: #767373;
+                    font-size: 12px;
+                    width: 73%;
+                    text-align: center;
+                    margin-top: 3px;
+                }
+            }
+
+            .camera{
+                height: 31px;
+                right: 0;
+                bottom: 10px;
+                position: absolute;
+                cursor: pointer;
             }
 
             .user_details{
                 text-align: center;
                 margin-top: 5px;
+                margin-bottom: 12px;
 
                 .name{
                     color: black;
@@ -111,7 +141,7 @@
             }
 
             .ant-tabs-nav-wrap{
-              margin-top: 266px;
+              margin-top: 265px;
             }
 
             .ant-tabs-left-bar{
@@ -119,11 +149,18 @@
                 flex-shrink: 0;
                 border-right: unset;
                 background-color: #f9fcff;
+
+                .ant-tabs-tab{
+                    margin: 0 0 11px 0;
+                    padding: 3px 24px;
+                }
+                
             }
 
             .ant-tabs-left-content{
                 border-left: unset;
                 padding: 5px;
+                overflow: scroll;
             }
 
 
