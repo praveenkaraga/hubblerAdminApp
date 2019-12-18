@@ -5,6 +5,7 @@ import { getUserData, createActiveLink } from '../../store/actions/actions'
 import Console from '../../components/console/Console'
 import TeamView from '../../components/teamView/TeamView'
 import Departments from '../../components/departments/departments'
+import Designations from '../../components/designations/designations'
 import {
     BrowserRouter as Router,
     Switch,
@@ -39,7 +40,7 @@ const routes = [
     },
     {
         path: "/designations",
-        main: () => <h2>Designations</h2>,
+        main: () => <Designations />,
         name: 'Designations',
         link_name: 'designations',
         class_name: 'designations'

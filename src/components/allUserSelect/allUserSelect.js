@@ -82,7 +82,7 @@ class AllUserSelect extends Component {
                     const dataType = data.type
                     switch (dataType) {
                         case "text":
-                            singleUserData["name"] = singleUserData.firstname + " " + singleUserData.lastname
+                            singleUserData["name"] = (singleUserData.firstname || "") + " " + (singleUserData.lastname || "")
                             break;
                         case "number":
                             break;
@@ -129,7 +129,7 @@ class AllUserSelect extends Component {
     render() {
         const { allHeadingsData, userData, searchFirstButtonName, searchSecondButtonName, searchPlaceHolder, searchFirstButtonLoader,
             searchSecondButtonLoader, searchFirstButtonClick, searchSecondButtonClick, searchLoader, onSearch, totalUsers, goPrevPage, goNextPage, currentPageNumber, columnSettingData,
-            onClickUserActivate, onClickUserDeactivate, onClickUserDelete, onClickUserEdit, addUserPopUpActive, addUserCloseButton, addUserDataForm } = this.props
+            onClickUserActivate, onClickUserDeactivate, onClickUserDelete, onClickUserEdit, addUserPopUpActive, addUserCloseButton, addUserDataForm, isUserData } = this.props
         const perPageOptions = [7, 10, 20, 30, 40, 50, 100]
         const { checkedList, indeterminate, checkAll, rowsPerPage, activeheading, visibleColumnSetting } = this.state
         const totalPages = Math.ceil(totalUsers / rowsPerPage)
@@ -156,7 +156,7 @@ class AllUserSelect extends Component {
                                 {allHeadingsData.map(data => (<div key={data._id} className={`single_heading ${activeheading === data._id ? "active_heading" : "inactive_heading"}`} ref={ele => this[data._id] = ele} onClick={() => this.onheadingClick(data._id)}>{data.lbl}</div>))}
                             </div>
 
-                            <div className="column_settings">
+                            {isUserData ? <div className="column_settings">
                                 <Popover
                                     content={<ColumnSetting columnData={allHeadingsData} columnSettingData={columnSettingData} />}
                                     title="Column Setting"
@@ -168,7 +168,7 @@ class AllUserSelect extends Component {
                                     <img src={require(`../../images/svg/${!visibleColumnSetting ? "settings_grey" : "close-app"}.svg`)} onClick={() => this.handleVisibleChange(visibleColumnSetting ? false : true)} alt="Column Setting" />
 
                                 </Popover>
-                            </div>
+                            </div> : ""}
                         </div>
                         <div className="lower_user_details">
                             <div className="lower_user_details_container">
@@ -185,7 +185,7 @@ class AllUserSelect extends Component {
 
                                                         return (
                                                             <div>
-                                                                {columnData._id === "name" ?
+                                                                {isUserData && columnData._id === "name" ?
                                                                     <span>
                                                                         <img src={user["profile_image"] ? user["profile_image"]["thumbnail"] : require("../../images/svg/defaultProfile.svg")} alt="Profile Pic" />
                                                                     </span>

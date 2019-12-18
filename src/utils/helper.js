@@ -14,3 +14,10 @@ export function checkError(state, { payload }) {
     }
     return errorPayload
 }
+
+
+export function validationRules(required, label, minLength, maxLength) {
+    return [{ required: required, message: `Please input ${label}` },
+    { min: minLength, message: `Minimum ${minLength} Letters` },
+    { max: maxLength, message: `Maximum ${maxLength} Letters` }]
+}

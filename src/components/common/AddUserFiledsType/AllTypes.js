@@ -8,7 +8,9 @@ import Email from '../AddUserFiledsType/Email'
 import MultiSelect from '../AddUserFiledsType/MultiSelect'
 import Number from '../AddUserFiledsType/Number'
 import Phone from '../AddUserFiledsType/Phone'
-
+import Gender from '../AddUserFiledsType/Gender'
+import TextArea from '../AddUserFiledsType/TextArea'
+import { validationRules } from '../../../utils/helper'
 
 
 
@@ -17,37 +19,51 @@ class AllTypes extends Component {
         super(props);
         this.state = {}
     }
+
+    filterRulesForDate = (normalRules) => {
+        let filteredData = normalRules.filter(data => "required" in data)
+        return filteredData
+    }
+
     render() {
-        const { type } = this.props
+        const { type, required, label, minLength, maxLength } = this.props
+        const customValidationRules = validationRules(required, label, minLength, maxLength)
+
         switch (type) {
             case "text":
-                return <div>text</div>
+                return <Text validationRules={customValidationRules} {...this.props} />
+
             case "number":
-                return <div>number</div>
+                return <Number validationRules={customValidationRules} {...this.props} />
 
             case "phone":
-                return <div>phone</div>
+                return <Phone validationRules={customValidationRules} {...this.props} />
 
             case "email":
-                return <div>email</div>
+                return <Email validationRules={customValidationRules} {...this.props} />
 
             case "dropdown":
-                return <div>dropdown</div>
+                return <Dropdown validationRules={this.filterRulesForDate(customValidationRules)} {...this.props} />
 
             case "multiselect":
-                return <div>multiselect</div>
+                return <MultiSelect validationRules={this.filterRulesForDate(customValidationRules)} {...this.props} />
 
             case "date":
-                return <div>date</div>
+                return <Date validationRules={this.filterRulesForDate(customValidationRules)} {...this.props} />
 
             case "date-time":
-                return <div>date-time</div>
+                return <DateTime validationRules={this.filterRulesForDate(customValidationRules)} {...this.props} />
 
             case "location":
                 return <div>location</div>
 
+            case "gender":
+                return <Gender  {...this.props} />
 
-            default: return <div>Nischal</div>
+            case "textarea":
+                return <TextArea validationRules={customValidationRules} {...this.props} />
+
+            default: return <div></div>
         }
     }
 }

@@ -82,3 +82,15 @@ export const getTableColumnSetting = () => {
 export const getAddUserDataForm = () => {
 	return axios.get("https://demo1025512.mockable.io/add-users-form-types")
 }
+
+export const getDepartmentsData = () => {
+	return axios.get(`/rest/departments/?start=1&offset=20&sortKey=_id&sortOrder=dsc&filterKey=&filterQuery=`, axiosConfig);
+};
+
+export const getDeptTableColumns = () => {
+	return axios.get("https://demo1025512.mockable.io/user-table-des-dep")
+};
+
+
+
+

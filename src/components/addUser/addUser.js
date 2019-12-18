@@ -29,8 +29,9 @@ class AddUser extends Component {
                         </div>
                         <div className="profile_pic_with_details ">
                             <div className="profile_pic">
-                                <img src={require("../../images/svg/defaultProfile.svg")} />
-                                <p className="change_photo">Change Photo</p>
+                                {/* <img className="profile_image" src={require("../../images/svg/defaultProfile.svg")} /> */}
+                                <div className="no_profile_image"><p>Upload Pic</p></div>
+                                <img className="camera" src={require("../../images/svg/camera-profile.svg")} />
                             </div>
                             <div className="user_details">
                                 <h3 className="name">User Details</h3>
@@ -42,7 +43,9 @@ class AddUser extends Component {
 
                         <Tabs defaultActiveKey="1" tabPosition="left" className="add_user_tab_container" >
                             <TabPane key="1" tab="Personal">
-                                {addUserDataForm.map(data => (<AllTypes type={data.type} />))}
+                                {addUserDataForm.map(data => (<AllTypes key={data.id + data.tatabIndexb}
+                                    type={data.type} minLength={data.minlength} maxLength={data.maxlength}
+                                    required={data.required} label={data.label} options={data.options} />))}
                             </TabPane>
                             <TabPane key="2" tab="Organisation">
                                 Tab 2

@@ -107,14 +107,31 @@ class Console extends Component {
             <div className="console_main">
                 <div className="console_heading"><h3>Console</h3></div>
 
-                <AllUserSelect allHeadingsData={consoleColumnData} userData={consoleUserData} searchFirstButtonName={"IMPORT USERS"} searchSecondButtonName={"ADD USER"}
+                <AllUserSelect
+                    //all Search and button component props
+                    userData={consoleUserData} searchFirstButtonName={"IMPORT USERS"} searchSecondButtonName={"ADD USER"}
                     searchFirstButtonClick={this.searchFirstButtonClick} searchSecondButtonClick={() => this.searchSecondButtonClick(true)}
-                    onSearch={this.userSearchData} searchPlaceHolder={"Search Users / Managers / Designation"} searchFirstButtonLoader={false} searchSecondButtonLoader={false}
-                    searchLoader={searchLoader} onChangeCheckBox={this.onChangeCheckBox} totalUsers={totalUsers} onChangeRowsPerPage={this.onChangeRowsPerPage} goPrevPage={() => this.changePage(-1)}
-                    goNextPage={() => this.changePage(1)} currentPageNumber={currentPageNumber} headingClickData={this.onClickHeadingColumn} onClickColumnSetting={this.onClickColumnSetting}
-                    columnSettingData={columnSettingData} onClickUserActivate={() => this.onClickUserActions("activate")} onClickUserDeactivate={() => this.onClickUserActions("deactivate")}
-                    onClickUserDelete={() => this.onClickUserActions("delete")} onClickUserEdit={() => this.onClickUserActions("edit")} addUserPopUpActive={popUpActive}
-                    addUserCloseButton={() => this.searchSecondButtonClick(false)} addUserDataForm={addUserDataForm}
+                    onSearch={this.userSearchData} searchPlaceHolder={"Search Users / Managers / Designation"} searchFirstButtonLoader={false}
+                    searchSecondButtonLoader={false} searchLoader={searchLoader}
+
+
+                    // props for main AllUser component
+                    onChangeCheckBox={this.onChangeCheckBox} totalUsers={totalUsers} onChangeRowsPerPage={this.onChangeRowsPerPage} goPrevPage={() => this.changePage(-1)}
+                    goNextPage={() => this.changePage(1)} currentPageNumber={currentPageNumber} headingClickData={this.onClickHeadingColumn}
+                    allHeadingsData={consoleColumnData}
+
+                    //props of column setting component
+                    onClickColumnSetting={this.onClickColumnSetting} columnSettingData={columnSettingData}
+
+                    //props for all the actions to be done on user
+                    onClickUserActivate={() => this.onClickUserActions("activate")} onClickUserDeactivate={() => this.onClickUserActions("deactivate")}
+                    onClickUserDelete={() => this.onClickUserActions("delete")} onClickUserEdit={() => this.onClickUserActions("edit")}
+
+                    //props for add user component
+                    addUserPopUpActive={popUpActive} addUserCloseButton={() => this.searchSecondButtonClick(false)} addUserDataForm={addUserDataForm}
+
+                    //to check if it is userData or not
+                    isUserData={true}
                 />
             </div>
         )
