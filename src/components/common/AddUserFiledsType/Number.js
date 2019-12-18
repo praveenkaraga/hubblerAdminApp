@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input } from 'antd';
+import { Form, Input } from 'antd';
 
 
 
@@ -49,11 +49,25 @@ class Number extends Component {
     };
 
     render() {
+
+        const { label, validationRules } = this.props
+        const { getFieldDecorator } = this.props.form;
+
+        const config = {
+            rules: validationRules,
+        };
+        console.warn = () => { }
         return (
-            <NumericInput value={this.state.value} onChange={this.onChange} {...this.props} />
+
+            <Form.Item label={label}>
+                {getFieldDecorator('number', config)(<NumericInput value={this.state.value} onChange={this.onChange} {...this.props} />)}
+            </Form.Item>
         );
     }
 }
 
 
-export default Number
+
+const WrappedNumberForm = Form.create()(Number);
+
+export default WrappedNumberForm;

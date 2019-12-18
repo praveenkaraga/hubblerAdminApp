@@ -5,12 +5,16 @@ class DateTime extends Component {
 
     render() {
         const { getFieldDecorator } = this.props.form;
+        const { validationRules, label } = this.props
         const config = {
-            rules: [{ type: 'object', required: true, message: 'Please select Date and Time!' }],
+            rules: [{
+                type: 'object',
+                message: 'The input is not valid Date And Time!',
+            }, ...validationRules],
         };
         console.warn = () => { }
         return (
-            <Form.Item label="Date and Time Picker">
+            <Form.Item label={label}>
                 {getFieldDecorator('date-picker', config)(<DatePicker showTime format="DD-MM-YYYY HH:mm:ss" placeholder=" Select Date and Time"{...this.props} />)}
             </Form.Item>);
     }

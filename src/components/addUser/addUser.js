@@ -43,7 +43,9 @@ class AddUser extends Component {
 
                         <Tabs defaultActiveKey="1" tabPosition="left" className="add_user_tab_container" >
                             <TabPane key="1" tab="Personal">
-                                {addUserDataForm.map(data => (<AllTypes type={data.type} />))}
+                                {addUserDataForm.map(data => (<AllTypes key={data.id + data.tatabIndexb}
+                                    type={data.type} minLength={data.minlength} maxLength={data.maxlength}
+                                    required={data.required} label={data.label} options={data.options} />))}
                             </TabPane>
                             <TabPane key="2" tab="Organisation">
                                 Tab 2

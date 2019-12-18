@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Form, Input } from 'antd';
-class Text extends Component {
 
 
 
+class TextArea extends Component {
     render() {
         const { label, validationRules } = this.props
         const { getFieldDecorator } = this.props.form;
@@ -14,11 +14,11 @@ class Text extends Component {
         console.warn = () => { }
         return (
             <Form.Item label={label}>
-                {getFieldDecorator('text', config)(<Input />)}
+                {getFieldDecorator('textarea', config)(<Input.TextArea autoSize={{ minRows: 3, maxRows: 5 }} />)}
             </Form.Item>);
     }
 }
 
-const WrappedTextForm = Form.create()(Text);
+const WrappedTextAreaForm = Form.create()(TextArea);
 
-export default WrappedTextForm;
+export default WrappedTextAreaForm;
