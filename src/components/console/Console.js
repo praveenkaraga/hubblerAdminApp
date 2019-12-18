@@ -129,6 +129,9 @@ class Console extends Component {
 
                     //props for add user component
                     addUserPopUpActive={popUpActive} addUserCloseButton={() => this.searchSecondButtonClick(false)} addUserDataForm={addUserDataForm}
+
+                    //to check if it is userData or not
+                    isUserData={true}
                 />
             </div>
         )

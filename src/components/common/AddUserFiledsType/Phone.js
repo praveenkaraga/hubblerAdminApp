@@ -6,21 +6,25 @@ const { Option } = Select;
 class Phone extends Component {
 
     render() {
+        const { label, validationRules } = this.props
         const { getFieldDecorator } = this.props.form;
+
         const config = {
-            rules: [{ required: true, message: 'Please input your phone number!' }],
+            rules: validationRules,
         };
+
         const prefixSelector = getFieldDecorator('prefix', {
-            initialValue: '86',
+            initialValue: '91',
         })(
             <Select style={{ width: 70 }}>
+                <Option value="91">+91</Option>
                 <Option value="86">+86</Option>
                 <Option value="87">+87</Option>
             </Select>,
         );
         console.warn = () => { }
         return (
-            <Form.Item label="Dropdown" >
+            <Form.Item label={label} >
                 {getFieldDecorator('select', config)(
                     <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
                 )}

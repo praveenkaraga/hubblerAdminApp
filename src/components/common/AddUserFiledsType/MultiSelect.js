@@ -6,20 +6,24 @@ const { Option } = Select;
 class MultiDropdown extends Component {
 
     render() {
+
+        const { label, validationRules, options } = this.props
         const { getFieldDecorator } = this.props.form;
+
         const config = {
-            rules: [
-                { required: true, message: 'Please select your favourite colors!', type: 'array' },
-            ]
+            rules: [{
+                type: 'array',
+                message: 'The input is not valid!',
+            }, ...validationRules],
         };
+
+
         console.warn = () => { }
         return (
-            <Form.Item label="Multi Select">
+            <Form.Item label={label}>
                 {getFieldDecorator('select-multiple', config)(
                     <Select style={{ width: "100%" }} mode="multiple" placeholder="Please select atleast one">
-                        <Option value="red">Red</Option>
-                        <Option value="green">Green</Option>
-                        <Option value="blue">Blue</Option>
+                        {options.map(singleOption => (<Option key={singleOption.id} value={singleOption.id}>{singleOption.name}</Option>))}
                     </Select>
                 )}
             </Form.Item>

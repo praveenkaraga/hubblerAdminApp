@@ -6,17 +6,19 @@ const { Option } = Select;
 class Dropdown extends Component {
 
     render() {
+        const { label, validationRules, options } = this.props
         const { getFieldDecorator } = this.props.form;
+
         const config = {
-            rules: [{ required: true, message: 'Please select your country!' }],
+            rules: validationRules,
         };
         console.warn = () => { }
         return (
-            <Form.Item label="Dropdown" >
+            <Form.Item label={label} >
                 {getFieldDecorator('select', config)(
                     <Select style={{ width: "100%" }} placeholder="Please select a country" showSearch>
-                        <Option value="china">China</Option>
-                        <Option value="usa">U.S.A</Option>
+                        {options.map(singleOption => (<Option key={singleOption.id} value={singleOption.id}>{singleOption.name}</Option>))}
+                        {/* <Option value="usa">U.S.A</Option> */}
                     </Select>
                 )}
             </Form.Item>
