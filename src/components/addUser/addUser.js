@@ -31,9 +31,9 @@ class AddUser extends Component {
         const { croppedImage } = this.state
 
         const profileImgcontent = (
-            <div>
-                <label for="uploadPhoto-ImageCropper"> <p>Upload</p></label>
-                <p onClick={() => this.finalImage(null)}>Remove</p>
+            <div className="actionButtons">
+                <label for="uploadPhoto-ImageCropper"> <div>Upload</div></label>
+                <div onClick={() => this.finalImage(null)}>Remove</div>
             </div>
         )
 
