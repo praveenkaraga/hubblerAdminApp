@@ -14,7 +14,7 @@ class Text extends Component {
         console.warn = () => { }
         return (
             <Form.Item label={label}>
-                {getFieldDecorator('text', config)(<Input />)}
+                {getFieldDecorator('text', config)(<Input {...this.props} />)}
             </Form.Item>);
     }
 }

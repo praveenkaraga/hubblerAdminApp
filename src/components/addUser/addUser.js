@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Tabs, Icon, Button } from 'antd';
 import './addUser.scss'
 import AllTypes from '../common/AddUserFiledsType/AllTypes'
+import ImageCropper from '../common/ImageCropper/imageCropper'
 
 
 const { TabPane } = Tabs;
@@ -9,15 +10,29 @@ const { TabPane } = Tabs;
 class AddUser extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            croppedImage: null
+        }
     }
+
+
+    finalImage = (data) => {
+        this.setState({ croppedImage: data })
+    }
+
+
     render() {
 
         const { onClickClose, addUserDataForm } = this.props
+        const { croppedImage } = this.state
         const allButtons = ["Cancel", "Next", "Done"]
         return (
 
             <>
+                <>
+                    <ImageCropper uniqueId={"uploadPhoto-ImageCropper"} onClickApply={this.finalImage} />
+
+                </>
                 <div className="pop_up_display_block"></div>
                 <div className="add_user_main">
                     <div className="add_user_container">
@@ -29,8 +44,14 @@ class AddUser extends Component {
                         </div>
                         <div className="profile_pic_with_details ">
                             <div className="profile_pic">
-                                {/* <img className="profile_image" src={require("../../images/svg/defaultProfile.svg")} /> */}
-                                <div className="no_profile_image"><p>Upload Pic</p></div>
+                                <label for="uploadPhoto-ImageCropper">
+                                    {!croppedImage ?
+                                        <div className="no_profile_image"><p>Upload Pic</p></div>
+                                        :
+                                        <img className="profile_image" src={croppedImage} />}
+                                </label>
+
+
                                 <img className="camera" src={require("../../images/svg/camera-profile.svg")} />
                             </div>
                             <div className="user_details">
@@ -45,7 +66,7 @@ class AddUser extends Component {
                             <TabPane key="1" tab="Personal">
                                 {addUserDataForm.map(data => (<AllTypes key={data.id + data.tatabIndexb}
                                     type={data.type} minLength={data.minlength} maxLength={data.maxlength}
-                                    required={data.required} label={data.label} options={data.options} />))}
+                                    required={data.required} label={data.label} options={data.options} placeholder={data.placeholder} />))}
                             </TabPane>
                             <TabPane key="2" tab="Organisation">
                                 Tab 2

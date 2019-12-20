@@ -26,7 +26,7 @@ class Phone extends Component {
         return (
             <Form.Item label={label} >
                 {getFieldDecorator('select', config)(
-                    <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
+                    <Input addonBefore={prefixSelector} style={{ width: '100%' }} {...this.props} />
                 )}
             </Form.Item>
         );
