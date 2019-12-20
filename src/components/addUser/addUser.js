@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { Tabs, Icon, Button } from 'antd';
+import { Tabs, Popover, Button } from 'antd';
 import './addUser.scss'
 import AllTypes from '../common/AddUserFiledsType/AllTypes'
 import ImageCropper from '../common/ImageCropper/imageCropper'
 
 
 const { TabPane } = Tabs;
+
+const allButtons = ["Cancel", "Next", "Done"]
 
 class AddUser extends Component {
     constructor(props) {
@@ -21,11 +23,20 @@ class AddUser extends Component {
     }
 
 
+
+
     render() {
 
         const { onClickClose, addUserDataForm } = this.props
         const { croppedImage } = this.state
-        const allButtons = ["Cancel", "Next", "Done"]
+
+        const profileImgcontent = (
+            <div>
+                <label for="uploadPhoto-ImageCropper"> <p>Upload</p></label>
+                <p onClick={() => this.finalImage(null)}>Remove</p>
+            </div>
+        )
+
         return (
 
             <>
@@ -44,12 +55,16 @@ class AddUser extends Component {
                         </div>
                         <div className="profile_pic_with_details ">
                             <div className="profile_pic">
-                                <label for="uploadPhoto-ImageCropper">
-                                    {!croppedImage ?
+
+                                {!croppedImage ?
+                                    <label for="uploadPhoto-ImageCropper">
                                         <div className="no_profile_image"><p>Upload Pic</p></div>
-                                        :
-                                        <img className="profile_image" src={croppedImage} />}
-                                </label>
+                                    </label>
+
+                                    :
+                                    <Popover placement="bottom" content={profileImgcontent} trigger="click">
+                                        <img className="profile_image" src={croppedImage} />
+                                    </Popover>}
 
 
                                 <img className="camera" src={require("../../images/svg/camera-profile.svg")} />
