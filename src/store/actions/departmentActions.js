@@ -1,5 +1,5 @@
 import * as actionTypes from '../actionTypes'
-import {getDepartmentsData, getDeptTableColumns} from '../../apiCall'
+import {getDepartmentsData, getDeptTableColumns,postCreteDepartmentData} from '../../apiCall'
 
 export const getDepartmentData = (perPageRows, currentPage, searchData, headingData, sortingType) => {
     const payload = getDepartmentsData(perPageRows, currentPage, searchData, headingData, sortingType)
@@ -24,3 +24,12 @@ export const getDeptTableColumnData = () => {
     }
 
 }
+export const postCreateDeptData = (data) => {
+    const payload = postCreteDepartmentData(data)
+    return {
+        type: actionTypes.POST_CREATE_DEPARTMENT_DATA,
+        payload
+    }
+
+}
+

@@ -1,13 +1,84 @@
-.departments-main{
+.departments-main {
   height: 95%;
   display: flex;
   flex-direction: column;
-  .departments-heading{
+
+  .departments-heading {
 
   }
 
+  .departments-main-view {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
 
 }
-.department-name-input{
+
+.department-name-input {
   margin-top: 8px;
+}
+
+.departments-secondary-view {
+  .departments-secondary-view-wrap {
+    display: flex;
+    flex-direction: column;
+
+    .department-name {
+      margin: auto 0;
+      padding-left: 10px;
+      font-size: 20px;
+      text-transform: capitalize;
+    }
+  }
+
+  .back-to-main-view{
+    background-image: url("../../images/arrow right.svg");
+    background-size: 15px;
+    width: 60px;
+    height: 60px;
+    background-repeat: no-repeat;
+
+  }
+
+  .add-user-card {
+    width: 400px;
+    font-family: sans-serif;
+    display: flex;
+    border: 1px solid #dbdbdb;
+    border-radius: 5px;
+    text-transform: none;
+    margin: 50px auto;
+    flex-direction: column;
+    background-color: #ffffff;
+
+
+
+    .header {
+      width: 100%;
+      border-bottom: 1px solid #dbdbdb;
+      text-transform: none;
+      padding: 5px 15px;
+      font-size: 21px;
+    }
+
+    .icon-mini {
+      background-image: url("../../images/empty-customer.svg");
+      margin: auto;
+      background-repeat: no-repeat;
+      width: 85px;
+      height: 85px;
+      background-size: 85px;
+    }
+
+    .text {
+      padding: 15px;
+      font-size: 13px;
+    }
+    .add-from-users-list{
+      margin: 10px;
+      width: 160px;
+    }
+
+  }
 }
