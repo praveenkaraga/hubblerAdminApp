@@ -1,0 +1,77 @@
+.imageCropper_main{
+.imageCropper_blur_div{
+    z-index: 13;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: #000;
+    top: 0;
+    left: 0;
+    opacity: 0.5;
+}
+
+.imageCropper_container{
+    z-index: 14;
+    background-color: #fff;
+    position: absolute;
+    width: 60%;
+    top: 3%;
+    left: 50%;
+    transform: translateX(-50%);
+    min-height: 50.8%;
+    box-shadow: 0 5px 10px 5px rgba(0, 0, 0, 0.2);
+
+    .imageCropper_container_child{
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        padding: 10px;
+    }
+
+    .crop_img_container{      
+        min-height: 400px;
+        max-width: 475px;
+        display: flex;
+        align-items: center;
+        }
+    
+        .final_image{
+            height: 78px;
+            width: 78px;
+            img{
+                width: 100%;
+                height: 100%;
+                border-radius: 50% ;
+                object-fit: cover;
+            }
+        }
+
+
+        .bottom_buttons{
+            height: 55px;
+            padding: 4px 10px 4px 10px;
+            background: #F6F6F6;
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            bottom: -55px;
+
+            button{
+                margin-right: 20px;
+            }
+        }
+       
+}
+
+    
+}
+
+.imageCropper_input{
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+}

@@ -74,7 +74,7 @@
     .all_buttons{
         display: flex;
         align-items: center;
-        width: 23%;
+        width: 26%;
         .user_action_buttons{
             display: flex;
             width: 100%;
@@ -101,6 +101,18 @@
 
             .user_edit{
                 height: 16px;
+            }
+
+            .user_count{
+                color: #707070;
+                font-size: 15px;
+                width: 34px;
+                height: 21px;
+                border-radius: 4px;
+                background-color: white;
+                display: flex;
+                justify-content: center;
+                cursor: pointer;
             }
             img{
                 cursor: pointer;

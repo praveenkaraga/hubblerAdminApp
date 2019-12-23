@@ -11,8 +11,8 @@ const intialState = {
     searchData: "",
     searchLoader: false,
     activeheading: "",
-    sortingType: "dsc",
-    columnSettingData: [],
+    sortingType: "",
+    columnSettingData: {},
     columnSettingDataOriginal: {},
     addUserDataForm: [],
     addUserDataFormMain: []
@@ -52,7 +52,7 @@ export const consoleReducer = (state = intialState, action) => {
             }
 
         case actionTypes.TABLE_COLUMN_SETTING_DATA:
-            const columnSettingData = action.payload.data.result
+            const columnSettingData = action.payload.data ? action.payload.data.result : {}
             return {
                 ...state,
                 columnSettingDataOriginal: columnSettingData,
@@ -60,7 +60,7 @@ export const consoleReducer = (state = intialState, action) => {
             }
 
         case actionTypes.ADD_USER_DATA_FORM:
-            const addUserDataFormInitial = action.payload.data.result
+            const addUserDataFormInitial = action.payload.data ? action.payload.data.result : []
             return {
                 ...state,
                 addUserDataFormMain: addUserDataFormInitial,

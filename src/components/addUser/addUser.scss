@@ -76,6 +76,8 @@
                 width: 78px;
                 padding: 1px;
                 cursor: pointer;
+                border-radius: 50%;
+                object-fit: cover;
             }
 
             .no_profile_image{
@@ -110,12 +112,15 @@
                 text-align: center;
                 margin-top: 5px;
                 margin-bottom: 12px;
-
+                color: black;
                 .name{
-                    color: black;
+                   
                     font-size: 17px;
                 }
 
+                h3{
+                    margin: 0;
+                }
                 p{
                     margin-bottom: 0.4em;
                     font-size: 12px;
@@ -201,4 +206,51 @@
     top: 0;
     left: 0;
     opacity: 0.5;
+}
+
+
+.ant-popover{
+    .ant-popover-inner-content{
+       
+        // box-shadow: 0 0 7px 5px rgba(0, 0, 0, 0.1);
+        background-color: #ffffff;
+        border-radius: 5px;
+        padding: 0;
+
+       .actionButtons{
+        width: 78px;
+        height: 54px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        div{
+            width: 100%;
+            text-align: center;
+            cursor: pointer;
+            font-size: 12px;
+            height: 27px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #323232;
+            border-radius: 0px 0px 5px 5px;
+        }
+
+
+        div:hover{
+            background-color: #e5faff;
+
+        }
+
+        label{
+            width: 100%;
+
+            div{
+                border-radius: 5px 5px 0px 0px;
+            }
+        }
+       }
+    }
 }

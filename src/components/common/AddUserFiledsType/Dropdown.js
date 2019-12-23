@@ -16,7 +16,7 @@ class Dropdown extends Component {
         return (
             <Form.Item label={label} >
                 {getFieldDecorator('select', config)(
-                    <Select style={{ width: "100%" }} placeholder="Please select a country" showSearch>
+                    <Select style={{ width: "100%" }} placeholder="Please select a country" showSearch {...this.props}>
                         {options.map(singleOption => (<Option key={singleOption.id} value={singleOption.id}>{singleOption.name}</Option>))}
                         {/* <Option value="usa">U.S.A</Option> */}
                     </Select>

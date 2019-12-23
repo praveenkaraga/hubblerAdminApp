@@ -15,7 +15,7 @@ class DateTime extends Component {
         console.warn = () => { }
         return (
             <Form.Item label={label}>
-                {getFieldDecorator('date-picker', config)(<DatePicker showTime format="DD-MM-YYYY HH:mm:ss" placeholder=" Select Date and Time"{...this.props} />)}
+                {getFieldDecorator('date-picker', config)(<DatePicker showTime format="DD-MM-YYYY HH:mm:ss" {...this.props} />)}
             </Form.Item>);
     }
 }
