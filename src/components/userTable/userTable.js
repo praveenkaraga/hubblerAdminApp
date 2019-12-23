@@ -19,8 +19,8 @@ class UserTable extends Component {
 
     onChange = (pagination, filters, sorter, extra) => {
         this.props.sortingData(sorter)
-      }
-    
+    }
+
 
     render() {
         const { selectedRowKeys } = this.state;
@@ -30,7 +30,9 @@ class UserTable extends Component {
             onChange: this.onSelectChange,
         }
 
-        return <Table  rowSelection={rowSelection} columns={allHeadingsData} dataSource={modifiedUserData} pagination={false} scroll={{ y: "unset" }} onChange={this.onChange} {...this.props}/>
+        return <Table rowSelection={rowSelection} columns={allHeadingsData}
+            dataSource={modifiedUserData} pagination={false} scroll={{ y: "unset" }}
+            onChange={this.onChange} {...this.props} />
     }
 }
 

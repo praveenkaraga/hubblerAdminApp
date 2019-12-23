@@ -80,7 +80,7 @@ class AllUserSelect extends Component {
                     const dataType = data.type
                     switch (dataType) {
                         case "text":
-                            singleUserData["name"] = (singleUserData.firstname || "") + " " + (singleUserData.lastname || "")
+                            singleUserData["name"] = <div className="name_with_image"> {singleUserData["profile_image"] ? <img src={singleUserData["profile_image"]["thumbnail"]} alt="Profile Pic" /> : <div className="no_profile_pic"><p>{singleUserData.firstname.substring(0, 2)}</p></div>}<div className="only_name">{singleUserData.firstname || ""}  {singleUserData.lastname || ""}</div></div>
                             singleUserData["key"] = singleUserData._id
                             break;
                         case "number":
@@ -217,7 +217,7 @@ class AllUserSelect extends Component {
 
                             </Popover>
                         </div> : ""}
-                        <UserTable modifiedUserData={modifiedUserData} allHeadingsData={allHeadingsData} sortingData={this.onheadingClick} onChangeCheckBox={this.onChangeCheckBox} loading={!modifiedUserData.length ? true : false} />
+                        <UserTable ref={table => this.wholeTable = table} modifiedUserData={modifiedUserData} allHeadingsData={allHeadingsData} sortingData={this.onheadingClick} onChangeCheckBox={this.onChangeCheckBox} loading={!modifiedUserData.length ? true : false} />
                     </div>
 
 

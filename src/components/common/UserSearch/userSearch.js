@@ -57,7 +57,6 @@ class UserSearch extends Component {
 
         const { firstButtonName, secondButtonName, searchPlaceHolder, firstButtonLoader, secondButtonLoader, searchLoader, onSearch, onClickFirst,
             onClickSecond, userSelected } = this.props
-        console.log(userSelected)
         return (
             <div className={`search_and_buttons ${userSelected ? "user_selected" : "no_user_selected"}`}>
                 <div className="search_users">
