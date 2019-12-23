@@ -77,6 +77,7 @@
                 padding: 1px;
                 cursor: pointer;
                 border-radius: 50%;
+                object-fit: cover;
             }
 
             .no_profile_image{
@@ -211,7 +212,7 @@
 .ant-popover{
     .ant-popover-inner-content{
        
-        box-shadow: 0 0 7px 5px rgba(0, 0, 0, 0.1);
+        // box-shadow: 0 0 7px 5px rgba(0, 0, 0, 0.1);
         background-color: #ffffff;
         border-radius: 5px;
         padding: 0;

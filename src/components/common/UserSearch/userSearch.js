@@ -57,6 +57,7 @@ class UserSearch extends Component {
 
         const { firstButtonName, secondButtonName, searchPlaceHolder, firstButtonLoader, secondButtonLoader, searchLoader, onSearch, onClickFirst,
             onClickSecond, userSelected } = this.props
+        console.log(userSelected)
         return (
             <div className={`search_and_buttons ${userSelected ? "user_selected" : "no_user_selected"}`}>
                 <div className="search_users">
@@ -65,6 +66,9 @@ class UserSearch extends Component {
                 <div className="all_buttons">
                     {userSelected ?
                         <div className="user_action_buttons">
+                            <Tooltip key={`totalUserstooltip`} placement="top" title={"Total Users Selected"}>
+                                <div className="user_count">{userSelected}</div>
+                            </Tooltip>
                             {this.alluserActions.map((data, i) => {
                                 if (i != 2) {
                                     return (

@@ -11,7 +11,7 @@ const intialState = {
     searchData: "",
     searchLoader: false,
     activeheading: "",
-    sortingType: "dsc",
+    sortingType: "",
     columnSettingData: {},
     columnSettingDataOriginal: {},
     addUserDataForm: [],

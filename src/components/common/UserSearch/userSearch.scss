@@ -102,6 +102,19 @@
             .user_edit{
                 height: 16px;
             }
+
+            .user_count{
+                color: #707070;
+                font-size: 15px;
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                background-color: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+            }
             img{
                 cursor: pointer;
             }
