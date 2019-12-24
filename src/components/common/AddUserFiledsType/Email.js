@@ -5,8 +5,8 @@ import { Input, Form } from 'antd';
 class Email extends Component {
 
     render() {
-        const { getFieldDecorator } = this.props.form;
-        const { validationRules } = this.props
+
+        const { validationRules, getFieldDecorator, fieldId, label } = this.props
         const config = {
             rules: [{
                 type: 'email',
@@ -14,17 +14,14 @@ class Email extends Component {
             }, ...validationRules],
         };
         return (
-            <>
 
-                <Form.Item label="E-mail">
-                    {getFieldDecorator('email', config)(<Input {...this.props} />)}
-                </Form.Item>
+            <Form.Item label={label}>
+                {getFieldDecorator(fieldId, config)(<Input {...this.props} />)}
+            </Form.Item>
 
-            </>
         );
     }
 }
 
-const WrappedEmailForm = Form.create()(Email);
 
-export default WrappedEmailForm
+export default Email

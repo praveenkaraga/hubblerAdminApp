@@ -73,6 +73,7 @@ class AllUserSelect extends Component {
 
 
     modellingData = (userData, allHeadingsData) => { //handelling datas and modifying accordingly
+        const { isUserData } = this.props
         let modifiedUserData = JSON.parse(JSON.stringify(userData))
         if (modifiedUserData.length) {
             modifiedUserData.forEach(singleUserData => {
@@ -80,7 +81,7 @@ class AllUserSelect extends Component {
                     const dataType = data.type
                     switch (dataType) {
                         case "text":
-                            singleUserData["name"] = <div className="name_with_image"> {singleUserData["profile_image"] ? <img src={singleUserData["profile_image"]["thumbnail"]} alt="Profile Pic" /> : <div className="no_profile_pic"><p>{singleUserData.firstname.substring(0, 2)}</p></div>}<div className="only_name">{singleUserData.firstname || ""}  {singleUserData.lastname || ""}</div></div>
+                            singleUserData["name"] = <div className="name_with_image"> {isUserData ? singleUserData["profile_image"] ? <img src={singleUserData["profile_image"]["thumbnail"]} alt="Profile Pic" /> : <div className="no_profile_pic"><p>{singleUserData.firstname.substring(0, 2)}</p></div> : ""}<div className="only_name">{singleUserData.firstname || ""}  {singleUserData.lastname || ""}</div></div>
                             singleUserData["key"] = singleUserData._id
                             break;
                         case "number":

@@ -6,8 +6,7 @@ const { Option } = Select;
 class Phone extends Component {
 
     render() {
-        const { label, validationRules } = this.props
-        const { getFieldDecorator } = this.props.form;
+        const { label, validationRules, fieldId, getFieldDecorator } = this.props
 
         const config = {
             rules: validationRules,
@@ -25,7 +24,7 @@ class Phone extends Component {
         console.warn = () => { }
         return (
             <Form.Item label={label} >
-                {getFieldDecorator('select', config)(
+                {getFieldDecorator(fieldId, config)(
                     <Input addonBefore={prefixSelector} style={{ width: '100%' }} {...this.props} />
                 )}
             </Form.Item>
@@ -33,6 +32,5 @@ class Phone extends Component {
     }
 }
 
-const WrappedPhoneForm = Form.create()(Phone);
 
-export default WrappedPhoneForm;
+export default Phone;

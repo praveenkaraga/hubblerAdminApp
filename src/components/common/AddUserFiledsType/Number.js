@@ -50,8 +50,7 @@ class Number extends Component {
 
     render() {
 
-        const { label, validationRules } = this.props
-        const { getFieldDecorator } = this.props.form;
+        const { label, validationRules, fieldId, getFieldDecorator } = this.props
 
         const config = {
             rules: validationRules,
@@ -60,14 +59,11 @@ class Number extends Component {
         return (
 
             <Form.Item label={label}>
-                {getFieldDecorator('number', config)(<NumericInput value={this.state.value} onChange={this.onChange} {...this.props} />)}
+                {getFieldDecorator(fieldId, config)(<NumericInput value={this.state.value} onChange={this.onChange} {...this.props} />)}
             </Form.Item>
         );
     }
 }
 
 
-
-const WrappedNumberForm = Form.create()(Number);
-
-export default WrappedNumberForm;
+export default Number;

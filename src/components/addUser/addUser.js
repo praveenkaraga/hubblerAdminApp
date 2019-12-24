@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Tabs, Popover, Button } from 'antd';
+import { Tabs, Popover, Button, Form } from 'antd';
 import './addUser.scss'
 import AllTypes from '../common/AddUserFiledsType/AllTypes'
 import ImageCropper from '../common/ImageCropper/imageCropper'
-
+import CustomForm from '../common/CustomForm/customForm'
 
 const { TabPane } = Tabs;
 
@@ -20,6 +20,15 @@ class AddUser extends Component {
 
     finalImage = (data) => {
         this.setState({ croppedImage: data })
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.props.form.validateFieldsAndScroll((err, values) => {
+            if (!err) {
+                console.log('Received values of form: ', values);
+            }
+        });
     }
 
 
@@ -79,9 +88,18 @@ class AddUser extends Component {
 
                         <Tabs defaultActiveKey="1" tabPosition="left" className="add_user_tab_container" >
                             <TabPane key="1" tab="Personal">
-                                {addUserDataForm.map(data => (<AllTypes key={data.id + data.tatabIndexb}
-                                    type={data.type} minLength={data.minlength} maxLength={data.maxlength}
-                                    required={data.required} label={data.label} options={data.options} placeholder={data.placeholder} />))}
+                                {/* <Form onSubmit={this.handleSubmit}>
+                                    {addUserDataForm.map(data => (<AllTypes key={data.id + data.tatabIndexb}
+                                        type={data.type} minLength={data.minlength} maxLength={data.maxlength}
+                                        required={data.required} label={data.label} options={data.options} placeholder={data.placeholder} />))}
+                                    <Form.Item >
+                                        <Button type="primary" htmlType="submit">
+                                            Register
+                                    </Button>
+                                    </Form.Item>
+                                </Form> */}
+                                <CustomForm formData={addUserDataForm} />
+
                             </TabPane>
                             <TabPane key="2" tab="Organisation">
                                 Tab 2
@@ -96,7 +114,9 @@ class AddUser extends Component {
 
 
                         <div className="bottom_buttons">
+
                             {allButtons.map(buttonType => (<Button type="primary">{buttonType}</Button>))}
+
                         </div>
                     </div>
                 </div>

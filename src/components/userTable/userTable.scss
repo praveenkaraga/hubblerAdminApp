@@ -16,6 +16,10 @@
 }
 
 
+.ant-table-column-sorter{
+    padding-bottom: 4px;
+}
+
 .ant-table-tbody{
 
     tr{
@@ -23,6 +27,8 @@
             padding: 10px 16px !important;
         }
     }
+
+    
 
     .ant-table-row{
         .ant-table-column-has-actions{

@@ -5,8 +5,7 @@ class Text extends Component {
 
 
     render() {
-        const { label, validationRules } = this.props
-        const { getFieldDecorator } = this.props.form;
+        const { label, validationRules, fieldId, getFieldDecorator } = this.props
 
         const config = {
             rules: validationRules,
@@ -14,11 +13,9 @@ class Text extends Component {
         console.warn = () => { }
         return (
             <Form.Item label={label}>
-                {getFieldDecorator('text', config)(<Input {...this.props} />)}
+                {getFieldDecorator(fieldId, config)(<Input {...this.props} />)}
             </Form.Item>);
     }
 }
 
-const WrappedTextForm = Form.create()(Text);
-
-export default WrappedTextForm;
+export default Text;
