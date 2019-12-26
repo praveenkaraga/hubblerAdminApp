@@ -5,6 +5,22 @@ const { Option } = Select;
 
 class Phone extends Component {
 
+    constructor(props) {
+        super(props)
+        this.state = {
+            inputValue: ""
+        }
+    }
+
+    handleNumberChange = e => {
+        const number = parseInt(e.target.value || 0, 10);
+        if (isNaN(number)) {
+            return;
+        }
+        this.setState({ inputValue: number })
+        // this.triggerChange({ number });
+    };
+
     render() {
         const { label, validationRules, fieldId, getFieldDecorator } = this.props
 
@@ -12,7 +28,7 @@ class Phone extends Component {
             rules: validationRules,
         };
 
-        const prefixSelector = getFieldDecorator('prefix', {
+        const prefixSelector = getFieldDecorator('country-code', {
             initialValue: '91',
         })(
             <Select style={{ width: 70 }}>
@@ -25,7 +41,7 @@ class Phone extends Component {
         return (
             <Form.Item label={label} >
                 {getFieldDecorator(fieldId, config)(
-                    <Input addonBefore={prefixSelector} style={{ width: '100%' }} {...this.props} />
+                    <Input value={this.state.inputValue} addonBefore={prefixSelector} style={{ width: '100%' }} {...this.props} onChange={this.handleNumberChange} />
                 )}
             </Form.Item>
         );

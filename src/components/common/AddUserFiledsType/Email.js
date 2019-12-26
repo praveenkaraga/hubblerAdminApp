@@ -13,6 +13,7 @@ class Email extends Component {
                 message: 'The input is not valid email!',
             }, ...validationRules],
         };
+        console.warn = () => { }
         return (
 
             <Form.Item label={label}>

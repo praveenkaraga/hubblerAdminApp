@@ -22,6 +22,7 @@ class CustomForm extends Component {
     render() {
         const { formData } = this.props
         const { getFieldDecorator } = this.props.form;
+        console.warn = () => { }
         return (
             <Form onSubmit={this.handleSubmit}>
                 {formData.map(data => (
