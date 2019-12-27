@@ -22,7 +22,7 @@ export const designationsReducer = (state = intialState, action) => {
                 data["designations"] = data.name
                 data["people"] = data.count
             });
-            console.log(designationDataIntial)
+
             return {
                 ...state,
                 designationDataOriginal: JSON.parse(JSON.stringify(designationDataIntial)),

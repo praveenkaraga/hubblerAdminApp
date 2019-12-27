@@ -1,8 +1,8 @@
 import * as actionTypes from '../actionTypes'
 import { getDesignationsData } from '../../apiCall'
 
-export const designationsData = () => {
-    const payload = getDesignationsData()
+export const designationsData = (perPageRows, currentPage, searchData, headingData, sortingType) => {
+    const payload = getDesignationsData(perPageRows, currentPage, searchData, headingData, sortingType)
     return {
         type: actionTypes.GET_DESIGNATIONS_DATA,
         payload

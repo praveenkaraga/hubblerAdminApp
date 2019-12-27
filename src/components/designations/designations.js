@@ -10,6 +10,13 @@ class Designations extends Component {
 
     constructor(props) {
         super(props)
+        this.state = {
+            currentPageNumber: 1,
+            rowsPerPage: 30,
+            activeheading: "",
+            sortingType: "",
+            searchData: ""
+        }
 
         this.designationsColumnData = [
 
@@ -39,16 +46,34 @@ class Designations extends Component {
     }
 
     componentDidMount() {
-        this.props.designationsData()
+        // const { designationDataOriginal } = this.props.designationsReducer
+
+        // if (!designationDataOriginal.length) {
+        this.props.designationsData(this.state.rowsPerPage)
+
+        // }
     }
 
     designationSearchData = (e) => {
-        console.log(e.target.value)
+        const { rowsPerPage, activeheading, sortingType } = this.state
+        const searchData = e.target.value
+        this.props.designationsData(rowsPerPage, 1, searchData, activeheading, sortingType)
+        this.setState({
+            searchData,
+            currentPageNumber: 1
+        })
     }
 
 
     onClickHeadingColumn = (activeheading, sortingType) => {
+        const { rowsPerPage, searchData, currentPageNumber } = this.state
         console.log(activeheading, sortingType)
+        const activeheadingModified = activeheading === "designations" ? "name" : "count"
+        this.props.designationsData(rowsPerPage, currentPageNumber, searchData, activeheadingModified, sortingType)
+        this.setState({
+            activeheading: activeheadingModified,
+            sortingType
+        })
     }
 
     onChangeCheckBox = (value) => {
@@ -56,19 +81,28 @@ class Designations extends Component {
     }
 
     onChangeRowsPerPage = (rowsPerPage) => {
-        console.log(rowsPerPage)
+        this.props.designationsData(rowsPerPage, 1)
+        this.setState({
+            rowsPerPage,
+            currentPageNumber: 1
+        })
     }
 
     changePage = (calcData) => {
-        const { currentPageNumber } = this.props.designationsReducer
+        const { currentPageNumber, rowsPerPage } = this.state
+
         const goToPage = currentPageNumber + calcData
-        console.log(goToPage)
+        this.props.designationsData(rowsPerPage, goToPage)
+        this.setState({
+            currentPageNumber: goToPage
+        })
     }
 
 
 
     render() {
         const { designationData, totalDesignationsCount } = this.props.designationsReducer
+        const { currentPageNumber } = this.state
 
         return (
             <div className="designations_main">
@@ -85,7 +119,7 @@ class Designations extends Component {
                     onChangeCheckBox={this.onChangeCheckBox}
 
 
-                    totalUsers={totalDesignationsCount} currentPageNumber={1}
+                    totalUsers={totalDesignationsCount} currentPageNumber={currentPageNumber}
                     onChangeRowsPerPage={this.onChangeRowsPerPage}
                     goPrevPage={() => this.changePage(-1)}
                     goNextPage={() => this.changePage(1)}
