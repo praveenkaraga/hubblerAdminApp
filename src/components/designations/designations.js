@@ -77,7 +77,7 @@ class Designations extends Component {
     }
 
     onChangeCheckBox = (value) => {
-        console.log(value)
+        const selectedUsers = value
     }
 
     onChangeRowsPerPage = (rowsPerPage) => {
@@ -124,6 +124,7 @@ class Designations extends Component {
                     goPrevPage={() => this.changePage(-1)}
                     goNextPage={() => this.changePage(1)}
 
+                    onlySelectAndAdd={false}
                     isUserData={false} />
             </div>
         );

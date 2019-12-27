@@ -56,23 +56,25 @@ class UserSearch extends Component {
     render() {
 
         const { firstButtonName, secondButtonName, searchPlaceHolder, firstButtonLoader, secondButtonLoader, searchLoader, onSearch, onClickFirst,
-            onClickSecond, userSelected } = this.props
+            onClickSecond, userSelected, isUserData = "false", onlySelectAndAdd = "false" } = this.props
+        const endAction = !isUserData ? 3 : 0
         return (
             <div className={`search_and_buttons ${userSelected ? "user_selected" : "no_user_selected"}`}>
                 <div className="search_users">
                     <Input.Search placeholder={searchPlaceHolder} loading={searchLoader} onChange={onSearch} />
                 </div>
                 <div className="all_buttons">
-                    {userSelected ?
+                    {userSelected && !onlySelectAndAdd ?
                         <div className="user_action_buttons">
                             <Tooltip key={`totalUserstooltip`} placement="top" title={"Total Users Selected"}>
                                 <div className="user_count">{userSelected}</div>
                             </Tooltip>
-                            {this.alluserActions.map((data, i) => {
-                                if (i != 2) {
+                            {this.alluserActions.slice(endAction).map((data, i) => {
+                                if (data.class !== "partition_div") {
                                     return (
                                         <Tooltip key={`${data.class}tooltip`} placement="top" title={data.tooltip}>
-                                            <img className={i === 4 && userSelected > 1 ? ` ${data.class} action_deactivated` : data.class} src={require(`../../../images/svg/${data.img}.svg`)} onClick={data.onclick} alt={data.class} />
+                                            <img className={data.class === "user_edit" && userSelected > 1 ? ` ${data.class} action_deactivated` : data.class}
+                                                src={require(`../../../images/svg/${data.img}.svg`)} onClick={data.onclick} alt={data.class} />
                                         </Tooltip>
                                     )
 
@@ -86,12 +88,17 @@ class UserSearch extends Component {
                         </div>
                         :
                         <>
-                            <Button className="import_button" type="primary" loading={firstButtonLoader} onClick={onClickFirst}>
+                            <Button className={`import_button ${onlySelectAndAdd && !userSelected ? "import_button_disable" : ""}`} type="primary" loading={firstButtonLoader} onClick={onClickFirst}>
                                 {firstButtonName}
+                                {onlySelectAndAdd && userSelected ?
+                                    <div>
+                                        {userSelected}
+                                    </div> : ""}
                             </Button>
-                            <Button className="add_user_button" type="primary" loading={secondButtonLoader} onClick={onClickSecond}>
+
+                            {!onlySelectAndAdd ? <Button className="add_user_button" type="primary" loading={secondButtonLoader} onClick={onClickSecond}>
                                 {secondButtonName}
-                            </Button>
+                            </Button> : ""}
 
                         </>
                     }

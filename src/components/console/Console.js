@@ -31,7 +31,7 @@ class Console extends Component {
 
 
     onChangeCheckBox = (value) => {
-        console.log(value)
+        const selectedUsers = value
     }
 
     onChangeRowsPerPage = (rowsPerPage) => {
