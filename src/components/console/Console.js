@@ -31,7 +31,7 @@ class Console extends Component {
 
 
     onChangeCheckBox = (value) => {
-        console.log(value)
+        const selectedUsers = value
     }
 
     onChangeRowsPerPage = (rowsPerPage) => {
@@ -48,8 +48,9 @@ class Console extends Component {
     }
 
     componentDidMount() {
-        this.props.getTableColumnData()
+        // const { consoleUserData } = this.props.consoleReducer
         this.props.getConsoleUserData(30)
+        this.props.getTableColumnData()
     }
 
     onClickHeadingColumn = (activeheading, sortingType) => {
@@ -109,6 +110,7 @@ class Console extends Component {
         const { consoleColumnData, consoleUserData, totalUsers, currentPageNumber, searchLoader, columnSettingData, addUserDataForm } = this.props.consoleReducer
 
         const { popUpActive } = this.state
+
         return (
             <div className="console_main">
                 <div className="console_heading"><h3>Console</h3></div>

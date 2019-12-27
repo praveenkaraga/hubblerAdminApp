@@ -36,6 +36,10 @@
           }
     }
 
+    .all_buttons{
+        display: flex;
+    }
+
 .import_button, .import_button:focus{
     color: #4a4a4a;
     background-color: #d9dadb;
@@ -44,6 +48,20 @@
 
 .import_button{
     margin-right: 20px;
+    display: flex;
+
+    div{
+        width: 32px;
+        border-radius: 4px;
+        background-color: white;
+        margin-left: 10px;
+        color: #4a4a4a;
+    }
+}
+
+.import_button_disable{
+    pointer-events: none;
+    opacity: 0.5;
 }
 
 .import_button, .add_user_button{

@@ -90,15 +90,15 @@ export const getDepartmentsData = () => {
 
 export const getDesignationsData = (perPageRows, currentPage, searchData, headingData, sortingType) => {
     const startNumber = ((currentPage - 1) * perPageRows) + 1
-    return axios.get(`/rest/designations/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}`, axiosConfig);
+    return axios.get(`/rest/designations/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "name" : ""}&filterQuery=${searchData || ""}`, axiosConfig);
 };
 
 export const getDeptTableColumns = () => {
     return axios.get("https://demo1025512.mockable.io/user-table-des-dep")
 };
 
-export const postCreteDepartmentData = (data) =>{
-	return axios.post("/rest/departments/",data,axiosConfig)
+export const postCreteDepartmentData = (data) => {
+    return axios.post("/rest/departments/", data, axiosConfig)
 }
 
 
