@@ -4,8 +4,7 @@ import { Form, DatePicker } from 'antd';
 class DateTime extends Component {
 
     render() {
-        const { getFieldDecorator } = this.props.form;
-        const { validationRules, label } = this.props
+        const { validationRules, label, getFieldDecorator, fieldId } = this.props
         const config = {
             rules: [{
                 type: 'object',
@@ -15,11 +14,10 @@ class DateTime extends Component {
         console.warn = () => { }
         return (
             <Form.Item label={label}>
-                {getFieldDecorator('date-picker', config)(<DatePicker showTime format="DD-MM-YYYY HH:mm:ss" {...this.props} />)}
+                {getFieldDecorator(fieldId, config)(<DatePicker showTime format="DD-MM-YYYY HH:mm:ss" {...this.props} />)}
             </Form.Item>);
     }
 }
 
-const WrappedDateTimeForm = Form.create()(DateTime);
 
-export default WrappedDateTimeForm;
+export default DateTime;

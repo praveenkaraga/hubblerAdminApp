@@ -6,8 +6,7 @@ const { Option } = Select;
 class Dropdown extends Component {
 
     render() {
-        const { label, validationRules, options } = this.props
-        const { getFieldDecorator } = this.props.form;
+        const { label, validationRules, options, fieldId, getFieldDecorator } = this.props
 
         const config = {
             rules: validationRules,
@@ -15,10 +14,9 @@ class Dropdown extends Component {
         console.warn = () => { }
         return (
             <Form.Item label={label} >
-                {getFieldDecorator('select', config)(
-                    <Select style={{ width: "100%" }} placeholder="Please select a country" showSearch {...this.props}>
+                {getFieldDecorator(fieldId, config)(
+                    <Select style={{ width: "100%" }} showSearch {...this.props}>
                         {options.map(singleOption => (<Option key={singleOption.id} value={singleOption.id}>{singleOption.name}</Option>))}
-                        {/* <Option value="usa">U.S.A</Option> */}
                     </Select>
                 )}
             </Form.Item>
@@ -26,6 +24,6 @@ class Dropdown extends Component {
     }
 }
 
-const WrappedDropdownForm = Form.create()(Dropdown);
 
-export default WrappedDropdownForm;
+
+export default Dropdown;

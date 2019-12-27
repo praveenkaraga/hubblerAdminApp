@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { Checkbox, Select, Popover } from 'antd';
+import { Checkbox, Select, Popover, Table } from 'antd';
 import './allUserSelect.scss'
 import UserSearch from '../common/UserSearch/userSearch'
 import AddUser from '../addUser/addUser'
 import ColumnSetting from './columnSetting/columnSetting'
+import UserTable from '../userTable/userTable'
+
 
 class AllUserSelect extends Component {
 
@@ -20,61 +22,58 @@ class AllUserSelect extends Component {
             visibleColumnSetting: false,
         }
         this.plainOptions = []
-        console.log("hai bhai mai constructor", this.props.userData)
     }
 
-    onChangeCheckBoxGroup = (checkedValue) => { //on click of every single checkbox
-        console.log(checkedValue)
-        this.setState({
-            checkedList: checkedValue,
-            indeterminate: !!checkedValue.length && checkedValue.length < this.plainOptions.length,
-            checkAll: checkedValue.length === this.plainOptions.length,
-        })
-        this.props.onChangeCheckBox(checkedValue)
-    }
+    // onChangeCheckBoxGroup = (checkedValue) => { //on click of every single checkbox
+    //     this.setState({
+    //         checkedList: checkedValue,
+    //         indeterminate: !!checkedValue.length && checkedValue.length < this.plainOptions.length,
+    //         checkAll: checkedValue.length === this.plainOptions.length,
+    //     })
+    //     this.props.onChangeCheckBox(checkedValue)
+    // }
 
-    onCheckAll = async (e) => { //when clicked on main checkbox(click all)
-        console.log(e.target.checked)
-        await this.setState({
-            checkedList: e.target.checked ? this.plainOptions : [],
-            indeterminate: false,
-            checkAll: e.target.checked,
-        })
-        this.props.onChangeCheckBox(this.state.checkedList)
-    }
+    // onCheckAll = async (e) => { //when clicked on main checkbox(click all)
+    //     await this.setState({
+    //         checkedList: e.target.checked ? this.plainOptions : [],
+    //         indeterminate: false,
+    //         checkAll: e.target.checked,
+    //     })
+    //     this.props.onChangeCheckBox(this.state.checkedList)
+    // }
 
     onChangeRowsPerPage = (value) => { //when changing data per rows
         this.setState({
             rowsPerPage: value,
-            checkedList: [],
-            indeterminate: false,
-            checkAll: false,
+            // // checkedList: [],
+            // indeterminate: false,
+            // checkAll: false,
         })
         this.props.onChangeRowsPerPage(value)
     }
 
-    onheadingClick = async (data) => { //when clicking all the top heading labels... changing arrow signs 
-        await this.setState({ activeheading: data })
+    onheadingClick = (data) => { //when clicking all the top heading labels... changing arrow signs 
+        let sortingtype = ""
 
-        let sortingtype = "asc"
-
-        if (this[data].classList.contains("data_asc")) {
-            this[data].classList.remove("data_asc")
-            this[data].classList.add("data_dsc")
+        if (data.order == "descend") {
             sortingtype = "dsc"
-        } else if (this[data].classList.contains("data_dsc")) {
-            this[data].classList.remove("data_dsc")
-            this[data].classList.add("data_asc")
+        } else if (data.order == "ascend") {
             sortingtype = "asc"
         } else {
-            this[data].classList.add("data_asc")
-            sortingtype = "asc"
+            sortingtype = ""
         }
-        this.props.headingClickData(data, sortingtype)
+        this.props.headingClickData(sortingtype ? data.field : "", sortingtype || "")
+
+    }
+
+    onChangeCheckBox = (list) => {
+        this.props.onChangeCheckBox(list)
+        this.setState({ checkedList: list })
     }
 
 
     modellingData = (userData, allHeadingsData) => { //handelling datas and modifying accordingly
+        const { isUserData } = this.props
         let modifiedUserData = JSON.parse(JSON.stringify(userData))
         if (modifiedUserData.length) {
             modifiedUserData.forEach(singleUserData => {
@@ -82,7 +81,8 @@ class AllUserSelect extends Component {
                     const dataType = data.type
                     switch (dataType) {
                         case "text":
-                            singleUserData["name"] = (singleUserData.firstname || "") + " " + (singleUserData.lastname || "")
+                            singleUserData["name"] = <div className="name_with_image"> {isUserData ? singleUserData["profile_image"] ? <img src={singleUserData["profile_image"]["thumbnail"]} alt="Profile Pic" /> : <div className="no_profile_pic"><p>{singleUserData.firstname.substring(0, 2)}</p></div> : ""}<div className="only_name">{singleUserData.firstname || ""}  {singleUserData.lastname || ""}</div></div>
+                            singleUserData["key"] = singleUserData._id
                             break;
                         case "number":
                             break;
@@ -127,7 +127,7 @@ class AllUserSelect extends Component {
 
 
     render() {
-        const { allHeadingsData, userData, searchFirstButtonName, searchSecondButtonName, searchPlaceHolder, searchFirstButtonLoader,
+        const { allHeadingsData, userData, searchFirstButtonName, searchSecondButtonName, searchPlaceHolder, searchFirstButtonLoader, onChangeCheckBox,
             searchSecondButtonLoader, searchFirstButtonClick, searchSecondButtonClick, searchLoader, onSearch, totalUsers, goPrevPage, goNextPage, currentPageNumber, columnSettingData,
             onClickUserActivate, onClickUserDeactivate, onClickUserDelete, onClickUserEdit, addUserPopUpActive, addUserCloseButton, addUserDataForm, isUserData } = this.props
         const perPageOptions = [7, 10, 20, 30, 40, 50, 100]
@@ -146,7 +146,7 @@ class AllUserSelect extends Component {
                         onClickSecond={() => this.addUserPopup(true)} onClickSecond={searchSecondButtonClick} userSelected={checkedList.length} onUserActivate={onClickUserActivate} onUserDeactivate={onClickUserDeactivate}
                         onUserDelete={onClickUserDelete} onUserEdit={onClickUserEdit} addUserPopUpActive={addUserPopUpActive} />
 
-                    <div className="all_user_details" >
+                    {/* <div className="all_user_details" >
                         <div className="upper_heading_details">
                             <div className="upper_checkbox">
                                 <Checkbox value="A" indeterminate={indeterminate} onChange={this.onCheckAll} checked={checkAll} />
@@ -203,7 +203,24 @@ class AllUserSelect extends Component {
                                 </Checkbox.Group>
                             </div>
                         </div>
+                    </div> */}
+                    <div className="setting_table_combine">
+                        {isUserData ? <div className="column_settings">
+                            <Popover
+                                content={<ColumnSetting columnData={allHeadingsData} columnSettingData={columnSettingData} />}
+                                title="Column Setting"
+                                trigger="click"
+                                visible={this.state.visibleColumnSetting}
+                                placement="bottomRight"
+                                autoAdjustOverflow
+                            >
+                                <img src={require(`../../images/svg/${!visibleColumnSetting ? "settings_grey" : "close-app"}.svg`)} onClick={() => this.handleVisibleChange(visibleColumnSetting ? false : true)} alt="Column Setting" />
+
+                            </Popover>
+                        </div> : ""}
+                        <UserTable ref={table => this.wholeTable = table} modifiedUserData={modifiedUserData} allHeadingsData={allHeadingsData} sortingData={this.onheadingClick} onChangeCheckBox={this.onChangeCheckBox} loading={!modifiedUserData.length ? true : false} />
                     </div>
+
 
                     <div className="total_users">
                         <div className="total_users_container">

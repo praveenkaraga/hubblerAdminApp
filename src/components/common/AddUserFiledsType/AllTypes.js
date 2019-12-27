@@ -28,6 +28,7 @@ class AllTypes extends Component {
     render() {
         const { type, required, label, minLength, maxLength } = this.props
         const customValidationRules = validationRules(required, label, minLength, maxLength)
+        console.warn = () => { }
 
         switch (type) {
             case "text":
@@ -58,7 +59,7 @@ class AllTypes extends Component {
                 return <div>location</div>
 
             case "gender":
-                return <Gender  {...this.props} />
+                return <Gender validationRules={this.filterRulesForDate(customValidationRules)}  {...this.props} />
 
             case "textarea":
                 return <TextArea validationRules={customValidationRules} {...this.props} />
