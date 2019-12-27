@@ -87,9 +87,17 @@ export const getDepartmentsData = () => {
     return axios.get(`/rest/departments/?start=1&offset=20&sortKey=_id&sortOrder=dsc&filterKey=&filterQuery=`, axiosConfig);
 };
 
+
+export const getDesignationsData = (perPageRows, currentPage, searchData, headingData, sortingType) => {
+    const startNumber = ((currentPage - 1) * perPageRows) + 1
+    return axios.get(`/rest/designations/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}`, axiosConfig);
+};
+
 export const getDeptTableColumns = () => {
     return axios.get("https://demo1025512.mockable.io/user-table-des-dep")
 };
+
+
 
 
 

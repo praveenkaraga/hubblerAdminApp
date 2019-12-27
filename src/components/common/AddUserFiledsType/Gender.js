@@ -10,7 +10,7 @@ class GenderForm extends Component {
 
 
     selectGender = (changedValue) => {
-        const { onChange, value } = this.props;
+        const { onChange } = this.props;
         if (onChange) {
             onChange(changedValue);
         }
@@ -24,7 +24,7 @@ class GenderForm extends Component {
             <div className="select_gender">
                 <div className="select_gender_container">
                     {allGender.map(data =>
-                        (<div key={data} className={`single_gender_container ${value == data ? "selected-gender" : "not-selected-gender"}`} onClick={() => this.selectGender(data)}>
+                        (<div key={data} className={`single_gender_container ${value === data ? "selected-gender" : "not-selected-gender"}`} onClick={() => this.selectGender(data)}>
                             <img src={require(`../../../images/svg/${data}-avatar.svg`)} alt="" />
                             <p>{data}</p>
                         </div>
@@ -43,7 +43,7 @@ class Gender extends Component {
 
 
     checkGender = (rule, value, callback) => {
-        if (value != "no") {
+        if (value !== "no") {
             return callback();
         }
         callback('Please Select Gender');

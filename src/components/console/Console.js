@@ -3,7 +3,13 @@ import './console.scss'
 import AllUserSelect from '../allUserSelect/allUserSelect'
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { getTableColumnData, getConsoleUserData, commonConsoleAction, tableColumnSetting, addUserDataForm } from '../../store/actions/actions'
+import {
+    getTableColumnData,
+    getConsoleUserData,
+    commonConsoleAction,
+    tableColumnSetting,
+    addUserDataForm
+} from '../../store/actions/actions'
 
 
 class Console extends Component {
@@ -112,7 +118,7 @@ class Console extends Component {
                     userData={consoleUserData} searchFirstButtonName={"IMPORT USERS"} searchSecondButtonName={"ADD USER"}
                     searchFirstButtonClick={this.searchFirstButtonClick} searchSecondButtonClick={() => this.searchSecondButtonClick(true)}
                     onSearch={this.userSearchData} searchPlaceHolder={"Search Users / Managers / Designation"} searchFirstButtonLoader={false}
-                    searchSecondButtonLoader={false} searchLoader={searchLoader}
+                    searchSecondButtonLoader={false} searchLoader={searchLoader} typeOfData="Total Users"
 
 
                     // props for main AllUser component
