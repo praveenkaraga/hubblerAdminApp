@@ -16,7 +16,8 @@ class Departments extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            changeToDepartmentCreatedView: false
+            changeToDepartmentCreatedView: false,
+            showUsersList: false,
         }
     }
 
@@ -80,6 +81,12 @@ class Departments extends Component {
         })
     }
 
+    addFromUsersClick = () => {
+        this.setState({
+            showUsersList: true,
+        });
+    }
+
 
     render() {
         const {departmentColumnData, departmentsData, totalUsers} = this.props.departmentReducer;
@@ -88,15 +95,30 @@ class Departments extends Component {
                 {this.state.changeToDepartmentCreatedView ? <div className={'departments-secondary-view'}>
                     <div className={'departments-secondary-view-wrap'}>
                         <div>
-                            <div className={'department-name'} onClick={this.backToMainDepartmentView}>{this.state.departmentName}</div>
+                            <div className={'department-name'}
+                                 onClick={this.backToMainDepartmentView}>{this.state.departmentName}</div>
                         </div>
                         <div className={'add-user-card'}>
                             <div className={'header'}>Add Users</div>
                             <div className={'icon-mini'}></div>
                             <div className={'text'}>You don't have any Users here. Please add from the Users list.</div>
-                            <Button key="addUsers" onClick={() => this.handleCancel} type={"primary"} className={'add-from-users-list'}>
-                                Add from Users List
-                            </Button>
+                            <Button key="addUsers" type="primary" onClick={this.addFromUsersClick}
+                                    className={'add-from-users-list'}>
+                                Add from Users List </Button>
+                            <div>
+                                <Modal
+                                    visible={this.state.showUsersList}
+                                    centered={true}
+                                >
+                                    <AllUserSelect allHeadingsData={departmentColumnData} userData={departmentsData}
+                                                   searchPlaceHolder={"Search Department"}
+                                                   searchFirstButtonName={"IMPORT RESOURCES"}
+                                                   searchSecondButtonName={"ADD USER"} totalUsers={totalUsers}
+                                                   searchSecondButtonClick={() => this.searchSecondButtonClick(true)}
+                                                   isUserData={false}
+                                                   onChangeCheckBox={this.onChangeCheckBox}/>
+                                </Modal></div>
+
                         </div>
                     </div>
                 </div> : <div className={'departments-main-view'}>
