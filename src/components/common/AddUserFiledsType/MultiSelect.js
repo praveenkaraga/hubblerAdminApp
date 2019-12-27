@@ -22,7 +22,7 @@ class MultiDropdown extends Component {
         return (
             <Form.Item label={label}>
                 {getFieldDecorator('select-multiple', config)(
-                    <Select style={{ width: "100%" }} mode="multiple" placeholder="Please select atleast one">
+                    <Select style={{ width: "100%" }} mode="multiple" {...this.props}>
                         {options.map(singleOption => (<Option key={singleOption.id} value={singleOption.id}>{singleOption.name}</Option>))}
                     </Select>
                 )}
