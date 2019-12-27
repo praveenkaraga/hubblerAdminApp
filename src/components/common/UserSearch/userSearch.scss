@@ -38,6 +38,7 @@
 
     .all_buttons{
         display: flex;
+        justify-content: flex-end;
     }
 
 .import_button, .import_button:focus{
