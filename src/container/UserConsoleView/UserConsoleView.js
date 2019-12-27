@@ -4,7 +4,7 @@ import { bindActionCreators } from "redux";
 import { getUserData, createActiveLink } from '../../store/actions/actions'
 import Console from '../../components/console/Console'
 import TeamView from '../../components/teamView/TeamView'
-import Departments from '../../components/departments/departments'
+import Departments from '../../components/departments/Departments'
 import Designations from '../../components/designations/designations'
 import {
     BrowserRouter as Router,

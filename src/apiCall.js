@@ -97,6 +97,9 @@ export const getDeptTableColumns = () => {
     return axios.get("https://demo1025512.mockable.io/user-table-des-dep")
 };
 
+export const postCreteDepartmentData = (data) =>{
+	return axios.post("/rest/departments/",data,axiosConfig)
+}
 
 
 
