@@ -25,10 +25,14 @@
     flex-direction: column;
 
     .department-name {
+      background-image: url("../../images/arrow right.svg");
+      background-repeat: no-repeat;
+      background-position: center left;
       margin: auto 0;
-      padding-left: 10px;
+      padding-left: 35px;
       font-size: 20px;
       text-transform: capitalize;
+      cursor: pointer;
     }
   }
 

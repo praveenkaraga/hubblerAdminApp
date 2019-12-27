@@ -88,8 +88,7 @@ class Departments extends Component {
                 {this.state.changeToDepartmentCreatedView ? <div className={'departments-secondary-view'}>
                     <div className={'departments-secondary-view-wrap'}>
                         <div>
-                            <div className={'back-to-main-view'} onClick={this.backToMainDepartmentView}></div>
-                            <div className={'department-name'}>{this.state.departmentName}</div>
+                            <div className={'department-name'} onClick={this.backToMainDepartmentView}>{this.state.departmentName}</div>
                         </div>
                         <div className={'add-user-card'}>
                             <div className={'header'}>Add Users</div>
