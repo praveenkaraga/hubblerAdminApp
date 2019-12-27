@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Checkbox, Select, Popover, Table } from 'antd';
+import { Select, Popover } from 'antd';
 import './allUserSelect.scss'
 import UserSearch from '../common/UserSearch/userSearch'
 import AddUser from '../addUser/addUser'
@@ -45,9 +45,7 @@ class AllUserSelect extends Component {
     onChangeRowsPerPage = (value) => { //when changing data per rows
         this.setState({
             rowsPerPage: value,
-            // // checkedList: [],
-            // indeterminate: false,
-            // checkAll: false,
+
         })
         this.props.onChangeRowsPerPage(value)
     }
@@ -55,9 +53,9 @@ class AllUserSelect extends Component {
     onheadingClick = (data) => { //when clicking all the top heading labels... changing arrow signs 
         let sortingtype = ""
 
-        if (data.order == "descend") {
+        if (data.order === "descend") {
             sortingtype = "dsc"
-        } else if (data.order == "ascend") {
+        } else if (data.order === "ascend") {
             sortingtype = "asc"
         } else {
             sortingtype = ""
@@ -129,9 +127,10 @@ class AllUserSelect extends Component {
     render() {
         const { allHeadingsData, userData, searchFirstButtonName, searchSecondButtonName, searchPlaceHolder, searchFirstButtonLoader, onChangeCheckBox,
             searchSecondButtonLoader, searchFirstButtonClick, searchSecondButtonClick, searchLoader, onSearch, totalUsers, goPrevPage, goNextPage, currentPageNumber, columnSettingData,
-            onClickUserActivate, onClickUserDeactivate, onClickUserDelete, onClickUserEdit, addUserPopUpActive, addUserCloseButton, addUserDataForm, isUserData } = this.props
+            onClickUserActivate, onClickUserDeactivate, onClickUserDelete, onClickUserEdit, addUserPopUpActive, addUserCloseButton, addUserDataForm, isUserData,
+            typeOfData } = this.props
         const perPageOptions = [7, 10, 20, 30, 40, 50, 100]
-        const { checkedList, indeterminate, checkAll, rowsPerPage, activeheading, visibleColumnSetting } = this.state
+        const { checkedList, rowsPerPage, visibleColumnSetting } = this.state
         const totalPages = Math.ceil(totalUsers / rowsPerPage)
         this.plainOptions = []
         userData.forEach(element => {
@@ -225,7 +224,7 @@ class AllUserSelect extends Component {
                     <div className="total_users">
                         <div className="total_users_container">
                             <div className="total_users_count">
-                                <p>Total Users: {totalUsers}</p>
+                                <p>{typeOfData || "Total Data"}: {totalUsers || 0}</p>
                             </div>
                             <div className="pagination">
                                 <div className="rows_per_page">
@@ -236,14 +235,15 @@ class AllUserSelect extends Component {
                                     </Select>
                                 </div>
                                 <div className="page_no">
-                                    <div className="current_page">{currentPageNumber} of {totalPages}</div>
+                                    <div className="current_page">{currentPageNumber || 0} of {totalPages || 0}</div>
                                     <div className="change_page">
                                         <span className={`prev_page ${currentPageNumber === 1 ? "prev_page_blocked" : ""}`}>
                                             <img src={require("../../images/svg/left-arrow.svg")} onClick={goPrevPage} alt="Left Arrow" />
                                         </span>
                                         <span className={`next_page ${currentPageNumber === totalPages ? "next_page_blocked" : ""}`} alt="Right Arrow">
                                             <img src={require("../../images/svg/right-arrow.svg")} onClick={goNextPage} />
-                                        </span></div>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>

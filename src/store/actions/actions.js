@@ -3,7 +3,7 @@ import * as activeLinkAction from './activeLinkAction'
 import * as teamViewActions from './teamViewActions'
 import * as consoleActions from './consoleActions'
 import * as departmentActions from './departmentActions'
-
+import * as designationsActions from './designationsAction'
 
 //------------------------------Create User Action---------------------------
 export const { getUserData } = createUserAction
@@ -34,6 +34,20 @@ export const { getTeamViewUsersData, teamViewUserClick, getClickedTeamUserData, 
 
 //------------------------------ Department Action -------------------------------//
 
-export const {getDepartmentData,commonDepartmentAction,getDeptTableColumnData,postCreateDeptData} = departmentActions
+export const { getDepartmentData, commonDepartmentAction, getDeptTableColumnData, postCreateDeptData } = departmentActions
 
 //------------------------------xxxxxxxxxxxxxx-------------------------------//
+
+
+
+
+
+
+
+
+//------------------------------ Designations Action -------------------------------//
+
+export const { designationsData, commonDesignationAction } = designationsActions
+
+//------------------------------xxxxxxxxxxxxxx-------------------------------//
+

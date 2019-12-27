@@ -87,6 +87,12 @@ class Departments extends Component {
         });
     }
 
+    onUserListCancel = () =>{
+        this.setState({
+            showUsersList: false,
+        });
+    }
+
 
     render() {
         const {departmentColumnData, departmentsData, totalUsers} = this.props.departmentReducer;
@@ -105,21 +111,39 @@ class Departments extends Component {
                             <Button key="addUsers" type="primary" onClick={this.addFromUsersClick}
                                     className={'add-from-users-list'}>
                                 Add from Users List </Button>
-                            <div>
-                                <Modal
-                                    visible={this.state.showUsersList}
-                                    centered={true}
-                                >
-                                    <AllUserSelect allHeadingsData={departmentColumnData} userData={departmentsData}
-                                                   searchPlaceHolder={"Search Department"}
-                                                   searchFirstButtonName={"IMPORT RESOURCES"}
-                                                   searchSecondButtonName={"ADD USER"} totalUsers={totalUsers}
-                                                   searchSecondButtonClick={() => this.searchSecondButtonClick(true)}
-                                                   isUserData={false}
-                                                   onChangeCheckBox={this.onChangeCheckBox}/>
-                                </Modal></div>
-
                         </div>
+                         <Modal
+                                visible={this.state.showUsersList}
+                                centered={true}
+                                title={'Add Users'}
+                                footer={null} className={'user-pop-model'}
+                                onCancel={this.onUserListCancel}
+                            >
+                             <AllUserSelect allHeadingsData={departmentColumnData} userData={departmentsData}
+                                            searchPlaceHolder={"Search Department"}
+                                            searchFirstButtonName={"IMPORT RESOURCES"}
+                                            searchSecondButtonName={"ADD USER"} totalUsers={totalUsers}
+                                            searchSecondButtonClick={() => this.searchSecondButtonClick(true)}
+                                            isUserData={false}
+                                            onChangeCheckBox={this.onChangeCheckBox}/>
+                               {/* <div className={'all-users-wrap'}>
+                                    <div className={'add-users-header-wrap'}>
+                                        <div>Add Users</div>
+                                        <div className={'ant-modal-close'}></div>
+                                    </div>
+
+                                </div>*/}
+                            </Modal>
+
+
+                        {/*{this.state.showUsersList ?
+                            <div className={'thanos'}><AllUserSelect allHeadingsData={departmentColumnData} userData={departmentsData}
+                                                searchPlaceHolder={"Search Department"}
+                                                searchFirstButtonName={"IMPORT RESOURCES"}
+                                                searchSecondButtonName={"ADD USER"} totalUsers={totalUsers}
+                                                searchSecondButtonClick={() => this.searchSecondButtonClick(true)}
+                                                isUserData={false}
+                                                onChangeCheckBox={this.onChangeCheckBox}/></div> : ''}*/}
                     </div>
                 </div> : <div className={'departments-main-view'}>
                     <div className="departments-heading"><h3>Departments</h3></div>

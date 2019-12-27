@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Tabs, Popover, Button, Form } from 'antd';
 import './addUser.scss'
-import AllTypes from '../common/AddUserFiledsType/AllTypes'
 import ImageCropper from '../common/ImageCropper/imageCropper'
 import CustomForm from '../common/CustomForm/customForm'
 
