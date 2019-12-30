@@ -156,6 +156,9 @@ class Console extends Component {
                     //to check if it is userData or not
                     isUserData={true}
 
+                    //columnConfigurable
+                    columnConfigurable={true}
+
                     //table fn
                     onClickTableRow={this.onRowClick}
                 />

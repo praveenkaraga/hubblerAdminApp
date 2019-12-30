@@ -131,7 +131,7 @@ class AllUserSelect extends Component {
         const { allHeadingsData, userData, searchFirstButtonName, searchSecondButtonName, searchPlaceHolder, searchFirstButtonLoader, onChangeCheckBox,
             searchSecondButtonLoader, searchFirstButtonClick, searchSecondButtonClick, searchLoader, onSearch, totalUsers, goPrevPage, goNextPage, currentPageNumber, columnSettingData,
             onClickUserActivate, onClickUserDeactivate, onClickUserDelete, onClickUserEdit, addUserPopUpActive, addUserCloseButton, addUserDataForm, isUserData = false, onlySelectAndAdd = false,
-            typeOfData, onClickTableRow } = this.props
+            typeOfData, onClickTableRow, columnConfigurable = false } = this.props
         const perPageOptions = [7, 10, 20, 30, 40, 50, 100]
         const { checkedList, rowsPerPage, visibleColumnSetting } = this.state
         const totalPages = Math.ceil(totalUsers / rowsPerPage)
@@ -208,7 +208,7 @@ class AllUserSelect extends Component {
                         </div>
                     </div> */}
                     <div className="setting_table_combine">
-                        {isUserData ? <div className="column_settings">
+                        {columnConfigurable ? <div className="column_settings">
                             <Popover
                                 content={<ColumnSetting columnData={allHeadingsData} columnSettingData={columnSettingData} />}
                                 title="Column Setting"
