@@ -45,6 +45,13 @@ export const departmentReducer = (state = initialState, action) => {
                 ...state,
                 departmentColumnData: columnData
             }
+        case actionTypes.POST_ADD_SELECTED_USERS_DATA:
+            const dataInitial = action.payload.data;
+            return {
+                ...state,
+                dataInitial
+            }
+
     }
 
     return {...state}

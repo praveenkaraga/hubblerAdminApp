@@ -101,6 +101,10 @@ export const postCreteDepartmentData = (data) => {
     return axios.post("/rest/departments/", data, axiosConfig)
 }
 
+export const postAddSelectedUsersData = (data) =>{
+    return axios.post("/add-people/departments/",data,axiosConfig)
+}
+
 
 
 

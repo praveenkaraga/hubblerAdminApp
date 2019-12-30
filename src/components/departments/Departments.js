@@ -8,7 +8,7 @@ import {
     getDepartmentData,
     commonDepartmentAction,
     getDeptTableColumnData,
-    postCreateDeptData
+    postCreateDeptData,postAddSelectedUsers
 } from "../../store/actions/actions";
 import AllUserSelect from '../allUserSelect/allUserSelect'
 
@@ -93,6 +93,12 @@ class Departments extends Component {
         });
     }
 
+    onClickFirst = () => {
+        debugger
+
+    }
+
+
 
     render() {
         const {departmentColumnData, departmentsData, totalUsers} = this.props.departmentReducer;
@@ -117,15 +123,14 @@ class Departments extends Component {
                             centered={true}
                             title={'Add Users'}
                             footer={null} className={'user-pop-model'}
-                            onCancel={this.onUserListCancel}
-                        >
+                            onCancel={this.onUserListCancel}>
                             <AllUserSelect allHeadingsData={departmentColumnData} userData={departmentsData}
                                            searchPlaceHolder={"Search Department"}
                                            searchFirstButtonName={"Add Selected"}
                                            searchSecondButtonName={"ADD USER"} totalUsers={totalUsers}
                                            searchSecondButtonClick={() => this.searchSecondButtonClick(true)}
                                            isUserData={false}
-                                           onChangeCheckBox={this.onChangeCheckBox} onlySelectAndAdd={true}/>
+                                           onChangeCheckBox={this.onChangeCheckBox} onlySelectAndAdd={true} onClickFirst={this.onClickFirst}/>
                         </Modal>
 
 
@@ -136,7 +141,7 @@ class Departments extends Component {
                                    searchPlaceHolder={"Search Department"} searchFirstButtonName={"IMPORT RESOURCES"}
                                    searchSecondButtonName={"ADD DEPARTMENT"} totalUsers={totalUsers}
                                    searchSecondButtonClick={() => this.searchSecondButtonClick(true)} isUserData={false}
-                                   onChangeCheckBox={this.onChangeCheckBox}/>
+                                   onChangeCheckBox={this.onChangeCheckBox} />
                     <Modal
                         title="Add New Department"
                         visible={this.state.visible}
@@ -171,7 +176,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return bindActionCreators(
         {
-            getDepartmentData, commonDepartmentAction, getDeptTableColumnData, postCreateDeptData
+            getDepartmentData, commonDepartmentAction, getDeptTableColumnData, postCreateDeptData,postAddSelectedUsers
         },
         dispatch
     );
