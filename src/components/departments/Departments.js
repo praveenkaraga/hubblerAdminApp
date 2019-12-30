@@ -8,7 +8,7 @@ import {
     getDepartmentData,
     commonDepartmentAction,
     getDeptTableColumnData,
-    postCreateDeptData
+    postCreateDeptData, postAddSelectedUsers, getAddSelectedUsersPostedData, getAddableUsersData,getTableColumnsData
 } from "../../store/actions/actions";
 import AllUserSelect from '../allUserSelect/allUserSelect'
 
@@ -18,6 +18,7 @@ class Departments extends Component {
         this.state = {
             changeToDepartmentCreatedView: false,
             showUsersList: false,
+            usersIdArray: [],
         }
     }
 
@@ -82,9 +83,12 @@ class Departments extends Component {
     }
 
     addFromUsersClick = () => {
+        const {createdDepartmentData} = this.props.departmentReducer;
         this.setState({
             showUsersList: true,
         });
+        this.props.getTableColumnsData()
+        this.props.getAddableUsersData(createdDepartmentData.id)
     }
 
     onUserListCancel = () => {
@@ -93,9 +97,25 @@ class Departments extends Component {
         });
     }
 
+    onClickFirst = () => {
+        const {createdDepartmentData} = this.props.departmentReducer;
+        let data = {
+            users: this.state.usersIdArray,
+            _id: createdDepartmentData.id
+        };
+        this.props.postAddSelectedUsers(data)
+        this.props.getAddSelectedUsersPostedData(createdDepartmentData.id)
+    }
+
+    onChangeAddUsersCheckBox = (value) => {
+        this.setState({
+            usersIdArray: value,
+        })
+    }
+
 
     render() {
-        const {departmentColumnData, departmentsData, totalUsers} = this.props.departmentReducer;
+        const {departmentColumnData, departmentsData, addableUsersData, totalUsers, addedUsersData,tableColumnsData} = this.props.departmentReducer;
         return (
             <div className="departments-main">
                 {this.state.changeToDepartmentCreatedView ? <div className={'departments-secondary-view'}>
@@ -117,15 +137,15 @@ class Departments extends Component {
                             centered={true}
                             title={'Add Users'}
                             footer={null} className={'user-pop-model'}
-                            onCancel={this.onUserListCancel}
-                        >
-                            <AllUserSelect allHeadingsData={departmentColumnData} userData={departmentsData}
+                            onCancel={this.onUserListCancel}>
+                            <AllUserSelect allHeadingsData={tableColumnsData} userData={addableUsersData}
                                            searchPlaceHolder={"Search Department"}
                                            searchFirstButtonName={"Add Selected"}
                                            searchSecondButtonName={"ADD USER"} totalUsers={totalUsers}
                                            searchSecondButtonClick={() => this.searchSecondButtonClick(true)}
-                                           isUserData={false}
-                                           onChangeCheckBox={this.onChangeCheckBox} onlySelectAndAdd={true}/>
+                                           isUserData={true}
+                                           onChangeCheckBox={this.onChangeAddUsersCheckBox} onlySelectAndAdd={true}
+                                           searchFirstButtonClick={this.onClickFirst}/>
                         </Modal>
 
 
@@ -171,7 +191,13 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return bindActionCreators(
         {
-            getDepartmentData, commonDepartmentAction, getDeptTableColumnData, postCreateDeptData
+            getDepartmentData,
+            commonDepartmentAction,
+            getDeptTableColumnData,
+            postCreateDeptData,
+            postAddSelectedUsers,
+            getAddSelectedUsersPostedData,
+            getAddableUsersData,getTableColumnsData
         },
         dispatch
     );

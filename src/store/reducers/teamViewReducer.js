@@ -75,9 +75,10 @@ export const teamViewReducer = (state = intialState, action) => {
         case actionTypes.GET_TEAM_VIEW_ORG_DATA:
             return {
                 ...state,
-                clickedUserOrgManagerData: [action.payload.data.manager] || [],
+                clickedUserOrgData : action.payload.data ,
+               /* clickedUserOrgManagerData: [action.payload.data.manager] || [],
                 clickedUserOrgReporteesData: action.payload.data.reportees || [],
-                total_Count: action.payload.data.total_count || '',
+                total_Count: action.payload.data.total_count || '',*/
                 contentLoader: false,
             }
 

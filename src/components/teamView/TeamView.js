@@ -48,7 +48,7 @@ class TeamView extends Component {
 
 
     render() {
-        const {orgChartUsers, teamViewUserDrawerVisible, clickedTeamUserData, teamViewClickedUserId, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, loader, clickedMemberData, contentLoader, importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpVisibility, uploadPopUpData, importUsersUploadResponseData,uploadFileStatus,importStatus,startUploadStatus} = this.props.teamViewReducer
+        const {orgChartUsers, teamViewUserDrawerVisible, clickedTeamUserData, teamViewClickedUserId, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, loader, clickedMemberData, contentLoader, importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpVisibility, uploadPopUpData, importUsersUploadResponseData,uploadFileStatus,importStatus,startUploadStatus,clickedUserOrgData} = this.props.teamViewReducer
         console.log(importUsersUploadResponseData)
         return (
             <div className={'team-view'}>
@@ -61,15 +61,17 @@ class TeamView extends Component {
                     </div>
                     <OrgChart/>
 
-                    <UserInfoSlider visible={teamViewUserDrawerVisible}
+                    <UserInfoSlider visible={teamViewUserDrawerVisible} sourceTeamView={true}
                                     onCloseFunction={(flag) => this.props.teamViewUserClick(flag)}
                                     teamUserData={clickedTeamUserData} userId={teamViewClickedUserId}
                                     getTeamViewOrgData={(id) => this.props.getTeamViewOrgData(id)}
+                                    clickedUserOrgData={clickedUserOrgData}
                                     clickedUserOrgManagerData={clickedUserOrgManagerData}
                                     clickedUserOrgReporteesData={clickedUserOrgReporteesData}
                                     total_Count={total_Count} clickedMemberData={clickedMemberData}
                                     contentLoader={contentLoader}
                                     changeLoaderStatus={(flag) => this.props.changeLoaderStatus(flag)}/>
+
                     <ImportUsersPopUp visible={importUsersPopUpVisiblity} modalClose={() => this.closeModal()}
                                       onClickDownload={() => this.downloadExcel()} sampleExcelFile={sampleExcelFile}
                                       onClickStartUpload={() => this.onClickOfUpload()}

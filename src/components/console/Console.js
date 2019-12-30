@@ -163,7 +163,7 @@ class Console extends Component {
                     onClickTableRow={this.onRowClick}
                 />
 
-                <UserInfoSlider visible={UserInfoVisible} onCloseFunction={() => this.onCloseUserInfo(false)} userId={userId} teamUserData={userData} />
+                <UserInfoSlider visible={UserInfoVisible} onCloseFunction={() => this.onCloseUserInfo(false)}  teamUserData={userData} sourceTeamView={false}/>
             </div>
         )
     }

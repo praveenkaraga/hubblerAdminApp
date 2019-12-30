@@ -7,6 +7,8 @@ const initialState = {
     count: 1,
     departmentColumnData: [],
     departmentsData: [],
+    addableUsersData: [],
+    tableColumnsData: [],
 }
 
 export const departmentReducer = (state = initialState, action) => {
@@ -21,7 +23,7 @@ export const departmentReducer = (state = initialState, action) => {
             const departmentsDataDataInitial = action.payload.data
             const departmentsData = departmentsDataDataInitial ? departmentsDataDataInitial.result : []
             const departmentsDataCopy = JSON.parse(JSON.stringify(departmentsData))
-            const d = map(departmentsDataCopy,ele => ({...ele, departments : ele.name , people: ele.count}))
+            const d = map(departmentsDataCopy, ele => ({...ele, departments: ele.name, people: ele.count}))
             const totalUsers = departmentsDataDataInitial ? departmentsDataDataInitial.total_count : 0
             return {
                 ...state,
@@ -29,10 +31,6 @@ export const departmentReducer = (state = initialState, action) => {
                 totalUsers,
             };
 
-        /*return {
-            ...state,
-            count: 2
-        }*/
         case actionTypes.COMMON_DEPARTMENT_ACTION :
             return {
                 ...state, ...action.payload
@@ -45,6 +43,47 @@ export const departmentReducer = (state = initialState, action) => {
                 ...state,
                 departmentColumnData: columnData
             }
+        case actionTypes.GET_TABLE_COLUMN:
+            const tableColumnDataInitial = action.payload.data;
+            const tableColumnData = tableColumnDataInitial ? action.payload.data.result : [];
+            return {
+                ...state,
+                tableColumnsData: tableColumnData
+            }
+
+        case actionTypes.POST_CREATE_DEPARTMENT_DATA:
+            const initialData = action.payload.data;
+            const data = initialData ? initialData : {}
+            return {
+                ...state,
+                createdDepartmentData: data
+            }
+        case actionTypes.POST_ADD_SELECTED_USERS_DATA:
+            const dataInitial = action.payload.data;
+            return {
+                ...state,
+                dataInitial
+            }
+        case actionTypes.GET_ADD_SELECTED_USERS_POSTED_DATA:
+            const addedUsersInitialData = action.payload.data;
+
+            return {
+                ...state,
+                addedUsersData: addedUsersInitialData ? addedUsersInitialData : {}
+            }
+
+        case actionTypes.GET_ADDABLE_USERS_DATA:
+            const userDataIntital = action.payload.data
+            const userData = userDataIntital ? userDataIntital.result : []
+            const userDataCopy = JSON.parse(JSON.stringify(userData))
+            const totalAddUsers = userDataIntital ? userDataIntital.total_count : 0
+            return {
+                ...state,
+                addableUsersData: userDataCopy,
+                totalAddUsers,
+                searchLoader: false
+            }
+
     }
 
     return {...state}

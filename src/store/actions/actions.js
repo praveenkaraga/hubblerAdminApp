@@ -34,7 +34,7 @@ export const { getTeamViewUsersData, teamViewUserClick, getClickedTeamUserData, 
 
 //------------------------------ Department Action -------------------------------//
 
-export const { getDepartmentData, commonDepartmentAction, getDeptTableColumnData, postCreateDeptData } = departmentActions
+export const { getDepartmentData, commonDepartmentAction, getDeptTableColumnData, postCreateDeptData, postAddSelectedUsers ,getAddSelectedUsersPostedData,getAddableUsersData,getTableColumnsData} = departmentActions
 
 //------------------------------xxxxxxxxxxxxxx-------------------------------//
 
