@@ -66,15 +66,13 @@ class TeamView extends Component {
                                     teamUserData={clickedTeamUserData} userId={teamViewClickedUserId}
                                     getTeamViewOrgData={(id) => this.props.getTeamViewOrgData(id)}
                                     clickedUserOrgData={clickedUserOrgData}
-                                    clickedUserOrgManagerData={clickedUserOrgManagerData}
-                                    clickedUserOrgReporteesData={clickedUserOrgReporteesData}
-                                    total_Count={total_Count} clickedMemberData={clickedMemberData}
+                                    clickedMemberData={clickedMemberData}
                                     contentLoader={contentLoader}
                                     changeLoaderStatus={(flag) => this.props.changeLoaderStatus(flag)}/>
 
-                    <ImportUsersPopUp visible={importUsersPopUpVisiblity} modalClose={() => this.closeModal()}
-                                      onClickDownload={() => this.downloadExcel()} sampleExcelFile={sampleExcelFile}
-                                      onClickStartUpload={() => this.onClickOfUpload()}
+                    <ImportUsersPopUp visible={importUsersPopUpVisiblity} modalClose={() =>  this.props.importUsersPopUPVisibility(false)}
+                                      onClickDownload={() => this.props.onClickOfDownloadExcel()} sampleExcelFile={sampleExcelFile}
+                                      onClickStartUpload={() => this.props.getImportUserUploadDetails()}
                                       uploadPopUpVisibility={uploadPopUpVisibility} uploadPopUpData={uploadPopUpData}
                                       uploadImportUsersPopUPVisibility={() => this.props.uploadImportUsersPopUPVisibility()}
                                       patchImportUsersData={(id, data) => this.props.patchImportUsersData(id, data)}
