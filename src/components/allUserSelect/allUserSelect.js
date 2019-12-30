@@ -112,11 +112,11 @@ class AllUserSelect extends Component {
     }
 
 
-    addUserPopup = (status) => {
-        this.setState({
-            popUpActive: status
-        })
-    }
+    // addUserPopup = (status) => {
+    //     this.setState({
+    //         popUpActive: status
+    //     })
+    // }
 
     handleVisibleChange = visible => {
         this.setState({ visibleColumnSetting: visible });
@@ -142,7 +142,7 @@ class AllUserSelect extends Component {
                 <div className="allUserSelect_container">
                     <UserSearch firstButtonName={searchFirstButtonName} secondButtonName={searchSecondButtonName} searchPlaceHolder={searchPlaceHolder}
                         firstButtonLoader={searchFirstButtonLoader} secondButtonLoader={searchSecondButtonLoader} searchLoader={searchLoader} onSearch={onSearch}
-                        onClickSecond={() => this.addUserPopup(true)} onClickSecond={searchSecondButtonClick} userSelected={checkedList.length}
+                        onClickFirst={searchFirstButtonClick} onClickSecond={searchSecondButtonClick} userSelected={checkedList.length}
                         onUserActivate={onClickUserActivate} onUserDeactivate={onClickUserDeactivate} onlySelectAndAdd={onlySelectAndAdd}
                         onUserDelete={onClickUserDelete} onUserEdit={onClickUserEdit} addUserPopUpActive={addUserPopUpActive} isUserData={isUserData} />
 

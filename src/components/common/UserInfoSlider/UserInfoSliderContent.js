@@ -15,13 +15,15 @@ class UserInfoSliderContent extends Component {
     componentDidMount() {
     }
 
-    render() {
-        function callback(key, getTeamViewOrgData, userId,changeLoaderStatus) {
-            if (key === 'organization') {
-                changeLoaderStatus(true)
-                getTeamViewOrgData(userId)
-            }
+     callOnChange=(key, getTeamViewOrgData, userId,changeLoaderStatus) => {
+        if (key === 'organization') {
+            changeLoaderStatus(true)
+            getTeamViewOrgData(userId)
         }
+    }
+
+    render() {
+
 
         const {teamUserData, userId, onCloseFunction, getTeamViewOrgData, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, clickedMemberData, contentLoader,changeLoaderStatus} = this.props
         return (
@@ -49,7 +51,7 @@ class UserInfoSliderContent extends Component {
                 </div>
                 <div className={'user-details-content'}>
                     <Tabs defaultActiveKey="personal"
-                          onChange={(key) => callback(key, this.props.getTeamViewOrgData.bind(this), userId ,changeLoaderStatus.bind(this))}
+                          onChange={(key) => this.callOnChange(key, this.props.getTeamViewOrgData, userId ,changeLoaderStatus)}
                           className={'user-slider-tab'}>
                         <TabPane tab="Personal" key="personal">
                             {contentLoader ? <div className={'content-loader'}></div> : <div className={'tab-content'}>

@@ -8,7 +8,7 @@ import {
     getDepartmentData,
     commonDepartmentAction,
     getDeptTableColumnData,
-    postCreateDeptData,postAddSelectedUsers
+    postCreateDeptData, postAddSelectedUsers, getAddSelectedUsersPostedData, getAddableUsersData,getTableColumnsData
 } from "../../store/actions/actions";
 import AllUserSelect from '../allUserSelect/allUserSelect'
 
@@ -18,6 +18,7 @@ class Departments extends Component {
         this.state = {
             changeToDepartmentCreatedView: false,
             showUsersList: false,
+            usersIdArray: [],
         }
     }
 
@@ -82,9 +83,12 @@ class Departments extends Component {
     }
 
     addFromUsersClick = () => {
+        const {createdDepartmentData} = this.props.departmentReducer;
         this.setState({
             showUsersList: true,
         });
+        this.props.getTableColumnsData()
+        this.props.getAddableUsersData(createdDepartmentData.id)
     }
 
     onUserListCancel = () => {
@@ -94,14 +98,24 @@ class Departments extends Component {
     }
 
     onClickFirst = () => {
-        debugger
+        const {createdDepartmentData} = this.props.departmentReducer;
+        let data = {
+            users: this.state.usersIdArray,
+            _id: createdDepartmentData.id
+        };
+        this.props.postAddSelectedUsers(data)
+        this.props.getAddSelectedUsersPostedData(createdDepartmentData.id)
+    }
 
+    onChangeAddUsersCheckBox = (value) => {
+        this.setState({
+            usersIdArray: value,
+        })
     }
 
 
-
     render() {
-        const {departmentColumnData, departmentsData, totalUsers} = this.props.departmentReducer;
+        const {departmentColumnData, departmentsData, addableUsersData, totalUsers, addedUsersData,tableColumnsData} = this.props.departmentReducer;
         return (
             <div className="departments-main">
                 {this.state.changeToDepartmentCreatedView ? <div className={'departments-secondary-view'}>
@@ -124,13 +138,14 @@ class Departments extends Component {
                             title={'Add Users'}
                             footer={null} className={'user-pop-model'}
                             onCancel={this.onUserListCancel}>
-                            <AllUserSelect allHeadingsData={departmentColumnData} userData={departmentsData}
+                            <AllUserSelect allHeadingsData={tableColumnsData} userData={addableUsersData}
                                            searchPlaceHolder={"Search Department"}
                                            searchFirstButtonName={"Add Selected"}
                                            searchSecondButtonName={"ADD USER"} totalUsers={totalUsers}
                                            searchSecondButtonClick={() => this.searchSecondButtonClick(true)}
-                                           isUserData={false}
-                                           onChangeCheckBox={this.onChangeCheckBox} onlySelectAndAdd={true} onClickFirst={this.onClickFirst}/>
+                                           isUserData={true}
+                                           onChangeCheckBox={this.onChangeAddUsersCheckBox} onlySelectAndAdd={false}
+                                           searchFirstButtonClick={this.onClickFirst}/>
                         </Modal>
 
 
@@ -141,7 +156,7 @@ class Departments extends Component {
                                    searchPlaceHolder={"Search Department"} searchFirstButtonName={"IMPORT RESOURCES"}
                                    searchSecondButtonName={"ADD DEPARTMENT"} totalUsers={totalUsers}
                                    searchSecondButtonClick={() => this.searchSecondButtonClick(true)} isUserData={false}
-                                   onChangeCheckBox={this.onChangeCheckBox} />
+                                   onChangeCheckBox={this.onChangeCheckBox}/>
                     <Modal
                         title="Add New Department"
                         visible={this.state.visible}
@@ -176,7 +191,13 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return bindActionCreators(
         {
-            getDepartmentData, commonDepartmentAction, getDeptTableColumnData, postCreateDeptData,postAddSelectedUsers
+            getDepartmentData,
+            commonDepartmentAction,
+            getDeptTableColumnData,
+            postCreateDeptData,
+            postAddSelectedUsers,
+            getAddSelectedUsersPostedData,
+            getAddableUsersData,getTableColumnsData
         },
         dispatch
     );

@@ -86,6 +86,9 @@ export const getAddUserDataForm = () => {
 export const getDepartmentsData = () => {
     return axios.get(`/rest/departments/?start=1&offset=20&sortKey=_id&sortOrder=dsc&filterKey=&filterQuery=`, axiosConfig);
 };
+export const getAddableUserData = (id,sortType) => {
+    return axios.get(`/choose-users/departments/${id}/?start=1&offset=20&sortKey=_id&sortOrder=dsc&filterKey=&filterQuery=`, axiosConfig);
+};
 
 
 export const getDesignationsData = (perPageRows, currentPage, searchData, headingData, sortingType) => {
@@ -104,6 +107,16 @@ export const postCreteDepartmentData = (data) => {
 export const postAddSelectedUsersData = (data) =>{
     return axios.post("/add-people/departments/",data,axiosConfig)
 }
+
+export const getAddSelectedUsersData = (id) =>{
+    return axios.get(`/users/departments/${id}/?start=1&offset=20&sortKey=_id&sortOrder=dsc&filterKey=&filterQuery=`)
+}
+
+export const getDeptAddUsersTableColumns = () => {
+    return axios.get("https://demo4798197.mockable.io/dept-user-columns")
+};
+
+
 
 
 
