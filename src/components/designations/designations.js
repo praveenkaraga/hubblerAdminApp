@@ -46,12 +46,7 @@ class Designations extends Component {
     }
 
     componentDidMount() {
-        // const { designationDataOriginal } = this.props.designationsReducer
-
-        // if (!designationDataOriginal.length) {
         this.props.designationsData(this.state.rowsPerPage)
-
-        // }
     }
 
     designationSearchData = (e) => {
@@ -67,7 +62,6 @@ class Designations extends Component {
 
     onClickHeadingColumn = (activeheading, sortingType) => {
         const { rowsPerPage, searchData, currentPageNumber } = this.state
-        console.log(activeheading, sortingType)
         const activeheadingModified = activeheading === "designations" ? "name" : "count"
         this.props.designationsData(rowsPerPage, currentPageNumber, searchData, activeheadingModified, sortingType)
         this.setState({
@@ -98,7 +92,9 @@ class Designations extends Component {
         })
     }
 
-
+    onRowClick = (rowData) => {
+        console.log(rowData)
+    }
 
     render() {
         const { designationData, totalDesignationsCount } = this.props.designationsReducer
@@ -125,7 +121,9 @@ class Designations extends Component {
                     goNextPage={() => this.changePage(1)}
 
                     onlySelectAndAdd={false}
-                    isUserData={false} />
+                    isUserData={false}
+
+                    onClickTableRow={this.onRowClick} />
             </div>
         );
     }

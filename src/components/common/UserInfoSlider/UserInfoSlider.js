@@ -12,8 +12,8 @@ class UserInfoSlider extends Component {
     }
 
     render() {
-        const {visible, onCloseFunction, teamUserData, userId, getTeamViewOrgData, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count,clickedMemberData,contentLoader,changeLoaderStatus} = this.props;
-
+        const {visible, onCloseFunction, teamUserData, userId, getTeamViewOrgData, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count,clickedMemberData,contentLoader,changeLoaderStatus,sourceTeamView,clickedUserOrgData} = this.props;
+        let usersId = teamUserData ? teamUserData._id : '';
         return (
             <div className={'user-info-slider'}>
                 <Drawer
@@ -22,7 +22,9 @@ class UserInfoSlider extends Component {
                     closable={false}
                     onClose={() => onCloseFunction(false)}
                     visible={visible}>
-                    <UserInfoSliderContent teamUserData={teamUserData} userId={userId} onCloseFunction={onCloseFunction}
+                    <UserInfoSliderContent teamUserData={teamUserData} userId={usersId} onCloseFunction={onCloseFunction}
+                                           clickedUserOrgData={clickedUserOrgData}
+                                           sourceTeamView={sourceTeamView}
                                            getTeamViewOrgData={getTeamViewOrgData}
                                            clickedUserOrgManagerData={clickedUserOrgManagerData}
                                            clickedUserOrgReporteesData={clickedUserOrgReporteesData}

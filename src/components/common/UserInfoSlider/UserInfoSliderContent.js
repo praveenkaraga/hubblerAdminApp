@@ -7,6 +7,7 @@ import Organization from './Organization'
 import Apps from './Apps'
 import map from "lodash/map";
 import AppsProfileTemplate from "./AppsProfileTemplate";
+import isArray from 'lodash/isArray'
 
 const {TabPane} = Tabs;
 
@@ -15,6 +16,7 @@ class UserInfoSliderContent extends Component {
     componentDidMount() {
     }
 
+
      callOnChange=(key, getTeamViewOrgData, userId,changeLoaderStatus) => {
         if (key === 'organization') {
             changeLoaderStatus(true)
@@ -22,10 +24,19 @@ class UserInfoSliderContent extends Component {
         }
     }
 
+    checkType=(data)=>{
+        let returnValue = ''
+        if(!isArray(data)){
+            returnValue = data
+        }else if(data.length){
+            returnValue = data[0].name
+        }else returnValue = ' '
+        return returnValue
+    }
+
     render() {
-
-
-        const {teamUserData, userId, onCloseFunction, getTeamViewOrgData, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, clickedMemberData, contentLoader,changeLoaderStatus} = this.props
+        const {teamUserData, userId, onCloseFunction, getTeamViewOrgData, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, clickedMemberData, contentLoader,changeLoaderStatus,sourceTeamView,clickedUserOrgData} = this.props
+        let memberData = sourceTeamView ? clickedMemberData : teamUserData
         return (
             <div className={'user-info-slider-content'} key={userId}>
                 <div className={'user-details-header-content'}>
@@ -33,18 +44,18 @@ class UserInfoSliderContent extends Component {
                     <div className={'edit-button'}>Edit</div>
                 </div>
                 <div className={'user-profile-hold'}>
-                    {clickedMemberData ? <div className={'user-profile-details'}>
-                        {clickedMemberData ? clickedMemberData.profile_image ?
+                    {memberData ? <div className={'user-profile-details'}>
+                        {memberData ? memberData.profile_image ?
                             <div className={'user-icon'}
-                                 style={{backgroundImage: `url(${clickedMemberData.profile_image.thumbnail})`}}></div>
-                            : clickedMemberData.gender === 'female' ? <div className={'user-template-icon'}
+                                 style={{backgroundImage: `url(${memberData.profile_image.thumbnail})`}}></div>
+                            : memberData.gender === 'female' ? <div className={'user-template-icon'}
                                                                            style={{backgroundImage: `url(${DefaultImageFemale})`}}></div> :
                                 <div className={'user-icon'}
                                      style={{backgroundImage: `url(${DefaultImageMale})`}}></div>
                             : ''}
-                        <div className={'user-name'}>{clickedMemberData.firstname} {clickedMemberData.lastname}</div>
+                        <div className={'user-name'}>{memberData.firstname} {memberData.lastname}</div>
                         <div
-                            className={'user-designation'}>{clickedMemberData.designations ? clickedMemberData.designations.length ? clickedMemberData.designations[0].name : '' : ''}</div>
+                            className={'user-designation'}>{memberData.designations ? this.checkType(memberData.designations) : ''}</div>
                         {/*<div className={'user-location'}>Location : Bangalore</div>*/}
                     </div> : ''}
 
@@ -55,13 +66,13 @@ class UserInfoSliderContent extends Component {
                           className={'user-slider-tab'}>
                         <TabPane tab="Personal" key="personal">
                             {contentLoader ? <div className={'content-loader'}></div> : <div className={'tab-content'}>
-                                <Personal teamUserData={teamUserData} userId={userId}/>
+                                <Personal teamUserData={teamUserData} userId={userId} />
                             </div>}
                         </TabPane>
                         <TabPane tab="Organization" key="organization">
                             <div className={'tab-content'}>
                                 {contentLoader ? <div className={'content-loader'}></div> : <div className={'tab-content'}>
-                                    <Organization userId={userId} getTeamViewOrgData={getTeamViewOrgData}
+                                    <Organization userId={userId} getTeamViewOrgData={getTeamViewOrgData} clickedUserOrgData={clickedUserOrgData}
                                                   clickedUserOrgManagerData={clickedUserOrgManagerData}
                                                   clickedUserOrgReporteesData={clickedUserOrgReporteesData}
                                                   total_Count={total_Count}/>

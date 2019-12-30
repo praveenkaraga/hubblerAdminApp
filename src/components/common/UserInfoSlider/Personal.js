@@ -2,17 +2,16 @@ import React, {Component} from 'react';
 import moment from 'moment'
 import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
+import isArray from "lodash/isArray";
 
 
 class Personal extends Component {
     getDepartments = (departmentArray) => {
-        return map(departmentArray, function (ele,index) {
-            if(index !== departmentArray.length - 1){
-                return `${ele.name}, `
-            }else{
-                return `${ele.name ? ele.name  : '- -'}`
-            }
-        })
+        if(isEmpty(departmentArray)){
+            return '- -'
+        }else{
+            return this.checkType(departmentArray,'department')
+        }
     }
 
     prepareNodeData = (nodeArray) => {
@@ -22,6 +21,28 @@ class Personal extends Component {
         </div>)
 
     }
+
+    checkType=(data,type)=>{
+        let returnValue = ''
+        if(!isArray(data)){
+            returnValue = data
+        }else if(data.length){
+            if(type === 'department'){
+                return returnValue = map(data, function (ele,index) {
+                    if(index !== data.length - 1){
+                        return `${ele.name}, `
+                    }else{
+                        return `${ele.name ? ele.name  : '- -'}`
+                    }
+                })
+            }else{
+                returnValue = data[0].name
+            }
+        }else returnValue = ' '
+        return returnValue
+    }
+
+
 
     render() {
         const {teamUserData} = this.props
@@ -57,11 +78,11 @@ class Personal extends Component {
                     <div className={'team-user-info'}>
                         <div className={'team-user-info-text'}>Designation</div>
                         <div
-                            className={'team-user-info-value'}> {teamUserData.designations ? teamUserData.designations.length ? teamUserData.designations[0].name : '- -' : '- -'}</div>
+                            className={'team-user-info-value'}> {teamUserData.designations ? this.checkType(teamUserData.designations): '- -'}</div>
                     </div>
                     <div className={'team-user-info'}>
                         <div className={'team-user-info-text'}>Departments</div>
-                        <div className={'team-user-info-value'}> {isEmpty(teamUserData.departments) ?   "- -" : this.getDepartments(teamUserData.departments) }</div>
+                        <div className={'team-user-info-value'}> {teamUserData.departments ? this.getDepartments(teamUserData.departments) :  "- -" }</div>
                     </div>
                     {teamUserData.node_data ? <div>
                         <div className={'divider'}></div>

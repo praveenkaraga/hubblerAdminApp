@@ -144,7 +144,7 @@ class Departments extends Component {
                                            searchSecondButtonName={"ADD USER"} totalUsers={totalUsers}
                                            searchSecondButtonClick={() => this.searchSecondButtonClick(true)}
                                            isUserData={true}
-                                           onChangeCheckBox={this.onChangeAddUsersCheckBox} onlySelectAndAdd={false}
+                                           onChangeCheckBox={this.onChangeAddUsersCheckBox} onlySelectAndAdd={true}
                                            searchFirstButtonClick={this.onClickFirst}/>
                         </Modal>
 

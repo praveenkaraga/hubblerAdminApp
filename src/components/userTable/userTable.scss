@@ -70,3 +70,21 @@
         }
     }
 }
+
+.user_table_main{
+    .ant-table-body{
+        tr{
+            cursor: pointer;
+        }
+    }
+}
+
+
+.row_not_clickable{
+    .ant-table-body{
+        tr{
+            cursor : auto
+        }
+
+    }
+}
