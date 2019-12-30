@@ -10,14 +10,17 @@ import {
     tableColumnSetting,
     addUserDataForm
 } from '../../store/actions/actions'
-
+import UserInfoSlider from '../common/UserInfoSlider/UserInfoSlider'
 
 class Console extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            popUpActive: false
+            popUpActive: false,
+            UserInfoVisible: false,
+            userId: "",
+            userData: {}
         }
     }
 
@@ -104,13 +107,25 @@ class Console extends Component {
         console.log("searchFirstButtonClick")
     }
 
+    onRowClick = (rowData) => {
+        console.log(rowData)
+        this.onCloseUserInfo(true, rowData._id, rowData)
+    }
+
+    onCloseUserInfo = (status, userId = "", userData = {}) => {
+        this.setState({
+            UserInfoVisible: status,
+            userId,
+            userData
+        })
+    }
+
 
     render() {
 
         const { consoleColumnData, consoleUserData, totalUsers, currentPageNumber, searchLoader, columnSettingData, addUserDataForm } = this.props.consoleReducer
 
-        const { popUpActive } = this.state
-
+        const { popUpActive, UserInfoVisible, userId, userData } = this.state
         return (
             <div className="console_main">
                 <div className="console_heading"><h3>Console</h3></div>
@@ -140,7 +155,12 @@ class Console extends Component {
 
                     //to check if it is userData or not
                     isUserData={true}
+
+                    //table fn
+                    onClickTableRow={this.onRowClick}
                 />
+
+                <UserInfoSlider visible={UserInfoVisible} onCloseFunction={() => this.onCloseUserInfo(false)} userId={userId} teamUserData={userData} />
             </div>
         )
     }

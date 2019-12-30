@@ -21,18 +21,29 @@ class UserTable extends Component {
         this.props.sortingData(sorter)
     }
 
+    onRowClick = (record, rowIndex) => {
+        const { onClickTableRow } = this.props
+        if (onClickTableRow) {
+            return {
+                onClick: event => {
+                    onClickTableRow(record)
+                }
+            }
+        }
+    }
 
     render() {
         const { selectedRowKeys } = this.state;
-        const { allHeadingsData, modifiedUserData } = this.props
+        const { allHeadingsData, modifiedUserData, onClickTableRow } = this.props
         const rowSelection = {
             selectedRowKeys,
             onChange: this.onSelectChange,
         }
 
-        return <Table rowSelection={rowSelection} columns={allHeadingsData}
+        return <Table className={`user_table_main ${onClickTableRow ? "row_clickable" : "row_not_clickable"}`}
+            rowSelection={rowSelection} columns={allHeadingsData}
             dataSource={modifiedUserData} pagination={false} scroll={{ y: "unset" }}
-            onChange={this.onChange} {...this.props} />
+            onChange={this.onChange} {...this.props} onRow={this.onRowClick} />
     }
 }
 
