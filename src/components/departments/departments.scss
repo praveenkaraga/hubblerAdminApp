@@ -86,3 +86,43 @@
 
   }
 }
+.user-pop-model{
+  height: 100%;
+  padding: 25px;
+
+  .ant-modal-content{
+    box-shadow: none;
+    height: 100%;
+    background-color: transparent;
+    margin-top: 0!important;
+  }
+  .ant-modal-header{
+    width: 94%;
+    margin: auto;
+  }
+
+  .ant-modal-close{
+    margin-right: 3%;
+  }
+  .ant-modal-body{
+    height: 93%;
+    padding: 0;
+  }
+  .all-users-wrap{
+    height: 100%;
+  }
+  .add-users-header-wrap{
+    background-color: #fff;
+    margin: 0 37px;
+    padding: 10px 25px;
+    color:#323232;
+    font-size: 17px;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+  }
+}
+.ant-modal.user-pop-model{
+  width: 100%!important;
+  height: 100%;
+}
+
