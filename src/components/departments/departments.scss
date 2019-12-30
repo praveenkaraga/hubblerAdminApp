@@ -86,22 +86,27 @@
 
   }
 }
-/*
 .user-pop-model{
   height: 100%;
+  padding: 25px;
 
   .ant-modal-content{
     box-shadow: none;
-    padding-top: 80px;
     height: 100%;
-    //background-color: transparent;
+    background-color: transparent;
+    margin-top: 0!important;
   }
+  .ant-modal-header{
+    width: 94%;
+    margin: auto;
+  }
+
   .ant-modal-close{
-    top: 100px;
-    right: 60px;
+    margin-right: 3%;
   }
   .ant-modal-body{
-    height: 100%;
+    height: 93%;
+    padding: 0;
   }
   .all-users-wrap{
     height: 100%;
@@ -114,11 +119,10 @@
     font-size: 17px;
     border-top-left-radius: 2px;
     border-top-right-radius: 2px;
-
   }
 }
-.ant-modal .user-pop-model{
+.ant-modal.user-pop-model{
   width: 100%!important;
   height: 100%;
-}*/
+}
 
