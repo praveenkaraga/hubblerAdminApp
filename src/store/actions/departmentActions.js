@@ -55,7 +55,6 @@ export const postAddSelectedUsers = (data) =>{
 }
 
 export const getAddSelectedUsersPostedData = (id) =>{
-    debugger
     const payload = getAddSelectedUsersData(id)
     return{
         type:actionTypes.GET_ADD_SELECTED_USERS_POSTED_DATA,

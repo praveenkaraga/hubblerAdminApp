@@ -8,9 +8,10 @@ import {
     getDepartmentData,
     commonDepartmentAction,
     getDeptTableColumnData,
-    postCreateDeptData, postAddSelectedUsers, getAddSelectedUsersPostedData, getAddableUsersData,getTableColumnsData
+    postCreateDeptData, postAddSelectedUsers, getAddSelectedUsersPostedData, getAddableUsersData, getTableColumnsData
 } from "../../store/actions/actions";
 import AllUserSelect from '../allUserSelect/allUserSelect'
+import filter from "lodash/filter";
 
 class Departments extends Component {
     constructor(props) {
@@ -87,15 +88,16 @@ class Departments extends Component {
         this.setState({
             showUsersList: true,
         });
-        this.props.getTableColumnsData()
-        this.props.getAddableUsersData(createdDepartmentData.id)
-    }
+        this.props.getTableColumnsData();
+        this.props.getAddableUsersData(createdDepartmentData ? createdDepartmentData.id : '')
+        this.props.commonDepartmentAction({populateSelectedUsersView: false})
+    };
 
     onUserListCancel = () => {
         this.setState({
             showUsersList: false,
         });
-    }
+    };
 
     onClickFirst = () => {
         const {createdDepartmentData} = this.props.departmentReducer;
@@ -103,54 +105,79 @@ class Departments extends Component {
             users: this.state.usersIdArray,
             _id: createdDepartmentData.id
         };
-        this.props.postAddSelectedUsers(data)
+        this.props.postAddSelectedUsers(data);
         this.props.getAddSelectedUsersPostedData(createdDepartmentData.id)
-    }
+    };
 
     onChangeAddUsersCheckBox = (value) => {
         this.setState({
             usersIdArray: value,
         })
-    }
-
+    };
 
     render() {
-        const {departmentColumnData, departmentsData, addableUsersData, totalUsers, addedUsersData,tableColumnsData} = this.props.departmentReducer;
+        const {departmentColumnData, departmentsData, addableUsersData, totalUsers, addedUsersData, tableColumnsData, populateSelectedUsersView} = this.props.departmentReducer;
+        console.log(addedUsersData);
+        console.log(populateSelectedUsersView);
+        const columnData = tableColumnsData ? filter(tableColumnsData, ele => ele._id !== 'departments') : [];
+
         return (
             <div className="departments-main">
-                {this.state.changeToDepartmentCreatedView ? <div className={'departments-secondary-view'}>
-                    <div className={'departments-secondary-view-wrap'}>
-                        <div>
-                            <div className={'department-name'}
-                                 onClick={this.backToMainDepartmentView}>{this.state.departmentName}</div>
+                {this.state.changeToDepartmentCreatedView ? populateSelectedUsersView ?
+                    <div className={'departments-secondary-view'}>
+                        <div className={'departments-secondary-view-wrap'}>
+                            <div>
+                                <div className={'department-name'}
+                                     onClick={this.backToMainDepartmentView}>{this.state.departmentName}</div>
+                            </div>
+                            <div className={'all-select-wrap'}>
+                                <AllUserSelect allHeadingsData={columnData}
+                                               userData={addedUsersData ? addedUsersData.result : []}
+                                               searchPlaceHolder={"Search Department"}
+                                               searchFirstButtonName={"Add Selected"}
+                                               searchSecondButtonName={"ADD USER"} totalUsers={totalUsers}
+                                               searchSecondButtonClick={() => this.searchSecondButtonClick(true)}
+                                               isUserData={true}
+                                               onChangeCheckBox={this.onChangeAddUsersCheckBox} onlySelectAndAdd={true}
+                                               searchFirstButtonClick={this.onClickFirst}/>
+
+                            </div>
+
                         </div>
-                        <div className={'add-user-card'}>
-                            <div className={'header'}>Add Users</div>
-                            <div className={'icon-mini'}></div>
-                            <div className={'text'}>You don't have any Users here. Please add from the Users list.</div>
-                            <Button key="addUsers" type="primary" onClick={this.addFromUsersClick}
-                                    className={'add-from-users-list'}>
-                                Add from Users List </Button>
-                        </div>
-                        <Modal
-                            visible={this.state.showUsersList}
-                            centered={true}
-                            title={'Add Users'}
-                            footer={null} className={'user-pop-model'}
-                            onCancel={this.onUserListCancel}>
-                            <AllUserSelect allHeadingsData={tableColumnsData} userData={addableUsersData}
-                                           searchPlaceHolder={"Search Department"}
-                                           searchFirstButtonName={"Add Selected"}
-                                           searchSecondButtonName={"ADD USER"} totalUsers={totalUsers}
-                                           searchSecondButtonClick={() => this.searchSecondButtonClick(true)}
-                                           isUserData={true}
-                                           onChangeCheckBox={this.onChangeAddUsersCheckBox} onlySelectAndAdd={true}
-                                           searchFirstButtonClick={this.onClickFirst}/>
-                        </Modal>
+                    </div> : <div className={'departments-secondary-view'}>
+                        <div className={'departments-secondary-view-wrap'}>
+                            <div>
+                                <div className={'department-name'}
+                                     onClick={this.backToMainDepartmentView}>{this.state.departmentName}</div>
+                            </div>
+                            <div className={'add-user-card'}>
+                                <div className={'header'}>Add Users</div>
+                                <div className={'icon-mini'}></div>
+                                <div className={'text'}>You don't have any Users here. Please add from the Users list.
+                                </div>
+                                <Button key="addUsers" type="primary" onClick={this.addFromUsersClick}
+                                        className={'add-from-users-list'}>
+                                    Add from Users List </Button>
+                            </div>
+                            <Modal
+                                visible={this.state.showUsersList}
+                                centered={true}
+                                title={'Add Users'}
+                                footer={null} className={'user-pop-model'}
+                                onCancel={this.onUserListCancel}>
+                                <AllUserSelect allHeadingsData={tableColumnsData} userData={addableUsersData}
+                                               searchPlaceHolder={"Search Department"}
+                                               searchFirstButtonName={"Add Selected"}
+                                               searchSecondButtonName={"ADD USER"} totalUsers={totalUsers}
+                                               searchSecondButtonClick={() => this.searchSecondButtonClick(true)}
+                                               isUserData={true}
+                                               onChangeCheckBox={this.onChangeAddUsersCheckBox} onlySelectAndAdd={true}
+                                               searchFirstButtonClick={this.onClickFirst}/>
+                            </Modal>
 
 
-                    </div>
-                </div> : <div className={'departments-main-view'}>
+                        </div>
+                    </div> : <div className={'departments-main-view'}>
                     <div className="departments-heading"><h3>Departments</h3></div>
                     <AllUserSelect allHeadingsData={departmentColumnData} userData={departmentsData}
                                    searchPlaceHolder={"Search Department"} searchFirstButtonName={"IMPORT RESOURCES"}
@@ -197,7 +224,7 @@ const mapDispatchToProps = dispatch => {
             postCreateDeptData,
             postAddSelectedUsers,
             getAddSelectedUsersPostedData,
-            getAddableUsersData,getTableColumnsData
+            getAddableUsersData, getTableColumnsData
         },
         dispatch
     );

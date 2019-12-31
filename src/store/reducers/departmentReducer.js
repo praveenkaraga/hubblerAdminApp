@@ -9,6 +9,7 @@ const initialState = {
     departmentsData: [],
     addableUsersData: [],
     tableColumnsData: [],
+    populateSelectedUsersView:false,
 }
 
 export const departmentReducer = (state = initialState, action) => {
@@ -66,10 +67,10 @@ export const departmentReducer = (state = initialState, action) => {
             }
         case actionTypes.GET_ADD_SELECTED_USERS_POSTED_DATA:
             const addedUsersInitialData = action.payload.data;
-
             return {
                 ...state,
-                addedUsersData: addedUsersInitialData ? addedUsersInitialData : {}
+                addedUsersData: addedUsersInitialData ? addedUsersInitialData : {},
+                populateSelectedUsersView : true,
             }
 
         case actionTypes.GET_ADDABLE_USERS_DATA:

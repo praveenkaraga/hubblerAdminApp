@@ -20,7 +20,9 @@ const intialState = {
     importUsersUploadResponseData: {},
     uploadFileStatus: false,
     startUploadStatus: false,
-    importStatus:false,
+    importStatus: false,
+    clickedUserOrgData: {},
+    clickedTeamUserData: {}
 }
 
 export const teamViewReducer = (state = intialState, action) => {
@@ -75,10 +77,10 @@ export const teamViewReducer = (state = intialState, action) => {
         case actionTypes.GET_TEAM_VIEW_ORG_DATA:
             return {
                 ...state,
-                clickedUserOrgData : action.payload.data ,
-               /* clickedUserOrgManagerData: [action.payload.data.manager] || [],
-                clickedUserOrgReporteesData: action.payload.data.reportees || [],
-                total_Count: action.payload.data.total_count || '',*/
+                clickedUserOrgData: action.payload.data,
+                /* clickedUserOrgManagerData: [action.payload.data.manager] || [],
+                 clickedUserOrgReporteesData: action.payload.data.reportees || [],
+                 total_Count: action.payload.data.total_count || '',*/
                 contentLoader: false,
             }
 
@@ -127,7 +129,7 @@ export const teamViewReducer = (state = intialState, action) => {
                 ...state,
                 uploadPopUpData: action.payload.data.result ? action.payload.data.result.length ? first(action.payload.data.result) : {} : {},
                 uploadPopUpVisibility: true,
-                startUploadStatus:false,
+                startUploadStatus: false,
 
                 /*importUsersPopUpVisiblity:false*/
             };

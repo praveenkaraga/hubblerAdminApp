@@ -17,10 +17,10 @@ class UserInfoSliderContent extends Component {
     }
 
 
-     callOnChange=(key, getTeamViewOrgData, userId,changeLoaderStatus) => {
+     callOnChange=(key, getTeamViewOrgData, url,changeLoaderStatus) => {
         if (key === 'organization') {
             changeLoaderStatus(true)
-            getTeamViewOrgData(userId)
+            getTeamViewOrgData(url)
         }
     }
 
@@ -35,8 +35,11 @@ class UserInfoSliderContent extends Component {
     }
 
     render() {
-        const {teamUserData, userId, onCloseFunction, getTeamViewOrgData, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, clickedMemberData, contentLoader,changeLoaderStatus,sourceTeamView,clickedUserOrgData} = this.props
+        const {teamUserData, userId, onCloseFunction, getTeamViewOrgData, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, clickedMemberData, contentLoader,changeLoaderStatus,sourceTeamView,clickedUserOrgData,url,clickedTeamUserData} = this.props
         let memberData = sourceTeamView ? clickedMemberData : teamUserData
+        let teamUsersProAppData = sourceTeamView ? clickedTeamUserData : clickedTeamUserData
+        console.log(teamUserData)
+
         return (
             <div className={'user-info-slider-content'} key={userId}>
                 <div className={'user-details-header-content'}>
@@ -62,7 +65,7 @@ class UserInfoSliderContent extends Component {
                 </div>
                 <div className={'user-details-content'}>
                     <Tabs defaultActiveKey="personal"
-                          onChange={(key) => this.callOnChange(key, this.props.getTeamViewOrgData, userId ,changeLoaderStatus)}
+                          onChange={(key) => this.callOnChange(key, this.props.getTeamViewOrgData, url ,changeLoaderStatus)}
                           className={'user-slider-tab'}>
                         <TabPane tab="Personal" key="personal">
                             {contentLoader ? <div className={'content-loader'}></div> : <div className={'tab-content'}>
@@ -72,23 +75,24 @@ class UserInfoSliderContent extends Component {
                         <TabPane tab="Organization" key="organization">
                             <div className={'tab-content'}>
                                 {contentLoader ? <div className={'content-loader'}></div> : <div className={'tab-content'}>
-                                    <Organization userId={userId} getTeamViewOrgData={getTeamViewOrgData} clickedUserOrgData={clickedUserOrgData}
-                                                  clickedUserOrgManagerData={clickedUserOrgManagerData}
+                                    <Organization userId={userId} getTeamViewOrgData={getTeamViewOrgData}
+                                                  clickedUserOrgData={clickedUserOrgData}
+                                                  /*clickedUserOrgManagerData={clickedUserOrgManagerData}
                                                   clickedUserOrgReporteesData={clickedUserOrgReporteesData}
-                                                  total_Count={total_Count}/>
+                                                  total_Count={total_Count}*//>
                                 </div>}
 
                             </div>
                         </TabPane>
                         <TabPane tab="Apps" key="apps">
                             <div className={'tab-content'}>
-                                <Apps teamUserData={teamUserData} userId={userId}/>
+                                <Apps teamUserData={teamUsersProAppData} userId={userId} />
                             </div>
                         </TabPane>
                         <TabPane tab="Profiles" key="profiles">
                             <div className={'tab-content'}>
                                 <div className={'app-profile-wrap'}>
-                                    {map(teamUserData ? teamUserData.profiles : [], ele =>
+                                    {map(teamUsersProAppData ? teamUserData.profiles : [], ele =>
                                         <AppsProfileTemplate data={ele}/>)}
                                 </div>
                             </div>

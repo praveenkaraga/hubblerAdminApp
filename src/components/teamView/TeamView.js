@@ -14,7 +14,7 @@ import {
     importUsersPopUPVisibility,
     onClickOfDownloadExcel,
     getImportUserUploadDetails,
-    uploadImportUsersPopUPVisibility, patchImportUsersData,commonTeamReducerAction
+    uploadImportUsersPopUPVisibility, patchImportUsersData, commonTeamReducerAction
 } from "../../store/actions/actions";
 import {teamViewReducer} from "../../store/reducers/teamViewReducer";
 import UserInfoSlider from '../../components/common/UserInfoSlider/UserInfoSlider'
@@ -30,7 +30,7 @@ class TeamView extends Component {
 
     showModal = () => {
         this.props.importUsersPopUPVisibility(true);
-        this.props.commonTeamReducerAction({importStatus : false})
+        this.props.commonTeamReducerAction({importStatus: false})
 
     };
 
@@ -48,7 +48,7 @@ class TeamView extends Component {
 
 
     render() {
-        const {orgChartUsers, teamViewUserDrawerVisible, clickedTeamUserData, teamViewClickedUserId, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, loader, clickedMemberData, contentLoader, importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpVisibility, uploadPopUpData, importUsersUploadResponseData,uploadFileStatus,importStatus,startUploadStatus,clickedUserOrgData} = this.props.teamViewReducer
+        const {orgChartUsers, teamViewUserDrawerVisible, clickedTeamUserData, teamViewClickedUserId, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, loader, clickedMemberData, contentLoader, importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpVisibility, uploadPopUpData, importUsersUploadResponseData, uploadFileStatus, importStatus, startUploadStatus, clickedUserOrgData} = this.props.teamViewReducer
         console.log(importUsersUploadResponseData)
         return (
             <div className={'team-view'}>
@@ -64,19 +64,25 @@ class TeamView extends Component {
                     <UserInfoSlider visible={teamViewUserDrawerVisible} sourceTeamView={true}
                                     onCloseFunction={(flag) => this.props.teamViewUserClick(flag)}
                                     teamUserData={clickedTeamUserData} userId={teamViewClickedUserId}
-                                    getTeamViewOrgData={(id) => this.props.getTeamViewOrgData(id)}
-                                    clickedUserOrgData={clickedUserOrgData}
+                                    url={`/reportees/organization/${teamViewClickedUserId}/?start=1&offset=100&sortKey=name&sortOrder=dsc&filterKey=_id&filterQuery=`}
+                                    // getTeamViewOrgData={(id) => this.props.getTeamViewOrgData(id)}
+                                    // clickedUserOrgData={clickedUserOrgData}
                                     clickedMemberData={clickedMemberData}
                                     contentLoader={contentLoader}
-                                    changeLoaderStatus={(flag) => this.props.changeLoaderStatus(flag)}/>
+                                   /* changeLoaderStatus={(flag) => this.props.changeLoaderStatus(flag)}*//>
 
-                    <ImportUsersPopUp visible={importUsersPopUpVisiblity} modalClose={() =>  this.props.importUsersPopUPVisibility(false)}
-                                      onClickDownload={() => this.props.onClickOfDownloadExcel()} sampleExcelFile={sampleExcelFile}
+                    <ImportUsersPopUp visible={importUsersPopUpVisiblity}
+                                      modalClose={() => this.props.importUsersPopUPVisibility(false)}
+                                      onClickDownload={() => this.props.onClickOfDownloadExcel()}
+                                      sampleExcelFile={sampleExcelFile}
                                       onClickStartUpload={() => this.props.getImportUserUploadDetails()}
                                       uploadPopUpVisibility={uploadPopUpVisibility} uploadPopUpData={uploadPopUpData}
                                       uploadImportUsersPopUPVisibility={() => this.props.uploadImportUsersPopUPVisibility()}
                                       patchImportUsersData={(id, data) => this.props.patchImportUsersData(id, data)}
-                                      importUsersUploadResponseData={importUsersUploadResponseData} uploadFileStatus={uploadFileStatus} commonTeamReducerAction={this.props.commonTeamReducerAction} importStatus={importStatus} startUploadStatus={startUploadStatus}/>
+                                      importUsersUploadResponseData={importUsersUploadResponseData}
+                                      uploadFileStatus={uploadFileStatus}
+                                      commonTeamReducerAction={this.props.commonTeamReducerAction}
+                                      importStatus={importStatus} startUploadStatus={startUploadStatus}/>
                 </div>}
             </div>
         )
@@ -99,7 +105,7 @@ const mapDispatchToProps = dispatch => {
             importUsersPopUPVisibility,
             onClickOfDownloadExcel,
             getImportUserUploadDetails,
-            uploadImportUsersPopUPVisibility, patchImportUsersData,commonTeamReducerAction
+            uploadImportUsersPopUPVisibility, patchImportUsersData, commonTeamReducerAction
         },
         dispatch
     );

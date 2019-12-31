@@ -44,11 +44,12 @@ export const getTeamViewUsers = () => {
 };
 
 export const getClickedTeamViewUser = (id) => {
+    debugger
     return axios.get(`/rest/users/${id}/?page=`, axiosConfig);
 };
 
-export const getClickedTeamViewOrgData = (id) => {
-    return axios.get(`/reportees/organization/${id}/?start=1&offset=100&sortKey=name&sortOrder=dsc&filterKey=_id&filterQuery=`, axiosConfig);
+export const getClickedTeamViewOrgData = (url) => {
+    return axios.get(url, axiosConfig);
 };
 
 export const downloadExcelCall = (id) => {

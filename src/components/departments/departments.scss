@@ -24,6 +24,10 @@
     display: flex;
     flex-direction: column;
 
+    .all-select-wrap{
+      margin-top: 50px;
+    }
+
     .department-name {
       background-image: url("../../images/arrow right.svg");
       background-repeat: no-repeat;
