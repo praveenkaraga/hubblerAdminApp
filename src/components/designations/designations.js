@@ -106,7 +106,7 @@ class Designations extends Component {
 
                 <AllUserSelect userData={designationData}
 
-                    searchFirstButtonName={"IMPORT USERS"} searchSecondButtonName={"ADD USER"}
+                    searchFirstButtonName={"IMPORT RESOURCES"} searchSecondButtonName={"ADD DESIGNATION"}
                     allHeadingsData={this.designationsColumnData}
                     searchPlaceHolder={"Search Designation"} onSearch={this.designationSearchData}
                     typeOfData="Designations"
@@ -120,7 +120,7 @@ class Designations extends Component {
                     goPrevPage={() => this.changePage(-1)}
                     goNextPage={() => this.changePage(1)}
 
-                    onlySelectAndAdd={false}
+                    // onlySelectAndAdd={false}
                     isUserData={false}
 
                     onClickTableRow={this.onRowClick} />

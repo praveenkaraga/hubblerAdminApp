@@ -8,7 +8,9 @@ import {
     getConsoleUserData,
     commonConsoleAction,
     tableColumnSetting,
-    addUserDataForm
+    addUserDataForm,
+    getClickedTeamUserData,
+    commonTeamReducerAction
 } from '../../store/actions/actions'
 import UserInfoSlider from '../common/UserInfoSlider/UserInfoSlider'
 
@@ -108,8 +110,10 @@ class Console extends Component {
     }
 
     onRowClick = (rowData) => {
-        console.log(rowData)
-        this.onCloseUserInfo(true, rowData._id, rowData)
+        this.props.commonTeamReducerAction({ contentLoader: true })
+        this.props.getClickedTeamUserData(rowData._id)
+        // const { clickedTeamUserData } = this.props.teamViewReducer
+        this.onCloseUserInfo(true, rowData._id)
     }
 
     onCloseUserInfo = (status, userId = "", userData = {}) => {
@@ -124,7 +128,7 @@ class Console extends Component {
     render() {
 
         const { consoleColumnData, consoleUserData, totalUsers, currentPageNumber, searchLoader, columnSettingData, addUserDataForm } = this.props.consoleReducer
-
+        const { clickedTeamUserData, contentLoader, sampleExcelFile, importUsersUploadResponseData } = this.props.teamViewReducer
         const { popUpActive, UserInfoVisible, userId, userData } = this.state
         return (
             <div className="console_main">
@@ -163,9 +167,29 @@ class Console extends Component {
                     onClickTableRow={this.onRowClick}
                 />
 
-                <UserInfoSlider visible={UserInfoVisible} onCloseFunction={() => this.onCloseUserInfo(false)}  teamUserData={userData} sourceTeamView={false}
-                                url={`/reportees/organization/${userId}/?start=1&offset=100&sortKey=name&sortOrder=dsc&filterKey=_id&filterQuery=`}
+                <UserInfoSlider visible={UserInfoVisible} onCloseFunction={() => this.onCloseUserInfo(false)} teamUserData={clickedTeamUserData} sourceTeamView={true}
+                    url={`/reportees/organization/${userId}/?start=1&offset=100&sortKey=name&sortOrder=dsc&filterKey=_id&filterQuery=`} contentLoader={contentLoader}
                 />
+
+
+                {/* <ImportUsersPopUp 
+                    visible={importUsersPopUpVisiblity} 
+                    modalClose={}
+
+                    onClickDownload={() => this.props.onClickOfDownloadExcel()}
+                    sampleExcelFile={sampleExcelFile}
+
+                    onClickStartUpload={() => this.props.getImportUserUploadDetails()}
+                    uploadPopUpVisibility={uploadPopUpVisibility} uploadPopUpData={uploadPopUpData}
+
+                    uploadImportUsersPopUPVisibility={() => this.props.uploadImportUsersPopUPVisibility()}
+                   // patchImportUsersData={(id, data) => this.props.patchImportUsersData(id, data)}
+
+                    importUsersUploadResponseData={importUsersUploadResponseData}
+
+                    uploadFileStatus={uploadFileStatus}
+                    commonTeamReducerAction={this.props.commonTeamReducerAction}
+                    importStatus={importStatus} startUploadStatus={startUploadStatus} /> */}
             </div>
         )
     }
@@ -174,7 +198,8 @@ class Console extends Component {
 
 const mapStateToProps = state => {
     return {
-        consoleReducer: state.consoleReducer
+        consoleReducer: state.consoleReducer,
+        teamViewReducer: state.teamViewReducer
     };
 };
 
@@ -185,7 +210,9 @@ const mapDispatchToProps = dispatch => {
             getConsoleUserData,
             commonConsoleAction,
             tableColumnSetting,
-            addUserDataForm
+            addUserDataForm,
+            getClickedTeamUserData,
+            commonTeamReducerAction
         },
         dispatch
     );

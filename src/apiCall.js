@@ -44,7 +44,6 @@ export const getTeamViewUsers = () => {
 };
 
 export const getClickedTeamViewUser = (id) => {
-    debugger
     return axios.get(`/rest/users/${id}/?page=`, axiosConfig);
 };
 
@@ -87,7 +86,7 @@ export const getAddUserDataForm = () => {
 export const getDepartmentsData = () => {
     return axios.get(`/rest/departments/?start=1&offset=20&sortKey=_id&sortOrder=dsc&filterKey=&filterQuery=`, axiosConfig);
 };
-export const getAddableUserData = (id,sortType) => {
+export const getAddableUserData = (id, sortType) => {
     return axios.get(`/choose-users/departments/${id}/?start=1&offset=20&sortKey=_id&sortOrder=dsc&filterKey=&filterQuery=`, axiosConfig);
 };
 
@@ -105,11 +104,11 @@ export const postCreteDepartmentData = (data) => {
     return axios.post("/rest/departments/", data, axiosConfig)
 }
 
-export const postAddSelectedUsersData = (data) =>{
-    return axios.post("/add-people/departments/",data,axiosConfig)
+export const postAddSelectedUsersData = (data) => {
+    return axios.post("/add-people/departments/", data, axiosConfig)
 }
 
-export const getAddSelectedUsersData = (id) =>{
+export const getAddSelectedUsersData = (id) => {
     return axios.get(`/users/departments/${id}/?start=1&offset=20&sortKey=_id&sortOrder=dsc&filterKey=&filterQuery=`)
 }
 
