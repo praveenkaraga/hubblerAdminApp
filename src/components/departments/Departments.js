@@ -12,6 +12,7 @@ import {
 } from "../../store/actions/actions";
 import AllUserSelect from '../allUserSelect/allUserSelect'
 import filter from "lodash/filter";
+import CommonCreationView from '../../components/common/CommonCreationView/CommonCreationView'
 
 class Departments extends Component {
     constructor(props) {
@@ -115,6 +116,12 @@ class Departments extends Component {
         })
     };
 
+    addUsersCommonCardButtonClick = () =>{
+        this.setState({
+
+        })
+    }
+
     render() {
         const {departmentColumnData, departmentsData, addableUsersData, totalUsers, addedUsersData, tableColumnsData, populateSelectedUsersView} = this.props.departmentReducer;
         console.log(addedUsersData);
@@ -125,6 +132,7 @@ class Departments extends Component {
             <div className="departments-main">
                 {this.state.changeToDepartmentCreatedView ? populateSelectedUsersView ?
                     <div className={'departments-secondary-view'}>
+
                         <div className={'departments-secondary-view-wrap'}>
                             <div>
                                 <div className={'department-name'}
