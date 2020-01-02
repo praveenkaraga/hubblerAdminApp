@@ -55,7 +55,7 @@ class UserSearch extends Component {
 
     render() {
 
-        const { firstButtonName, secondButtonName, searchPlaceHolder, firstButtonLoader, secondButtonLoader, searchLoader, onSearch, onClickFirst,
+        const { firstButtonName = "IMPORT", secondButtonName = "ADD", searchPlaceHolder, firstButtonLoader, secondButtonLoader, searchLoader, onSearch, onClickFirst,
             onClickSecond, userSelected, isUserData = "false", onlySelectAndAdd = "false" } = this.props
         const endAction = !isUserData ? 3 : 0
         return (
