@@ -37,6 +37,10 @@ class ImportUsersPopUp extends Component {
     render() {
         const {visible, modalClose, onClickDownload, sampleExcelFile, onClickStartUpload, uploadPopUpData, uploadPopUpVisibility, uploadImportUsersPopUPVisibility, patchImportUsersData, importUsersUploadResponseData, uploadFileStatus, commonTeamReducerAction, importStatus, startUploadStatus} = this.props;
         const {uploading, fileList} = this.state;
+        console.log(uploadFileStatus , "uploadFileStatus")
+        console.log(importStatus , "importStatus")
+        console.log(startUploadStatus , "startUploadStatus")
+
         const props = {
             onRemove: file => {
                 this.setState(state => {

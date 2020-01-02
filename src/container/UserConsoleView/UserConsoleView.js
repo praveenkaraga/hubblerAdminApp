@@ -51,11 +51,29 @@ class UserConsoleView extends Component {
 
     constructor(props) {
         super(props)
+        this.state = {
+            clickValue: false
+        }
     }
+
 
 
     componentDidMount() {
         this.props.createActiveLink(window.location.pathname.substr(1))
+    }
+
+    circleTitleClick = () =>{
+        let prevValue = this.state.clickValue
+        let updateValue = ''
+        if(prevValue){
+            updateValue = false
+        }else{
+            updateValue = true
+        }
+        this.setState({
+            clickValue: updateValue
+        })
+
     }
 
     render() {
@@ -77,6 +95,10 @@ class UserConsoleView extends Component {
                                         onClick={() => this.props.createActiveLink(route.link_name)}>{route.name}
                                     </NavLink>
                                 ))}
+                            </div>
+                            <div className={'circle-drop-wrap'} onClick={this.circleTitleClick}>
+                                <div className={'arrow-down'}></div>
+                                <div>Circles</div>
                             </div>
 
                         </div>

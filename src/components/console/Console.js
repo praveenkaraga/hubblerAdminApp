@@ -109,6 +109,7 @@ class Console extends Component {
 
     onRowClick = (rowData) => {
         console.log(rowData)
+
         this.onCloseUserInfo(true, rowData._id, rowData)
     }
 

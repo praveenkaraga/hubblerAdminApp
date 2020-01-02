@@ -127,7 +127,7 @@ export const teamViewReducer = (state = intialState, action) => {
         case actionTypes.GET_UPLOAD_FIELDS_DETAILS :
             return {
                 ...state,
-                uploadPopUpData: action.payload.data.result ? action.payload.data.result.length ? first(action.payload.data.result) : {} : {},
+                uploadPopUpData: action.payload.data.result ? action.payload.data.result.length ? first(action.payload.data.result) : [] : [],
                 uploadPopUpVisibility: true,
                 startUploadStatus: false,
 
