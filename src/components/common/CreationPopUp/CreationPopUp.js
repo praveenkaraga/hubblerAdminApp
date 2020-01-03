@@ -1,8 +1,10 @@
 import React, {Component} from "react";
 import {Button, Input, Modal} from "antd";
+import './creationPopUp.scss'
 
 class CreationPopUp extends Component {
     getRequiredFields = (customField) =>{
+        const {creationPopUpFirstFieldChangeHandler,fieldHeader,fieldPlaceHolder} = this.props
         switch (customField) {
             case 'add' : {
                 return <div>
@@ -16,7 +18,9 @@ class CreationPopUp extends Component {
             }
             default :{
                 return <div>
-
+                    <div>{fieldHeader}</div>
+                    <Input placeholder={fieldPlaceHolder} className={'preferred-field-class'}
+                           onChange={creationPopUpFirstFieldChangeHandler}/>
                 </div>
             }
         }
@@ -24,27 +28,21 @@ class CreationPopUp extends Component {
 
 
     render() {
-        const {creationPopUpTitle, firstButtonName, secondButtonName, firstButtonHandler, secondButtonHandler,customField} = this.props
-
+        const {creationPopUpVisibility = false,creationPopUpTitle = `Add New Department`, creationPopFirstButtonName = `Cancel`, creationPopSecondButtonName = `Create`, creationPopFirstButtonHandler, creationPopSecondButtonHandler,customField,creationPopUpFirstFieldChangeHandler} = this.props
         return (
             <div className={'creation-pop-up'}>
                 <Modal
-                    title="Add New Department"
-                    visible={this.state.visible}
-                    onOk={this.handleOk}
-                    onCancel={this.handleCancel}
+                    title={creationPopUpTitle}
+                    visible={creationPopUpVisibility}
+                    onCancel={creationPopFirstButtonHandler}
                     footer={[
-                        <Button key="cancel" onClick={() => this.handleCancel}>
-                            Cancel
+                        <Button key="cancel" onClick={() => creationPopFirstButtonHandler()}>
+                            {creationPopFirstButtonName}
                         </Button>,
-                        <Button key="create" onClick={this.createDepartment.bind(this)}
-                                type="primary">Create</Button>,
+                        <Button key="create" onClick={() => creationPopSecondButtonHandler()}
+                                type="primary">{creationPopSecondButtonName}</Button>,
                     ]}
                     centered>
-
-                    <div>Department Name</div>
-                    <Input placeholder="Enter Department" className={'department-name-input'}
-                           onChange={this.onInputChange}/>
 
                     {this.getRequiredFields(customField)}
                 </Modal>

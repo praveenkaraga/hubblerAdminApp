@@ -1,25 +1,25 @@
-import React,{Component} from "react";
+import React, {Component} from "react";
 import AllUserSelect from "../../allUserSelect/allUserSelect";
 import {Modal} from "antd";
+import './addUsersPopUP.scss'
 
-class AddUsersPopUp extends Component{
+class AddUsersPopUp extends Component {
     render() {
-        const {tableColumnsData,addableUsersData,totalUsers} = this.props
-        return(
+        const {showAddUsersPopUp = false, addUsersPopUpTitle = `Add Users`, addUsersPopUpClose,addUsersPopUpPlaceHolder = `Search Department`,addUsersPopUpFirstButtonName = `Add Selected`,addUsersPopUpFirstButtonClick,addUsersPopUpOnChangeCheckBox, addUsersPopUpTableColumnsData, addUsersPopUpUsersData, addUsersPopUpTotalUsers,addUsersPopUpIsUserData = true,addUsersPopUpOnlySelectAndAdd = true} = this.props;
+        return (
             <Modal
-                visible={this.state.showUsersList}
+                visible={showAddUsersPopUp}
                 centered={true}
-                title={'Add Users'}
+                title={addUsersPopUpTitle}
                 footer={null} className={'add-users-pop-up-model'}
-                onCancel={this.onUserListCancel}>
-                <AllUserSelect allHeadingsData={tableColumnsData} userData={addableUsersData}
-                               searchPlaceHolder={"Search Department"}
-                               searchFirstButtonName={"Add Selected"}
-                               searchSecondButtonName={"ADD USER"} totalUsers={totalUsers}
-                               searchSecondButtonClick={() => this.searchSecondButtonClick(true)}
-                               isUserData={true}
-                               onChangeCheckBox={this.onChangeAddUsersCheckBox} onlySelectAndAdd={true}
-                               searchFirstButtonClick={this.onClickFirst}/>
+                onCancel={addUsersPopUpClose}>
+                <AllUserSelect allHeadingsData={addUsersPopUpTableColumnsData} userData={addUsersPopUpUsersData}
+                               searchPlaceHolder={addUsersPopUpPlaceHolder}
+                               searchFirstButtonName={addUsersPopUpFirstButtonName}
+                               totalUsers={addUsersPopUpTotalUsers}
+                               isUserData={addUsersPopUpIsUserData}
+                               onChangeCheckBox={addUsersPopUpOnChangeCheckBox} onlySelectAndAdd={addUsersPopUpOnlySelectAndAdd}
+                               searchFirstButtonClick={addUsersPopUpFirstButtonClick}/>
             </Modal>
         )
     }
