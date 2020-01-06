@@ -144,6 +144,9 @@
                 font-weight: 100;
                 margin: 0;
                 width: 70%;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
             .action_buttons{
@@ -151,7 +154,7 @@
                 display: none;
                 justify-content: space-around;
                 img{
-                    height: 15px;
+                    height: 13px;
                 }
 
                 .setting_icon:hover{
@@ -190,6 +193,12 @@
             }
             
         }
+    }
+
+    .no_match{
+        height: 33px;
+        padding: 4px;
+        padding-left: 25px; 
     }
     
       

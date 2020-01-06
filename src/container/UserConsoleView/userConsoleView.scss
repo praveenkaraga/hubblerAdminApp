@@ -9,6 +9,7 @@
     .left-panel {
       width: 250px ;/*305px;*/
       background: white;
+      overflow-x: scroll;
       box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
 
       .nav-link{

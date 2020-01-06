@@ -4,6 +4,7 @@ import * as teamViewActions from './teamViewActions'
 import * as consoleActions from './consoleActions'
 import * as departmentActions from './departmentActions'
 import * as designationsActions from './designationsAction'
+import * as userConsoleMainActions from './userConsoleMainAction'
 
 //------------------------------Create User Action---------------------------
 export const { getUserData } = createUserAction
@@ -34,12 +35,9 @@ export const { getTeamViewUsersData, teamViewUserClick, getClickedTeamUserData, 
 
 //------------------------------ Department Action -------------------------------//
 
-export const { getDepartmentData, commonDepartmentAction, getDeptTableColumnData, postCreateDeptData, postAddSelectedUsers ,getAddSelectedUsersPostedData,getAddableUsersData,getTableColumnsData} = departmentActions
+export const { getDepartmentData, commonDepartmentAction, getDeptTableColumnData, postCreateDeptData, postAddSelectedUsers, getAddSelectedUsersPostedData, getAddableUsersData, getTableColumnsData } = departmentActions
 
 //------------------------------xxxxxxxxxxxxxx-------------------------------//
-
-
-
 
 
 
@@ -50,4 +48,12 @@ export const { getDepartmentData, commonDepartmentAction, getDeptTableColumnData
 export const { designationsData, commonDesignationAction } = designationsActions
 
 //------------------------------xxxxxxxxxxxxxx-------------------------------//
+
+
+
+//----------------------------- User Console Main Action ----------------------------//
+
+export const { getCirclesData, getCustomFields } = userConsoleMainActions
+
+//-----------------------------xxxxxxxxxxxxxxxxxxxxxxxxxx----------------------------//
 

@@ -117,6 +117,15 @@ export const getDeptAddUsersTableColumns = () => {
 };
 
 
+export const getCirclesDataApi = (searchData) => {
+    return axios.get(`/rest/circles/?start=1&offset=100&sortKey=name&sortOrder=dsc&filterKey=_id&filterQuery=${searchData || ""}`)
+}
+
+
+export const getCustomFieldsApi = () => {
+    return axios.get(`/meta/nodes/?start=1&offset=100&sortKey=_id&sortOrder=asc&filterKey=_id&filterQuery=`)
+}
+
 
 
 

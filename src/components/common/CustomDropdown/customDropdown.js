@@ -7,7 +7,6 @@ const { Panel } = Collapse;
 const customPanelStyle = {
     background: '#fff',
     borderRadius: 4,
-    marginBottom: 24,
     border: 0,
     overflow: 'hidden',
 }
@@ -23,6 +22,10 @@ class AnimationSearch extends Component {
 
     onClickSearch = (event, status) => {
         this.stopEvent(event)
+        if (!status) {
+            this.props.onLocalSearch({ target: { value: "" } })
+            this.panelSearchInput.state.value = ""
+        }
         this.setState({ searchActive: status })
     }
 
@@ -33,9 +36,11 @@ class AnimationSearch extends Component {
         }
     }
 
+
     render() {
         const { searchActive } = this.state
-        const { searchPlaceHolder, headingName, onSearch } = this.props
+        const { searchPlaceHolder, headingName, onLocalSearch } = this.props
+
 
         return (
             <div className="animationSearch_main">
@@ -48,7 +53,7 @@ class AnimationSearch extends Component {
                 </div>
                 <div className={`input_main ${searchActive ? "input_main_active" : "input_main_inactive"}`}>
                     <div className="input_container" onClick={this.stopEvent}>
-                        <Input placeholder={searchPlaceHolder} onChange={onSearch} />
+                        <Input ref={ele => this.panelSearchInput = ele} placeholder={searchPlaceHolder} onChange={onLocalSearch} />
                         <div className="cross_icon" onClick={(e) => this.onClickSearch(e, false)}></div>
                     </div>
                 </div>
@@ -67,7 +72,8 @@ class CustomDropdown extends Component {
         super(props);
         this.state = {
             activeCollapse: false,
-            panelDataActive: ""
+            panelDataActive: "",
+            localPanelData: []
         }
     }
 
@@ -79,7 +85,7 @@ class CustomDropdown extends Component {
 
     onSlectingPanelData = (data) => {
         this.props.onSinglePanelClick(data)
-        this.setState({ panelDataActive: data })
+        this.setState({ panelDataActive: data._id })
     }
 
     actionButtonsClick = (event, type) => {
@@ -91,10 +97,23 @@ class CustomDropdown extends Component {
         }
     }
 
+    onLocalSearch = (e) => {
+        const searchData = e.target.value || ""
+        const { panelData } = this.props
+        const filteredData = panelData.filter(data => {
+            let str = data.name.toUpperCase()
+            let searchDataCap = searchData.toUpperCase()
+            return str.search(searchDataCap) !== -1
+        })
+
+        this.setState({ localPanelData: filteredData.length ? filteredData : "noData" })
+
+    }
+
     render() {
-        const { activeCollapse, panelDataActive } = this.state
-        const allData = ["ni", "rtree", "fetf", "ffsd"]
-        const { panelDataype, onSinglePanelClick } = this.props
+        const { activeCollapse, panelDataActive, localPanelData } = this.state
+        const { panelDataype, panelData } = this.props
+        const finalMapData = localPanelData.length ? localPanelData : panelData
         return (
             <div className="custom_dropdown_main">
 
@@ -103,17 +122,26 @@ class CustomDropdown extends Component {
                     expandIcon={({ isActive }) => <Icon type="caret-right" rotate={isActive ? 90 : 0} />}
                     onChange={this.collapseChange}
                 >
-                    <Panel header={<AnimationSearch collapseStatus={activeCollapse} {...this.props} />} key="1" style={customPanelStyle} >
-                        {allData.map(data => (<div className={`panelSingleData ${data === panelDataActive ? "panelSingleDataActive" : ""}`} onClick={() => this.onSlectingPanelData(data)}>
-                            <div className={`dataImage ${panelDataype === "circle" ? "circleDataImage" : "customDataImage"}`}></div>
-                            <div className="singleDataName">
-                                <p className="name">{data}</p>
-                                <div className="action_buttons">
-                                    <img className="setting_icon" src={require("../../../images/svg/settings_grey.svg")} onClick={(e) => this.actionButtonsClick(e, "settings")} />
-                                    <img className="delete_icon" src={require("../../../images/svg/delete_red.svg")} onClick={(e) => this.actionButtonsClick(e, "delete")} />
+                    <Panel header={<AnimationSearch collapseStatus={activeCollapse} onLocalSearch={this.onLocalSearch} {...this.props} />} key="1" style={customPanelStyle} >
+                        {!(finalMapData === "noData") ?
+
+
+                            finalMapData.map(data => (
+                                <div className={`panelSingleData ${data._id === panelDataActive ? "panelSingleDataActive" : ""}`} onClick={() => this.onSlectingPanelData(data)}>
+                                    <div className={`dataImage ${panelDataype === "circles" ? "circleDataImage" : "customDataImage"}`}></div>
+                                    <div className="singleDataName">
+                                        <p className="name">{data.name}</p>
+                                        <div className="action_buttons">
+                                            <img className="setting_icon" src={require("../../../images/svg/settings_grey.svg")} onClick={(e) => this.actionButtonsClick(e, "settings")} alt="setting" />
+                                            <img className="delete_icon" src={require("../../../images/svg/delete_red.svg")} onClick={(e) => this.actionButtonsClick(e, "delete")} alt="delete" />
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>))}
+                            ))
+
+
+
+                            : <div className="no_match">No Match Found</div>}
                     </Panel>
                 </Collapse>
             </div>

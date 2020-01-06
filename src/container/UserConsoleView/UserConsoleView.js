@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { getUserData, createActiveLink } from '../../store/actions/actions'
+import { getUserData, createActiveLink, getCirclesData, getCustomFields } from '../../store/actions/actions'
 import Console from '../../components/console/Console'
 import TeamView from '../../components/teamView/TeamView'
 import Departments from '../../components/departments/Departments'
@@ -61,19 +61,32 @@ class UserConsoleView extends Component {
 
     componentDidMount() {
         this.props.createActiveLink(window.location.pathname.substr(1))
+        this.props.getCirclesData()
+        this.props.getCustomFields()
     }
 
-    onPanelSearch = (e) => {
-        console.log(e.target.value)
+    onPanelSearch = (e, type) => {
+        const searchData = e.target.value
+        if (type === "circles") {
+            console.log(searchData, "circles")
+        } else {
+            console.log(searchData, "fields")
+        }
+
     }
 
-    onSinglePanelClick = (data) => {
-        console.log(data)
+    onSinglePanelClick = (data, type) => {
+        if (type === "circles") {
+            console.log(data, "circles")
+        } else {
+            console.log(data, "fields")
+        }
     }
 
     render() {
 
         const { activeLinkName } = this.props.firstReducer
+        const { circlesData, customFieldsData } = this.props.userConsoleMainReducer
         return (
             <div className={'user-console-view'}>
                 <Router>
@@ -91,15 +104,12 @@ class UserConsoleView extends Component {
                                     </NavLink>
                                 ))}
                             </div>
-                            {/* <div className={'circle-drop-wrap'} onClick={this.circleTitleClick}>
-                                <div className={'arrow-down'}></div>
-                                <div>Circles</div>
-                                <div>
 
-                                </div>
-                            </div> */}
-                            <CustomDropdown panelDataype="circle" searchPlaceHolder={"Search Circles"} panelData={"nn"} onSearch={this.onPanelSearch}
-                                onSinglePanelClick={this.onSinglePanelClick} headingName={"Circles"} />
+                            <CustomDropdown panelDataype="circles" searchPlaceHolder={"Search Circles"} panelData={circlesData} onSearch={(e) => this.onPanelSearch(e, "circles")}
+                                onSinglePanelClick={(data) => this.onSinglePanelClick(data, "circles")} headingName={"Circles"} />
+
+                            <CustomDropdown panelDataype="fields" searchPlaceHolder={"Search Fields"} panelData={customFieldsData} onSearch={(e) => this.onPanelSearch(e, "fields")}
+                                onSinglePanelClick={(data) => this.onSinglePanelClick(data, "fields")} headingName={"Custom Fields"} />
 
                         </div>
 
@@ -125,7 +135,8 @@ class UserConsoleView extends Component {
 
 const mapStateToProps = state => {
     return {
-        firstReducer: state.firstReducer
+        firstReducer: state.firstReducer,
+        userConsoleMainReducer: state.userConsoleMainReducer
     };
 };
 
@@ -133,7 +144,9 @@ const mapDispatchToProps = dispatch => {
     return bindActionCreators(
         {
             getUserData,
-            createActiveLink
+            createActiveLink,
+            getCirclesData,
+            getCustomFields
         },
         dispatch
     );
