@@ -6,6 +6,7 @@ import Console from '../../components/console/Console'
 import TeamView from '../../components/teamView/TeamView'
 import Departments from '../../components/departments/Departments'
 import Designations from '../../components/designations/designations'
+import CustomDropdown from '../../components/common/CustomDropdown/customDropdown'
 import {
     BrowserRouter as Router,
     Switch,
@@ -62,18 +63,12 @@ class UserConsoleView extends Component {
         this.props.createActiveLink(window.location.pathname.substr(1))
     }
 
-    circleTitleClick = () =>{
-        let prevValue = this.state.clickValue
-        let updateValue = ''
-        if(prevValue){
-            updateValue = false
-        }else{
-            updateValue = true
-        }
-        this.setState({
-            clickValue: updateValue
-        })
+    onPanelSearch = (e) => {
+        console.log(e.target.value)
+    }
 
+    onSinglePanelClick = (data) => {
+        console.log(data)
     }
 
     render() {
@@ -96,10 +91,15 @@ class UserConsoleView extends Component {
                                     </NavLink>
                                 ))}
                             </div>
-                            <div className={'circle-drop-wrap'} onClick={this.circleTitleClick}>
+                            {/* <div className={'circle-drop-wrap'} onClick={this.circleTitleClick}>
                                 <div className={'arrow-down'}></div>
                                 <div>Circles</div>
-                            </div>
+                                <div>
+
+                                </div>
+                            </div> */}
+                            <CustomDropdown panelDataype="circle" searchPlaceHolder={"Search Circles"} panelData={"nn"} onSearch={this.onPanelSearch}
+                                onSinglePanelClick={this.onSinglePanelClick} headingName={"Circles"} />
 
                         </div>
 

@@ -93,26 +93,7 @@
         background-image: url(../../images/designation-active.svg);
       }
 
-      .circle-drop-wrap{
-        position: relative;
-        padding: 0 20px 0 45px;
-        color: rgba(0,0,0,0.38);
-        cursor: pointer;
-        line-height: 45px;
-        .arrow-down{
-          background-image: url(../../images/svg/down-arrow-small.svg);
-          background-size: 10px;
-          transform: rotate(-90deg);
-          width: 50px;
-          height: 47px;
-          position: absolute;
-          left: 0;
-          top: 0;
-          background-position: center;
-          background-repeat: no-repeat;
-          transition: all 500ms ease;
-        }
-      }
+      
     }
     .route-wrap{
       width: calc(100% - 250px);
