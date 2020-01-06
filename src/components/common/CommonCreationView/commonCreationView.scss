@@ -1,0 +1,19 @@
+.common-creation-view{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  .headerWithBackArrow{
+    background-image: url("../../../images/arrow right.svg");
+    background-repeat: no-repeat;
+    background-position: center left;
+    margin: auto 0;
+    padding-left: 35px;
+    font-size: 20px;
+    text-transform: capitalize;
+    cursor: pointer;
+  }
+  .all-selected-users-wrap{
+    margin-top: 50px;
+    height: 100%;
+  }
+}

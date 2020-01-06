@@ -12,14 +12,18 @@ import {
 } from "../../store/actions/actions";
 import AllUserSelect from '../allUserSelect/allUserSelect'
 import filter from "lodash/filter";
+import CreationPopViewCombined from '../common/CreationPopViewCombined/CreationPopViewCombined'
+import CreationPopUp from "../common/CreationPopUp/CreationPopUp";
+import CommonCreationView from "../common/CommonCreationView/CommonCreationView";
 
 class Departments extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            changeToDepartmentCreatedView: false,
-            showUsersList: false,
-            usersIdArray: [],
+            changeToCreatedView: false,  //changeToDepartmentCreatedView
+            showAddUsersPopUp: false, //showUsersList
+            usersIdArray: [], //usersIdArray
+            creationPopUpVisibility: false,
         }
     }
 
@@ -27,19 +31,6 @@ class Departments extends Component {
         this.props.getDeptTableColumnData();
         this.props.getDepartmentData(30)
     }
-
-    searchSecondButtonClick = (status) => {
-        this.setState({
-            visible: true
-
-        })
-    }
-
-    showModal = () => {
-        this.setState({
-            visible: true,
-        });
-    };
 
     handleOk = e => {
         console.log(e);
@@ -115,16 +106,106 @@ class Departments extends Component {
         })
     };
 
+    //retain this
+    searchSecondButtonClick = (status) => {
+        this.setState({
+            creationPopUpVisibility: true
+
+        })
+    }
+
+    //new stuff
+    creationPopFirstButtonHandler = () => {
+        this.setState({
+            creationPopUpVisibility: false
+        })
+    };
+
+
+    creationPopSecondButtonHandler = () => {
+        let data = {name: this.state.commonCreationViewHeaderName};
+        this.props.postCreateDeptData(data);
+        this.setState({
+            changeToCreatedView: true,
+            creationPopUpVisibility: false,
+        })
+    }
+
+    creationPopUpFirstFieldChangeHandler = (e) => {
+        this.setState({
+            commonCreationViewHeaderName: e.target.value
+        })
+    };
+
+
+    addUsersCommonCardButtonClick = () => {
+        const {createdDepartmentData} = this.props.departmentReducer;
+        this.setState({
+            showAddUsersPopUp: true,
+        });
+        this.props.getTableColumnsData();
+        this.props.getAddableUsersData(createdDepartmentData ? createdDepartmentData.id : '')
+        this.props.commonDepartmentAction({viewDecider: false})
+
+    }
+
+    allSelectedUsersOnChangeCheckBox = (value) => {
+        this.setState({
+            usersIdArray: value,
+        })
+    }
+
+    allSelectedUsersFirstButtonClick = () => {
+        console.log('yet to write the function : allSelectedUsersFirstButtonClick')
+    }
+
+    commonCreationViewBackButtonClick = () => { //backToMainDepartmentView
+        this.props.getDeptTableColumnData();
+        this.props.getDepartmentData(30)
+        this.setState({
+            changeToCreatedView: false //changeToDepartmentCreatedView
+        })
+    }
+
+
+    addUsersPopUpClose = () => {
+        this.setState({
+            showAddUsersPopUp: false
+        })
+    };
+
+    addUsersPopUpFirstButtonClick = () => { // onClickFirst
+        const {createdDepartmentData} = this.props.departmentReducer;
+        let data = {
+            users: this.state.usersIdArray,
+            _id: createdDepartmentData.id
+        };
+        this.setState({
+            showAddUsersPopUp: false
+        })
+        this.props.postAddSelectedUsers(data);
+        this.props.getAddSelectedUsersPostedData(createdDepartmentData.id)
+    };
+
+    addUsersPopUpOnChangeCheckBox = (value) => { //onChangeAddUsersCheckBox
+        this.setState({
+            usersIdArray: value,
+        })
+    };
+
+
     render() {
-        const {departmentColumnData, departmentsData, addableUsersData, totalUsers, addedUsersData, tableColumnsData, populateSelectedUsersView} = this.props.departmentReducer;
+        const {departmentColumnData, departmentsData, addableUsersData, totalUsers, addedUsersData, tableColumnsData, viewDecider} = this.props.departmentReducer;
         console.log(addedUsersData);
-        console.log(populateSelectedUsersView);
         const columnData = tableColumnsData ? filter(tableColumnsData, ele => ele._id !== 'departments') : [];
+
+        const {creationPopUpVisibility, changeToCreatedView, showAddUsersPopUp, commonCreationViewHeaderName} = this.state;
 
         return (
             <div className="departments-main">
-                {this.state.changeToDepartmentCreatedView ? populateSelectedUsersView ?
+                {/*{changeToCreatedView ? viewDecider ?
                     <div className={'departments-secondary-view'}>
+
                         <div className={'departments-secondary-view-wrap'}>
                             <div>
                                 <div className={'department-name'}
@@ -202,8 +283,78 @@ class Departments extends Component {
                         <Input placeholder="Enter Department" className={'department-name-input'}
                                onChange={this.onInputChange}/>
                     </Modal>
-                </div>}
+                </div>}*/}
 
+
+                {!changeToCreatedView ? <div className={'departments-main-view'}>
+                    <div className="departments-heading"><h3>Departments</h3></div>
+                    <AllUserSelect allHeadingsData={departmentColumnData} userData={departmentsData}
+                                   searchPlaceHolder={"Search Department"} searchFirstButtonName={"IMPORT RESOURCES"}
+                                   searchSecondButtonName={"ADD DEPARTMENT"} totalUsers={totalUsers}
+                                   searchSecondButtonClick={() => this.searchSecondButtonClick(true)} isUserData={false}
+                                   onChangeCheckBox={this.onChangeCheckBox}/>
+                </div> : ""}
+
+                <CreationPopViewCombined creationPopUpVisibility={creationPopUpVisibility}
+                                         //implies the visibility status of creation PopUP = boolean
+                                         creationPopFirstButtonHandler={this.creationPopFirstButtonHandler}
+                                         //function that gets invoked on click of the the first button of create pop
+                                         creationPopSecondButtonHandler={this.creationPopSecondButtonHandler}
+                                         //function that gets invoked on click of the second button of create popup
+                                         creationPopUpFirstFieldChangeHandler={this.creationPopUpFirstFieldChangeHandler}
+                                         //function that gets invoked for first fieldType (input) of the creation popup
+                                         fieldHeader={"Department Name"}
+                                         //value for fieldType header
+                                         fieldPlaceHolder={'Enter Department'}
+                                         //value for fieldType placeholder
+                                         customField={''} // custom field type ('add' or 'edit') that implies the type of fields that can be added
+                    // end of CreationPopUp props
+                                         commonCreationViewBackButtonClick={this.commonCreationViewBackButtonClick}
+                                         //function that gets invoked on click of the back button of commonCreationView
+                                         commonCreationViewHeaderName={commonCreationViewHeaderName}
+                                         //name of the header (usually the value obtained from first fieldType of creation popu)
+                                         backButton={true}
+                                         //implies whether back button is required or not = boolean
+                                         viewDecider={viewDecider}
+                                         //implies value(true or false or 0 or 1) that dicides whether to show the AddUsersCommonCardView or AllUserSelectTable
+                                         addUsersCommonCardButtonClick={this.addUsersCommonCardButtonClick}
+                                         //function that gets invoked on click of the addUsersCommonCardButton
+                                         allSelectedUsersHeadingsData={columnData}
+                                         //column data (array) for allHeadingsData of AllUsersSelect
+                                         allSelectedUsersUsersData={addedUsersData}
+                                         //users data (array) for userData AllUsersSelect
+                                         allSelectedUsersTotalUsers={totalUsers}
+                                         //total count of users for totalUsers AllUsersSelect
+                                         allSelectedUsersIsUserData={true}
+                                         //boolean value for isUserData of AllUsersSelect
+                                         allSelectedUsersOnChangeCheckBox={this.allSelectedUsersOnChangeCheckBox}
+                                         //function that gets invoked on click of checkbox of AllUsersSelect
+                                         allSelectedUsersOnlySelectAndAdd={true}
+                                         //boolean value for onlySelectAndAdd AllUsersSelect
+                                         allSelectedUsersFirstButtonClick={this.allSelectedUsersFirstButtonClick}
+                                         //function that gets invoked on click of first button of AllUsersSelect
+                                         showAddUsersPopUp={showAddUsersPopUp}
+                                         //boolean value that enables the visibility of AddUsersPopUp
+                                         addUsersPopUpClose={this.addUsersPopUpClose}
+                                         //function that gets invoked on click of close icon of AddUsersPopUp
+                                         addUsersPopUpFirstButtonClick={this.addUsersPopUpFirstButtonClick}
+                                         //function that gets invoked on click of first button of AddUsersPopUp
+                                         addUsersPopUpOnChangeCheckBox={this.addUsersPopUpOnChangeCheckBox}
+                                         //function that gets invoked on click of checkbox of AddUsersPopUp
+                                         addUsersPopUpTableColumnsData={tableColumnsData}
+                                         //column data (array) for allHeadingsData of AllUsersSelect of AddUsersPopUp
+                                         addUsersPopUpUsersData={addableUsersData}
+                                         //users data (array) for userData of AllUsersSelect of AddUsersPopUp
+                                         addUsersPopUpTotalUsers={totalUsers}
+                                         //total count of users for totalUsers of AllUsersSelect of AddUsersPopUp
+                                         addUsersPopUpIsUserData={true}
+                                         //boolean value for isUserData of AllUsersSelect of AddUsersPopUp
+                                         addUsersPopUpOnlySelectAndAdd={true}
+                                         //boolean value for onlySelectAndAdd of AllUsersSelect of AddUsersPopUp
+                                         changeToCreatedView={changeToCreatedView}
+                                         //boolean value to shift to CommonCreationView
+                    // end of CommonCreationView props
+                />
             </div>
         );
     }

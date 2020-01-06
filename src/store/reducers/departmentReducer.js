@@ -9,7 +9,7 @@ const initialState = {
     departmentsData: [],
     addableUsersData: [],
     tableColumnsData: [],
-    populateSelectedUsersView:false,
+    viewDecider:false, //populateSelectedUsersView
 }
 
 export const departmentReducer = (state = initialState, action) => {
@@ -70,7 +70,7 @@ export const departmentReducer = (state = initialState, action) => {
             return {
                 ...state,
                 addedUsersData: addedUsersInitialData ? addedUsersInitialData : {},
-                populateSelectedUsersView : true,
+                viewDecider : true,
             }
 
         case actionTypes.GET_ADDABLE_USERS_DATA:
