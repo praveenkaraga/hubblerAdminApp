@@ -149,7 +149,7 @@
                 text-overflow: ellipsis;
             }
 
-            .action_buttons{
+            .action_buttons, .action_buttons_active{
                 width: 25%;
                 display: none;
                 justify-content: space-around;
@@ -158,9 +158,13 @@
                 }
 
                 .setting_icon:hover{
-                    transform: rotate(180deg);
+                    transform: rotate(90deg);
                     transition: all ease 500ms;
                 }
+            }
+
+            .action_buttons_active{
+                display: flex;
             }
         }
 

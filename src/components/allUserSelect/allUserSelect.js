@@ -216,6 +216,7 @@ class AllUserSelect extends Component {
                                 visible={this.state.visibleColumnSetting}
                                 placement="bottomRight"
                                 autoAdjustOverflow
+                                overlayClassName="allUserSelect_popover"
                             >
                                 <img src={require(`../../images/svg/${!visibleColumnSetting ? "settings_grey" : "close-app"}.svg`)}
                                     onClick={() => this.handleVisibleChange(visibleColumnSetting ? false : true)} alt="Column Setting" />

@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { getUserData, createActiveLink, getCirclesData, getCustomFields } from '../../store/actions/actions'
+import {
+    getUserData,
+    createActiveLink,
+    getCirclesData,
+    getCustomFields
+} from '../../store/actions/actions'
 import Console from '../../components/console/Console'
 import TeamView from '../../components/teamView/TeamView'
 import Departments from '../../components/departments/Departments'
 import Designations from '../../components/designations/designations'
 import CustomDropdown from '../../components/common/CustomDropdown/customDropdown'
+import CreationPopUp from '../../components/common/CreationPopUp/CreationPopUp'
 import {
     BrowserRouter as Router,
     Switch,
@@ -14,7 +20,6 @@ import {
     NavLink,
 } from "react-router-dom";
 import './userConsoleView.scss'
-
 
 const routes = [
     {
@@ -53,8 +58,26 @@ class UserConsoleView extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            clickValue: false
+            creationPopUpVisibility: false,
+            creationPopUpData: {
+                type: "circles",
+                name: "",
+                typeName: "Circle",
+            },
+            creationPopUpInputData: ""
         }
+
+        this.customDropdownData = [
+            {
+                type: "circles",
+                searchPlaceHolder: "Search Circles",
+                headingName: "Circles",
+            }, {
+                type: "fields",
+                searchPlaceHolder: "Search Fields",
+                headingName: "Custom Fields",
+            }
+        ]
     }
 
 
@@ -65,15 +88,6 @@ class UserConsoleView extends Component {
         this.props.getCustomFields()
     }
 
-    onPanelSearch = (e, type) => {
-        const searchData = e.target.value
-        if (type === "circles") {
-            console.log(searchData, "circles")
-        } else {
-            console.log(searchData, "fields")
-        }
-
-    }
 
     onSinglePanelClick = (data, type) => {
         if (type === "circles") {
@@ -83,10 +97,42 @@ class UserConsoleView extends Component {
         }
     }
 
+    dropDownAction = (data, type) => {
+        const creationPopUpData = {
+            type,
+            typeName: type === "circles" ? "Circle" : "Field",
+            name: data.name,
+            fixedName: data.name
+        }
+        this.setState({ creationPopUpVisibility: true, creationPopUpData, creationPopUpInputData: data.name })
+    }
+
+
+    creationPopUpInput = (e) => {
+        const { creationPopUpData } = this.state
+        const inputData = e.target.value
+        this.setState({
+            creationPopUpInputData: inputData,
+            creationPopUpData: { ...creationPopUpData, name: inputData ? creationPopUpData.name : "" }
+        })
+    }
+
+    onSaveCreationPopUp = (type) => {
+        if (type === "circles") {
+            console.log("circles saved")
+        } else {
+            console.log("fields saved")
+        }
+        this.setState({
+            creationPopUpVisibility: false
+        })
+    }
+
     render() {
 
         const { activeLinkName } = this.props.firstReducer
         const { circlesData, customFieldsData } = this.props.userConsoleMainReducer
+        const { creationPopUpVisibility, creationPopUpData, creationPopUpInputData } = this.state
         return (
             <div className={'user-console-view'}>
                 <Router>
@@ -105,11 +151,27 @@ class UserConsoleView extends Component {
                                 ))}
                             </div>
 
-                            <CustomDropdown panelDataype="circles" searchPlaceHolder={"Search Circles"} panelData={circlesData} onSearch={(e) => this.onPanelSearch(e, "circles")}
-                                onSinglePanelClick={(data) => this.onSinglePanelClick(data, "circles")} headingName={"Circles"} />
+                            {this.customDropdownData.map(singleData => (
+                                <CustomDropdown panelDataype={singleData.type} searchPlaceHolder={singleData.searchPlaceHolder} panelData={singleData.type === "circles" ? circlesData : customFieldsData}
+                                    onSinglePanelClick={(data) => this.onSinglePanelClick(data, singleData.type)} headingName={singleData.headingName} onClickSetting={(data) => this.dropDownAction(data, singleData.type)}
+                                />
+                            ))
+                            }
 
-                            <CustomDropdown panelDataype="fields" searchPlaceHolder={"Search Fields"} panelData={customFieldsData} onSearch={(e) => this.onPanelSearch(e, "fields")}
-                                onSinglePanelClick={(data) => this.onSinglePanelClick(data, "fields")} headingName={"Custom Fields"} />
+                            <CreationPopUp creationPopUpVisibility={creationPopUpVisibility}
+                                creationPopUpTitle={`Edit ${creationPopUpData.typeName}`}
+                                creationPopFirstButtonName={"Cancel"}
+                                creationPopSecondButtonName={"Save"}
+                                inputValue={creationPopUpInputData || creationPopUpData.name}
+                                creationPopFirstButtonHandler={() => this.setState({ creationPopUpVisibility: false })}
+                                creationPopSecondButtonHandler={() => this.onSaveCreationPopUp(creationPopUpData.type)}
+                                secondButtonDisable={!creationPopUpInputData || creationPopUpInputData === creationPopUpData.fixedName ? true : false}
+                                afterClose={() => this.setState({ creationPopUpInputData: "" })}
+                                creationPopUpFirstFieldChangeHandler={this.creationPopUpInput}
+                                fieldHeader={`${creationPopUpData.typeName} Name`}
+                                fieldPlaceHolder={`Enter ${creationPopUpData.typeName} Name`}
+                            />
+
 
                         </div>
 

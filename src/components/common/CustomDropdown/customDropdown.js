@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './customDropdown.scss'
-import { Collapse, Icon, Input } from 'antd';
+import { Collapse, Icon, Input, Popconfirm, message } from 'antd';
 
 const { Panel } = Collapse;
 
@@ -73,7 +73,9 @@ class CustomDropdown extends Component {
         this.state = {
             activeCollapse: false,
             panelDataActive: "",
-            localPanelData: []
+            localPanelData: [],
+            popConfirmActive: false,
+            panelWithPopActive: ""
         }
     }
 
@@ -88,30 +90,46 @@ class CustomDropdown extends Component {
         this.setState({ panelDataActive: data._id })
     }
 
-    actionButtonsClick = (event, type) => {
+    actionButtonsClick = (event, type, data) => {
         event.stopPropagation()
         if (type === "settings") {
-            console.log("set")
+            if (this.props.onClickSetting) {
+                this.props.onClickSetting(data)
+            }
         } else {
-            console.log("del")
+            if (this.props.onClickDelete) {
+                this.props.onClickDelete(data)
+            }
         }
     }
 
     onLocalSearch = (e) => {
         const searchData = e.target.value || ""
-        const { panelData } = this.props
+        const { panelData, onSearch } = this.props
         const filteredData = panelData.filter(data => {
             let str = data.name.toUpperCase()
             let searchDataCap = searchData.toUpperCase()
             return str.search(searchDataCap) !== -1
         })
+        if (onSearch) {
+            onSearch(searchData)
+        }
 
         this.setState({ localPanelData: filteredData.length ? filteredData : "noData" })
 
     }
 
+    confirm = () => { }
+
+    onVisibleChange = (status, id) => {
+        this.setState({
+            popConfirmActive: status,
+            panelWithPopActive: id
+        })
+    }
+
     render() {
-        const { activeCollapse, panelDataActive, localPanelData } = this.state
+        const { activeCollapse, panelDataActive, localPanelData, popConfirmActive, panelWithPopActive } = this.state
         const { panelDataype, panelData } = this.props
         const finalMapData = localPanelData.length ? localPanelData : panelData
         return (
@@ -122,7 +140,7 @@ class CustomDropdown extends Component {
                     expandIcon={({ isActive }) => <Icon type="caret-right" rotate={isActive ? 90 : 0} />}
                     onChange={this.collapseChange}
                 >
-                    <Panel header={<AnimationSearch collapseStatus={activeCollapse} onLocalSearch={this.onLocalSearch} {...this.props} />} key="1" style={customPanelStyle} >
+                    <Panel disabled={panelData.length ? false : true} header={<AnimationSearch collapseStatus={activeCollapse} onLocalSearch={this.onLocalSearch} {...this.props} />} key="1" style={customPanelStyle} >
                         {!(finalMapData === "noData") ?
 
 
@@ -130,10 +148,21 @@ class CustomDropdown extends Component {
                                 <div className={`panelSingleData ${data._id === panelDataActive ? "panelSingleDataActive" : ""}`} onClick={() => this.onSlectingPanelData(data)}>
                                     <div className={`dataImage ${panelDataype === "circles" ? "circleDataImage" : "customDataImage"}`}></div>
                                     <div className="singleDataName">
+
                                         <p className="name">{data.name}</p>
-                                        <div className="action_buttons">
-                                            <img className="setting_icon" src={require("../../../images/svg/settings_grey.svg")} onClick={(e) => this.actionButtonsClick(e, "settings")} alt="setting" />
-                                            <img className="delete_icon" src={require("../../../images/svg/delete_red.svg")} onClick={(e) => this.actionButtonsClick(e, "delete")} alt="delete" />
+
+                                        <div className={data._id === panelWithPopActive && popConfirmActive ? "action_buttons_active" : "action_buttons"}>
+                                            <img className="setting_icon" src={require("../../../images/svg/settings_grey.svg")} onClick={(e) => this.actionButtonsClick(e, "settings", data)} alt="setting" />
+                                            <Popconfirm
+                                                title={<p>Are you sure want to delete: <span>{data.name}</span></p>}
+                                                onConfirm={this.confirm}
+                                                onCancel={this.confirm}
+                                                okText="Yes"
+                                                cancelText="No"
+                                                onVisibleChange={(status) => this.onVisibleChange(status, data._id)}
+                                            >
+                                                <img className="delete_icon" src={require("../../../images/svg/delete_red.svg")} onClick={(e) => this.actionButtonsClick(e, "delete", data)} alt="delete" />
+                                            </Popconfirm>
                                         </div>
                                     </div>
                                 </div>
