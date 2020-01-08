@@ -5,7 +5,7 @@ import './addUsersPopUP.scss'
 
 class AddUsersPopUp extends Component {
     render() {
-        const {showAddUsersPopUp = false, addUsersPopUpTitle = `Add Users`, addUsersPopUpClose,addUsersPopUpPlaceHolder = `Search Department`,addUsersPopUpFirstButtonName = `Add Selected`,addUsersPopUpFirstButtonClick,addUsersPopUpOnChangeCheckBox, addUsersPopUpTableColumnsData, addUsersPopUpUsersData, addUsersPopUpTotalUsers,addUsersPopUpIsUserData = true,addUsersPopUpOnlySelectAndAdd = true} = this.props;
+        const {showAddUsersPopUp = false, addUsersPopUpTitle = `Add Users`, addUsersPopUpClose,addUsersPopUpPlaceHolder = `Search Department`,addUsersPopUpFirstButtonName = `Add Selected`,addUsersPopUpFirstButtonClick,addUsersPopUpOnChangeCheckBox, addUsersPopUpTableColumnsData, addUsersPopUpUsersData, addUsersPopUpTotalUsers,addUsersPopUpIsUserData = true,addUsersPopUpOnlySelectAndAdd = true,addUsersOnClickHeadingColumn,addUsersOnChangeRowsPerPage,addUsersChangePage,addUsersDepartmentSearchData,addUsersCurrentPageNumber,} = this.props;
         return (
             <Modal
                 visible={showAddUsersPopUp}
@@ -19,7 +19,13 @@ class AddUsersPopUp extends Component {
                                totalUsers={addUsersPopUpTotalUsers}
                                isUserData={addUsersPopUpIsUserData}
                                onChangeCheckBox={addUsersPopUpOnChangeCheckBox} onlySelectAndAdd={addUsersPopUpOnlySelectAndAdd}
-                               searchFirstButtonClick={addUsersPopUpFirstButtonClick}/>
+                               searchFirstButtonClick={addUsersPopUpFirstButtonClick}
+                               onChangeRowsPerPage={addUsersOnChangeRowsPerPage}
+                               headingClickData={addUsersOnClickHeadingColumn}
+                               goPrevPage={() => addUsersChangePage(-1)}
+                               goNextPage={() => addUsersChangePage(1)}
+                               onSearch={addUsersDepartmentSearchData}
+                               currentPageNumber={addUsersCurrentPageNumber}/>
             </Modal>
         )
     }

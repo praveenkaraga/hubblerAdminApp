@@ -24,6 +24,24 @@ class Departments extends Component {
             showAddUsersPopUp: false, //showUsersList
             usersIdArray: [], //usersIdArray
             creationPopUpVisibility: false,
+
+            currentPageNumber: 1,
+            rowsPerPage: 30,
+            activeHeading: "",
+            sortingType: "",
+            searchData: "",
+
+            allSelectedUsersCurrentPageNumber: 1,
+            allSelectedUsersRowsPerPage: 30,
+            allSelectedUsersActiveHeading: "",
+            allSelectedUsersSortingType: "",
+            allSelectedUsersSearchData: "" , /*addUsers*/
+
+            addUsersCurrentPageNumber: 1,
+            addUsersRowsPerPage: 30,
+            addUsersActiveHeading: "",
+            addUsersSortingType: "",
+            addUsersSearchData: ""
         }
     }
 
@@ -194,6 +212,144 @@ class Departments extends Component {
     };
 
 
+    onClickHeadingColumn = (activeHeading, sortingType) => {
+        const { rowsPerPage, searchData, currentPageNumber } = this.state
+        const activeHeadingModified = activeHeading === "departments" ? "name" : "count"
+        this.props.getDepartmentData(rowsPerPage, currentPageNumber, searchData, activeHeadingModified, sortingType)
+        this.setState({
+            activeHeading: activeHeadingModified,
+            sortingType
+        })
+    }
+
+    onChangeRowsPerPage = (rowsPerPage) => {
+        this.props.getDepartmentData(rowsPerPage, 1)
+        this.setState({
+            rowsPerPage,
+            currentPageNumber: 1
+        })
+    }
+
+    changePage = (calcData) => {
+        const { currentPageNumber, rowsPerPage } = this.state
+        const goToPage = currentPageNumber + calcData
+        this.props.getDepartmentData(rowsPerPage, goToPage)
+        this.setState({
+            currentPageNumber: goToPage
+        })
+    }
+
+    departmentSearchData = (e) => {
+        const { rowsPerPage, activeheading, sortingType } = this.state
+        const searchData = e.target.value
+        this.props.getDepartmentData(rowsPerPage, 1, searchData, activeheading, sortingType)
+        this.setState({
+            searchData,
+            currentPageNumber: 1
+        })
+    }
+
+    creationPopUpSecondFieldChangeHandler = (value) => {
+        console.log(`creationPopUpSecondField value choosen ${value}`);
+    }
+    creationPopUpThirdFieldChangeHandler =(checked) => {
+        console.log(`switch to ${checked}`);
+    }
+
+    /*allSelected*/
+
+    allSelectedUsersOnClickHeadingColumn = (activeHeading, sortingType) => {
+        const{createdDepartmentData} = this.props.departmentReducer;
+
+        const { allSelectedUsersRowsPerPage, allSelectedUsersSearchData, allSelectedUsersCurrentPageNumber } = this.state
+        this.props.getAddSelectedUsersPostedData(createdDepartmentData.id,allSelectedUsersRowsPerPage, allSelectedUsersCurrentPageNumber, allSelectedUsersSearchData, activeHeading, sortingType)
+        this.setState({
+            allSelectedUsersActiveHeading: activeHeading,
+            sortingType
+        })
+    }
+
+    allSelectedUsersOnChangeRowsPerPage = (rowsPerPage) => {
+        const{createdDepartmentData} = this.props.departmentReducer;
+
+        this.props.getAddSelectedUsersPostedData(createdDepartmentData.id,rowsPerPage, 1)
+        this.setState({
+            rowsPerPage,
+            allSelectedUsersCurrentPageNumber: 1
+        })
+    }
+
+    allSelectedUsersChangePage = (calcData) => {
+        const{createdDepartmentData} = this.props.departmentReducer;
+
+        const { allSelectedUsersCurrentPageNumber, allSelectedUsersRowsPerPage } = this.state
+        const goToPage = allSelectedUsersCurrentPageNumber + calcData
+        this.props.getAddSelectedUsersPostedData(createdDepartmentData.id,allSelectedUsersRowsPerPage, goToPage)
+        this.setState({
+            allSelectedUsersCurrentPageNumber: goToPage
+        })
+    }
+
+    allSelectedUsersDepartmentSearchData = (e) => {
+        const{createdDepartmentData} = this.props.departmentReducer;
+
+        const { allSelectedUsersRowsPerPage, allSelectedUsersActiveHeading, allSelectedUsersSortingType } = this.state
+        const searchData = e.target.value
+        this.props.getAddSelectedUsersPostedData(createdDepartmentData.id,allSelectedUsersRowsPerPage, 1, searchData, allSelectedUsersActiveHeading, allSelectedUsersSortingType)
+        this.setState({
+            searchData,
+            allSelectedUsersCurrentPageNumber: 1
+        })
+    }
+
+    /*addableFunc*/
+
+    addUsersOnClickHeadingColumn = (activeHeading, sortingType) => {
+        const{createdDepartmentData} = this.props.departmentReducer;
+
+        const { addUsersRowsPerPage, addUsersSearchData, addUsersCurrentPageNumber } = this.state
+        this.props.getAddableUsersData(createdDepartmentData.id,addUsersRowsPerPage, addUsersCurrentPageNumber, addUsersSearchData, activeHeading, sortingType)
+        this.setState({
+            addUsersActiveHeading: activeHeading,
+            sortingType
+        })
+    }
+
+    addUsersOnChangeRowsPerPage = (rowsPerPage) => {
+        const{createdDepartmentData} = this.props.departmentReducer;
+
+        this.props.getAddableUsersData(createdDepartmentData.id,rowsPerPage, 1)
+        this.setState({
+            rowsPerPage,
+            addUsersCurrentPageNumber: 1
+        })
+    }
+
+    addUsersChangePage = (calcData) => {
+        const{createdDepartmentData} = this.props.departmentReducer;
+
+        const { addUsersCurrentPageNumber, addUsersRowsPerPage } = this.state
+        const goToPage = addUsersCurrentPageNumber + calcData
+        this.props.getAddableUsersData(createdDepartmentData.id,addUsersRowsPerPage, goToPage)
+        this.setState({
+            addUsersCurrentPageNumber: goToPage
+        })
+    }
+
+    addUsersDepartmentSearchData = (e) => {
+        const{createdDepartmentData} = this.props.departmentReducer;
+
+        const { addUsersRowsPerPage, addUsersActiveHeading, addUsersSortingType } = this.state;
+        const searchData = e.target.value
+        this.props.getAddableUsersData(createdDepartmentData.id,addUsersRowsPerPage, 1, searchData, addUsersActiveHeading, addUsersSortingType)
+        this.setState({
+            searchData,
+            addUsersCurrentPageNumber: 1
+        })
+    }
+
+
+
     render() {
         const {departmentColumnData, departmentsData, addableUsersData, totalUsers, addedUsersData, tableColumnsData, viewDecider} = this.props.departmentReducer;
         console.log(addedUsersData);
@@ -292,7 +448,15 @@ class Departments extends Component {
                                    searchPlaceHolder={"Search Department"} searchFirstButtonName={"IMPORT RESOURCES"}
                                    searchSecondButtonName={"ADD DEPARTMENT"} totalUsers={totalUsers}
                                    searchSecondButtonClick={() => this.searchSecondButtonClick(true)} isUserData={false}
-                                   onChangeCheckBox={this.onChangeCheckBox}/>
+                                   onChangeCheckBox={this.onChangeCheckBox}
+                                   onChangeRowsPerPage={this.onChangeRowsPerPage}
+                                   headingClickData={this.onClickHeadingColumn}
+                                   goPrevPage={() => this.changePage(-1)}
+                                   goNextPage={() => this.changePage(1)}
+                                   onSearch={this.departmentSearchData}
+                                   currentPageNumber={this.state.currentPageNumber}
+
+                    />
                 </div> : ""}
 
                 <CreationPopViewCombined creationPopUpVisibility={creationPopUpVisibility}
@@ -307,6 +471,14 @@ class Departments extends Component {
                                          //value for fieldType header
                                          fieldPlaceHolder={'Enter Department'}
                                          //value for fieldType placeholder
+                                         secondFieldHeader={`Type`}
+                                         //value for second fieldType header
+                                         creationPopUpSecondFieldChangeHandler={this.creationPopUpSecondFieldChangeHandler}
+                                         //function that gets invoked for second fieldType (select) of the creation popup
+                                         thirdFieldHeader={'Required'}
+                                         //value for third fieldType header
+                                         creationPopUpThirdFieldChangeHandler={this.creationPopUpThirdFieldChangeHandler}
+                                         //function that gets invoked for third fieldType (toggle) of the creation popup
                                          customField={''} // custom field type ('add' or 'edit') that implies the type of fields that can be added
                     // end of CreationPopUp props
                                          commonCreationViewBackButtonClick={this.commonCreationViewBackButtonClick}
@@ -333,6 +505,16 @@ class Departments extends Component {
                                          //boolean value for onlySelectAndAdd AllUsersSelect
                                          allSelectedUsersFirstButtonClick={this.allSelectedUsersFirstButtonClick}
                                          //function that gets invoked on click of first button of AllUsersSelect
+                                         allSelectedUsersOnClickHeadingColumn={this.allSelectedUsersOnClickHeadingColumn}
+                                         //function that gets invoked for headingClickData of AllUsersSelect
+                                         allSelectedUsersOnChangeRowsPerPage={this.allSelectedUsersOnChangeRowsPerPage}
+                                         //function that gets invoked for onChangeRowsPerPage of AllUsersSelect
+                                         allSelectedUsersChangePage={this.allSelectedUsersChangePage}
+                                         //function that gets invoked for goNextPage of AllUsersSelect
+                                         allSelectedUsersDepartmentSearchData={this.allSelectedUsersDepartmentSearchData}
+                                         //function that gets invoked for onSearch of AllUsersSelect
+                                         allSelectedUsersCurrentPageNumber={this.state.allSelectedUsersCurrentPageNumber}
+                                         //value for currentPageNumber of AllUsersSelect
                                          showAddUsersPopUp={showAddUsersPopUp}
                                          //boolean value that enables the visibility of AddUsersPopUp
                                          addUsersPopUpClose={this.addUsersPopUpClose}
@@ -351,6 +533,16 @@ class Departments extends Component {
                                          //boolean value for isUserData of AllUsersSelect of AddUsersPopUp
                                          addUsersPopUpOnlySelectAndAdd={true}
                                          //boolean value for onlySelectAndAdd of AllUsersSelect of AddUsersPopUp
+                                         addUsersOnClickHeadingColumn={this.addUsersOnClickHeadingColumn}
+                                         //function that gets invoked for headingClickData of AllUsersSelect of AddUsers Component
+                                         addUsersOnChangeRowsPerPage={this.addUsersOnChangeRowsPerPage}
+                                         //function that gets invoked for onChangeRowsPerPage of AllUsersSelect of AddUsers Component
+                                         addUsersChangePage={this.addUsersChangePage}
+                                         //function that gets invoked for goNextPage of AllUsersSelect of AddUsers Component
+                                         addUsersDepartmentSearchData={this.addUsersDepartmentSearchData}
+                                         //function that gets invoked for onSearch of AllUsersSelect of AddUsers Component
+                                         addUsersCurrentPageNumber={this.state.addUsersCurrentPageNumber}
+                                         //value for currentPageNumber of AllUsersSelect of AddUsers Component
                                          changeToCreatedView={changeToCreatedView}
                                          //boolean value to shift to CommonCreationView
                     // end of CommonCreationView props
