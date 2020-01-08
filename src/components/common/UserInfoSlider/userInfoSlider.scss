@@ -125,6 +125,11 @@
     .personal-information {
       padding: 15px;
 
+      .personal-information-wrap{
+        max-height: 370px;
+        overflow: scroll;
+      }
+
       .team-user-info {
         display: flex;
         margin-bottom: 20px;

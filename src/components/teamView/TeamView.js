@@ -86,14 +86,18 @@ class TeamView extends Component {
                     </div>
                     <OrgChart/>
 
-                    <UserInfoSlider visible={teamViewUserDrawerVisible} sourceTeamView={true}
+                    <UserInfoSlider visible={teamViewUserDrawerVisible}
+                                    sourceTeamView={true}
                                     onCloseFunction={(flag) => this.props.teamViewUserClick(flag)}
-                                    teamUserData={clickedTeamUserData} userId={teamViewClickedUserId}
+                                    teamUserData={clickedTeamUserData}
+                                    userId={teamViewClickedUserId}
                                     url={`/reportees/organization/${teamViewClickedUserId}/?start=1&offset=100&sortKey=name&sortOrder=dsc&filterKey=_id&filterQuery=`}
-                        // getTeamViewOrgData={(id) => this.props.getTeamViewOrgData(id)}
-                        // clickedUserOrgData={clickedUserOrgData}
+
+                                     // getTeamViewOrgData={(id) => this.props.getTeamViewOrgData(id)}
+                                     // clickedUserOrgData={clickedUserOrgData}
                                     clickedMemberData={clickedMemberData}
                                     contentLoader={contentLoader}
+
                         /* changeLoaderStatus={(flag) => this.props.changeLoaderStatus(flag)}*//>
 
                     <ImportUsersPopUp visible={importUsersPopUpVisiblity}

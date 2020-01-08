@@ -157,7 +157,6 @@ class UserConsoleView extends Component {
                                 />
                             ))
                             }
-
                             <CreationPopUp creationPopUpVisibility={creationPopUpVisibility}
                                 creationPopUpTitle={`Edit ${creationPopUpData.typeName}`}
                                 creationPopFirstButtonName={"Cancel"}
@@ -171,8 +170,6 @@ class UserConsoleView extends Component {
                                 fieldHeader={`${creationPopUpData.typeName} Name`}
                                 fieldPlaceHolder={`Enter ${creationPopUpData.typeName} Name`}
                             />
-
-
                         </div>
 
                         <div className={'route-wrap'}>

@@ -55,7 +55,7 @@ class CreationPopUp extends Component {
                 return <div>
                     <div>{fieldHeader}</div>
                     <Input placeholder={fieldPlaceHolder} className={'preferred-field-class'}
-                        onChange={creationPopUpFirstFieldChangeHandler} value={inputValue} />
+                        onChange={creationPopUpFirstFieldChangeHandler} /*value={inputValue}*/ />
                 </div>
             }
         }

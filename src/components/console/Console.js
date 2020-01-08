@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import './console.scss'
 import AllUserSelect from '../allUserSelect/allUserSelect'
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
 import {
     getTableColumnData,
     getConsoleUserData,
@@ -29,9 +29,9 @@ class Console extends Component {
 
     userSearchData = (e) => {
         const searchData = e.target.value
-        const { rowsPerPage, activeheading, sortingType } = this.props.consoleReducer
+        const {rowsPerPage, activeheading, sortingType} = this.props.consoleReducer
         this.props.getConsoleUserData(rowsPerPage, 1, searchData, activeheading, sortingType)
-        this.props.commonConsoleAction({ currentPageNumber: 1, searchData, searchLoader: true })
+        this.props.commonConsoleAction({currentPageNumber: 1, searchData, searchLoader: true})
     }
 
 
@@ -40,16 +40,16 @@ class Console extends Component {
     }
 
     onChangeRowsPerPage = (rowsPerPage) => {
-        const { searchData, activeheading, sortingType } = this.props.consoleReducer
+        const {searchData, activeheading, sortingType} = this.props.consoleReducer
         this.props.getConsoleUserData(rowsPerPage, 1, searchData, activeheading, sortingType)
-        this.props.commonConsoleAction({ rowsPerPage, currentPageNumber: 1 })
+        this.props.commonConsoleAction({rowsPerPage, currentPageNumber: 1})
     }
 
     changePage = (calcData) => {
-        const { currentPageNumber, rowsPerPage, searchData, activeheading, sortingType } = this.props.consoleReducer
+        const {currentPageNumber, rowsPerPage, searchData, activeheading, sortingType} = this.props.consoleReducer
         const goToPage = currentPageNumber + calcData
         this.props.getConsoleUserData(rowsPerPage, goToPage, searchData, activeheading, sortingType)
-        this.props.commonConsoleAction({ currentPageNumber: goToPage })
+        this.props.commonConsoleAction({currentPageNumber: goToPage})
     }
 
     componentDidMount() {
@@ -59,13 +59,13 @@ class Console extends Component {
     }
 
     onClickHeadingColumn = (activeheading, sortingType) => {
-        const { currentPageNumber, rowsPerPage, searchData } = this.props.consoleReducer
+        const {currentPageNumber, rowsPerPage, searchData} = this.props.consoleReducer
         this.props.getConsoleUserData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
-        this.props.commonConsoleAction({ activeheading, sortingType })
+        this.props.commonConsoleAction({activeheading, sortingType})
     }
 
     onClickColumnSetting = () => {
-        const { columnSettingDataOriginal } = this.props.consoleReducer
+        const {columnSettingDataOriginal} = this.props.consoleReducer
         if (!Object.keys(columnSettingDataOriginal).length) {
             this.props.tableColumnSetting()
         }
@@ -110,8 +110,11 @@ class Console extends Component {
     }
 
     onRowClick = (rowData) => {
-        this.props.commonTeamReducerAction({ contentLoader: true })
+        this.props.commonTeamReducerAction({contentLoader: true})
         this.props.getClickedTeamUserData(rowData._id)
+        this.setState({
+            clickedMemberData : rowData
+        })
         // const { clickedTeamUserData } = this.props.teamViewReducer
         this.onCloseUserInfo(true, rowData._id)
     }
@@ -126,35 +129,43 @@ class Console extends Component {
 
 
     render() {
-        const { consoleColumnData, consoleUserData, totalUsers, currentPageNumber, searchLoader, columnSettingData, addUserDataForm } = this.props.consoleReducer
-        const { clickedTeamUserData, contentLoader, sampleExcelFile, importUsersUploadResponseData } = this.props.teamViewReducer
-        const { popUpActive, UserInfoVisible, userId, userData } = this.state;
+        const {consoleColumnData, consoleUserData, totalUsers, currentPageNumber, searchLoader, columnSettingData, addUserDataForm} = this.props.consoleReducer
+        const {clickedTeamUserData, contentLoader, sampleExcelFile, importUsersUploadResponseData} = this.props.teamViewReducer
+        const {popUpActive, UserInfoVisible, userId, userData} = this.state;
         return (
             <div className="console_main">
                 <div className="console_heading"><h3>Console</h3></div>
 
                 <AllUserSelect
                     //all Search and button component props
-                    userData={consoleUserData} searchFirstButtonName={"IMPORT USERS"} searchSecondButtonName={"ADD USER"}
-                    searchFirstButtonClick={this.searchFirstButtonClick} searchSecondButtonClick={() => this.searchSecondButtonClick(true)}
-                    onSearch={this.userSearchData} searchPlaceHolder={"Search Users / Managers / Designation"} searchFirstButtonLoader={false}
+                    userData={consoleUserData} searchFirstButtonName={"IMPORT USERS"}
+                    searchSecondButtonName={"ADD USER"}
+                    searchFirstButtonClick={this.searchFirstButtonClick}
+                    searchSecondButtonClick={() => this.searchSecondButtonClick(true)}
+                    onSearch={this.userSearchData} searchPlaceHolder={"Search Users / Managers / Designation"}
+                    searchFirstButtonLoader={false}
                     searchSecondButtonLoader={false} searchLoader={searchLoader} typeOfData="Total Users"
 
 
                     // props for main AllUser component
-                    onChangeCheckBox={this.onChangeCheckBox} totalUsers={totalUsers} onChangeRowsPerPage={this.onChangeRowsPerPage} goPrevPage={() => this.changePage(-1)}
-                    goNextPage={() => this.changePage(1)} currentPageNumber={currentPageNumber} headingClickData={this.onClickHeadingColumn}
+                    onChangeCheckBox={this.onChangeCheckBox} totalUsers={totalUsers}
+                    onChangeRowsPerPage={this.onChangeRowsPerPage} goPrevPage={() => this.changePage(-1)}
+                    goNextPage={() => this.changePage(1)} currentPageNumber={currentPageNumber}
+                    headingClickData={this.onClickHeadingColumn}
                     allHeadingsData={consoleColumnData}
 
                     //props of column setting component
                     onClickColumnSetting={this.onClickColumnSetting} columnSettingData={columnSettingData}
 
                     //props for all the actions to be done on user
-                    onClickUserActivate={() => this.onClickUserActions("activate")} onClickUserDeactivate={() => this.onClickUserActions("deactivate")}
-                    onClickUserDelete={() => this.onClickUserActions("delete")} onClickUserEdit={() => this.onClickUserActions("edit")}
+                    onClickUserActivate={() => this.onClickUserActions("activate")}
+                    onClickUserDeactivate={() => this.onClickUserActions("deactivate")}
+                    onClickUserDelete={() => this.onClickUserActions("delete")}
+                    onClickUserEdit={() => this.onClickUserActions("edit")}
 
                     //props for add user component
-                    addUserPopUpActive={popUpActive} addUserCloseButton={() => this.searchSecondButtonClick(false)} addUserDataForm={addUserDataForm}
+                    addUserPopUpActive={popUpActive} addUserCloseButton={() => this.searchSecondButtonClick(false)}
+                    addUserDataForm={addUserDataForm}
 
                     //to check if it is userData or not
                     isUserData={true}
@@ -166,8 +177,12 @@ class Console extends Component {
                     onClickTableRow={this.onRowClick}
                 />
 
-                <UserInfoSlider visible={UserInfoVisible} onCloseFunction={() => this.onCloseUserInfo(false)} teamUserData={clickedTeamUserData} sourceTeamView={true}
-                    url={`/reportees/organization/${userId}/?start=1&offset=100&sortKey=name&sortOrder=dsc&filterKey=_id&filterQuery=`} contentLoader={contentLoader}
+                <UserInfoSlider visible={UserInfoVisible} onCloseFunction={() => this.onCloseUserInfo(false)}
+                                teamUserData={clickedTeamUserData}
+                                sourceTeamView={true}
+                                url={`/reportees/organization/${userId}/?start=1&offset=100&sortKey=name&sortOrder=dsc&filterKey=_id&filterQuery=`}
+                                contentLoader={contentLoader}
+                                clickedMemberData={this.state.clickedMemberData}
                 />
 
 
