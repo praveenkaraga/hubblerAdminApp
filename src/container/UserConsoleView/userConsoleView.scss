@@ -9,6 +9,7 @@
     .left-panel {
       width: 250px ;/*305px;*/
       background: white;
+      overflow-x: scroll;
       box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
 
       .nav-link{
@@ -93,26 +94,7 @@
         background-image: url(../../images/designation-active.svg);
       }
 
-      .circle-drop-wrap{
-        position: relative;
-        padding: 0 20px 0 45px;
-        color: rgba(0,0,0,0.38);
-        cursor: pointer;
-        line-height: 45px;
-        .arrow-down{
-          background-image: url(../../images/svg/down-arrow-small.svg);
-          background-size: 10px;
-          transform: rotate(-90deg);
-          width: 50px;
-          height: 47px;
-          position: absolute;
-          left: 0;
-          top: 0;
-          background-position: center;
-          background-repeat: no-repeat;
-          transition: all 500ms ease;
-        }
-      }
+      
     }
     .route-wrap{
       width: calc(100% - 250px);

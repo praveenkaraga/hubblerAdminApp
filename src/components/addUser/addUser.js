@@ -70,7 +70,7 @@ class AddUser extends Component {
                                     </label>
 
                                     :
-                                    <Popover placement="bottom" content={profileImgcontent} trigger="click">
+                                    <Popover placement="bottom" content={profileImgcontent} trigger="click" overlayClassName="addUser_popup">
                                         <img className="profile_image" src={croppedImage} />
                                     </Popover>}
 

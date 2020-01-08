@@ -29,7 +29,7 @@ class ColumnSetting extends Component {
     };
 
     onRemoveColumn = (id) => { //removing column when clicked remove
-        const updatedColumn = this.state.columnDataDraggable.filter(data => !(data._id == id))
+        const updatedColumn = this.state.columnDataDraggable.filter(data => !(data._id === id))
         const newCheckedList = [...this.state.columnDataNotDraggable.map(data => data._id), ...updatedColumn.map(data => data._id)]
         this.setState({ columnDataDraggable: updatedColumn, checkedList: newCheckedList })
     }
@@ -58,12 +58,11 @@ class ColumnSetting extends Component {
 
 
     checkBoxValidation = (checkedList, id) => {
-        if ((checkedList.length == 6 && !checkedList.includes(id)) || (checkedList.length < 4 && checkedList.includes(id))) {
+        if ((checkedList.length === 6 && !checkedList.includes(id)) || (checkedList.length < 4 && checkedList.includes(id))) {
             return true
         } else {
             return false
         }
-        // checkedList.length == 6 && !checkedList.includes(columnData._id) ? true : false
     }
 
 
@@ -79,7 +78,7 @@ class ColumnSetting extends Component {
                     {columnDataNotDraggable.map(singleColumnData => (
                         <div key={singleColumnData._id} className="single_notDraggable " draggable={false}>
                             <div className="column_and_dots">
-                                <img className="draggable_dots" src={require("../../../images/svg/braille-six-dots.svg")} />
+                                <img className="draggable_dots" src={require("../../../images/svg/braille-six-dots.svg")} alt="draggable" />
                                 <p className="column_name"> {singleColumnData.lbl}</p>
                             </div>
                             <img className="cross_img" src={require("../../../images/close-app.svg")} />
@@ -100,10 +99,10 @@ class ColumnSetting extends Component {
                         {columnDataDraggable.map(singleColumnData => (
                             <div key={singleColumnData._id} className="single_draggable" draggable={false}>
                                 <div className="column_and_dots">
-                                    <img className="draggable_dots" src={require("../../../images/svg/braille-six-dots.svg")} />
+                                    <img className="draggable_dots" src={require("../../../images/svg/braille-six-dots.svg")} alt="draggable" />
                                     <p className="column_name"> {singleColumnData.lbl}</p>
                                 </div>
-                                {(columnDataNotDraggable.length + columnDataDraggable.length) > 3 ? <img className="cross_img" src={require("../../../images/close-app.svg")} onClick={() => this.onRemoveColumn(singleColumnData._id)} /> : ""}
+                                {(columnDataNotDraggable.length + columnDataDraggable.length) > 3 ? <img className="cross_img" src={require("../../../images/close-app.svg")} onClick={() => this.onRemoveColumn(singleColumnData._id)} alt="croos-img" /> : ""}
                             </div>
                         ))
 

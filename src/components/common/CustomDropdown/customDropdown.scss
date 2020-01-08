@@ -1,0 +1,221 @@
+
+
+.custom_dropdown_main {
+    .animationSearch_main{
+        .animationSearch_container{
+            justify-content: space-between;
+            align-items: center;
+            height: 30px;
+
+            .animationSearch_heading{
+                font-size: 16px;
+            }
+            .search_and_plus{
+                width: 30%;
+                display: none;
+                justify-content: space-between;
+                align-items: center;
+                height: 100%;
+            }
+        }
+    
+        .input_main{
+            height: 30px;
+            .input_container{
+                display: flex;
+                height: 100%;
+                justify-content: space-between;
+                align-items: center;
+                position: absolute;
+                top: 0;
+                left: 16px;
+                width: 91%;
+                animation-name: inputAnimation;
+                animation-duration: 0.8s;
+                
+                .ant-input{
+                    height: 25px;
+                    width: 87%;
+                }
+                
+            }
+        }
+    
+        .animationSearch_container:hover{
+            .search_and_plus{
+                display: flex;
+            }
+        }
+    
+        .animationSearch_container_active, .input_main_active{
+            display: flex;
+        }
+    
+        .animationSearch_container_inactive, .input_main_inactive{
+            display: none;
+        }
+    
+    
+        
+        
+    
+    
+        //all icons css
+    
+        .search_icon{
+            background-image: url("../../../images/svg/search-grey.svg");
+        }
+    
+        .plus_icon{
+            background-image: url("../../../images/svg/plus-grey.svg");
+        }
+    
+        .cross_icon{
+            background-image: url("../../../images/svg/close-app.svg");
+        }
+    
+        .search_icon, .plus_icon, .cross_icon{
+            width: 23px;
+            background-size: 10px;
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 23px;
+            border-radius: 50%;
+        }
+    
+        .search_icon:hover, .plus_icon:hover, .cross_icon:hover{
+            background-color: #999;
+            cursor: pointer;
+            
+        }
+    
+        .search_icon:hover{
+            background-image: url("../../../images/svg/search-white.svg");
+        }
+    
+        .plus_icon:hover{
+            background-image: url("../../../images/svg/plus-white.svg");
+        }
+    
+        .cross_icon:hover{
+            background-image: url("../../../images/svg/close-white.svg");
+        }
+
+        
+    
+    }
+
+
+
+    .panelSingleData{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 33px;
+        padding: 4px;
+       
+        .dataImage{
+           
+            background-size: 20px;
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 23px;
+            width: 12%;
+            margin-left: 4%;
+        }
+
+        .circleDataImage{
+            background-image: url("../../../images/svg/circle.svg");
+        }
+
+        .customDataImage{
+            background-image: url("../../../images/svg/custom_field.svg"); 
+        }
+
+        .singleDataName{
+            width: 78%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .name{
+                font-size: 15px;
+                color: #333;
+                font-weight: 100;
+                margin: 0;
+                width: 70%;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .action_buttons, .action_buttons_active{
+                width: 25%;
+                display: none;
+                justify-content: space-around;
+                img{
+                    height: 13px;
+                }
+
+                .setting_icon:hover{
+                    transform: rotate(90deg);
+                    transition: all ease 500ms;
+                }
+            }
+
+            .action_buttons_active{
+                display: flex;
+            }
+        }
+
+
+    }
+
+    .panelSingleData:hover{
+        background-color: #eee;
+        cursor: pointer;
+
+        .action_buttons{
+            display: flex;
+        }
+    }
+
+
+    .panelSingleDataActive{
+        .circleDataImage{
+            background-image: url("../../../images/svg/circles_active.svg");
+        }
+
+        .customDataImage{
+            background-image: url("../../../images/svg/custom_field_active.svg"); 
+        }
+
+
+        .singleDataName{
+            .name{
+                color: #37ade7;
+            }
+            
+        }
+    }
+
+    .no_match{
+        height: 33px;
+        padding: 4px;
+        padding-left: 25px; 
+    }
+    
+      
+}
+
+.ant-collapse .ant-collapse-item .ant-collapse-content  .ant-collapse-content-box{
+    padding-left: 0;
+    padding-right: 0;
+}
+
+
+
+@keyframes inputAnimation{
+  from {left: 256px;}
+  to {left: 16px;}
+}
