@@ -47,13 +47,13 @@ export const { getDepartmentData, commonDepartmentAction, getDeptTableColumnData
 
 export const { designationsData, commonDesignationAction } = designationsActions
 
-//------------------------------xxxxxxxxxxxxxx-------------------------------//
+//------------------------------xxxxxxxxxxxxxxxxxxx-------------------------------//
 
 
 
 //----------------------------- User Console Main Action ----------------------------//
 
-export const { getCirclesData, getCustomFields } = userConsoleMainActions
+export const { getCirclesData, getCustomFields, getSingleCircleData } = userConsoleMainActions
 
 //-----------------------------xxxxxxxxxxxxxxxxxxxxxxxxxx----------------------------//
 

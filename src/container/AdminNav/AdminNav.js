@@ -17,7 +17,7 @@ import {
 const routes = [
     {
         path: "/people",
-        exact: true,
+        exact: false,
         main: () => <UserConsoleView />,
         name: "People",
         class_name: 'people',

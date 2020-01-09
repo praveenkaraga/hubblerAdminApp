@@ -13,11 +13,13 @@ import Departments from '../../components/departments/Departments'
 import Designations from '../../components/designations/designations'
 import CustomDropdown from '../../components/common/CustomDropdown/customDropdown'
 import CreationPopUp from '../../components/common/CreationPopUp/CreationPopUp'
+import NodeOpenView from '../../components/nodeOpenView/nodeOpenView'
 import {
-    BrowserRouter as Router,
     Switch,
     Route,
     NavLink,
+    Redirect,
+    withRouter
 } from "react-router-dom";
 import './userConsoleView.scss'
 
@@ -50,7 +52,7 @@ const routes = [
         name: 'Designations',
         link_name: 'designations',
         class_name: 'designations'
-    },
+    }
 ];
 
 class UserConsoleView extends Component {
@@ -89,13 +91,6 @@ class UserConsoleView extends Component {
     }
 
 
-    onSinglePanelClick = (data, type) => {
-        if (type === "circles") {
-            console.log(data, "circles")
-        } else {
-            console.log(data, "fields")
-        }
-    }
 
     dropDownAction = (data, type) => {
         const creationPopUpData = {
@@ -128,67 +123,85 @@ class UserConsoleView extends Component {
         })
     }
 
+    onSinglePanelClick = (data, type) => {
+        if (type === "circles") {
+            this.props.history.push(`/people/circle/${data._id}`)
+        } else {
+            this.props.history.push(`/people/field/${data._id}`)
+        }
+    }
+
+
     render() {
 
         const { activeLinkName } = this.props.firstReducer
         const { circlesData, customFieldsData } = this.props.userConsoleMainReducer
-        const { creationPopUpVisibility, creationPopUpData, creationPopUpInputData } = this.state
+        const { creationPopUpVisibility, creationPopUpData, creationPopUpInputData, example } = this.state
         return (
             <div className={'user-console-view'}>
-                <Router>
-                    <div className={'user-console-view-wrap'}>
-                        <div className={'left-panel'}>
-                            <div className={'people'}>People</div>
-                            <div className={'nav-link-wrap'}>
-                                {routes.map((route, index) => (
-                                    <NavLink
-                                        to={`/people${route.path}`}
-                                        className={`nav-link ${activeLinkName === route.link_name ? `link-active ${route.class_name}-link-active` : `list-item ${route.class_name}-link`}`}
-                                        key={index}
-                                        activeClassName={'nav-link-active'}
-                                        onClick={() => this.props.createActiveLink(route.link_name)}>{route.name}
-                                    </NavLink>
-                                ))}
-                            </div>
+                <div className={'user-console-view-wrap'}>
+                    <div className={'left-panel'}>
+                        <div className={'people'}>People</div>
+                        <div className={'nav-link-wrap'}>
+                            {routes.map((route, index) => (
+                                <NavLink
+                                    to={`/people${route.path}`}
+                                    className={`nav-link ${activeLinkName === route.link_name ? `link-active ${route.class_name}-link-active` : `list-item ${route.class_name}-link`}`}
+                                    key={index}
+                                    activeClassName={'nav-link-active'}
+                                    onClick={() => this.props.createActiveLink(route.link_name)}>{route.name}
+                                </NavLink>
+                            ))}
+                        </div>
 
-                            {this.customDropdownData.map(singleData => (
-                                <CustomDropdown panelDataype={singleData.type} searchPlaceHolder={singleData.searchPlaceHolder} panelData={singleData.type === "circles" ? circlesData : customFieldsData}
-                                    onSinglePanelClick={(data) => this.onSinglePanelClick(data, singleData.type)} headingName={singleData.headingName} onClickSetting={(data) => this.dropDownAction(data, singleData.type)}
-                                />
-                            ))
-                            }
-
-                            <CreationPopUp creationPopUpVisibility={creationPopUpVisibility}
-                                creationPopUpTitle={`Edit ${creationPopUpData.typeName}`}
-                                creationPopFirstButtonName={"Cancel"}
-                                creationPopSecondButtonName={"Save"}
-                                inputValue={creationPopUpInputData || creationPopUpData.name}
-                                creationPopFirstButtonHandler={() => this.setState({ creationPopUpVisibility: false })}
-                                creationPopSecondButtonHandler={() => this.onSaveCreationPopUp(creationPopUpData.type)}
-                                secondButtonDisable={!creationPopUpInputData || creationPopUpInputData === creationPopUpData.fixedName ? true : false}
-                                afterClose={() => this.setState({ creationPopUpInputData: "" })}
-                                creationPopUpFirstFieldChangeHandler={this.creationPopUpInput}
-                                fieldHeader={`${creationPopUpData.typeName} Name`}
-                                fieldPlaceHolder={`Enter ${creationPopUpData.typeName} Name`}
+                        {this.customDropdownData.map(singleData => (
+                            <CustomDropdown panelDataype={singleData.type} searchPlaceHolder={singleData.searchPlaceHolder} panelData={singleData.type === "circles" ? circlesData : customFieldsData}
+                                onSinglePanelClick={(data) => this.onSinglePanelClick(data, singleData.type)} headingName={singleData.headingName} onClickSetting={(data) => this.dropDownAction(data, singleData.type)}
                             />
+                        ))
+                        }
+
+                        <CreationPopUp creationPopUpVisibility={creationPopUpVisibility}
+                            creationPopUpTitle={`Edit ${creationPopUpData.typeName}`}
+                            creationPopFirstButtonName={"Cancel"}
+                            creationPopSecondButtonName={"Save"}
+                            inputValue={creationPopUpInputData || creationPopUpData.name}
+                            creationPopFirstButtonHandler={() => this.setState({ creationPopUpVisibility: false })}
+                            creationPopSecondButtonHandler={() => this.onSaveCreationPopUp(creationPopUpData.type)}
+                            secondButtonDisable={!creationPopUpInputData || creationPopUpInputData === creationPopUpData.fixedName ? true : false}
+                            afterClose={() => this.setState({ creationPopUpInputData: "" })}
+                            creationPopUpFirstFieldChangeHandler={this.creationPopUpInput}
+                            fieldHeader={`${creationPopUpData.typeName} Name`}
+                            fieldPlaceHolder={`Enter ${creationPopUpData.typeName} Name`}
+                        />
 
 
-                        </div>
-
-                        <div className={'route-wrap'}>
-                            <Switch>
-                                {routes.map((route, index) => (
-                                    <Route
-                                        key={index}
-                                        path={`/people${route.path}`}
-                                        exact={route.exact}
-                                        children={<route.main />}
-                                    />
-                                ))}
-                            </Switch>
-                        </div>
                     </div>
-                </Router>
+
+                    <div className={'route-wrap'}>
+                        <Switch>
+                            {routes.map((route, index) => (
+                                <Route
+                                    key={index}
+                                    path={`/people${route.path}`}
+                                    exact={route.exact}
+                                    children={<route.main />}
+                                />
+
+                            ))}
+                            <Route exact path={"/people"}>
+                                <Redirect to={"/people/console"} />
+                            </Route>
+                            <Route exact path={"/people/circle"}>
+                                <Redirect to={"/people/console"} />
+                            </Route>
+                            <Route exact path={"/people/console"} component={Console} />
+                            <Route path={"/people/circle/:id"} component={NodeOpenView} />
+                            <Route path={"/people/field"} component={NodeOpenView} />
+                        </Switch>
+                    </div>
+                </div>
+
             </div>
         )
     }
@@ -215,9 +228,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(UserConsoleView);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UserConsoleView))
+
 
 

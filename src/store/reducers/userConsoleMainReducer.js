@@ -6,7 +6,10 @@ const intialState = {
     circlesDataMain: [],
     circlesData: [],
     customFieldsDataMain: [],
-    customFieldsData: []
+    customFieldsData: [],
+    singleCircleName: [],
+    singleCircleCount: 0,
+    singleCircleData: []
 }
 
 export const userConsoleMainReducer = (state = intialState, action) => {
@@ -32,6 +35,15 @@ export const userConsoleMainReducer = (state = intialState, action) => {
                 ...state,
                 customFieldsDataMain: customFieldsInitial,
                 customFieldsData: JSON.parse(JSON.stringify(customFieldsInitial))
+            }
+
+        case actionTypes.GET_SINGLE_CIRCLE_DATA:
+            const singleCircleDataInitial = action.payload.data
+            return {
+                ...state,
+                singleCircleName: singleCircleDataInitial.name,
+                singleCircleCount: singleCircleDataInitial.total_count,
+                singleCircleData: singleCircleDataInitial ? singleCircleDataInitial.result : []
             }
     }
 
