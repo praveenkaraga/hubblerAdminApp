@@ -363,7 +363,8 @@
   }
 
   .ant-tabs-tabpane.ant-tabs-tabpane-active {
-    height: calc(100% - 230px);
+    height: 450px;
+    //height: calc(100% - 230px);
     display: flex;
     flex-direction: column;
   }

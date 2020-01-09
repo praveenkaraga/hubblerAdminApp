@@ -43,7 +43,8 @@ class CreationPopUp extends Component {
     }
 
     getRequiredFields = (customField) => {
-        const {creationPopUpFirstFieldChangeHandler, fieldHeader, fieldPlaceHolder} = this.props
+        const {creationPopUpFirstFieldChangeHandler, fieldHeader, fieldPlaceHolder,inputValue} = this.props
+        // console.log(inputValue ,'inputValue')
         switch (customField) {
             case 'add' : {
                 return this.getCustomFieldsSkeleton('add')
@@ -55,7 +56,7 @@ class CreationPopUp extends Component {
                 return <div>
                     <div>{fieldHeader}</div>
                     <Input placeholder={fieldPlaceHolder} className={'preferred-field-class'}
-                        onChange={creationPopUpFirstFieldChangeHandler} /*value={inputValue}*/ />
+                        onChange={creationPopUpFirstFieldChangeHandler} value={inputValue} />
                 </div>
             }
         }
@@ -66,6 +67,8 @@ class CreationPopUp extends Component {
         const { creationPopUpVisibility = false, creationPopUpTitle = `Add New Department`, creationPopFirstButtonName = `Cancel`,
             creationPopSecondButtonName = `Create`, creationPopFirstButtonHandler, creationPopSecondButtonHandler,
             customField, afterClose, secondButtonDisable } = this.props
+        console.log(afterClose)
+
         return (
             <div className={'creation-pop-up'}>
                 <Modal

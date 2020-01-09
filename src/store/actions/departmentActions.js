@@ -17,7 +17,6 @@ export const getDepartmentData = (perPageRows, currentPage, searchData, headingD
     }
 }
 export const getAddableUsersData = (id, perPageRows, currentPage, searchData, headingData, sortingType) => {
-    debugger
     const payload = getAddableUserData(id, perPageRows, currentPage, searchData, headingData, sortingType)
     return {
         type: actionTypes.GET_ADDABLE_USERS_DATA,

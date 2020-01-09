@@ -6,6 +6,7 @@ import AddUsersPopUp from '../../common/AddUsersPopUp/AddUsersPopUp'
 
 class CommonCreationView extends Component {
 
+
     render() {
         const {commonCreationViewHeaderName, commonCreationViewBackButtonClick, backButton = true, viewDecider = 0} = this.props;
         const {addUsersCommonCardButtonClick} = this.props
@@ -18,7 +19,12 @@ class CommonCreationView extends Component {
             <div className={'common-creation-view'}>
                 <div>
                     <div className={backButton ? 'headerWithBackArrow' :'headerWithoutBackArrow' }
-                         onClick={backButton ? () => commonCreationViewBackButtonClick() : ''} >{commonCreationViewHeaderName}</div>
+                         onClick={backButton ? () => commonCreationViewBackButtonClick() : ''}
+                        // onClick={()=>{this.setState({tr : "iiii"})}}
+                        >
+                    {commonCreationViewHeaderName}
+
+                    </div>
 
                     {/*{backButton ? <div className={'headerWithBackArrow'}
                                        onClick={() => commonCreationViewBackButtonClick()}>{commonCreationViewHeaderName}</div> :
@@ -32,7 +38,7 @@ class CommonCreationView extends Component {
 
                     <div className={'all-selected-users-wrap'}>
                         <AllUserSelect allHeadingsData={allSelectedUsersHeadingsData}
-                                       userData={allSelectedUsersUsersData ? allSelectedUsersUsersData.result : []}
+                                       userData={allSelectedUsersUsersData }
                                        searchPlaceHolder={allSelectedUsersPlaceHolder}
                                        searchFirstButtonName={allSelectedUsersFirstButtonName}
                                        totalUsers={allSelectedUsersTotalUsers}
