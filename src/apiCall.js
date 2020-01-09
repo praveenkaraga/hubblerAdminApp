@@ -83,11 +83,16 @@ export const getAddUserDataForm = () => {
     return axios.get("https://demo1025512.mockable.io/add-users-form-types")
 }
 
-export const getDepartmentsData = () => {
-    return axios.get(`/rest/departments/?start=1&offset=20&sortKey=_id&sortOrder=dsc&filterKey=&filterQuery=`, axiosConfig);
+export const getDepartmentsData = (perPageRows, currentPage, searchData, headingData, sortingType) => {
+    const startNumber = ((currentPage - 1) * perPageRows) + 1
+    return axios.get(`/rest/departments/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "name" : ""}&filterQuery=${searchData || ""}`, axiosConfig);
+
+    // return axios.get(`/rest/departments/?start=1&offset=20&sortKey=_id&sortOrder=dsc&filterKey=&filterQuery=`, axiosConfig);
 };
-export const getAddableUserData = (id, sortType) => {
-    return axios.get(`/choose-users/departments/${id}/?start=1&offset=20&sortKey=_id&sortOrder=dsc&filterKey=&filterQuery=`, axiosConfig);
+
+export const getAddableUserData = (id, perPageRows, currentPage, searchData, headingData, sortingType) => {
+    const startNumber = ((currentPage - 1) * perPageRows) + 1
+    return axios.get(`/choose-users/departments/${id}/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}`,axiosConfig)
 };
 
 
@@ -108,8 +113,12 @@ export const postAddSelectedUsersData = (data) => {
     return axios.post("/add-people/departments/", data, axiosConfig)
 }
 
-export const getAddSelectedUsersData = (id) => {
-    return axios.get(`/users/departments/${id}/?start=1&offset=20&sortKey=_id&sortOrder=dsc&filterKey=&filterQuery=`)
+export const getAddSelectedUsersData = (id,perPageRows, currentPage, searchData, headingData, sortingType) => {
+    const startNumber = ((currentPage - 1) * perPageRows) + 1
+    return axios.get(`/users/departments/${id}/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}`)
+/*
+    start=1&offset=20&sortKey=_id&sortOrder=dsc&filterKey=&filterQuery=\`
+*/
 }
 
 export const getDeptAddUsersTableColumns = () => {
@@ -130,6 +139,8 @@ export const getSingleCircleDataApi = (id, perPageRows, currentPage, searchData,
     const startNumber = ((currentPage - 1) * perPageRows) + 1
     return axios.get(`/users/circles/${id}/?start=${startNumber || 1}&offset=${perPageRows || 50}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}asc&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}`)
 }
+
+
 
 
 

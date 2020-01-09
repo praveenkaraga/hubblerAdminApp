@@ -1,5 +1,13 @@
 import * as actionTypes from '../actionTypes'
-import {getDepartmentsData, getDeptTableColumns,postCreteDepartmentData,postAddSelectedUsersData,getAddSelectedUsersData,getAddableUserData,getDeptAddUsersTableColumns} from '../../apiCall'
+import {
+    getDepartmentsData,
+    getDeptTableColumns,
+    postCreteDepartmentData,
+    postAddSelectedUsersData,
+    getAddSelectedUsersData,
+    getAddableUserData,
+    getDeptAddUsersTableColumns,
+} from '../../apiCall'
 
 export const getDepartmentData = (perPageRows, currentPage, searchData, headingData, sortingType) => {
     const payload = getDepartmentsData(perPageRows, currentPage, searchData, headingData, sortingType)
@@ -8,8 +16,8 @@ export const getDepartmentData = (perPageRows, currentPage, searchData, headingD
         payload
     }
 }
-export const getAddableUsersData = (id, sortingType) => {
-    const payload = getAddableUserData(id, sortingType)
+export const getAddableUsersData = (id, perPageRows, currentPage, searchData, headingData, sortingType) => {
+    const payload = getAddableUserData(id, perPageRows, currentPage, searchData, headingData, sortingType)
     return {
         type: actionTypes.GET_ADDABLE_USERS_DATA,
         payload
@@ -54,13 +62,15 @@ export const postAddSelectedUsers = (data) =>{
     }
 }
 
-export const getAddSelectedUsersPostedData = (id) =>{
-    const payload = getAddSelectedUsersData(id)
+export const getAddSelectedUsersPostedData = (id,perPageRows, currentPage, searchData, headingData, sortingType) =>{
+    const payload = getAddSelectedUsersData(id,perPageRows, currentPage, searchData, headingData, sortingType)
     return{
         type:actionTypes.GET_ADD_SELECTED_USERS_POSTED_DATA,
         payload
     }
 }
+
+
 
 
 

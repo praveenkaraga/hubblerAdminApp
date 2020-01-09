@@ -13,6 +13,8 @@ import {
 import AllUserSelect from '../allUserSelect/allUserSelect'
 import filter from "lodash/filter";
 import CreationPopViewCombined from '../common/CreationPopViewCombined/CreationPopViewCombined'
+import CreationPopUp from "../common/CreationPopUp/CreationPopUp";
+import CommonCreationView from "../common/CommonCreationView/CommonCreationView";
 
 class Departments extends Component {
     constructor(props) {
@@ -22,18 +24,21 @@ class Departments extends Component {
             showAddUsersPopUp: false, //showUsersList
             usersIdArray: [], //usersIdArray
             creationPopUpVisibility: false,
-            commonCreationViewHeaderName:"", /**/
+            commonCreationViewHeaderName:"",
+
             currentPageNumber: 1,
             rowsPerPage: 30,
             activeHeading: "",
             sortingType: "",
             searchData: "",
-            allSelectedUsersCurrentPageNumber: 1,/**/
+
+            allSelectedUsersCurrentPageNumber: 1,
             allSelectedUsersRowsPerPage: 30,
             allSelectedUsersActiveHeading: "",
             allSelectedUsersSortingType: "",
             allSelectedUsersSearchData: "" , /*addUsers*/
-            addUsersCurrentPageNumber: 1,/**/
+
+            addUsersCurrentPageNumber: 1,
             addUsersRowsPerPage: 30,
             addUsersActiveHeading: "",
             addUsersSortingType: "",
@@ -347,7 +352,6 @@ class Departments extends Component {
     }
 
     afterClose = () =>{
-        debugger
         this.setState({
             commonCreationViewHeaderName : "nush"
         })

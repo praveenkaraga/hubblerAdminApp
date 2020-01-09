@@ -113,7 +113,7 @@ export const uploadImportUsersPopUPVisibility = (flag) => {
     }
 }
 
-export const patchImportUsersData = (id,data) =>{
+export const patchImportUsersData = (id,data,status) =>{
     const payload = patchUploadData(id,data)
     return {
         type: actionTypes.PATCH_IMPORT_USERS_DATA,

@@ -48,7 +48,7 @@ class Personal extends Component {
         const {teamUserData} = this.props
         return (
             <div className={'personal-information'}>
-                {isEmpty(teamUserData) ? <div className={'owner-details-loader'}></div> : <div>
+                {isEmpty(teamUserData) ? <div className={'owner-details-loader'}></div> : <div className={'personal-information-wrap'}>
                     <div className={'team-user-info'}>
 
                         <div className={'team-user-info-text'}>Primary Mobile</div>
