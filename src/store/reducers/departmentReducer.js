@@ -2,6 +2,7 @@ import {checkError} from "../../utils/helper";
 import * as actionTypes from "../actionTypes";
 import filter from 'lodash/filter'
 import map from 'lodash/map'
+import isEmpty from 'lodash/isEmpty'
 
 const initialState = {
     count: 1,
@@ -71,11 +72,13 @@ export const departmentReducer = (state = initialState, action) => {
             const allSelectedUserData = addedUsersInitialData ? addedUsersInitialData.result : []
             const allSelectedUserDataCopy = JSON.parse(JSON.stringify(allSelectedUserData))
             const totalAllSelectedUsers = addedUsersInitialData ? addedUsersInitialData.total_count : 0
+            let decideView = isEmpty(allSelectedUserData) ? false : true
+            console.log(addedUsersInitialData)
 
             return {
                 ...state,
-                addedUsersData: addedUsersInitialData ? addedUsersInitialData : {},
-                viewDecider: true,
+                addedUsersData: addedUsersInitialData ? addedUsersInitialData : [],
+                viewDecider: decideView,
                 commonViewLoader: false,
                 totalAllSelectedUsers
             };
@@ -91,6 +94,15 @@ export const departmentReducer = (state = initialState, action) => {
                 totalAddableUsers,
                 searchLoader: false
             }
+
+        case actionTypes.GET_COMMON_VIEW_HEADER_NAME:
+            let headerInitial = action.payload.data ?   action.payload.data.result : {};
+            let commonViewHeader = headerInitial.name ? headerInitial.name : '';
+            console.log(action.payload.data);
+            return {
+                commonViewHeader : commonViewHeader
+            }
+
 
     }
     return {...state}

@@ -6,7 +6,7 @@ import {
     postAddSelectedUsersData,
     getAddSelectedUsersData,
     getAddableUserData,
-    getDeptAddUsersTableColumns,
+    getDeptAddUsersTableColumns,getHeaderName
 } from '../../apiCall'
 
 export const getDepartmentData = (perPageRows, currentPage, searchData, headingData, sortingType) => {
@@ -66,6 +66,14 @@ export const getAddSelectedUsersPostedData = (id,perPageRows, currentPage, searc
     const payload = getAddSelectedUsersData(id,perPageRows, currentPage, searchData, headingData, sortingType)
     return{
         type:actionTypes.GET_ADD_SELECTED_USERS_POSTED_DATA,
+        payload
+    }
+}
+
+export const getCommonViewHeaderName = (id) =>{
+    const payload = getHeaderName(id)
+    return{
+        type: actionTypes.GET_COMMON_VIEW_HEADER_NAME,
         payload
     }
 }
