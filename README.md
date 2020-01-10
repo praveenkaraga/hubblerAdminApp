@@ -80,6 +80,8 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 
 # Component Documentation
+<p>&nbsp;</p>
+<p>&nbsp;</p>
 
 
 ## `User Search Component`
@@ -104,7 +106,7 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 * **onClickSecond** : onClick of Second Button 
 
-
+<p>&nbsp;</p>
 
 **--XX--Use below ones if You Want To Do actions On Users Like {Activate, Deactivate, Delete, Edit}--XX--**
 
@@ -119,4 +121,6 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 * **onUserEdit** : action on onClick of Edit Button {Will automatically get disabled when user greater than 1 i.e; if userSelected is greater than 1}
 
 
-**XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX** 
+
+
+**XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX** 
