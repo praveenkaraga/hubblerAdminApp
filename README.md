@@ -96,7 +96,7 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 * **secondButtonLoader** {"boolean"} : Loader for second button
 
-* **searchLoader**{"boolean"} : Loader for search
+* **searchLoader** {"boolean"} : Loader for search
 
 * **onSearch** : onChange of Search Input {function(e){}}
 
@@ -108,7 +108,7 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 **--XX--Use below ones if You Want To Do actions On Users Like {Activate, Deactivate, Delete, Edit} or Using this in `AllUserSelect Component`--XX--**
 
-* **userSelected**{Number} : Pass No. Of User Selected {If valid all below options will get active}
+* **userSelected** {Number} : Pass No. Of User Selected {If valid all below options will get active}
 
 * **onUserActivate** : action on onClick of Activate Button 
 
@@ -123,11 +123,11 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 In all conditions Left Search will come before and after selecting User or Data
 
-Note : Keep only one ( from `onlySelectAndAdd` and `allSelect`)  true at a time 
+**Note** : Keep only one ( from `onlySelectAndAdd` and `allSelect`)  true at a time 
 
-* **isUserData**{boolean (default : true) } : `default` table will come(with profile pic and after selecting users all four action buttons will be shown)  and if `false` after selecting user  or data from table only `two` action buttons will come{delete and edit}
+* **isUserData** {boolean (default : true) } : `default` table will come(with profile pic and after selecting users all four action buttons will be shown)  and if `false` after selecting user  or data from table only `two` action buttons will come{delete and edit}
  
-* **onlySelectAndAdd**{boolean (default : false) } : if this `true` (`one` button will come and will be inactive)and after selecting user  or data from table that button will become active with counting in it
+* **onlySelectAndAdd** {boolean (default : false) } : if this `true` (`one` button will come and will be inactive)and after selecting user  or data from table that button will become active with counting in it
 
 * **allSelect**{boolean (default : false) } : if  `true` second `search` will come on right side (this will be with suggestions) and after selecting user  or data from table only `one ` action button{delete} will become active
 
@@ -137,9 +137,7 @@ Note : Keep only one ( from `onlySelectAndAdd` and `allSelect`)  true at a time
 
 * **searchDropdownPlaceholder** : placeholder of search
 
-* **searchDropdownData**(Array) : will pass array of object with `name` and `_id` key in it
-
-<br/>
+* **searchDropdownData** {Array} : will pass array of object with `name` and `_id` key in it<br/>
 
 **XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
 
@@ -152,11 +150,9 @@ Note : Keep only one ( from `onlySelectAndAdd` and `allSelect`)  true at a time
 ## `Image Cropper{imageCropper}`
 
 
-* **uniqueId**  {"string"} : Unique `Id` you will pass And Using Html `Label` you can easily Target this Id to `Open` directory and after selecting image this component will become active
+* **uniqueId** {string} : Unique `Id` you will pass And Using Html `Label` you can easily Target this Id to `Open` directory and after selecting image this component will become active
 
-* **onClickApply**  : {function(data)}{data}} //data will be the final image string
-
-<br/>
+* **onClickApply**  : {`function(data)}{data}`} //data will be the final image string<br/>
 
 **XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
 
@@ -169,24 +165,35 @@ Note : Keep only one ( from `onlySelectAndAdd` and `allSelect`)  true at a time
 ## `Custom Dropdown{customDropdown}`
 
 
-* **panelDataype**  {"string"} : if you will pass `"circles"` than icon will be circles..{default : "circles"}...otherwise icon will be file 
+* **panelDataype** {string} : if you will pass `"circles"` than icon will be circles..{default : "circles"}...otherwise icon will be file 
 
-* **panelData**{Array of objects}  : To populate all the items of dropdown. "name" and "._id" key should be there in each object
+* **panelData** {Array of objects}  : To populate all the items of dropdown. "name" and "._id" key should be there in each object
 
-* **onSinglePanelClick**(function)  : OnClick of Single item of DropDown {function(data){data}} //you will get the whole object of the selected item
+* **onSinglePanelClick** {funtion}  : OnClick of Single item of DropDown {function(data){data}} //you will get the whole object of the selected item
 
-* **onClickSetting**(function)  : OnClick of Setting Icon of items in DropDown {function(data){data}} //you will get the whole object of the selected item
+* **onClickSetting** {funtion}  : OnClick of Setting Icon of items in DropDown {function(data){data}} //you will get the whole object of the selected item
 
-* **onClickDelete**(function)  : OnClick of Delete Icon of items in DropDown {function(data){data}} //you will get the whole object of the selected item {if you want all actions on delete pop up then don't pass this}
+* **onClickDelete** {funtion}  : OnClick of Delete Icon of items in DropDown {function(data){data}} //you will get the whole object of the selected item {if you want all actions on delete pop up then don't pass this}
 
-* **popUpConfirmButtonName**{Default : "Confirm"} : Confirm Button Name of Delete Pop Up
+* **popUpConfirmButtonName** {Default : "Confirm"} : Confirm Button Name of Delete Pop Up
 
-* **popUpCancelButtonName**{Default : "Cancel"} : Confirm Button Name of Delete Pop Up
+* **popUpCancelButtonName** {Default : "Cancel"} : Confirm Button Name of Delete Pop Up
 
-* **onDeleteConfirmClick**{funtion} : onClick confirm Button of Delete Pop Up 
+* **onDeleteConfirmClick** {funtion} : onClick confirm Button of Delete Pop Up 
 
-* **onDeleteCancelClick**{function} : onClick cancel Button of Delete Pop Up 
+* **onDeleteCancelClick** {function} : onClick cancel Button of Delete Pop Up <br/>
 
-<br/>
+**XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
+
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+
+## `All User Select{allUserSelect}`
+
+### Table
+
+
 
 **XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
