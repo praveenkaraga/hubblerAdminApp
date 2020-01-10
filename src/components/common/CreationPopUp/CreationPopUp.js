@@ -67,7 +67,6 @@ class CreationPopUp extends Component {
         const { creationPopUpVisibility = false, creationPopUpTitle = `Add New Department`, creationPopFirstButtonName = `Cancel`,
             creationPopSecondButtonName = `Create`, creationPopFirstButtonHandler, creationPopSecondButtonHandler,
             customField, afterClose, secondButtonDisable } = this.props
-        console.log(afterClose)
 
         return (
             <div className={'creation-pop-up'}>

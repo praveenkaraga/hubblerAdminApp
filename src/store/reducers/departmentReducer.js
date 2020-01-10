@@ -9,7 +9,8 @@ const initialState = {
     departmentsData: [],
     addableUsersData: [],
     tableColumnsData: [],
-    viewDecider:false, //populateSelectedUsersView
+    viewDecider: false, //populateSelectedUsersView
+    commonViewLoader: false,
 }
 
 export const departmentReducer = (state = initialState, action) => {
@@ -64,28 +65,33 @@ export const departmentReducer = (state = initialState, action) => {
             return {
                 ...state,
                 dataInitial
-            }
+            };
         case actionTypes.GET_ADD_SELECTED_USERS_POSTED_DATA:
             const addedUsersInitialData = action.payload.data;
+            const allSelectedUserData = addedUsersInitialData ? addedUsersInitialData.result : []
+            const allSelectedUserDataCopy = JSON.parse(JSON.stringify(allSelectedUserData))
+            const totalAllSelectedUsers = addedUsersInitialData ? addedUsersInitialData.total_count : 0
+
             return {
                 ...state,
                 addedUsersData: addedUsersInitialData ? addedUsersInitialData : {},
-                viewDecider : true,
-            }
+                viewDecider: true,
+                commonViewLoader: false,
+                totalAllSelectedUsers
+            };
 
         case actionTypes.GET_ADDABLE_USERS_DATA:
             const userDataIntital = action.payload.data
             const userData = userDataIntital ? userDataIntital.result : []
             const userDataCopy = JSON.parse(JSON.stringify(userData))
-            const totalAddUsers = userDataIntital ? userDataIntital.total_count : 0
+            const totalAddableUsers = userDataIntital ? userDataIntital.total_count : 0
             return {
                 ...state,
                 addableUsersData: userDataCopy,
-                totalAddUsers,
+                totalAddableUsers,
                 searchLoader: false
             }
 
     }
-
     return {...state}
 }

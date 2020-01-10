@@ -2,6 +2,9 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  .common-creation-view-header-wrap{
+    height: 30px;
+  }
   .headerWithBackArrow{
     background-image: url("../../../images/arrow right.svg");
     background-repeat: no-repeat;
@@ -19,7 +22,17 @@
     text-transform: capitalize;
   }
   .all-selected-users-wrap{
-    margin-top: 50px;
+    margin-top: 10px;
     height: 100%;
+  }
+  .common-view-loader{
+    background-image: url(../../../images/loader-black.svg);
+    background-size: 70px;
+    background-position: center;
+    background-repeat: no-repeat;
+    top: 0;
+    width: 78%;
+    height: 100%;
+    position: absolute;
   }
 }
