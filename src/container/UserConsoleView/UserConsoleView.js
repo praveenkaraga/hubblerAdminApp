@@ -132,11 +132,12 @@ class UserConsoleView extends Component {
     }
 
 
+
     render() {
 
         const { activeLinkName } = this.props.firstReducer
         const { circlesData, customFieldsData } = this.props.userConsoleMainReducer
-        const { creationPopUpVisibility, creationPopUpData, creationPopUpInputData, example } = this.state
+        const { creationPopUpVisibility, creationPopUpData, creationPopUpInputData } = this.state
         return (
             <div className={'user-console-view'}>
                 <div className={'user-console-view-wrap'}>
@@ -154,6 +155,9 @@ class UserConsoleView extends Component {
                             ))}
                         </div>
 
+                        <div>
+
+                        </div>
                         {this.customDropdownData.map(singleData => (
                             <CustomDropdown panelDataype={singleData.type} searchPlaceHolder={singleData.searchPlaceHolder} panelData={singleData.type === "circles" ? circlesData : customFieldsData}
                                 onSinglePanelClick={(data) => this.onSinglePanelClick(data, singleData.type)} headingName={singleData.headingName} onClickSetting={(data) => this.dropDownAction(data, singleData.type)}

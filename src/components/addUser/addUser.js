@@ -87,18 +87,7 @@ class AddUser extends Component {
 
                         <Tabs defaultActiveKey="1" tabPosition="left" className="add_user_tab_container" >
                             <TabPane key="1" tab="Personal">
-                                {/* <Form onSubmit={this.handleSubmit}>
-                                    {addUserDataForm.map(data => (<AllTypes key={data.id + data.tatabIndexb}
-                                        type={data.type} minLength={data.minlength} maxLength={data.maxlength}
-                                        required={data.required} label={data.label} options={data.options} placeholder={data.placeholder} />))}
-                                    <Form.Item >
-                                        <Button type="primary" htmlType="submit">
-                                            Register
-                                    </Button>
-                                    </Form.Item>
-                                </Form> */}
                                 <CustomForm formData={addUserDataForm} />
-
                             </TabPane>
                             <TabPane key="2" tab="Organisation">
                                 Tab 2

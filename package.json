@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "antd": "^3.25.2",
+    "antd": "^3.26.6",
     "axios": "^0.19.0",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
@@ -15,7 +15,7 @@
     "react-redux": "^7.0.3",
     "react-reorder": "^3.0.0-alpha.7",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "3.0.1",
+    "react-scripts": "^3.3.0",
     "react-starter-components": "^1.0.134",
     "redux": "^4.0.1",
     "redux-promise": "^0.6.0",

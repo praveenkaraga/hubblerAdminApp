@@ -24,24 +24,6 @@ class AllUserSelect extends Component {
         this.plainOptions = []
     }
 
-    // onChangeCheckBoxGroup = (checkedValue) => { //on click of every single checkbox
-    //     this.setState({
-    //         checkedList: checkedValue,
-    //         indeterminate: !!checkedValue.length && checkedValue.length < this.plainOptions.length,
-    //         checkAll: checkedValue.length === this.plainOptions.length,
-    //     })
-    //     this.props.onChangeCheckBox(checkedValue)
-    // }
-
-    // onCheckAll = async (e) => { //when clicked on main checkbox(click all)
-    //     await this.setState({
-    //         checkedList: e.target.checked ? this.plainOptions : [],
-    //         indeterminate: false,
-    //         checkAll: e.target.checked,
-    //     })
-    //     this.props.onChangeCheckBox(this.state.checkedList)
-    // }
-
     onChangeRowsPerPage = (value) => { //when changing data per rows
         this.setState({
             rowsPerPage: value,
@@ -111,13 +93,6 @@ class AllUserSelect extends Component {
         return modifiedUserData
     }
 
-
-    // addUserPopup = (status) => {
-    //     this.setState({
-    //         popUpActive: status
-    //     })
-    // }
-
     handleVisibleChange = visible => {
         this.setState({ visibleColumnSetting: visible });
         this.props.onClickColumnSetting()
@@ -131,7 +106,7 @@ class AllUserSelect extends Component {
         const { allHeadingsData, userData, searchFirstButtonName, searchSecondButtonName, searchPlaceHolder, searchFirstButtonLoader, onChangeCheckBox,
             searchSecondButtonLoader, searchFirstButtonClick, searchSecondButtonClick, searchLoader, onSearch, totalUsers, goPrevPage, goNextPage, currentPageNumber, columnSettingData,
             onClickUserActivate, onClickUserDeactivate, onClickUserDelete, onClickUserEdit, addUserPopUpActive, addUserCloseButton, addUserDataForm, isUserData = false, onlySelectAndAdd = false,
-            typeOfData, onClickTableRow, columnConfigurable = false } = this.props
+            typeOfData, onClickTableRow, columnConfigurable = false, allSelect } = this.props
         const perPageOptions = [7, 10, 20, 30, 40, 50, 100]
         const { checkedList, rowsPerPage, visibleColumnSetting } = this.state
         const totalPages = Math.ceil(totalUsers / rowsPerPage)
@@ -147,66 +122,9 @@ class AllUserSelect extends Component {
                         firstButtonLoader={searchFirstButtonLoader} secondButtonLoader={searchSecondButtonLoader} searchLoader={searchLoader} onSearch={onSearch}
                         onClickFirst={searchFirstButtonClick} onClickSecond={searchSecondButtonClick} userSelected={checkedList.length}
                         onUserActivate={onClickUserActivate} onUserDeactivate={onClickUserDeactivate} onlySelectAndAdd={onlySelectAndAdd}
-                        onUserDelete={onClickUserDelete} onUserEdit={onClickUserEdit} addUserPopUpActive={addUserPopUpActive} isUserData={isUserData} />
+                        onUserDelete={onClickUserDelete} onUserEdit={onClickUserEdit} addUserPopUpActive={addUserPopUpActive} isUserData={isUserData} allSelect={allSelect} />
 
-                    {/* <div className="all_user_details" >
-                        <div className="upper_heading_details">
-                            <div className="upper_checkbox">
-                                <Checkbox value="A" indeterminate={indeterminate} onChange={this.onCheckAll} checked={checkAll} />
-                            </div>
 
-                            <div className="all_headings" style={{ "grid-template-columns": `repeat(${allHeadingsData.length}, calc(100%/${allHeadingsData.length}))` }}>
-                                {allHeadingsData.map(data => (<div key={data._id} className={`single_heading ${activeheading === data._id ? "active_heading" : "inactive_heading"}`} ref={ele => this[data._id] = ele} onClick={() => this.onheadingClick(data._id)}>{data.lbl}</div>))}
-                            </div>
-
-                            {isUserData ? <div className="column_settings">
-                                <Popover
-                                    content={<ColumnSetting columnData={allHeadingsData} columnSettingData={columnSettingData} />}
-                                    title="Column Setting"
-                                    trigger="click"
-                                    visible={this.state.visibleColumnSetting}
-                                    placement="bottomRight"
-                                    autoAdjustOverflow
-                                >
-                                    <img src={require(`../../images/svg/${!visibleColumnSetting ? "settings_grey" : "close-app"}.svg`)} onClick={() => this.handleVisibleChange(visibleColumnSetting ? false : true)} alt="Column Setting" />
-
-                                </Popover>
-                            </div> : ""}
-                        </div>
-                        <div className="lower_user_details">
-                            <div className="lower_user_details_container">
-                                <Checkbox.Group value={checkedList} onChange={this.onChangeCheckBoxGroup}>
-                                    {modifiedUserData.map(user => {
-
-                                        return (
-                                            <div className="user_details_container" >
-                                                <div className="lower_checkbox">
-                                                    <Checkbox value={user._id} />
-                                                </div>
-                                                <div className="single_user_details" style={{ "grid-template-columns": `repeat(${allHeadingsData.length}, calc(100%/${allHeadingsData.length}))` }}>
-                                                    {allHeadingsData.map(columnData => {
-
-                                                        return (
-                                                            <div>
-                                                                {isUserData && columnData._id === "name" ?
-                                                                    <span>
-                                                                        <img src={user["profile_image"] ? user["profile_image"]["thumbnail"] : require("../../images/svg/defaultProfile.svg")} alt="Profile Pic" />
-                                                                    </span>
-                                                                    : ""
-                                                                }
-                                                                {user[columnData._id] || "--"}
-                                                            </div>
-                                                        )
-                                                    })}
-                                                </div>
-                                            </div>
-                                        )
-                                    }
-                                    )}
-                                </Checkbox.Group>
-                            </div>
-                        </div>
-                    </div> */}
                     <div className="setting_table_combine">
                         {columnConfigurable ? <div className="column_settings">
                             <Popover
@@ -224,7 +142,7 @@ class AllUserSelect extends Component {
                             </Popover>
                         </div> : ""}
 
-                        <UserTable ref={table => this.wholeTable = table} modifiedUserData={modifiedUserData} allHeadingsData={allHeadingsData} onlySelectAndAdd={onlySelectAndAdd}
+                        <UserTable ref={table => this.wholeTable = table} modifiedUserData={modifiedUserData} allHeadingsData={allHeadingsData}
                             sortingData={this.onheadingClick} onChangeCheckBox={this.onChangeCheckBox} loading={!modifiedUserData.length ? true : false} onClickTableRow={onClickTableRow} />
                     </div>
 

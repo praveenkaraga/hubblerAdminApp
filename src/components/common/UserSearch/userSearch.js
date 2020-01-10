@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Input, Button, Tooltip } from 'antd';
 import './userSearch.scss'
-
+import SearchDropdown from '../searchDropDown/searchDropDown'
 
 class UserSearch extends Component {
 
@@ -55,9 +55,15 @@ class UserSearch extends Component {
 
     render() {
 
-        const { firstButtonName = "IMPORT", secondButtonName = "ADD", searchPlaceHolder, firstButtonLoader, secondButtonLoader, searchLoader, onSearch, onClickFirst,
-            onClickSecond, userSelected, isUserData = "false", onlySelectAndAdd = "false" } = this.props
-        const endAction = !isUserData ? 3 : 0
+        const { firstButtonName = "IMPORT", secondButtonName = "ADD", searchPlaceHolder, firstButtonLoader, secondButtonLoader, searchLoader,
+            onSearch, onClickFirst, onClickSecond, userSelected, isUserData = "false", onlySelectAndAdd = "false", allSelect = false, onSearchDropdownChange,
+            searchDropdownPlaceholder, searchDropdownData } = this.props
+        let startActionPoint = !isUserData ? 3 : 0
+        let endActionPoint = 5
+        if (allSelect) {
+            startActionPoint = 3
+            endActionPoint = 4
+        }
         return (
             <div className={`search_and_buttons ${userSelected ? "user_selected" : "no_user_selected"}`}>
                 <div className="search_users">
@@ -69,7 +75,7 @@ class UserSearch extends Component {
                             <Tooltip key={`totalUserstooltip`} placement="top" title={"Total Users Selected"}>
                                 <div className="user_count">{userSelected}</div>
                             </Tooltip>
-                            {this.alluserActions.slice(endAction).map((data, i) => {
+                            {this.alluserActions.slice(startActionPoint, endActionPoint).map((data, i) => {
                                 if (data.class !== "partition_div") {
                                     return (
                                         <Tooltip key={`${data.class}tooltip`} placement="top" title={data.tooltip}>
@@ -87,20 +93,25 @@ class UserSearch extends Component {
                             )}
                         </div>
                         :
-                        <>
-                            <Button className={`import_button ${onlySelectAndAdd && !userSelected ? "import_button_disable" : ""}`} type="primary" loading={firstButtonLoader} onClick={onClickFirst}>
-                                {firstButtonName}
-                                {onlySelectAndAdd && userSelected ?
-                                    <div>
-                                        {userSelected}
-                                    </div> : ""}
-                            </Button>
+                        !allSelect ?
+                            <>
+                                <Button className={`import_button ${onlySelectAndAdd && !userSelected ? "import_button_disable" : ""}`} type="primary" loading={firstButtonLoader} onClick={onClickFirst}>
+                                    {firstButtonName}
+                                    {onlySelectAndAdd && userSelected ?
+                                        <div>
+                                            {userSelected}
+                                        </div> : ""}
+                                </Button>
 
-                            {!onlySelectAndAdd ? <Button className="add_user_button" type="primary" loading={secondButtonLoader} onClick={onClickSecond}>
-                                {secondButtonName}
-                            </Button> : ""}
+                                {!onlySelectAndAdd ?
+                                    <Button className="add_user_button" type="primary" loading={secondButtonLoader} onClick={onClickSecond}>
+                                        {secondButtonName}
+                                    </Button>
+                                    : ""}
 
-                        </>
+                            </>
+
+                            : < SearchDropdown onChange={onSearchDropdownChange} placeholder={searchDropdownPlaceholder} searchData={searchDropdownData} />
                     }
 
                 </div>
