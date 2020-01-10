@@ -130,7 +130,8 @@ class CustomDropdown extends Component {
 
     render() {
         const { activeCollapse, panelDataActive, localPanelData, popConfirmActive, panelWithPopActive } = this.state
-        const { panelDataype, panelData } = this.props
+        const { panelDataype, panelData, onDeleteConfirmClick = this.confirm, onDeleteCancelClick = this.confirm, popUpConfirmButtonName = "Confirm",
+            popUpCancelButtonName = "Cancel" } = this.props
         const finalMapData = localPanelData.length ? localPanelData : panelData
         return (
             <div className="custom_dropdown_main">
@@ -155,10 +156,10 @@ class CustomDropdown extends Component {
                                             <img className="setting_icon" src={require("../../../images/svg/settings_grey.svg")} onClick={(e) => this.actionButtonsClick(e, "settings", data)} alt="setting" />
                                             <Popconfirm
                                                 title={<p>Are you sure want to delete: <span>{data.name}</span></p>}
-                                                onConfirm={this.confirm}
-                                                onCancel={this.confirm}
-                                                okText="Yes"
-                                                cancelText="No"
+                                                onConfirm={onDeleteConfirmClick}
+                                                onCancel={onDeleteCancelClick}
+                                                okText={popUpConfirmButtonName}
+                                                cancelText={popUpCancelButtonName}
                                                 onVisibleChange={(status) => this.onVisibleChange(status, data._id)}
                                             >
                                                 <img className="delete_icon" src={require("../../../images/svg/delete_red.svg")} onClick={(e) => this.actionButtonsClick(e, "delete", data)} alt="delete" />
