@@ -105,7 +105,7 @@ class AllUserSelect extends Component {
     render() {
         const { allHeadingsData, userData, searchFirstButtonName, searchSecondButtonName, searchPlaceHolder, searchFirstButtonLoader, onChangeCheckBox,
             searchSecondButtonLoader, searchFirstButtonClick, searchSecondButtonClick, searchLoader, onSearch, totalUsers, goPrevPage, goNextPage, currentPageNumber, columnSettingData,
-            onClickUserActivate, onClickUserDeactivate, onClickUserDelete, onClickUserEdit, addUserPopUpActive, addUserCloseButton, addUserDataForm, isUserData = false, onlySelectAndAdd = false,
+            onClickUserActivate, onClickUserDeactivate, onClickUserDelete, onClickUserEdit, addUserPopUpActive, addUserCloseButton, addUserDataForm, isUserData = true, onlySelectAndAdd = false,
             typeOfData, onClickTableRow, columnConfigurable = false, allSelect } = this.props
         const perPageOptions = [7, 10, 20, 30, 40, 50, 100]
         const { checkedList, rowsPerPage, visibleColumnSetting } = this.state
