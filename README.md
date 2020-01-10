@@ -133,7 +133,7 @@ In all conditions Left Search will come before and after selecting User or Data
 
 ##### below props will get active if `allSelect` will be `true` (right Side Search)
 
-* **onSearchDropdownChange** : action on onChange of Search Input {function(e){}}
+* **onSearchDropdownChange** {function}: action on onChange of Search Input {function(e){}}
 
 * **searchDropdownPlaceholder** : placeholder of search
 
@@ -171,15 +171,15 @@ In all conditions Left Search will come before and after selecting User or Data
 
 * **onSinglePanelClick** {funtion}  : OnClick of Single item of DropDown {function(data){data}} //you will get the whole object of the selected item
 
-* **onClickSetting** {funtion}  : OnClick of Setting Icon of items in DropDown {function(data){data}} //you will get the whole object of the selected item
+* **onClickSetting** {function}  : OnClick of Setting Icon of items in DropDown {function(data){data}} //you will get the whole object of the selected item
 
-* **onClickDelete** {funtion}  : OnClick of Delete Icon of items in DropDown {function(data){data}} //you will get the whole object of the selected item {if you want all actions on delete pop up then don't pass this}
+* **onClickDelete** {function}  : OnClick of Delete Icon of items in DropDown {function(data){data}} //you will get the whole object of the selected item {if you want all actions on delete pop up then don't pass this}
 
 * **popUpConfirmButtonName** {Default : "Confirm"} : Confirm Button Name of Delete Pop Up
 
 * **popUpCancelButtonName** {Default : "Cancel"} : Confirm Button Name of Delete Pop Up
 
-* **onDeleteConfirmClick** {funtion} : onClick confirm Button of Delete Pop Up 
+* **onDeleteConfirmClick** {function} : onClick confirm Button of Delete Pop Up 
 
 * **onDeleteCancelClick** {function} : onClick cancel Button of Delete Pop Up <br/>
 
