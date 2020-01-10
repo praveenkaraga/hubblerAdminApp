@@ -84,7 +84,7 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 <p>&nbsp;</p>
 
 
-## `User Search Component`
+## `User Search Component{userSearch}`
 
 
 * **firstButtonName**  {"string"} : Name for the First Button
@@ -126,19 +126,19 @@ In all conditions Left Search will come before and after selecting User or Data
 
 Note : Keep only one ( from `onlySelectAndAdd` and `allSelect`)  true at a time 
 
-* **isUserData**{boolean (default : true) } : `default` table will come(with profile pic and after selecting users all four action buttons will shown)  and if `false` after selecting user  or data from table only `two` action buttons will come{delete and edit}
+* **isUserData**{boolean (default : true) } : `default` table will come(with profile pic and after selecting users all four action buttons will be shown)  and if `false` after selecting user  or data from table only `two` action buttons will come{delete and edit}
  
 * **onlySelectAndAdd**{boolean (default : false) } : if this `true` (`one` button will come and will be inactive)and after selecting user  or data from table that button will become active with counting in it
 
 * **allSelect**{boolean (default : false) } : if  `true` second `search` will come on right side (this will be with suggestions) and after selecting user  or data from table only `one ` action button{delete} will become active
 
-<!-- ##### below props will get active if {allSelect will be true}
+##### below props will get active if `allSelect` will be `true` (right Side Search)
 
-* **onSearchDropdownChange** : action on onClick of Delete Button 
+* **onSearchDropdownChange** : action on onChange of Search Input {function(e){}}
 
-* **searchDropdownPlaceholder** : action on onClick of Delete Button 
+* **searchDropdownPlaceholder** : placeholder of search
 
-* **searchDropdownData** : action on onClick of Delete Button  -->
+* **searchDropdownData**(Array) : will pass array of object with `name` and `_id` key in it
 
 
 **XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX** 
