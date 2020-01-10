@@ -8,7 +8,7 @@ class CreationPopViewCombined extends Component {
         const {creationPopUpVisibility, creationPopUpTitle, creationPopFirstButtonName, creationPopSecondButtonName, creationPopFirstButtonHandler, creationPopSecondButtonHandler, creationPopUpFirstFieldChangeHandler, customField, changeToCreatedView,fieldHeader,fieldPlaceHolder,secondFieldHeader,creationPopUpSecondFieldChangeHandler,thirdFieldHeader,creationPopUpThirdFieldChangeHandler,inputValue,secondButtonDisable,afterClose} = this.props;
         const {commonCreationViewHeaderName, commonCreationViewBackButtonClick, backButton, viewDecider, addUsersCommonCardButtonClick, allSelectedUsersHeadingsData, allSelectedUsersUsersData, allSelectedUsersTotalUsers, allSelectedUsersPlaceHolder, allSelectedUsersFirstButtonName, allSelectedUsersIsUserData, allSelectedUsersOnChangeCheckBox, allSelectedUsersOnlySelectAndAdd, allSelectedUsersFirstButtonClick, showAddUsersPopUp, addUsersPopUpTitle, addUsersPopUpClose, addUsersPopUpPlaceHolder, addUsersPopUpFirstButtonName, addUsersPopUpFirstButtonClick, addUsersPopUpOnChangeCheckBox, addUsersPopUpTableColumnsData, addUsersPopUpUsersData, addUsersPopUpTotalUsers, addUsersPopUpIsUserData, addUsersPopUpOnlySelectAndAdd,
             allSelectedUsersOnClickHeadingColumn,allSelectedUsersOnChangeRowsPerPage,allSelectedUsersChangePage,allSelectedUsersDepartmentSearchData,allSelectedUsersCurrentPageNumber,
-            addUsersOnClickHeadingColumn,addUsersOnChangeRowsPerPage,addUsersChangePage,addUsersDepartmentSearchData,addUsersCurrentPageNumber,commonViewLoader
+            addUsersOnClickHeadingColumn,addUsersOnChangeRowsPerPage,addUsersChangePage,addUsersDepartmentSearchData,addUsersCurrentPageNumber,commonViewLoader,allSelectedUsersAllSelect
         } = this.props
         if (creationPopUpVisibility) {
             return (
@@ -26,9 +26,7 @@ class CreationPopViewCombined extends Component {
                                creationPopUpThirdFieldChangeHandler={creationPopUpThirdFieldChangeHandler}
                                inputValue={inputValue}
                                secondButtonDisable={secondButtonDisable}
-                               afterClose={afterClose}
-
-                />
+                               afterClose={afterClose}/>
             )
         } else if (changeToCreatedView) {
             return (
@@ -42,6 +40,7 @@ class CreationPopViewCombined extends Component {
                                     allSelectedUsersPlaceHolder={allSelectedUsersPlaceHolder}
                                     allSelectedUsersFirstButtonName={allSelectedUsersFirstButtonName}
                                     allSelectedUsersIsUserData={allSelectedUsersIsUserData}
+                                    allSelectedUsersAllSelect={allSelectedUsersAllSelect}
                                     allSelectedUsersOnChangeCheckBox={allSelectedUsersOnChangeCheckBox}
                                     allSelectedUsersOnlySelectAndAdd={allSelectedUsersOnlySelectAndAdd}
                                     allSelectedUsersFirstButtonClick={allSelectedUsersFirstButtonClick}
@@ -66,9 +65,7 @@ class CreationPopViewCombined extends Component {
                                     addUsersChangePage={addUsersChangePage}
                                     addUsersDepartmentSearchData={addUsersDepartmentSearchData}
                                     addUsersCurrentPageNumber={addUsersCurrentPageNumber}
-                                    commonViewLoader={commonViewLoader}
-
-                />
+                                    commonViewLoader={commonViewLoader}/>
             )
         } else return (
             <div></div>

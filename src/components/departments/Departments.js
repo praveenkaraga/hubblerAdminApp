@@ -8,7 +8,7 @@ import {
     getDepartmentData,
     commonDepartmentAction,
     getDeptTableColumnData,
-    postCreateDeptData, postAddSelectedUsers, getAddSelectedUsersPostedData, getAddableUsersData, getTableColumnsData
+    postCreateDeptData, postAddSelectedUsers, getAddSelectedUsersPostedData, getAddableUsersData, getTableColumnsData,getCommonViewHeaderName
 } from "../../store/actions/actions";
 import AllUserSelect from '../allUserSelect/allUserSelect'
 import filter from "lodash/filter";
@@ -162,6 +162,7 @@ class Departments extends Component {
             showAddUsersPopUp: true,
         });
         this.props.getTableColumnsData();
+
         this.props.getAddableUsersData(createdDepartmentData ? createdDepartmentData.id : '')
         this.props.commonDepartmentAction({viewDecider: false})
 
@@ -355,23 +356,28 @@ class Departments extends Component {
     }
 
     onRowThisClick = (rowData) => {
+        this.setState({
+            changeToCreatedView: true,
+        })
+        this.props.commonDepartmentAction({commonViewLoader : true})
+        // this.props.getCommonViewHeaderName(rowData._id)
+        this.props.getTableColumnsData();
+        this.props.getAddSelectedUsersPostedData(rowData._id)
         console.log(rowData)
     }
 
-
-
     render() {
-        const {departmentColumnData, departmentsData, addableUsersData, totalUsers, addedUsersData, tableColumnsData, viewDecider, commonViewLoader,totalAddableUsers,totalAllSelectedUsers} = this.props.departmentReducer;
+        const {departmentColumnData, departmentsData, addableUsersData, totalUsers, addedUsersData, tableColumnsData, viewDecider, commonViewLoader, totalAddableUsers, totalAllSelectedUsers,commonViewHeader} = this.props.departmentReducer;
 
         const columnData = tableColumnsData ? filter(tableColumnsData, ele => ele._id !== 'departments') : [];
 
         const {creationPopUpVisibility, changeToCreatedView, showAddUsersPopUp, commonCreationViewHeaderName, example} = this.state;
-
+        console.log(tableColumnsData)
         return (
             <div className="departments-main">
                 {!changeToCreatedView ? <div className={'departments-main-view'}>
                     <div className="departments-heading"><h3>Departments</h3></div>
-                    <AllUserSelect allHeadingsData={departmentColumnData} userData={departmentsData}
+                    <AllUserSelect allHeadingsData={departmentColumnData} userData={departmentsData || []}
                                    searchPlaceHolder={"Search Department"} searchFirstButtonName={"IMPORT RESOURCES"}
                                    searchSecondButtonName={"ADD DEPARTMENT"} totalUsers={totalUsers}
                                    searchSecondButtonClick={() => this.searchSecondButtonClick(true)} isUserData={false}
@@ -382,9 +388,7 @@ class Departments extends Component {
                                    goNextPage={() => this.changePage(1)}
                                    onSearch={this.departmentSearchData}
                                    currentPageNumber={this.state.currentPageNumber}
-                                   onClickTableRow={this.onRowThisClick}
-
-                    />
+                                   onClickTableRow={this.onRowThisClick}/>
                 </div> : ""}
 
                 <CreationPopViewCombined creationPopUpVisibility={creationPopUpVisibility}
@@ -415,7 +419,7 @@ class Departments extends Component {
                     // *end of CreationPopUp props*
                                          commonCreationViewBackButtonClick={this.commonCreationViewBackButtonClick}
                     //function that gets invoked on click of the back button of commonCreationView
-                                         commonCreationViewHeaderName={commonCreationViewHeaderName}
+                                         commonCreationViewHeaderName={commonCreationViewHeaderName || commonViewHeader}
                     //name of the header (usually the value obtained from first fieldType of creation popu)
                                          backButton={true}
                     //implies whether back button is required or not = boolean
@@ -431,6 +435,8 @@ class Departments extends Component {
                     //total count of users for totalUsers AllUsersSelect
                                          allSelectedUsersIsUserData={true}
                     //boolean value for isUserData of AllUsersSelect
+                                         allSelectedUsersAllSelect={true}
+                    //boolean value to show suggestion search kind of component
                                          allSelectedUsersOnChangeCheckBox={this.allSelectedUsersOnChangeCheckBox}
                     //function that gets invoked on click of checkbox of AllUsersSelect
                                          allSelectedUsersOnlySelectAndAdd={true}
@@ -501,7 +507,7 @@ const mapDispatchToProps = dispatch => {
             postCreateDeptData,
             postAddSelectedUsers,
             getAddSelectedUsersPostedData,
-            getAddableUsersData, getTableColumnsData
+            getAddableUsersData, getTableColumnsData,getCommonViewHeaderName
         },
         dispatch
     );

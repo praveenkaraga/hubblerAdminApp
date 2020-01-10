@@ -125,20 +125,22 @@ export const getDeptAddUsersTableColumns = () => {
     return axios.get("https://demo4798197.mockable.io/dept-user-columns")
 };
 
-
 export const getCirclesDataApi = (searchData) => {
     return axios.get(`/rest/circles/?start=1&offset=100&sortKey=name&sortOrder=dsc&filterKey=_id&filterQuery=${searchData || ""}`)
 }
 
-
 export const getCustomFieldsApi = () => {
     return axios.get(`/meta/nodes/?start=1&offset=100&sortKey=_id&sortOrder=asc&filterKey=_id&filterQuery=`)
-}
+};
 
 export const getSingleCircleDataApi = (id, perPageRows, currentPage, searchData, headingData, sortingType) => {
     const startNumber = ((currentPage - 1) * perPageRows) + 1
     return axios.get(`/users/circles/${id}/?start=${startNumber || 1}&offset=${perPageRows || 50}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}asc&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}`)
-}
+};
+
+export const getHeaderName = (id) =>{
+    return axios.get(`/rest/departments/${id}/`);
+};
 
 
 
