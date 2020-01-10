@@ -141,4 +141,20 @@ Note : Keep only one ( from `onlySelectAndAdd` and `allSelect`)  true at a time
 * **searchDropdownData**(Array) : will pass array of object with `name` and `_id` key in it
 
 
-**XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX** 
+**XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
+
+
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+
+## `Image Cropper{imageCropper}`
+
+
+* **uniqueId**  {"string"} : Unique `Id` you will pass And Using Html `Label` you can easily Target this Id to `Open` directory and after selecting image this component will become active
+
+* **onClickApply**  : {function(data)}{data}} //data will the final image string
+
+
+**XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
