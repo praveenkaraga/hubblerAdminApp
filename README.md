@@ -139,7 +139,7 @@ Note : Keep only one ( from `onlySelectAndAdd` and `allSelect`)  true at a time
 
 * **searchDropdownData**(Array) : will pass array of object with `name` and `_id` key in it
 
-<p>&nbsp;</p>
+<br/>
 
 **XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
 
@@ -156,7 +156,7 @@ Note : Keep only one ( from `onlySelectAndAdd` and `allSelect`)  true at a time
 
 * **onClickApply**  : {function(data)}{data}} //data will be the final image string
 
-<p>&nbsp;</p>
+<br/>
 
 **XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
 
@@ -187,6 +187,6 @@ Note : Keep only one ( from `onlySelectAndAdd` and `allSelect`)  true at a time
 
 * **onDeleteCancelClick**{function} : onClick cancel Button of Delete Pop Up 
 
-<p>&nbsp;</p>
+<br/>
 
 **XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
