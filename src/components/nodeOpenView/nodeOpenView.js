@@ -44,11 +44,11 @@ class NodeOpenView extends Component {
 
     render() {
         const { singleCircleName, singleCircleCount, singleCircleData } = this.props.userConsoleMainReducer
-        console.log(singleCircleData, "singleCircleData")
 
-        return (<CommonCreationView commonCreationViewHeaderName={singleCircleName} viewDecider={singleCircleCount ? 1 : 0}
-            // allSelectedUsersUsersData={singleCircleData}
-            allSelectedUsersHeadingsData={headingData} />);
+        return (<CommonCreationView commonCreationViewHeaderName={singleCircleName}
+            viewDecider={singleCircleCount ? 1 : 0}
+            allSelectedUsersUsersData={singleCircleData}
+            allSelectedUsersHeadingsData={headingData} backButton={false} />);
     }
 }
 

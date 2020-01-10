@@ -31,8 +31,8 @@ export const headingData = [
         "ellipsis": true
     },
     {
-        "title": "manager",
-        "dataIndex": "Manager",
+        "title": "Manager",
+        "dataIndex": "manager",
         "_id": "manager",
         "lbl": "Manager",
         "type": "object",
