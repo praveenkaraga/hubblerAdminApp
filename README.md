@@ -81,7 +81,6 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 # Components Documentation :)
 <p>&nbsp;</p>
-<p>&nbsp;</p>
 
 
 ## `User Search Component{userSearch}`
@@ -141,7 +140,7 @@ Note : Keep only one ( from `onlySelectAndAdd` and `allSelect`)  true at a time
 * **searchDropdownData**(Array) : will pass array of object with `name` and `_id` key in it
 
 
-**XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
+**XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
 
 
 
@@ -157,4 +156,33 @@ Note : Keep only one ( from `onlySelectAndAdd` and `allSelect`)  true at a time
 * **onClickApply**  : {function(data)}{data}} //data will the final image string
 
 
-**XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
+**XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
+
+
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+
+## `Custom Dropdown{customDropdown}`
+
+
+* **panelDataype**  {"string"} : if you will pass `"circles"` than icon will be circles..{default : "circles"}...otherwise icon will be file 
+
+* **panelData**{Array of objects}  : To populate all the items of dropdown. "name" and "._id" key should be there in each object
+
+* **onSinglePanelClick**(function)  : OnClick of Single item of DropDown {function(data){data}} //you will get the whole object of the selected item
+
+* **onClickSetting**(function)  : OnClick of Setting Icon of items in DropDown {function(data){data}} //you will get the whole object of the selected item
+
+* **onClickDelete**(function)  : OnClick of Delete Icon of items in DropDown {function(data){data}} //you will get the whole object of the selected item {if you want all actions on delete pop up then don't pass this}
+
+* **popUpConfirmButtonName**{Default : "Confirm"} : Confirm Button Name of Delete Pop Up
+
+* **popUpCancelButtonName**{Default : "Cancel"} : Confirm Button Name of Delete Pop Up
+
+* **onDeleteConfirmClick**{funtion} : onClick confirm Button of Delete Pop Up 
+
+* **onDeleteCancelClick**{function} : onClick cancel Button of Delete Pop Up 
+
+**XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
