@@ -139,6 +139,7 @@ Note : Keep only one ( from `onlySelectAndAdd` and `allSelect`)  true at a time
 
 * **searchDropdownData**(Array) : will pass array of object with `name` and `_id` key in it
 
+<p>&nbsp;</p>
 
 **XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
 
@@ -153,8 +154,9 @@ Note : Keep only one ( from `onlySelectAndAdd` and `allSelect`)  true at a time
 
 * **uniqueId**  {"string"} : Unique `Id` you will pass And Using Html `Label` you can easily Target this Id to `Open` directory and after selecting image this component will become active
 
-* **onClickApply**  : {function(data)}{data}} //data will the final image string
+* **onClickApply**  : {function(data)}{data}} //data will be the final image string
 
+<p>&nbsp;</p>
 
 **XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
 
@@ -184,5 +186,7 @@ Note : Keep only one ( from `onlySelectAndAdd` and `allSelect`)  true at a time
 * **onDeleteConfirmClick**{funtion} : onClick confirm Button of Delete Pop Up 
 
 * **onDeleteCancelClick**{function} : onClick cancel Button of Delete Pop Up 
+
+<p>&nbsp;</p>
 
 **XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
