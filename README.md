@@ -121,7 +121,7 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 ##### below one will change UI{view} of this component according to props given  `[all scenarios]`
 
-###### All scenarios
+###### All scenarios of table
 
 In all conditions Left Search will come before and after selecting User or Data
 
@@ -322,16 +322,18 @@ columnSettingData example :-
 
 * **onChangeCheckBox** {function(data)} : onClick of checkboxes. You will get all data(array of ids selected) as the first argument of the passed function
 
-* **onClickTableRow** {function} : onClick of Delete Button
+* **onClickTableRow** {function(rowData)} : onClick of Each full row of table. You will get whole object of that particular clicked column as the first argument.
 
 
-<a name="head1234" href="#main-tablemiddle-part" >A Heading in this SO entry!</a>
 
-* **isUserData** {Boolean}{default : true} : onClick of Delete Button
+Below three props scenarios has been explaned above in UserSearch Comp. 
+<a name="all-scenarios-of-table" href="#all-scenarios-of-table">Click Here to read about them.</a>
 
-* **allSelect** {Boolean}{default : false} : onClick of Delete Button
+* **isUserData** {Boolean}{default : true} 
 
-* **onlySelectAndAdd** {Boolean}{default : false} : onClick of Delete Button
+* **allSelect** {Boolean}{default : false} 
+
+* **onlySelectAndAdd** {Boolean}{default : false}
 
 
 <p>&nbsp;</p>
