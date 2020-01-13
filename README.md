@@ -323,7 +323,7 @@ columnSettingData example :-
 * **onClickTableRow** {function} : onClick of Delete Button
 
 
-<a name="head1234" href="#tablemiddle-part" >A Heading in this SO entry!</a>
+<a name="head1234" href="#main-tablemiddle-part" >A Heading in this SO entry!</a>
 
 * **isUserData** {Boolean}{default : true} : onClick of Delete Button
 
