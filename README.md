@@ -244,7 +244,7 @@ Actions that has to be done on user or users will get activated {and based on fe
 
     {
         "title": "Name",                            //compulsory
-        "dataIndex": "name",                        //compulsory
+        "dataIndex": "name",                        //compulsory(will be same as _id)
         "_id": "name",                              //compulsory
         "lbl": "Name",
         "type": "text",                             //compulsory
@@ -265,7 +265,7 @@ Actions that has to be done on user or users will get activated {and based on fe
 ]   
 ```
 
-<!-- * **headingClickData** {function} : onClick of Delete Button -->
+* **headingClickData** {function(activeheading, sortingType)} : onClick of any Column Heading. You will get two datas as arguments of the passed function . First argument will give the clicked heading `_id` and Second argument will give type of sorting when clicked (for ex. `asc` for ascending, `dsc` for descending and will give nothing when your again it comes in normal mode)
 
 ##### ** Column Settings/Configuration **
 * **columnConfigurable** {Boolean}{default: false} : If `true` column settings button will be shown and below two props can be used 

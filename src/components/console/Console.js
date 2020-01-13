@@ -60,6 +60,7 @@ class Console extends Component {
 
     onClickHeadingColumn = (activeheading, sortingType) => {
         const { currentPageNumber, rowsPerPage, searchData } = this.props.consoleReducer
+        console.log(sortingType, "sortingType")
         this.props.getConsoleUserData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
         this.props.commonConsoleAction({ activeheading, sortingType })
     }
