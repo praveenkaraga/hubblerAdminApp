@@ -340,8 +340,17 @@ Below three props scenarios has been explaned above in UserSearch Comp.
 
 ### Table Bottom/Pagination Part
 
+* **totalUsers** {Number}{default : 0} :  Total No. of Users or Data in the table
 
+* **currentPageNumber** {Number}{default : 0} : Current Page No. of the table. 
 
+* **typeOfData** {"String"}{default : "Total Data"} : text to be shown in side of total No.
+
+* **goPrevPage** {function} : onClick of previous arrow icon
+
+* **goNextPage** {function}{default : true} : onClick of next arrow icon
+
+* **onChangeRowsPerPage** {function(rowsPerPage)}{default : 30} :  OnChange of the Selection of rows per page. You will pass a function and will get no. of per page selected as first argument.
 
 
 **XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
