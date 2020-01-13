@@ -119,7 +119,7 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 * **onUserEdit** : action on onClick of Edit Button {Will automatically get disabled when user greater than 1 i.e; if userSelected is greater than 1}
 
 
-##### below one will change UI{view} of this component according to props given
+##### below one will change UI{view} of this component according to props given  `[all scenarios]`
 
 In all conditions Left Search will come before and after selecting User or Data
 
@@ -197,11 +197,28 @@ In all conditions Left Search will come before and after selecting User or Data
 #### --> Left Side{ In all cases this will be visible }
 
 * **searchPlaceHolder** {"String"} : Place holder for this search
-* **searchLoader** {"String"} : Place holder for this search
-* **onSearch** {function(e)}() : will pass a fn
+
+* **searchLoader** {"boolean"}{default : false} : loader inside search
+
+* **onSearch** {function(e)}() : will get all the searched data Onchange
 
 
-#### --> Right Side{ which options to show here will be changed according to different scenarios }(for all scenarios please visit `UserSearch` Comp)
+#### --> Right Side{ which options to show here will be changed according to different scenarios }
+
+When No Table Data has been selected : -
+* **searchFirstButtonName** {"String"}{default : "IMPORT"} : Name of first Button
+
+* **searchSecondButtonName** {"String"}{default : "ADD"} : Name of Second Button
+
+* **searchFirstButtonLoader** {"boolean"}{default : false} : loader inside search
+
+* **searchSecondButtonLoader** {"boolean"}{default : false} : loader inside search
+
+* **searchFirstButtonClick** {function} : onClick of first Button
+
+* **searchSecondButtonClick** {function} : onClick of second Button
+
+
 
 
 
