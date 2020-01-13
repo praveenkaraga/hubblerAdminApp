@@ -205,7 +205,7 @@ In all conditions Left Search will come before and after selecting User or Data
 
 #### --> Right Side{ which options to show here will be changed according to different scenarios }
 
-##### ** When No Table Data has been selected :- **
+##### ** When No Table Data has been selected **
 
 * **searchFirstButtonName** {"String"}{default : "IMPORT"} : Name of first Button
 
@@ -220,14 +220,14 @@ In all conditions Left Search will come before and after selecting User or Data
 * **searchSecondButtonClick** {function} : onClick of second Button
 
 
-##### ** When one or more Table Data has been selected :- **
-Actions that has to be done on user or users will get activated {and based on few scenarios visible action buttons will change}(all scenarios has been covered in `UserSearch` Component)
+##### ** When one or more Table Data has been selected **
+Actions that has to be done on user or users will get activated {and based on few scenarios visible action buttons will change}(all scenarios has been covered in `UserSearch` Component Doc Above)
 
-* **onClickUserActivate** {function} : onClick of Activate User Button
+* **onClickUserActivate** {function} : onClick of Activate Button
 
-* **onClickUserDeactivate** {function} : onClick of Deactivate User Button
+* **onClickUserDeactivate** {function} : onClick of Deactivate Button
 
-* **onClickUserDelete** {function} : onClick of Delete User Button
+* **onClickUserDelete** {function} : onClick of Delete Button
 
 * **onClickUserEdit** {function} : onClick of Edit User Button (If selected more than one than one user this will get disabled)
 
@@ -236,8 +236,46 @@ Actions that has to be done on user or users will get activated {and based on fe
 
 ### Table/Middle Part
 
+##### ** Column Heading **
+* **allHeadingsData** {Array} : Array of objects will be passed...{below is sample example}
+
+```json
+[
+
+    {
+        "title": "Name",                            //compulsory
+        "dataIndex": "name",                        //compulsory
+        "_id": "name",                              //compulsory
+        "lbl": "Name",
+        "type": "text",                             //compulsory
+        "sorter": true,                             //true if you want sorting in table
+        "sortDirections": ["descend", "ascend"],    //type of sorting you want
+        "ellipsis": true                            //true if you want sorting in a particular row
+    },
+    {
+        "title": "Emp ID",
+        "dataIndex": "employee_id",
+        "_id": "employee_id",
+        "lbl": "Emp ID",
+        "type": "text",
+        "sorter": true,
+        "sortDirections": ["descend", "ascend"],
+        "ellipsis": true
+    }
+]   
+```
+
+<!-- * **headingClickData** {function} : onClick of Delete Button -->
+
+##### ** Column Settings/Configuration **
+* **columnConfigurable** {Boolean}{default: false} : If `true` column settings button will be shown and below two props can be used 
+
+<!-- * **onClickColumnSetting** {function} : onClick of Delete Button
+
+* **columnSettingData** {function} : onClick of Delete Button
 
 
+* **onChangeCheckBox** {function} : onClick of Delete Button -->
 
 
 
