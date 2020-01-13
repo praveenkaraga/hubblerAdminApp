@@ -69,7 +69,7 @@ class ColumnSetting extends Component {
     render() {
 
         const { columnDataDraggable, columnDataNotDraggable, checkedList } = this.state
-        const { columnSettingData, columnData } = this.props
+        const { columnSettingData } = this.props
 
         return (<div className="column_setting_main">
             <div className="column_setting_main_container">
