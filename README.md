@@ -169,7 +169,7 @@ In all conditions Left Search will come before and after selecting User or Data
 
 * **panelData** {Array of objects}  : To populate all the items of dropdown. "name" and "._id" key should be there in each object
 
-* **onSinglePanelClick** {funtion}  : OnClick of Single item of DropDown {function(data){data}} //you will get the whole object of the selected item
+* **onSinglePanelClick** {function}  : OnClick of Single item of DropDown {function(data){data}} //you will get the whole object of the selected item
 
 * **onClickSetting** {function}  : OnClick of Setting Icon of items in DropDown {function(data){data}} //you will get the whole object of the selected item
 
@@ -190,9 +190,25 @@ In all conditions Left Search will come before and after selecting User or Data
 <p>&nbsp;</p>
 
 
-## `All User Select{allUserSelect}`
+## `All User Select{allUserSelect}` 
+
+### `Header/Top Part` {Search And Button} (This is basically `UserSearch` Component But props are different)
+
+#### --> Left Side{ In all cases this will be visible }
+
+* **searchPlaceHolder** {"String"} : Place holder for this search
+* **searchLoader** {"String"} : Place holder for this search
+* **onSearch** {function(e)}() : will pass a fn
+
+
+#### --> Right Side{ which options to show here will be changed according to different scenarios }(for all scenarios please visit `UserSearch` Comp)
+
+
+
 
 ### Table
+
+
 
 
 
