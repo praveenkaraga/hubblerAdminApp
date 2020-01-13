@@ -234,7 +234,7 @@ Actions that has to be done on user or users will get activated {and based on fe
 
 <p>&nbsp;</p>
 
-### Table/Middle Part
+### Main Table/Middle Part
 
 ##### ** Column Heading **
 * **allHeadingsData** {Array} : Array of objects will be passed...{below is sample example}
@@ -267,15 +267,76 @@ Actions that has to be done on user or users will get activated {and based on fe
 
 * **headingClickData** {function(activeheading, sortingType)} : onClick of any Column Heading. You will get two datas as arguments of the passed function . First argument will give the clicked heading `_id` and Second argument will give type of sorting when clicked (for ex. `asc` for ascending, `dsc` for descending and will give nothing when your again it comes in normal mode)
 
+
 ##### ** Column Settings/Configuration **
-* **columnConfigurable** {Boolean}{default: false} : If `true` column settings button will be shown and below two props can be used 
+* **columnConfigurable** {Boolean}{default: false} : If `true` column settings button will display and below two props can be used 
 
-<!-- * **onClickColumnSetting** {function} : onClick of Delete Button
+* **onClickColumnSetting** {function} : onClick of column setting icon
 
-* **columnSettingData** {function} : onClick of Delete Button
+* **columnSettingData** {Object} : pass data of column settings... Should be Object
+
+columnSettingData example :-
+
+```javascript
+//all keys in Capital will be shown as type of Data like heading
+
+{
+         "basic fields": [
+        {
+            "_id": "name",          //compulsory
+            "lbl": "Name",          //compulsory
+            "type" : "text",        //optional
+            "isDraggable" : false   //if true it will be draggable
+        },
+        {
+            "_id": "email",
+            "lbl": "Email",
+            "type" : "text",
+            "isDraggable" : true
+        }
+    ],
+
+    "category" : [
+        {
+            "_id": "location",
+            "lbl": "Location",
+            "type" : "string",
+            "isDraggable" : true
+        },
+        {
+            "_id": "mobile",
+            "lbl": "Mobile",
+            "type" : "number",
+            "isDraggable" : true
+        }
+    ]
+
+}
+```
+
+##### ** Main other Props of Table **
+
+* **userData** {Array of Objects} : will pass an Array with the datas to be populated according to headingData
+
+* **onChangeCheckBox** {function(data)} : onClick of checkboxes. You will get all data(array of ids selected) as the first argument of the passed function
+
+* **onClickTableRow** {function} : onClick of Delete Button
 
 
-* **onChangeCheckBox** {function} : onClick of Delete Button -->
+<a name="head1234" href="#tablemiddle-part" >A Heading in this SO entry!</a>
+
+* **isUserData** {Boolean}{default : true} : onClick of Delete Button
+
+* **allSelect** {Boolean}{default : false} : onClick of Delete Button
+
+* **onlySelectAndAdd** {Boolean}{default : false} : onClick of Delete Button
+
+
+<p>&nbsp;</p>
+
+### Table Bottom/Pagination Part
+
+
 
 
 
