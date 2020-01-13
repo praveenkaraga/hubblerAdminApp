@@ -192,7 +192,7 @@ In all conditions Left Search will come before and after selecting User or Data
 
 ## `All User Select{allUserSelect}` 
 
-### `Header/Top Part` {Search And Button} (This is basically `UserSearch` Component But props are different)
+### Header/Top Part {Search And Button} (This is basically __UserSearch__ Component But props are different)
 
 #### --> Left Side{ In all cases this will be visible }
 
@@ -205,7 +205,8 @@ In all conditions Left Search will come before and after selecting User or Data
 
 #### --> Right Side{ which options to show here will be changed according to different scenarios }
 
-When No Table Data has been selected : -
+##### ** When No Table Data has been selected :- **
+
 * **searchFirstButtonName** {"String"}{default : "IMPORT"} : Name of first Button
 
 * **searchSecondButtonName** {"String"}{default : "ADD"} : Name of Second Button
@@ -219,11 +220,22 @@ When No Table Data has been selected : -
 * **searchSecondButtonClick** {function} : onClick of second Button
 
 
+##### ** When one or more Table Data has been selected :- **
+Actions that has to be done on user or users will get activated {and based on few scenarios visible action buttons will change}(all scenarios has been covered in `UserSearch` Component)
+
+* **onClickUserActivate** {function} : onClick of Activate User Button
+
+* **onClickUserDeactivate** {function} : onClick of Deactivate User Button
+
+* **onClickUserDelete** {function} : onClick of Delete User Button
+
+* **onClickUserEdit** {function} : onClick of Edit User Button (If selected more than one than one user this will get disabled)
 
 
+<p>&nbsp;</p>
 
+### Table/Middle Part
 
-### Table
 
 
 
