@@ -121,6 +121,8 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 ##### below one will change UI{view} of this component according to props given  `[all scenarios]`
 
+###### All scenarios
+
 In all conditions Left Search will come before and after selecting User or Data
 
 **Note** : Keep only one ( from `onlySelectAndAdd` and `allSelect`)  true at a time 
