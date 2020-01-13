@@ -8,8 +8,16 @@ const {Option} = Select;
 
 class CreationPopUp extends Component {
 
+
+
+
+    test = () =>{
+        console.log("Enter")
+    }
+
+
     getCustomFieldsSkeleton = (type) =>{
-        const {creationPopUpFirstFieldChangeHandler, fieldHeader, fieldPlaceHolder, creationPopUpSecondFieldChangeHandler,secondFieldHeader=`Type`,thirdFieldHeader=`Required`,creationPopUpThirdFieldChangeHandler} = this.props
+        const {creationPopUpFirstFieldChangeHandler, fieldHeader, fieldPlaceHolder, creationPopUpSecondFieldChangeHandler,secondFieldHeader=`Type`,thirdFieldHeader=`Required`,creationPopUpThirdFieldChangeHandler,creationPopSecondButtonHandler} = this.props
         const {
             secondFieldOptions = [{name: 'Single Select', key: 'single_select'}, {
                 name: 'Multi Select',
@@ -20,7 +28,8 @@ class CreationPopUp extends Component {
             <div>
                 <div>{fieldHeader}</div>
                 <Input placeholder={fieldPlaceHolder} className={'preferred-field-class'}
-                       onChange={creationPopUpFirstFieldChangeHandler}/></div>
+                       onChange={creationPopUpFirstFieldChangeHandler}/>
+            </div>
             <div className={'second-field-wrap'}>
                 <div>{secondFieldHeader}</div>
                 <Select defaultValue={secondFieldOptions[0].key}
@@ -43,7 +52,7 @@ class CreationPopUp extends Component {
     }
 
     getRequiredFields = (customField) => {
-        const {creationPopUpFirstFieldChangeHandler, fieldHeader, fieldPlaceHolder,inputValue} = this.props
+        const {creationPopUpFirstFieldChangeHandler, fieldHeader, fieldPlaceHolder,inputValue,creationPopSecondButtonHandler} = this.props
         // console.log(inputValue ,'inputValue')
         switch (customField) {
             case 'add' : {
@@ -56,7 +65,7 @@ class CreationPopUp extends Component {
                 return <div>
                     <div>{fieldHeader}</div>
                     <Input placeholder={fieldPlaceHolder} className={'preferred-field-class'}
-                        onChange={creationPopUpFirstFieldChangeHandler} value={inputValue} />
+                        onChange={creationPopUpFirstFieldChangeHandler} value={inputValue}  onPressEnter={creationPopSecondButtonHandler}/>
                 </div>
             }
         }
@@ -76,10 +85,10 @@ class CreationPopUp extends Component {
                     onCancel={creationPopFirstButtonHandler}
                     afterClose={afterClose}
                     footer={[
-                        <Button key="cancel" onClick={() => creationPopFirstButtonHandler()}>
+                        <Button key="cancel" onClick={(e) => creationPopFirstButtonHandler(e)}>
                             {creationPopFirstButtonName}
                         </Button>,
-                        <Button key="create" onClick={() => creationPopSecondButtonHandler()}
+                        <Button key="create" onClick={(e) => creationPopSecondButtonHandler(e)}
                             type="primary" disabled={secondButtonDisable}>{creationPopSecondButtonName}</Button>,
                     ]}
                     centered >

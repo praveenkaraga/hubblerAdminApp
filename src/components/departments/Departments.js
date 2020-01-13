@@ -8,11 +8,23 @@ import {
     getDepartmentData,
     commonDepartmentAction,
     getDeptTableColumnData,
-    postCreateDeptData, postAddSelectedUsers, getAddSelectedUsersPostedData, getAddableUsersData, getTableColumnsData,getCommonViewHeaderName
+    postCreateDeptData,
+    postAddSelectedUsers,
+    getAddSelectedUsersPostedData,
+    getAddableUsersData,
+    getTableColumnsData,
+    getCommonViewHeaderName
 } from "../../store/actions/actions";
 import AllUserSelect from '../allUserSelect/allUserSelect'
 import filter from "lodash/filter";
 import CreationPopViewCombined from '../common/CreationPopViewCombined/CreationPopViewCombined'
+import {
+    Switch,
+    Route,
+    NavLink,
+    Redirect,
+    withRouter
+} from "react-router-dom";
 
 class Departments extends Component {
     constructor(props) {
@@ -38,7 +50,6 @@ class Departments extends Component {
             addUsersActiveHeading: "",
             addUsersSortingType: "",
             addUsersSearchData: "",
-            example: " jjj"
         }
     }
 
@@ -139,7 +150,7 @@ class Departments extends Component {
     };
 
 
-    creationPopSecondButtonHandler = () => {
+    creationPopSecondButtonHandler = (e) => {
         let data = {name: this.state.commonCreationViewHeaderName};
         this.props.postCreateDeptData(data);
         this.setState({
@@ -181,6 +192,8 @@ class Departments extends Component {
     commonCreationViewBackButtonClick = () => { //backToMainDepartmentView
         this.props.getDeptTableColumnData();
         this.props.getDepartmentData(30)
+        this.props.commonDepartmentAction({commonViewLoader: true})
+
         this.setState({
             changeToCreatedView: false, //changeToDepartmentCreatedView
             commonCreationViewHeaderName: ''
@@ -355,24 +368,27 @@ class Departments extends Component {
         console.log("nn")
     }
 
-    onRowThisClick = (rowData) => {
+    onRowThisClick =  (rowData) => {
         this.setState({
             changeToCreatedView: true,
+            commonCreationViewHeaderName: rowData.departments
         })
-        this.props.commonDepartmentAction({commonViewLoader : true})
-        // this.props.getCommonViewHeaderName(rowData._id)
+        this.props.history.push(`/people/departments/${rowData._id}`)
+        this.props.commonDepartmentAction({commonViewLoader: true})
+
+        // await this.props.getCommonViewHeaderName(rowData._id)
         this.props.getTableColumnsData();
         this.props.getAddSelectedUsersPostedData(rowData._id)
         console.log(rowData)
+
     }
 
     render() {
-        const {departmentColumnData, departmentsData, addableUsersData, totalUsers, addedUsersData, tableColumnsData, viewDecider, commonViewLoader, totalAddableUsers, totalAllSelectedUsers,commonViewHeader} = this.props.departmentReducer;
+        const {departmentColumnData, departmentsData, addableUsersData, totalUsers, addedUsersData, tableColumnsData, viewDecider, commonViewLoader, totalAddableUsers, totalAllSelectedUsers, commonViewHeader} = this.props.departmentReducer;
 
         const columnData = tableColumnsData ? filter(tableColumnsData, ele => ele._id !== 'departments') : [];
 
         const {creationPopUpVisibility, changeToCreatedView, showAddUsersPopUp, commonCreationViewHeaderName, example} = this.state;
-        console.log(tableColumnsData)
         return (
             <div className="departments-main">
                 {!changeToCreatedView ? <div className={'departments-main-view'}>
@@ -507,16 +523,17 @@ const mapDispatchToProps = dispatch => {
             postCreateDeptData,
             postAddSelectedUsers,
             getAddSelectedUsersPostedData,
-            getAddableUsersData, getTableColumnsData,getCommonViewHeaderName
+            getAddableUsersData, getTableColumnsData, getCommonViewHeaderName
         },
         dispatch
     );
 };
 
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(Departments);
+)(Departments))
+
 
 

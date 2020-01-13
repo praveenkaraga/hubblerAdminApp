@@ -22,6 +22,7 @@ import {
     withRouter
 } from "react-router-dom";
 import './userConsoleView.scss'
+import CommonCreationView from "../../components/common/CommonCreationView/CommonCreationView";
 
 const routes = [
     {
@@ -41,7 +42,7 @@ const routes = [
     },
     {
         path: "/departments",
-        main: () => <Departments />,
+        main: () => <Departments/>,
         name: 'Departments',
         link_name: 'departments',
         class_name: 'departments'
@@ -134,10 +135,10 @@ class UserConsoleView extends Component {
 
 
     render() {
-
         const { activeLinkName } = this.props.firstReducer
         const { circlesData, customFieldsData } = this.props.userConsoleMainReducer
         const { creationPopUpVisibility, creationPopUpData, creationPopUpInputData } = this.state
+        console.log(this.props.history)
         return (
             <div className={'user-console-view'}>
                 <div className={'user-console-view-wrap'}>
@@ -189,7 +190,7 @@ class UserConsoleView extends Component {
                                     key={index}
                                     path={`/people${route.path}`}
                                     exact={route.exact}
-                                    children={<route.main />}
+                                    component={route.main}
                                 />
 
                             ))}
@@ -200,8 +201,10 @@ class UserConsoleView extends Component {
                                 <Redirect to={"/people/console"} />
                             </Route>
                             <Route exact path={"/people/console"} component={Console} />
+                            <Route exact path={"/people/departments"} component={Departments} />
                             <Route path={"/people/circle/:id"} component={NodeOpenView} />
                             <Route path={"/people/field"} component={NodeOpenView} />
+                            {/*<Route exact path={"/people/departments/:id"} component={Console} />*/}
                         </Switch>
                     </div>
                 </div>

@@ -12,6 +12,7 @@ const initialState = {
     tableColumnsData: [],
     viewDecider: false, //populateSelectedUsersView
     commonViewLoader: false,
+    commonViewHeader:'',
 }
 
 export const departmentReducer = (state = initialState, action) => {
@@ -49,6 +50,7 @@ export const departmentReducer = (state = initialState, action) => {
         case actionTypes.GET_TABLE_COLUMN:
             const tableColumnDataInitial = action.payload.data;
             const tableColumnData = tableColumnDataInitial ? action.payload.data.result : [];
+            console.log(state)
             return {
                 ...state,
                 tableColumnsData: tableColumnData
@@ -56,10 +58,12 @@ export const departmentReducer = (state = initialState, action) => {
 
         case actionTypes.POST_CREATE_DEPARTMENT_DATA:
             const initialData = action.payload.data;
-            const data = initialData ? initialData : {}
+            const data = initialData ? initialData : {};
             return {
                 ...state,
-                createdDepartmentData: data
+                createdDepartmentData: data,
+                commonViewLoader: false,
+                viewDecider : 0
             }
         case actionTypes.POST_ADD_SELECTED_USERS_DATA:
             const dataInitial = action.payload.data;

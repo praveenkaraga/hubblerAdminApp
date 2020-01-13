@@ -7,7 +7,6 @@ import isEmpty from 'lodash/isEmpty'
 
 class CommonCreationView extends Component {
 
-
     render() {
         const {commonCreationViewHeaderName, commonCreationViewBackButtonClick, backButton = true, viewDecider = 0,commonViewLoader = false} = this.props;
         const {addUsersCommonCardButtonClick} = this.props
@@ -33,7 +32,7 @@ class CommonCreationView extends Component {
                 {viewDecider < 1 ?
                     !commonViewLoader ? <AddUsersCommonCard addUsersCommonCardButtonClick={addUsersCommonCardButtonClick}/> : '' :
 
-                    <div className={'all-selected-users-wrap'}>
+                    !commonViewLoader ? <div className={'all-selected-users-wrap'}>
                         <AllUserSelect allHeadingsData={allSelectedUsersHeadingsData}
                                        userData={allSelectedUsersUsersData }
                                        searchPlaceHolder={allSelectedUsersPlaceHolder}
@@ -50,7 +49,7 @@ class CommonCreationView extends Component {
                                        currentPageNumber={allSelectedUsersCurrentPageNumber}
                                        allSelect={allSelectedUsersAllSelect}
                         />
-                    </div>
+                    </div> : ''
                 }
 
                 {showAddUsersPopUp ?
