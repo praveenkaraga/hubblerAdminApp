@@ -239,7 +239,7 @@ Actions that has to be done on user or users will get activated {and based on fe
 ##### ** Column Heading **
 * **allHeadingsData** {Array} : Array of objects will be passed...{below is sample example}
 
-```json
+```javascript
 [
 
     {
