@@ -35,7 +35,7 @@ export const { getTeamViewUsersData, teamViewUserClick, getClickedTeamUserData, 
 
 //------------------------------ Department Action -------------------------------//
 
-export const { getDepartmentData, commonDepartmentAction, getDeptTableColumnData, postCreateDeptData, postAddSelectedUsers, getAddSelectedUsersPostedData, getAddableUsersData, getTableColumnsData,getCommonViewHeaderName } = departmentActions
+export const { getDepartmentData, commonDepartmentAction, getDeptTableColumnData, postCreateDeptData, postAddSelectedUsers, getAddSelectedUsersPostedData, getAddableUsersData, getTableColumnsData, getCommonViewHeaderName } = departmentActions
 
 //------------------------------xxxxxxxxxxxxxx-------------------------------//
 
@@ -53,7 +53,7 @@ export const { designationsData, commonDesignationAction } = designationsActions
 
 //----------------------------- User Console Main Action ----------------------------//
 
-export const { getCirclesData, getCustomFields, getSingleCircleData } = userConsoleMainActions
+export const { getCirclesData, getCustomFields, getSingleCircleData, getCircleSuggestionData } = userConsoleMainActions
 
 //-----------------------------xxxxxxxxxxxxxxxxxxxxxxxxxx----------------------------//
 

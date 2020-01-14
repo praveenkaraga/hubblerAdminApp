@@ -133,13 +133,15 @@ In all conditions Left Search will come before and after selecting User or Data
 
 * **allSelect**{boolean (default : false) } : if  `true` second `search` will come on right side (this will be with suggestions) and after selecting user  or data from table only `one ` action button{delete} will become active
 
-##### below props will get active if `allSelect` will be `true` (right Side Search)
+##### below props will get active if `allSelect` will be `true` (right Side Search with suggestions)
 
-* **onSearchDropdownChange** {function}: action on onChange of Search Input {function(e){}}
+* **searchDropdownPlaceholder** {"String"}{default : "Search and Add"} : Name of Second Button
 
-* **searchDropdownPlaceholder** : placeholder of search
+* **onChangeSearchDropdown** {function(data){data}} : onChange of input of the search you can get the data as the first argument of the function you will pass in prop
 
-* **searchDropdownData** {Array} : will pass array of object with `name` and `_id` key in it<br/>
+* **searchDropdownData** {Array of Objects} : Data to be shown in suggestions(name and _id key is compulsory in each object)
+
+* **onSearchDropdownSelect** {function(data){data}} : onSelect of any one User? data from suggestion. You have to pass a function in which value will come as first argument of that function <br/>
 
 **XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
 
@@ -203,6 +205,18 @@ In all conditions Left Search will come before and after selecting User or Data
 * **searchLoader** {"boolean"}{default : false} : loader inside search
 
 * **onSearch** {function(e)}() : will get all the searched data Onchange
+
+
+
+#### --> Right Side Search{ Search with suggestions} (Will be visible when `allSelect` set to `true` and no users has been selected) 
+
+* **searchDropdownPlaceholder** {"String"}{default : "Search and Add"} : Name of Second Button
+
+* **onChangeSearchDropdown** {function(data){data}} : onChange of input of the search you can get the data as the first argument of the function you will pass in prop
+
+* **searchDropdownData** {Array of Objects} : Data to be shown in suggestions(name and _id key is compulsory in each object)
+
+* **onSearchDropdownSelect** {function(data){data}} : onSelect of any one User? data from suggestion. You have to pass a function in which value will come as first argument of that function 
 
 
 #### --> Right Side{ which options to show here will be changed according to different scenarios }

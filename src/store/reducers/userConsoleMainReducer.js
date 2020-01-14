@@ -45,6 +45,13 @@ export const userConsoleMainReducer = (state = intialState, action) => {
                 singleCircleCount: singleCircleDataInitial.total_count,
                 singleCircleData: singleCircleDataInitial ? singleCircleDataInitial.result : []
             }
+
+
+        case actionTypes.GET_CIRCLE_SUGGESTION_DATA:
+            console.log(action.payload)
+            return {
+                ...state
+            }
     }
 
 

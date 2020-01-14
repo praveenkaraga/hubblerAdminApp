@@ -106,7 +106,7 @@ class AllUserSelect extends Component {
         const { allHeadingsData, userData, searchFirstButtonName, searchSecondButtonName, searchPlaceHolder, searchFirstButtonLoader = false, onChangeCheckBox,
             searchSecondButtonLoader = false, searchFirstButtonClick, searchSecondButtonClick, searchLoader = false, onSearch, totalUsers, goPrevPage, goNextPage, currentPageNumber, columnSettingData,
             onClickUserActivate, onClickUserDeactivate, onClickUserDelete, onClickUserEdit, addUserPopUpActive, addUserCloseButton, addUserDataForm, isUserData = true, onlySelectAndAdd = false,
-            typeOfData = "Total Data", onClickTableRow, columnConfigurable = false, allSelect } = this.props
+            typeOfData = "Total Data", onClickTableRow, columnConfigurable = false, allSelect, onSearchDropdownSelect, searchDropdownPlaceholder, searchDropdownData, onChangeSearchDropdown } = this.props
         const perPageOptions = [7, 10, 20, 30, 40, 50, 100]
         const { checkedList, rowsPerPage, visibleColumnSetting } = this.state
         const totalPages = Math.ceil(totalUsers / rowsPerPage)
@@ -122,7 +122,9 @@ class AllUserSelect extends Component {
                         firstButtonLoader={searchFirstButtonLoader} secondButtonLoader={searchSecondButtonLoader} searchLoader={searchLoader} onSearch={onSearch}
                         onClickFirst={searchFirstButtonClick} onClickSecond={searchSecondButtonClick} userSelected={checkedList.length}
                         onUserActivate={onClickUserActivate} onUserDeactivate={onClickUserDeactivate} onlySelectAndAdd={onlySelectAndAdd}
-                        onUserDelete={onClickUserDelete} onUserEdit={onClickUserEdit} addUserPopUpActive={addUserPopUpActive} isUserData={isUserData} allSelect={allSelect} />
+                        onUserDelete={onClickUserDelete} onUserEdit={onClickUserEdit} addUserPopUpActive={addUserPopUpActive} isUserData={isUserData}
+                        allSelect={allSelect} onSearchDropdownSelect={onSearchDropdownSelect} searchDropdownPlaceholder={searchDropdownPlaceholder}
+                        searchDropdownData={searchDropdownData} onChangeSearchDropdown={onChangeSearchDropdown} />
 
 
                     <div className="setting_table_combine">
