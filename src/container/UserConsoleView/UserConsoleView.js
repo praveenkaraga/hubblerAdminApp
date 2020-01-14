@@ -5,7 +5,13 @@ import {
     getUserData,
     createActiveLink,
     getCirclesData,
-    getCustomFields
+    getCustomFields,
+
+    getDeptTableColumnData,
+    commonDepartmentAction,
+    getTableColumnsData,
+    getAddSelectedUsersPostedData,
+    getDepartmentData
 } from '../../store/actions/actions'
 import Console from '../../components/console/Console'
 import TeamView from '../../components/teamView/TeamView'
@@ -14,6 +20,7 @@ import Designations from '../../components/designations/designations'
 import CustomDropdown from '../../components/common/CustomDropdown/customDropdown'
 import CreationPopUp from '../../components/common/CreationPopUp/CreationPopUp'
 import NodeOpenView from '../../components/nodeOpenView/nodeOpenView'
+import ChangeViewRouting from '../../components/common/ChangeViewRouting/ChangeViewRouting'
 import {
     Switch,
     Route,
@@ -132,6 +139,17 @@ class UserConsoleView extends Component {
         }
     }
 
+    /*someFunc = (id) =>{
+        this.props.getDeptTableColumnData();
+        if(id){
+            this.props.commonDepartmentAction({commonViewLoader: true})
+            this.props.getTableColumnsData();
+            this.props.getAddSelectedUsersPostedData(id)
+        }else {
+            this.props.getDepartmentData(30)
+        }
+    }*/
+
 
 
     render() {
@@ -204,7 +222,7 @@ class UserConsoleView extends Component {
                             <Route exact path={"/people/departments"} component={Departments} />
                             <Route path={"/people/circle/:id"} component={NodeOpenView} />
                             <Route path={"/people/field"} component={NodeOpenView} />
-                            {/*<Route exact path={"/people/departments/:id"} component={Console} />*/}
+                            <Route exact path={"/people/department/:id"} children={<ChangeViewRouting/>} />
                         </Switch>
                     </div>
                 </div>
@@ -228,7 +246,13 @@ const mapDispatchToProps = dispatch => {
             getUserData,
             createActiveLink,
             getCirclesData,
-            getCustomFields
+            getCustomFields,
+
+            getDeptTableColumnData,
+            commonDepartmentAction,
+            getTableColumnsData,
+            getAddSelectedUsersPostedData,
+            getDepartmentData
         },
         dispatch
     );

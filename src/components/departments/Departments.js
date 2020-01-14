@@ -373,8 +373,9 @@ class Departments extends Component {
             changeToCreatedView: true,
             commonCreationViewHeaderName: rowData.departments
         })
-        this.props.history.push(`/people/departments/${rowData._id}`)
-        this.props.commonDepartmentAction({commonViewLoader: true})
+        this.props.history.push(`/people/department/${rowData._id}`,{  headerName :  rowData.departments })
+
+        this.props.commonDepartmentAction({commonViewLoader: true , headerNameWhenRouted :rowData.departments })
 
         // await this.props.getCommonViewHeaderName(rowData._id)
         this.props.getTableColumnsData();
@@ -388,7 +389,7 @@ class Departments extends Component {
 
         const columnData = tableColumnsData ? filter(tableColumnsData, ele => ele._id !== 'departments') : [];
 
-        const {creationPopUpVisibility, changeToCreatedView, showAddUsersPopUp, commonCreationViewHeaderName, example} = this.state;
+        const {creationPopUpVisibility, showAddUsersPopUp, commonCreationViewHeaderName, changeToCreatedView} = this.state;
         return (
             <div className="departments-main">
                 {!changeToCreatedView ? <div className={'departments-main-view'}>

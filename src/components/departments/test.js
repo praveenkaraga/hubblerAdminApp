@@ -8,13 +8,23 @@ import {
     getDepartmentData,
     commonDepartmentAction,
     getDeptTableColumnData,
-    postCreateDeptData, postAddSelectedUsers, getAddSelectedUsersPostedData, getAddableUsersData, getTableColumnsData
+    postCreateDeptData,
+    postAddSelectedUsers,
+    getAddSelectedUsersPostedData,
+    getAddableUsersData,
+    getTableColumnsData,
+    getCommonViewHeaderName
 } from "../../store/actions/actions";
 import AllUserSelect from '../allUserSelect/allUserSelect'
 import filter from "lodash/filter";
 import CreationPopViewCombined from '../common/CreationPopViewCombined/CreationPopViewCombined'
-import CreationPopUp from "../common/CreationPopUp/CreationPopUp";
-import CommonCreationView from "../common/CommonCreationView/CommonCreationView";
+import {
+    Switch,
+    Route,
+    NavLink,
+    Redirect,
+    withRouter
+} from "react-router-dom";
 
 class Departments extends Component {
     constructor(props) {
@@ -24,32 +34,32 @@ class Departments extends Component {
             showAddUsersPopUp: false, //showUsersList
             usersIdArray: [], //usersIdArray
             creationPopUpVisibility: false,
-            commonCreationViewHeaderName:"",
-
+            commonCreationViewHeaderName: "", /**/
             currentPageNumber: 1,
             rowsPerPage: 30,
             activeHeading: "",
             sortingType: "",
             searchData: "",
-
-            allSelectedUsersCurrentPageNumber: 1,
+            allSelectedUsersCurrentPageNumber: 1,/**/
             allSelectedUsersRowsPerPage: 30,
             allSelectedUsersActiveHeading: "",
             allSelectedUsersSortingType: "",
-            allSelectedUsersSearchData: "" , /*addUsers*/
-
-            addUsersCurrentPageNumber: 1,
+            allSelectedUsersSearchData: "", /*addUsers*/
+            addUsersCurrentPageNumber: 1,/**/
             addUsersRowsPerPage: 30,
             addUsersActiveHeading: "",
             addUsersSortingType: "",
             addUsersSearchData: "",
-            example : " jjj"
         }
     }
 
     componentDidMount() {
         this.props.getDeptTableColumnData();
-        this.props.getDepartmentData(30)
+        if(this.props.match.params.id){
+            this.onRowThisClick({_id:this.props.match.params.id,departments:''})
+        }else {
+            this.props.getDepartmentData(30)
+        }
     }
 
     handleOk = e => {
@@ -117,6 +127,7 @@ class Departments extends Component {
             _id: createdDepartmentData.id
         };
         this.props.postAddSelectedUsers(data);
+
         this.props.getAddSelectedUsersPostedData(createdDepartmentData.id)
     };
 
@@ -137,12 +148,13 @@ class Departments extends Component {
     //new stuff
     creationPopFirstButtonHandler = () => {
         this.setState({
-            creationPopUpVisibility: false
+            creationPopUpVisibility: false,
+            commonCreationViewHeaderName: ''
         })
     };
 
 
-    creationPopSecondButtonHandler = () => {
+    creationPopSecondButtonHandler = (e) => {
         let data = {name: this.state.commonCreationViewHeaderName};
         this.props.postCreateDeptData(data);
         this.setState({
@@ -165,6 +177,7 @@ class Departments extends Component {
             showAddUsersPopUp: true,
         });
         this.props.getTableColumnsData();
+
         this.props.getAddableUsersData(createdDepartmentData ? createdDepartmentData.id : '')
         this.props.commonDepartmentAction({viewDecider: false})
 
@@ -183,8 +196,11 @@ class Departments extends Component {
     commonCreationViewBackButtonClick = () => { //backToMainDepartmentView
         this.props.getDeptTableColumnData();
         this.props.getDepartmentData(30)
+        this.props.commonDepartmentAction({commonViewLoader: true})
+
         this.setState({
-            changeToCreatedView: false //changeToDepartmentCreatedView
+            changeToCreatedView: false, //changeToDepartmentCreatedView
+            commonCreationViewHeaderName: ''
         })
     }
 
@@ -205,6 +221,7 @@ class Departments extends Component {
             showAddUsersPopUp: false
         })
         this.props.postAddSelectedUsers(data);
+        this.props.commonDepartmentAction({commonViewLoader: true})
         this.props.getAddSelectedUsersPostedData(createdDepartmentData.id)
     };
 
@@ -216,7 +233,7 @@ class Departments extends Component {
 
 
     onClickHeadingColumn = (activeHeading, sortingType) => {
-        const { rowsPerPage, searchData, currentPageNumber } = this.state
+        const {rowsPerPage, searchData, currentPageNumber} = this.state
         const activeHeadingModified = activeHeading === "departments" ? "name" : "count"
         this.props.getDepartmentData(rowsPerPage, currentPageNumber, searchData, activeHeadingModified, sortingType)
         this.setState({
@@ -234,7 +251,7 @@ class Departments extends Component {
     }
 
     changePage = (calcData) => {
-        const { currentPageNumber, rowsPerPage } = this.state
+        const {currentPageNumber, rowsPerPage} = this.state
         const goToPage = currentPageNumber + calcData
         this.props.getDepartmentData(rowsPerPage, goToPage)
         this.setState({
@@ -243,7 +260,7 @@ class Departments extends Component {
     }
 
     departmentSearchData = (e) => {
-        const { rowsPerPage, activeheading, sortingType } = this.state
+        const {rowsPerPage, activeheading, sortingType} = this.state
         const searchData = e.target.value
         this.props.getDepartmentData(rowsPerPage, 1, searchData, activeheading, sortingType)
         this.setState({
@@ -255,17 +272,17 @@ class Departments extends Component {
     creationPopUpSecondFieldChangeHandler = (value) => {
         console.log(`creationPopUpSecondField value choosen ${value}`);
     }
-    creationPopUpThirdFieldChangeHandler =(checked) => {
+    creationPopUpThirdFieldChangeHandler = (checked) => {
         console.log(`switch to ${checked}`);
     }
 
     /*allSelected*/
 
     allSelectedUsersOnClickHeadingColumn = (activeHeading, sortingType) => {
-        const{createdDepartmentData} = this.props.departmentReducer;
+        const {createdDepartmentData} = this.props.departmentReducer;
 
-        const { allSelectedUsersRowsPerPage, allSelectedUsersSearchData, allSelectedUsersCurrentPageNumber } = this.state
-        this.props.getAddSelectedUsersPostedData(createdDepartmentData.id,allSelectedUsersRowsPerPage, allSelectedUsersCurrentPageNumber, allSelectedUsersSearchData, activeHeading, sortingType)
+        const {allSelectedUsersRowsPerPage, allSelectedUsersSearchData, allSelectedUsersCurrentPageNumber} = this.state
+        this.props.getAddSelectedUsersPostedData(createdDepartmentData.id, allSelectedUsersRowsPerPage, allSelectedUsersCurrentPageNumber, allSelectedUsersSearchData, activeHeading, sortingType)
         this.setState({
             allSelectedUsersActiveHeading: activeHeading,
             sortingType
@@ -273,9 +290,9 @@ class Departments extends Component {
     }
 
     allSelectedUsersOnChangeRowsPerPage = (rowsPerPage) => {
-        const{createdDepartmentData} = this.props.departmentReducer;
+        const {createdDepartmentData} = this.props.departmentReducer;
 
-        this.props.getAddSelectedUsersPostedData(createdDepartmentData.id,rowsPerPage, 1)
+        this.props.getAddSelectedUsersPostedData(createdDepartmentData.id, rowsPerPage, 1)
         this.setState({
             rowsPerPage,
             allSelectedUsersCurrentPageNumber: 1
@@ -283,22 +300,22 @@ class Departments extends Component {
     }
 
     allSelectedUsersChangePage = (calcData) => {
-        const{createdDepartmentData} = this.props.departmentReducer;
+        const {createdDepartmentData} = this.props.departmentReducer;
 
-        const { allSelectedUsersCurrentPageNumber, allSelectedUsersRowsPerPage } = this.state
+        const {allSelectedUsersCurrentPageNumber, allSelectedUsersRowsPerPage} = this.state
         const goToPage = allSelectedUsersCurrentPageNumber + calcData
-        this.props.getAddSelectedUsersPostedData(createdDepartmentData.id,allSelectedUsersRowsPerPage, goToPage)
+        this.props.getAddSelectedUsersPostedData(createdDepartmentData.id, allSelectedUsersRowsPerPage, goToPage)
         this.setState({
             allSelectedUsersCurrentPageNumber: goToPage
         })
     }
 
     allSelectedUsersDepartmentSearchData = (e) => {
-        const{createdDepartmentData} = this.props.departmentReducer;
+        const {createdDepartmentData} = this.props.departmentReducer;
 
-        const { allSelectedUsersRowsPerPage, allSelectedUsersActiveHeading, allSelectedUsersSortingType } = this.state
+        const {allSelectedUsersRowsPerPage, allSelectedUsersActiveHeading, allSelectedUsersSortingType} = this.state
         const searchData = e.target.value
-        this.props.getAddSelectedUsersPostedData(createdDepartmentData.id,allSelectedUsersRowsPerPage, 1, searchData, allSelectedUsersActiveHeading, allSelectedUsersSortingType)
+        this.props.getAddSelectedUsersPostedData(createdDepartmentData.id, allSelectedUsersRowsPerPage, 1, searchData, allSelectedUsersActiveHeading, allSelectedUsersSortingType)
         this.setState({
             searchData,
             allSelectedUsersCurrentPageNumber: 1
@@ -308,10 +325,10 @@ class Departments extends Component {
     /*addableFunc*/
 
     addUsersOnClickHeadingColumn = (activeHeading, sortingType) => {
-        const{createdDepartmentData} = this.props.departmentReducer;
+        const {createdDepartmentData} = this.props.departmentReducer;
 
-        const { addUsersRowsPerPage, addUsersSearchData, addUsersCurrentPageNumber } = this.state
-        this.props.getAddableUsersData(createdDepartmentData.id,addUsersRowsPerPage, addUsersCurrentPageNumber, addUsersSearchData, activeHeading, sortingType)
+        const {addUsersRowsPerPage, addUsersSearchData, addUsersCurrentPageNumber} = this.state
+        this.props.getAddableUsersData(createdDepartmentData.id, addUsersRowsPerPage, addUsersCurrentPageNumber, addUsersSearchData, activeHeading, sortingType)
         this.setState({
             addUsersActiveHeading: activeHeading,
             sortingType
@@ -319,9 +336,9 @@ class Departments extends Component {
     }
 
     addUsersOnChangeRowsPerPage = (rowsPerPage) => {
-        const{createdDepartmentData} = this.props.departmentReducer;
+        const {createdDepartmentData} = this.props.departmentReducer;
 
-        this.props.getAddableUsersData(createdDepartmentData.id,rowsPerPage, 1)
+        this.props.getAddableUsersData(createdDepartmentData.id, rowsPerPage, 1)
         this.setState({
             rowsPerPage,
             addUsersCurrentPageNumber: 1
@@ -329,49 +346,65 @@ class Departments extends Component {
     }
 
     addUsersChangePage = (calcData) => {
-        const{createdDepartmentData} = this.props.departmentReducer;
+        const {createdDepartmentData} = this.props.departmentReducer;
 
-        const { addUsersCurrentPageNumber, addUsersRowsPerPage } = this.state
+        const {addUsersCurrentPageNumber, addUsersRowsPerPage} = this.state
         const goToPage = addUsersCurrentPageNumber + calcData
-        this.props.getAddableUsersData(createdDepartmentData.id,addUsersRowsPerPage, goToPage)
+        this.props.getAddableUsersData(createdDepartmentData.id, addUsersRowsPerPage, goToPage)
         this.setState({
             addUsersCurrentPageNumber: goToPage
         })
     }
 
     addUsersDepartmentSearchData = (e) => {
-        const{createdDepartmentData} = this.props.departmentReducer;
+        const {createdDepartmentData} = this.props.departmentReducer;
 
-        const { addUsersRowsPerPage, addUsersActiveHeading, addUsersSortingType } = this.state;
+        const {addUsersRowsPerPage, addUsersActiveHeading, addUsersSortingType} = this.state;
         const searchData = e.target.value
-        this.props.getAddableUsersData(createdDepartmentData.id,addUsersRowsPerPage, 1, searchData, addUsersActiveHeading, addUsersSortingType)
+        this.props.getAddableUsersData(createdDepartmentData.id, addUsersRowsPerPage, 1, searchData, addUsersActiveHeading, addUsersSortingType)
         this.setState({
             searchData,
             addUsersCurrentPageNumber: 1
         })
     }
 
-    afterClose = () =>{
-        this.setState({
-            commonCreationViewHeaderName : "nush"
-        })
+    afterClose = () => {
+        console.log("nn")
     }
 
+    onRowThisClick =  (rowData) => {
+        this.setState({
+            changeToCreatedView: true,
+            commonCreationViewHeaderName: rowData.departments
+        })
+        this.props.history.push(`/people/department/${rowData._id}`)
+        this.props.commonDepartmentAction({commonViewLoader: true})
 
+        // await this.props.getCommonViewHeaderName(rowData._id)
+        this.props.getTableColumnsData();
+        this.props.getAddSelectedUsersPostedData(rowData._id)
+
+    }
 
     render() {
-        const {departmentColumnData, departmentsData, addableUsersData, totalUsers, addedUsersData, tableColumnsData, viewDecider} = this.props.departmentReducer;
+        const {departmentColumnData, departmentsData, addableUsersData, totalUsers, addedUsersData, tableColumnsData, viewDecider, commonViewLoader, totalAddableUsers, totalAllSelectedUsers, commonViewHeader} = this.props.departmentReducer;
 
         const columnData = tableColumnsData ? filter(tableColumnsData, ele => ele._id !== 'departments') : [];
 
-        const {creationPopUpVisibility, changeToCreatedView, showAddUsersPopUp, commonCreationViewHeaderName, example} = this.state;
-        console.log(commonCreationViewHeaderName, "commonCreationViewHeaderName")
+        const {creationPopUpVisibility, showAddUsersPopUp, example, changeToCreatedView} = this.state;
+
+        let {commonCreationViewHeaderName} = this.state
+        if(!commonCreationViewHeaderName){
+            if(addedUsersData){
+                commonCreationViewHeaderName = addedUsersData.name
+            }
+        }
 
         return (
             <div className="departments-main">
                 {!changeToCreatedView ? <div className={'departments-main-view'}>
                     <div className="departments-heading"><h3>Departments</h3></div>
-                    <AllUserSelect allHeadingsData={departmentColumnData} userData={departmentsData}
+                    <AllUserSelect allHeadingsData={departmentColumnData} userData={departmentsData || []}
                                    searchPlaceHolder={"Search Department"} searchFirstButtonName={"IMPORT RESOURCES"}
                                    searchSecondButtonName={"ADD DEPARTMENT"} totalUsers={totalUsers}
                                    searchSecondButtonClick={() => this.searchSecondButtonClick(true)} isUserData={false}
@@ -382,8 +415,7 @@ class Departments extends Component {
                                    goNextPage={() => this.changePage(1)}
                                    onSearch={this.departmentSearchData}
                                    currentPageNumber={this.state.currentPageNumber}
-
-                    />
+                                   onClickTableRow={this.onRowThisClick}/>
                 </div> : ""}
 
                 <CreationPopViewCombined creationPopUpVisibility={creationPopUpVisibility}
@@ -411,11 +443,10 @@ class Departments extends Component {
                                          afterClose={this.afterClose}
                                          inputValue={commonCreationViewHeaderName}
 
-
-                    // end of CreationPopUp props
+                    // *end of CreationPopUp props*
                                          commonCreationViewBackButtonClick={this.commonCreationViewBackButtonClick}
                     //function that gets invoked on click of the back button of commonCreationView
-                                         commonCreationViewHeaderName={commonCreationViewHeaderName}
+                                         commonCreationViewHeaderName={commonCreationViewHeaderName || commonViewHeader}
                     //name of the header (usually the value obtained from first fieldType of creation popu)
                                          backButton={true}
                     //implies whether back button is required or not = boolean
@@ -427,10 +458,12 @@ class Departments extends Component {
                     //column data (array) for allHeadingsData of AllUsersSelect
                                          allSelectedUsersUsersData={addedUsersData}
                     //users data (array) for userData AllUsersSelect
-                                         allSelectedUsersTotalUsers={totalUsers}
+                                         allSelectedUsersTotalUsers={totalAllSelectedUsers}
                     //total count of users for totalUsers AllUsersSelect
                                          allSelectedUsersIsUserData={true}
                     //boolean value for isUserData of AllUsersSelect
+                                         allSelectedUsersAllSelect={true}
+                    //boolean value to show suggestion search kind of component
                                          allSelectedUsersOnChangeCheckBox={this.allSelectedUsersOnChangeCheckBox}
                     //function that gets invoked on click of checkbox of AllUsersSelect
                                          allSelectedUsersOnlySelectAndAdd={true}
@@ -459,7 +492,7 @@ class Departments extends Component {
                     //column data (array) for allHeadingsData of AllUsersSelect of AddUsersPopUp
                                          addUsersPopUpUsersData={addableUsersData}
                     //users data (array) for userData of AllUsersSelect of AddUsersPopUp
-                                         addUsersPopUpTotalUsers={totalUsers}
+                                         addUsersPopUpTotalUsers={totalAddableUsers}
                     //total count of users for totalUsers of AllUsersSelect of AddUsersPopUp
                                          addUsersPopUpIsUserData={true}
                     //boolean value for isUserData of AllUsersSelect of AddUsersPopUp
@@ -477,7 +510,9 @@ class Departments extends Component {
                     //value for currentPageNumber of AllUsersSelect of AddUsers Component
                                          changeToCreatedView={changeToCreatedView}
                     //boolean value to shift to CommonCreationView
-                    // end of CommonCreationView props
+                                         commonViewLoader={commonViewLoader}
+                    //boolean value for viewChanging - loader
+                    // *end of CommonCreationView props*
                 />
             </div>
         );
@@ -499,16 +534,17 @@ const mapDispatchToProps = dispatch => {
             postCreateDeptData,
             postAddSelectedUsers,
             getAddSelectedUsersPostedData,
-            getAddableUsersData, getTableColumnsData
+            getAddableUsersData, getTableColumnsData, getCommonViewHeaderName
         },
         dispatch
     );
 };
 
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(Departments);
+)(Departments))
+
 
 

@@ -12,7 +12,8 @@ const initialState = {
     tableColumnsData: [],
     viewDecider: false, //populateSelectedUsersView
     commonViewLoader: false,
-    commonViewHeader:'',
+    headerNameWhenRouted:'',
+    addedUsersData:[]
 }
 
 export const departmentReducer = (state = initialState, action) => {
@@ -77,8 +78,6 @@ export const departmentReducer = (state = initialState, action) => {
             const allSelectedUserDataCopy = JSON.parse(JSON.stringify(allSelectedUserData))
             const totalAllSelectedUsers = addedUsersInitialData ? addedUsersInitialData.total_count : 0
             let decideView = isEmpty(allSelectedUserData) ? false : true
-            console.log(addedUsersInitialData)
-
             return {
                 ...state,
                 addedUsersData: addedUsersInitialData ? addedUsersInitialData : [],
@@ -104,7 +103,7 @@ export const departmentReducer = (state = initialState, action) => {
             let commonViewHeader = headerInitial.name ? headerInitial.name : '';
             console.log(action.payload.data);
             return {
-                commonViewHeader : commonViewHeader
+                headerNameWhenRouted : commonViewHeader
             }
 
 
