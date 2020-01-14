@@ -6,7 +6,8 @@ class SearchDropdown extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            result: []
+            result: [],
+            value: ""
         }
     }
 
@@ -21,14 +22,13 @@ class SearchDropdown extends Component {
     };
 
 
-
     render() {
-        const { result } = this.state;
-        const { onSearchDropdownChange, searchDropdownPlaceholder, searchDropdownData } = this.props
+        const { result, value } = this.state;
+        const { onSearchDropdownSelect, searchDropdownPlaceholder, searchDropdownData, onChangeSearchDropdown } = this.props //onSelect, placeholder, searchData, onChange
         const children = result.map(email => <Option key={email}><div>{email}</div></Option>);
         return (
             <div>
-                <AutoComplete style={{ width: 200 }} onSearch={this.handleSearch} placeholder="Enter Name to Add">
+                <AutoComplete style={{ width: 200 }} onSearch={this.handleSearch} placeholder="Enter Name to Add" optionLabelProp="value">
                     {children}
                 </AutoComplete>
             </div>

@@ -92,7 +92,7 @@ export const getDepartmentsData = (perPageRows, currentPage, searchData, heading
 
 export const getAddableUserData = (id, perPageRows, currentPage, searchData, headingData, sortingType) => {
     const startNumber = ((currentPage - 1) * perPageRows) + 1
-    return axios.get(`/choose-users/departments/${id}/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}`,axiosConfig)
+    return axios.get(`/choose-users/departments/${id}/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}`, axiosConfig)
 };
 
 
@@ -113,12 +113,12 @@ export const postAddSelectedUsersData = (data) => {
     return axios.post("/add-people/departments/", data, axiosConfig)
 }
 
-export const getAddSelectedUsersData = (id,perPageRows, currentPage, searchData, headingData, sortingType) => {
+export const getAddSelectedUsersData = (id, perPageRows, currentPage, searchData, headingData, sortingType) => {
     const startNumber = ((currentPage - 1) * perPageRows) + 1
     return axios.get(`/users/departments/${id}/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}`)
-/*
-    start=1&offset=20&sortKey=_id&sortOrder=dsc&filterKey=&filterQuery=\`
-*/
+    /*
+        start=1&offset=20&sortKey=_id&sortOrder=dsc&filterKey=&filterQuery=\`
+    */
 }
 
 export const getDeptAddUsersTableColumns = () => {
@@ -138,12 +138,14 @@ export const getSingleCircleDataApi = (id, perPageRows, currentPage, searchData,
     return axios.get(`/users/circles/${id}/?start=${startNumber || 1}&offset=${perPageRows || 50}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}asc&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}`)
 };
 
-export const getHeaderName = (id) =>{
+export const getHeaderName = (id) => {
     return axios.get(`/rest/departments/${id}/`);
 };
 
 
-
+export const getCircleSuggestionDataApi = (searchData) => {
+    return axios.get(`https://console.hubblerapp.com/choose-users/circles/58dcb91dd517f03e48399933/?start=1&offset=20&sortKey=name&sortOrder=dsc&filterKey=name&filterQuery=${searchData}`)
+}
 
 
 

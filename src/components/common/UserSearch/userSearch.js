@@ -55,9 +55,11 @@ class UserSearch extends Component {
 
     render() {
 
-        const { firstButtonName = "IMPORT", secondButtonName = "ADD", searchPlaceHolder, firstButtonLoader = false, secondButtonLoader = false, searchLoader = false,
-            onSearch, onClickFirst, onClickSecond, userSelected, isUserData = true, onlySelectAndAdd = false, allSelect = false, onSearchDropdownChange,
-            searchDropdownPlaceholder, searchDropdownData } = this.props
+        const { firstButtonName = "IMPORT", secondButtonName = "ADD", searchPlaceHolder, firstButtonLoader = false,
+            secondButtonLoader = false, searchLoader = false, onSearch, onClickFirst, onClickSecond, userSelected,
+            isUserData = true, onlySelectAndAdd = false, allSelect = false, onSearchDropdownSelect, searchDropdownPlaceholder,
+            searchDropdownData, onChangeSearchDropdown } = this.props
+
         let startActionPoint = !isUserData ? 3 : 0
         let endActionPoint = 5
         if (allSelect) {
@@ -111,7 +113,7 @@ class UserSearch extends Component {
 
                             </>
 
-                            : < SearchDropdown onChange={onSearchDropdownChange} placeholder={searchDropdownPlaceholder} searchData={searchDropdownData} />
+                            : < SearchDropdown onSelect={onSearchDropdownSelect} placeholder={searchDropdownPlaceholder} searchData={searchDropdownData} onChange={onChangeSearchDropdown} />
                     }
 
                 </div>
