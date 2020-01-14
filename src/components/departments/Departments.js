@@ -384,6 +384,16 @@ class Departments extends Component {
 
     }
 
+    onSearchDropdownSelect = () =>{
+        console.log('SearchDropdownSelect')
+    }
+
+    onChangeSearchDropdown =() =>{
+        console.log('onChangeSearchDropdown')
+    }
+
+
+
     render() {
         const {departmentColumnData, departmentsData, addableUsersData, totalUsers, addedUsersData, tableColumnsData, viewDecider, commonViewLoader, totalAddableUsers, totalAllSelectedUsers, commonViewHeader} = this.props.departmentReducer;
 
@@ -502,6 +512,11 @@ class Departments extends Component {
                     //boolean value to shift to CommonCreationView
                                          commonViewLoader={commonViewLoader}
                     //boolean value for viewChanging - loader
+                                         allSelectedUsersOnSearchDropdownSelect={this.onSearchDropdownSelect}
+                                         allSelectedUsersSearchDropdownPlaceholder={'Search and Add'}
+                                         allSelectedUsersSearchDropdownData={[]}
+                                         allSelectedUsersOnChangeSearchDropdown={this.onChangeSearchDropdown}
+
                     // *end of CommonCreationView props*
                 />
             </div>

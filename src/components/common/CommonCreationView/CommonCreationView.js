@@ -4,6 +4,7 @@ import AddUsersCommonCard from '../../common/AddUsersCommonCard/AddUsersCommonCa
 import AllUserSelect from "../../allUserSelect/allUserSelect";
 import AddUsersPopUp from '../../common/AddUsersPopUp/AddUsersPopUp'
 import isEmpty from 'lodash/isEmpty'
+import UserSearch from "../UserSearch/userSearch";
 
 class CommonCreationView extends Component {
 
@@ -11,7 +12,7 @@ class CommonCreationView extends Component {
         const {commonCreationViewHeaderName, commonCreationViewBackButtonClick, backButton = true, viewDecider = 0,commonViewLoader = false} = this.props;
         const {addUsersCommonCardButtonClick} = this.props
         const {allSelectedUsersHeadingsData, allSelectedUsersUsersData, allSelectedUsersTotalUsers, allSelectedUsersPlaceHolder = `Search Department`,allSelectedUsersFirstButtonName = `Add Selected`,allSelectedUsersIsUserData = true, allSelectedUsersOnChangeCheckBox,allSelectedUsersOnlySelectAndAdd = true,allSelectedUsersFirstButtonClick,
-            allSelectedUsersOnClickHeadingColumn,allSelectedUsersOnChangeRowsPerPage,allSelectedUsersChangePage,allSelectedUsersDepartmentSearchData,allSelectedUsersCurrentPageNumber,allSelectedUsersAllSelect} = this.props;
+            allSelectedUsersOnClickHeadingColumn,allSelectedUsersOnChangeRowsPerPage,allSelectedUsersChangePage,allSelectedUsersDepartmentSearchData,allSelectedUsersCurrentPageNumber,allSelectedUsersAllSelect,allSelectedUsersOnSearchDropdownSelect,allSelectedUsersSearchDropdownPlaceholder,allSelectedUsersSearchDropdownData,allSelectedUsersOnChangeSearchDropdown} = this.props;
         const {showAddUsersPopUp, addUsersPopUpTitle, addUsersPopUpClose,addUsersPopUpPlaceHolder,addUsersPopUpFirstButtonName, addUsersPopUpFirstButtonClick, addUsersPopUpOnChangeCheckBox, addUsersPopUpTableColumnsData, addUsersPopUpUsersData, addUsersPopUpTotalUsers, addUsersPopUpIsUserData, addUsersPopUpOnlySelectAndAdd,
             addUsersOnClickHeadingColumn,addUsersOnChangeRowsPerPage,addUsersChangePage,addUsersDepartmentSearchData,addUsersCurrentPageNumber
         } = this.props
@@ -48,6 +49,9 @@ class CommonCreationView extends Component {
                                        onSearch={allSelectedUsersDepartmentSearchData}
                                        currentPageNumber={allSelectedUsersCurrentPageNumber}
                                        allSelect={true}
+                                       onSearchDropdownSelect={allSelectedUsersOnSearchDropdownSelect} searchDropdownPlaceholder={allSelectedUsersSearchDropdownPlaceholder}
+                                       searchDropdownData={allSelectedUsersSearchDropdownData} onChangeSearchDropdown={allSelectedUsersOnChangeSearchDropdown}
+
                         />
                     </div> : ''
                 }
