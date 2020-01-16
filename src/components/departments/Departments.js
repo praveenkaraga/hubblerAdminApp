@@ -394,11 +394,11 @@ class Departments extends Component {
     }
 
     importUsersClick = () => {
-        this.props.commonDepartmentAction({departmentImportUsersVisibility: true})
+        this.props.commonTeamReducerAction({importUsersPopUpVisiblity: true})
     }
 
     importUsersModalCloseHandler = () => {
-        this.props.commonDepartmentAction({departmentImportUsersVisibility: false})
+        this.props.commonTeamReducerAction({importUsersPopUpVisiblity: false})
     }
 
     startUploadHandler = () => {
@@ -422,7 +422,7 @@ class Departments extends Component {
 
         const columnData = tableColumnsData ? filter(tableColumnsData, ele => ele._id !== 'departments') : [];
 
-        const {sampleExcelFile, uploadPopUpData, uploadPopUpVisibility, startUploadStatus,uploadFileStatus,importUsersUploadResponseData,isFileUploaded} = this.props.teamViewReducer;
+        const {importUsersPopUpVisiblity,sampleExcelFile, uploadPopUpData, uploadPopUpVisibility, startUploadStatus,uploadFileStatus,importUsersUploadResponseData,isFileUploaded} = this.props.teamViewReducer;
 
         const {creationPopUpVisibility, showAddUsersPopUp, commonCreationViewHeaderName, changeToCreatedView} = this.state;
         return (
@@ -442,7 +442,7 @@ class Departments extends Component {
                                    onSearch={this.departmentSearchData}
                                    currentPageNumber={this.state.currentPageNumber}
                                    onClickTableRow={this.onRowThisClick}/>
-                    <ImportUsersPopUp visible={departmentImportUsersVisibility}
+                    <ImportUsersPopUp visible={importUsersPopUpVisiblity}
                                       secondButtonClickHandler={this.props.onClickOfDownloadExcel}
                                       sampleExcelFile={sampleExcelFile}
                                       thirdButtonClickHandler={this.importUsersModalCloseHandler}
@@ -516,7 +516,7 @@ class Departments extends Component {
                     //function that gets invoked for onChangeRowsPerPage of AllUsersSelect
                                          allSelectedUsersChangePage={this.allSelectedUsersChangePage}
                     //function that gets invoked for goNextPage of AllUsersSelect
-                                         allSelectedUsersDepartmentSearchData={this.allSelectedUsersDepartmentSearchData}
+                                         allSelectedUsersSearchData={this.allSelectedUsersDepartmentSearchData}
                     //function that gets invoked for onSearch of AllUsersSelect
                                          allSelectedUsersCurrentPageNumber={this.state.allSelectedUsersCurrentPageNumber}
                     //value for currentPageNumber of AllUsersSelect
@@ -544,7 +544,7 @@ class Departments extends Component {
                     //function that gets invoked for onChangeRowsPerPage of AllUsersSelect of AddUsers Component
                                          addUsersChangePage={this.addUsersChangePage}
                     //function that gets invoked for goNextPage of AllUsersSelect of AddUsers Component
-                                         addUsersDepartmentSearchData={this.addUsersDepartmentSearchData}
+                                         addUsersSearchData={this.addUsersDepartmentSearchData}
                     //function that gets invoked for onSearch of AllUsersSelect of AddUsers Component
                                          addUsersCurrentPageNumber={this.state.addUsersCurrentPageNumber}
                     //value for currentPageNumber of AllUsersSelect of AddUsers Component

@@ -200,13 +200,13 @@ class ChangeViewRouting extends Component {
                                 addUsersOnChangeRowsPerPage={this.addUsersOnChangeRowsPerPage}
                                 addUsersChangePage={this.addUsersChangePage}
                                 allSelectedUsersIsUserData={true}
-                                addUsersDepartmentSearchData={this.addUsersDepartmentSearchData}
+                                addUsersSearchData={this.addUsersDepartmentSearchData}
                                 addUsersCurrentPageNumber={this.state.addUsersCurrentPageNumber}
                                 allSelectedUsersFirstButtonClick={this.allSelectedUsersFirstButtonClick}
                                 allSelectedUsersOnClickHeadingColumn={this.allSelectedUsersOnClickHeadingColumn}
                                 allSelectedUsersOnChangeRowsPerPage={this.allSelectedUsersOnChangeRowsPerPage}
                                 allSelectedUsersChangePage={this.allSelectedUsersChangePage}
-                                allSelectedUsersDepartmentSearchData={this.allSelectedUsersDepartmentSearchData}
+                                allSelectedUsersSearchData={this.allSelectedUsersDepartmentSearchData}
                                 allSelectedUsersCurrentPageNumber={this.state.allSelectedUsersCurrentPageNumber}
                                 allSelectedUsersPlaceHolder={'Search Department'}
                                 allSelectedUsersFirstButtonName={`Add Selected`}

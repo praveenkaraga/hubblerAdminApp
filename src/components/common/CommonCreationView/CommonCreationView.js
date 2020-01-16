@@ -12,9 +12,9 @@ class CommonCreationView extends Component {
         const {commonCreationViewHeaderName, commonCreationViewBackButtonClick, backButton = true, viewDecider = 0,commonViewLoader = false} = this.props;
         const {addUsersCommonCardButtonClick} = this.props
         const {allSelectedUsersHeadingsData, allSelectedUsersUsersData, allSelectedUsersTotalUsers, allSelectedUsersPlaceHolder ,allSelectedUsersFirstButtonName ,allSelectedUsersIsUserData , allSelectedUsersOnChangeCheckBox,allSelectedUsersOnlySelectAndAdd,allSelectedUsersFirstButtonClick,
-            allSelectedUsersOnClickHeadingColumn,allSelectedUsersOnChangeRowsPerPage,allSelectedUsersChangePage,allSelectedUsersDepartmentSearchData,allSelectedUsersCurrentPageNumber,allSelectedUsersAllSelect,allSelectedUsersOnSearchDropdownSelect,allSelectedUsersSearchDropdownPlaceholder,allSelectedUsersSearchDropdownData,allSelectedUsersOnChangeSearchDropdown} = this.props;
+            allSelectedUsersOnClickHeadingColumn,allSelectedUsersOnChangeRowsPerPage,allSelectedUsersChangePage,allSelectedUsersSearchData,allSelectedUsersCurrentPageNumber,allSelectedUsersAllSelect,allSelectedUsersOnSearchDropdownSelect,allSelectedUsersSearchDropdownPlaceholder,allSelectedUsersSearchDropdownData,allSelectedUsersOnChangeSearchDropdown} = this.props;
         const {showAddUsersPopUp, addUsersPopUpTitle, addUsersPopUpClose,addUsersPopUpPlaceHolder,addUsersPopUpFirstButtonName, addUsersPopUpFirstButtonClick, addUsersPopUpOnChangeCheckBox, addUsersPopUpTableColumnsData, addUsersPopUpUsersData, addUsersPopUpTotalUsers, addUsersPopUpIsUserData, addUsersPopUpOnlySelectAndAdd,
-            addUsersOnClickHeadingColumn,addUsersOnChangeRowsPerPage,addUsersChangePage,addUsersDepartmentSearchData,addUsersCurrentPageNumber
+            addUsersOnClickHeadingColumn,addUsersOnChangeRowsPerPage,addUsersChangePage,addUsersSearchData,addUsersCurrentPageNumber
         } = this.props
 
         return (
@@ -45,7 +45,7 @@ class CommonCreationView extends Component {
                                        headingClickData={allSelectedUsersOnClickHeadingColumn}
                                        goPrevPage={() => allSelectedUsersChangePage(-1)}
                                        goNextPage={() => allSelectedUsersChangePage(1)}
-                                       onSearch={allSelectedUsersDepartmentSearchData}
+                                       onSearch={allSelectedUsersSearchData}
                                        currentPageNumber={allSelectedUsersCurrentPageNumber}
                                        allSelect={allSelectedUsersAllSelect}
                                        onSearchDropdownSelect={allSelectedUsersOnSearchDropdownSelect} searchDropdownPlaceholder={allSelectedUsersSearchDropdownPlaceholder}
@@ -70,7 +70,7 @@ class CommonCreationView extends Component {
                                    addUsersOnClickHeadingColumn={addUsersOnClickHeadingColumn}
                                    addUsersOnChangeRowsPerPage={addUsersOnChangeRowsPerPage}
                                    addUsersChangePage={addUsersChangePage}
-                                   addUsersDepartmentSearchData={addUsersDepartmentSearchData}
+                                   addUsersSearchData={addUsersSearchData}
                                    addUsersCurrentPageNumber={addUsersCurrentPageNumber}/>
                                    : ''}
 
