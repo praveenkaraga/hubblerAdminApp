@@ -14,7 +14,11 @@ import {
     getAddSelectedUsersPostedData,
     getAddableUsersData,
     getTableColumnsData,
-    getCommonViewHeaderName, onClickOfDownloadExcel, getImportUserUploadDetails, commonTeamReducerAction,patchImportUsersData
+    getCommonViewHeaderName,
+    onClickOfDownloadExcel,
+    getImportUserUploadDetails,
+    commonTeamReducerAction,
+    patchImportUsersData
 } from "../../store/actions/actions";
 import AllUserSelect from '../allUserSelect/allUserSelect'
 import filter from "lodash/filter";
@@ -260,6 +264,7 @@ class Departments extends Component {
         const {rowsPerPage, activeheading, sortingType} = this.state
         const searchData = e.target.value
         this.props.getDepartmentData(rowsPerPage, 1, searchData, activeheading, sortingType)
+        this.props.commonDepartmentAction({currentPageNumber: 1, searchData, searchLoader: true})
         this.setState({
             searchData,
             currentPageNumber: 1
@@ -313,6 +318,8 @@ class Departments extends Component {
         const {allSelectedUsersRowsPerPage, allSelectedUsersActiveHeading, allSelectedUsersSortingType} = this.state
         const searchData = e.target.value
         this.props.getAddSelectedUsersPostedData(createdDepartmentData.id, allSelectedUsersRowsPerPage, 1, searchData, allSelectedUsersActiveHeading, allSelectedUsersSortingType)
+        this.props.commonDepartmentAction({ allSelectedUsersCurrentPageNumber :1,allSelectedUsersSearchData : searchData, allSelectedUsersSearchLoader: true})
+
         this.setState({
             searchData,
             allSelectedUsersCurrentPageNumber: 1
@@ -359,6 +366,8 @@ class Departments extends Component {
         const {addUsersRowsPerPage, addUsersActiveHeading, addUsersSortingType} = this.state;
         const searchData = e.target.value
         this.props.getAddableUsersData(createdDepartmentData.id, addUsersRowsPerPage, 1, searchData, addUsersActiveHeading, addUsersSortingType)
+        this.props.commonDepartmentAction({searchData,addUsersSearchLoader: true})
+
         this.setState({
             searchData,
             addUsersCurrentPageNumber: 1
@@ -381,8 +390,6 @@ class Departments extends Component {
         // await this.props.getCommonViewHeaderName(rowData._id)
         this.props.getTableColumnsData();
         this.props.getAddSelectedUsersPostedData(rowData._id)
-        console.log(rowData)
-
     }
 
     onSearchDropdownSelect = () => {
@@ -406,7 +413,7 @@ class Departments extends Component {
         this.props.getImportUserUploadDetails()
     }
 
-    patchImportUserData = (id, mappings,skipFirstRow,uploadType) => {
+    patchImportUserData = (id, mappings, skipFirstRow, uploadType) => {
         let patchData = {
             mappings: mappings,
             skip_first_row: skipFirstRow,
@@ -418,11 +425,11 @@ class Departments extends Component {
 
 
     render() {
-        const {departmentColumnData, departmentsData, addableUsersData, totalUsers, addedUsersData, tableColumnsData, viewDecider, commonViewLoader, totalAddableUsers, totalAllSelectedUsers, commonViewHeader, departmentImportUsersVisibility} = this.props.departmentReducer;
+        const {departmentColumnData, departmentsData, addableUsersData, totalUsers, addedUsersData, tableColumnsData, viewDecider, commonViewLoader, totalAddableUsers, totalAllSelectedUsers, commonViewHeader, searchLoader,allSelectedUsersSearchLoader,addUsersSearchLoader} = this.props.departmentReducer;
 
         const columnData = tableColumnsData ? filter(tableColumnsData, ele => ele._id !== 'departments') : [];
 
-        const {importUsersPopUpVisiblity,sampleExcelFile, uploadPopUpData, uploadPopUpVisibility, startUploadStatus,uploadFileStatus,importUsersUploadResponseData,isFileUploaded} = this.props.teamViewReducer;
+        const {importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpData, uploadPopUpVisibility, startUploadStatus, uploadFileStatus, importUsersUploadResponseData, isFileUploaded} = this.props.teamViewReducer;
 
         const {creationPopUpVisibility, showAddUsersPopUp, commonCreationViewHeaderName, changeToCreatedView} = this.state;
         return (
@@ -441,7 +448,9 @@ class Departments extends Component {
                                    goNextPage={() => this.changePage(1)}
                                    onSearch={this.departmentSearchData}
                                    currentPageNumber={this.state.currentPageNumber}
-                                   onClickTableRow={this.onRowThisClick}/>
+                                   onClickTableRow={this.onRowThisClick}
+                                   searchLoader={searchLoader}
+                                   />
                     <ImportUsersPopUp visible={importUsersPopUpVisiblity}
                                       secondButtonClickHandler={this.props.onClickOfDownloadExcel}
                                       sampleExcelFile={sampleExcelFile}
@@ -518,6 +527,8 @@ class Departments extends Component {
                     //function that gets invoked for goNextPage of AllUsersSelect
                                          allSelectedUsersSearchData={this.allSelectedUsersDepartmentSearchData}
                     //function that gets invoked for onSearch of AllUsersSelect
+                                         allSelectedUsersSearchLoader={allSelectedUsersSearchLoader}
+                    //boolean value for the search loader in AllUsers of AllUsersSelect
                                          allSelectedUsersCurrentPageNumber={this.state.allSelectedUsersCurrentPageNumber}
                     //value for currentPageNumber of AllUsersSelect
                                          showAddUsersPopUp={showAddUsersPopUp}
@@ -546,6 +557,8 @@ class Departments extends Component {
                     //function that gets invoked for goNextPage of AllUsersSelect of AddUsers Component
                                          addUsersSearchData={this.addUsersDepartmentSearchData}
                     //function that gets invoked for onSearch of AllUsersSelect of AddUsers Component
+                                         addUsersSearchLoader={addUsersSearchLoader}
+                    //boolean value for search loader of AddUsers of AllUsersSelect component
                                          addUsersCurrentPageNumber={this.state.addUsersCurrentPageNumber}
                     //value for currentPageNumber of AllUsersSelect of AddUsers Component
                                          changeToCreatedView={changeToCreatedView}
@@ -585,7 +598,7 @@ const mapDispatchToProps = dispatch => {
             getCommonViewHeaderName,
             onClickOfDownloadExcel,
             getImportUserUploadDetails,
-            commonTeamReducerAction,patchImportUsersData
+            commonTeamReducerAction, patchImportUsersData
         },
         dispatch
     );
@@ -596,6 +609,9 @@ export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
 )(Departments))
+
+
+
 
 
 

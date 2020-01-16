@@ -17,6 +17,10 @@ const initialState = {
     createdDepartmentData : {},
     departmentImportUsersVisibility:false,
     startUploadStatus:false,
+    searchLoader: false,
+    allSelectedUsersSearchLoader:false,
+    addUsersSearchLoader:false,
+
 }
 
 export const departmentReducer = (state = initialState, action) => {
@@ -37,6 +41,7 @@ export const departmentReducer = (state = initialState, action) => {
                 ...state,
                 departmentsData: d,
                 totalUsers,
+                searchLoader: false,
             };
 
         case actionTypes.COMMON_DEPARTMENT_ACTION :
@@ -54,7 +59,6 @@ export const departmentReducer = (state = initialState, action) => {
         case actionTypes.GET_TABLE_COLUMN:
             const tableColumnDataInitial = action.payload.data;
             const tableColumnData = tableColumnDataInitial ? action.payload.data.result : [];
-            console.log(state)
             return {
                 ...state,
                 tableColumnsData: tableColumnData
@@ -86,6 +90,7 @@ export const departmentReducer = (state = initialState, action) => {
                 addedUsersData: addedUsersInitialData ? addedUsersInitialData : [],
                 viewDecider: decideView,
                 commonViewLoader: false,
+                allSelectedUsersSearchLoader:false,
                 totalAllSelectedUsers
             };
 
@@ -98,7 +103,7 @@ export const departmentReducer = (state = initialState, action) => {
                 ...state,
                 addableUsersData: userDataCopy,
                 totalAddableUsers,
-                searchLoader: false
+                addUsersSearchLoader:false,
             }
 
         case actionTypes.GET_COMMON_VIEW_HEADER_NAME:

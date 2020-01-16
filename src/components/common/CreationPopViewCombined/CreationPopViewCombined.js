@@ -8,7 +8,7 @@ class CreationPopViewCombined extends Component {
         const {creationPopUpVisibility, creationPopUpTitle, creationPopFirstButtonName, creationPopSecondButtonName, creationPopFirstButtonHandler, creationPopSecondButtonHandler, creationPopUpFirstFieldChangeHandler, customField, changeToCreatedView,fieldHeader,fieldPlaceHolder,secondFieldHeader,creationPopUpSecondFieldChangeHandler,thirdFieldHeader,creationPopUpThirdFieldChangeHandler,inputValue,secondButtonDisable,afterClose} = this.props;
         const {commonCreationViewHeaderName, commonCreationViewBackButtonClick, backButton, viewDecider, addUsersCommonCardButtonClick, allSelectedUsersHeadingsData, allSelectedUsersUsersData, allSelectedUsersTotalUsers, allSelectedUsersPlaceHolder, allSelectedUsersFirstButtonName, allSelectedUsersIsUserData, allSelectedUsersOnChangeCheckBox, allSelectedUsersOnlySelectAndAdd, allSelectedUsersFirstButtonClick, showAddUsersPopUp, addUsersPopUpTitle, addUsersPopUpClose, addUsersPopUpPlaceHolder, addUsersPopUpFirstButtonName, addUsersPopUpFirstButtonClick, addUsersPopUpOnChangeCheckBox, addUsersPopUpTableColumnsData, addUsersPopUpUsersData, addUsersPopUpTotalUsers, addUsersPopUpIsUserData, addUsersPopUpOnlySelectAndAdd,
             allSelectedUsersOnClickHeadingColumn,allSelectedUsersOnChangeRowsPerPage,allSelectedUsersChangePage,allSelectedUsersSearchData,allSelectedUsersCurrentPageNumber,
-            addUsersOnClickHeadingColumn,addUsersOnChangeRowsPerPage,addUsersChangePage,addUsersSearchData,addUsersCurrentPageNumber,commonViewLoader,allSelectedUsersAllSelect,allSelectedUsersOnSearchDropdownSelect,allSelectedUsersSearchDropdownPlaceholder,allSelectedUsersSearchDropdownData,allSelectedUsersOnChangeSearchDropdown
+            addUsersOnClickHeadingColumn,addUsersOnChangeRowsPerPage,addUsersChangePage,addUsersSearchData,addUsersCurrentPageNumber,commonViewLoader,allSelectedUsersAllSelect,allSelectedUsersOnSearchDropdownSelect,allSelectedUsersSearchDropdownPlaceholder,allSelectedUsersSearchDropdownData,allSelectedUsersOnChangeSearchDropdown,allSelectedUsersSearchLoader,addUsersSearchLoader
         } = this.props
         if (creationPopUpVisibility) {
             return (
@@ -53,6 +53,8 @@ class CreationPopViewCombined extends Component {
                                     allSelectedUsersSearchDropdownPlaceholder={allSelectedUsersSearchDropdownPlaceholder}
                                     allSelectedUsersSearchDropdownData={allSelectedUsersSearchDropdownData}
                                     allSelectedUsersOnChangeSearchDropdown={allSelectedUsersOnChangeSearchDropdown}
+                                    allSelectedUsersSearchLoader={allSelectedUsersSearchLoader}
+
 
                                     showAddUsersPopUp={showAddUsersPopUp} addUsersPopUpTitle={addUsersPopUpTitle}
                                     addUsersPopUpClose={addUsersPopUpClose}
@@ -70,6 +72,8 @@ class CreationPopViewCombined extends Component {
                                     addUsersChangePage={addUsersChangePage}
                                     addUsersSearchData={addUsersSearchData}
                                     addUsersCurrentPageNumber={addUsersCurrentPageNumber}
+                                    addUsersSearchLoader={addUsersSearchLoader}
+
                                     commonViewLoader={commonViewLoader}/>
             )
         } else return (
