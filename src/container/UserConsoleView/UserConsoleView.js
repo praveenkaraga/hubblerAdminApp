@@ -49,7 +49,7 @@ const routes = [
     },
     {
         path: "/departments",
-        main: () => <Departments/>,
+        main: () => <Departments />,
         name: 'Departments',
         link_name: 'departments',
         class_name: 'departments'
@@ -156,7 +156,6 @@ class UserConsoleView extends Component {
         const { activeLinkName } = this.props.firstReducer
         const { circlesData, customFieldsData } = this.props.userConsoleMainReducer
         const { creationPopUpVisibility, creationPopUpData, creationPopUpInputData } = this.state
-        console.log(this.props.history)
         return (
             <div className={'user-console-view'}>
                 <div className={'user-console-view-wrap'}>
@@ -222,7 +221,7 @@ class UserConsoleView extends Component {
                             <Route exact path={"/people/departments"} component={Departments} />
                             <Route path={"/people/circle/:id"} component={NodeOpenView} />
                             <Route path={"/people/field"} component={NodeOpenView} />
-                            <Route exact path={"/people/department/:id"} children={<ChangeViewRouting/>} />
+                            <Route exact path={"/people/department/:id"} children={<ChangeViewRouting />} />
                         </Switch>
                     </div>
                 </div>

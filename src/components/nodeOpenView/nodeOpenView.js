@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import {
-    getSingleCircleData
+    getSingleCircleData,
+    getCircleSuggestionData
 } from '../../store/actions/actions'
 import CommonCreationView from '../common/CommonCreationView/CommonCreationView'
 import { headingData } from '../../components/nodeOpenView/headingData'
@@ -41,14 +42,28 @@ class NodeOpenView extends Component {
     }
 
 
+    onChangeSearchDropdown = (searchData) => {
+        const { singleNodeId } = this.state
+        this.props.getCircleSuggestionData(singleNodeId, searchData)
+    }
+
+    onSearchDropdownSelect = (value) => {
+        console.log(value, "onChangeSearchDropdown")
+    }
 
     render() {
-        const { singleCircleName, singleCircleCount, singleCircleData } = this.props.userConsoleMainReducer
+        const { singleCircleName, singleCircleCount, singleCircleData, circleSuggestionData } = this.props.userConsoleMainReducer
 
         return (<CommonCreationView commonCreationViewHeaderName={singleCircleName}
             viewDecider={singleCircleCount ? 1 : 0}
             allSelectedUsersUsersData={singleCircleData}
-            allSelectedUsersHeadingsData={headingData} backButton={false} />);
+            allSelectedUsersHeadingsData={headingData} backButton={false}
+            allSelectedUsersSearchDropdownPlaceholder={"Enter Name and Add"}
+            allSelectedUsersOnChangeSearchDropdown={this.onChangeSearchDropdown}
+            allSelectedUsersOnSearchDropdownSelect={this.onSearchDropdownSelect}
+            allSelectedUsersSearchDropdownData={circleSuggestionData}
+
+        />)
     }
 }
 
@@ -61,7 +76,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return bindActionCreators(
         {
-            getSingleCircleData
+            getSingleCircleData,
+            getCircleSuggestionData
         },
         dispatch
     );

@@ -1,7 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 
-Checkout the code from git and do
+<!-- Checkout the code from git and do
 
 ## `npm install`
 
@@ -76,7 +76,7 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<p>&nbsp;</p>
+<p>&nbsp;</p> -->
 
 
 # Components Documentation :)

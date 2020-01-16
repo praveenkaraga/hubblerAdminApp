@@ -36,8 +36,8 @@ export const getSingleCircleData = (id, perPageRows, currentPage, searchData, he
 }
 
 
-export const getCircleSuggestionData = (searchData) => {
-    const payload = getCircleSuggestionDataApi(searchData)
+export const getCircleSuggestionData = (id, searchData) => {
+    const payload = getCircleSuggestionDataApi(id, searchData)
     return {
         type: actionTypes.GET_CIRCLE_SUGGESTION_DATA,
         payload
