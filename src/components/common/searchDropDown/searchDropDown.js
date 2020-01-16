@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { AutoComplete } from 'antd';
+import './searchDropDown.scss'
 
 const { Option } = AutoComplete;
 class SearchDropdown extends Component {
@@ -20,19 +21,33 @@ class SearchDropdown extends Component {
     onOptionSelect = (value) => {
         const { onSelect } = this.props
         if (onSelect) {
-            this.props.onChange(value)
+            this.props.onSelect(value)
         }
     }
 
 
     render() {
-        const result = ["Zac", "Praveen", "Manish", "Anusha", "Nis"] // { result } = this.state;
-        const { placeholder = "Search and Add", searchData = [] } = this.props //onSelect, placeholder, searchData, onChange
-        console.log(searchData, "searchData")
-        const children = searchData.map(data => <Option key={data._id}><div>{data.name}</div></Option>);
+        // { result } = this.state;
+        const { placeholder = "Search and Add", searchData = [] } = this.props
+        const children = searchData.map(data => <Option key={data._id} name={data.name}>
+            <div className="name_with_profile">
+                {data ?
+                    data["profile_image"] ?
+                        <img src={data["profile_image"]["thumbnail"]} alt="Profile Pic" /> :
+                        <div className="no_profile_pic"><p>{data.firstname.substring(0, 2)}</p></div>
+                    : ""}
+                <div className="name_with_designation">
+                    <div className="only_name">{data.name}</div>
+                    {
+                        data["designations"] ? data["designations"].length ? <div className="only_designation">{data["designations"] ? data["designations"][0]["name"] : ""}</div> : "" : ""
+                    }
+                    {/* <div className="only_designation">{data["designations"] ? data["designations"][0]["name"] : ""}</div> */}
+                </div>
+            </div>
+        </Option>);
         return (
             <div>
-                <AutoComplete style={{ width: 200 }} onSelect={this.onOptionSelect} onSearch={this.handleSearch} placeholder={placeholder} optionLabelProp="value">
+                <AutoComplete className="searchDropdown" style={{ width: 200 }} onSelect={this.onOptionSelect} onSearch={this.handleSearch} placeholder={placeholder} optionLabelProp="name">
                     {children}
                 </AutoComplete>
             </div>
