@@ -210,6 +210,7 @@ class ChangeViewRouting extends Component {
                                 allSelectedUsersCurrentPageNumber={this.state.allSelectedUsersCurrentPageNumber}
                                 allSelectedUsersPlaceHolder={'Search Department'}
                                 allSelectedUsersFirstButtonName={`Add Selected`}
+                                allSelectedUsersAllSelect={true}
 
             />
         )

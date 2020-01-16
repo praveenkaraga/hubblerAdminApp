@@ -47,7 +47,7 @@ class CommonCreationView extends Component {
                                        goNextPage={() => allSelectedUsersChangePage(1)}
                                        onSearch={allSelectedUsersDepartmentSearchData}
                                        currentPageNumber={allSelectedUsersCurrentPageNumber}
-                                       allSelect={true}
+                                       allSelect={allSelectedUsersAllSelect}
                                        onSearchDropdownSelect={allSelectedUsersOnSearchDropdownSelect} searchDropdownPlaceholder={allSelectedUsersSearchDropdownPlaceholder}
                                        searchDropdownData={allSelectedUsersSearchDropdownData} onChangeSearchDropdown={allSelectedUsersOnChangeSearchDropdown}
 

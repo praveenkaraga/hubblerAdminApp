@@ -14,7 +14,7 @@ import {
     getAddSelectedUsersPostedData,
     getAddableUsersData,
     getTableColumnsData,
-    getCommonViewHeaderName, onClickOfDownloadExcel,getImportUserUploadDetails,commonTeamReducerAction
+    getCommonViewHeaderName, onClickOfDownloadExcel, getImportUserUploadDetails, commonTeamReducerAction,patchImportUsersData
 } from "../../store/actions/actions";
 import AllUserSelect from '../allUserSelect/allUserSelect'
 import filter from "lodash/filter";
@@ -397,16 +397,24 @@ class Departments extends Component {
         this.props.commonDepartmentAction({departmentImportUsersVisibility: true})
     }
 
-    importUsersModalCloseHandler=()=>{
-        this.props.commonDepartmentAction({departmentImportUsersVisibility : false})
+    importUsersModalCloseHandler = () => {
+        this.props.commonDepartmentAction({departmentImportUsersVisibility: false})
     }
 
-    startUploadHandler = () =>{
+    startUploadHandler = () => {
         this.props.commonTeamReducerAction({startUploadStatus: 'true'})
         this.props.getImportUserUploadDetails()
     }
 
-
+    patchImportUserData = (id, mappings,skipFirstRow,uploadType) => {
+        let patchData = {
+            mappings: mappings,
+            skip_first_row: skipFirstRow,
+            upload_type: uploadType,
+        }
+        this.props.commonTeamReducerAction({uploadFileStatus: 'true'});
+        this.props.patchImportUsersData(id, patchData)
+    }
 
 
     render() {
@@ -414,7 +422,7 @@ class Departments extends Component {
 
         const columnData = tableColumnsData ? filter(tableColumnsData, ele => ele._id !== 'departments') : [];
 
-        const {sampleExcelFile,uploadPopUpData,uploadPopUpVisibility,startUploadStatus} = this.props.teamViewReducer;
+        const {sampleExcelFile, uploadPopUpData, uploadPopUpVisibility, startUploadStatus,uploadFileStatus,importUsersUploadResponseData,isFileUploaded} = this.props.teamViewReducer;
 
         const {creationPopUpVisibility, showAddUsersPopUp, commonCreationViewHeaderName, changeToCreatedView} = this.state;
         return (
@@ -442,7 +450,11 @@ class Departments extends Component {
                                       fourthButtonLoaderStatus={startUploadStatus}
                                       importUsersUploadPopUpVisibility={uploadPopUpVisibility}
                                       uploadPopUpData={uploadPopUpData}
-                                      importUsersPopUpCloseHandler={ () => this.props.commonTeamReducerAction({uploadPopUpVisibility: false})}
+                                      importUsersPopUpCloseHandler={() => this.props.commonTeamReducerAction({uploadPopUpVisibility: false})}
+                                      patchImportUsersData={this.patchImportUserData}
+                                      importUsersUploadResponseData={importUsersUploadResponseData}
+                                      uploadFileLoadingStatus={uploadFileStatus}
+                                      isFileUploaded={isFileUploaded}
                     />
                 </div> : ""}
 
@@ -484,7 +496,7 @@ class Departments extends Component {
                     //function that gets invoked on click of the addUsersCommonCardButton
                                          allSelectedUsersHeadingsData={columnData}
                     //column data (array) for allHeadingsData of AllUsersSelect
-                                         allSelectedUsersUsersData={addedUsersData ? addedUsersData.result : [] }
+                                         allSelectedUsersUsersData={addedUsersData ? addedUsersData.result : []}
                     //users data (array) for userData AllUsersSelect
                                          allSelectedUsersTotalUsers={totalAllSelectedUsers}
                     //total count of users for totalUsers AllUsersSelect
@@ -568,7 +580,12 @@ const mapDispatchToProps = dispatch => {
             postCreateDeptData,
             postAddSelectedUsers,
             getAddSelectedUsersPostedData,
-            getAddableUsersData, getTableColumnsData, getCommonViewHeaderName, onClickOfDownloadExcel,getImportUserUploadDetails,commonTeamReducerAction
+            getAddableUsersData,
+            getTableColumnsData,
+            getCommonViewHeaderName,
+            onClickOfDownloadExcel,
+            getImportUserUploadDetails,
+            commonTeamReducerAction,patchImportUsersData
         },
         dispatch
     );
