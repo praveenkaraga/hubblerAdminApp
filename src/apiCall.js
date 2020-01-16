@@ -143,8 +143,8 @@ export const getHeaderName = (id) => {
 };
 
 
-export const getCircleSuggestionDataApi = (searchData) => {
-    return axios.get(`https://console.hubblerapp.com/choose-users/circles/58dcb91dd517f03e48399933/?start=1&offset=20&sortKey=name&sortOrder=dsc&filterKey=name&filterQuery=${searchData}`)
+export const getCircleSuggestionDataApi = (id, searchData) => {
+    return axios.get(`/choose-users/circles/${id}/?start=1&offset=20&sortKey=name&sortOrder=dsc&filterKey=name&filterQuery=${searchData || ""}`)
 }
 
 

@@ -9,7 +9,8 @@ const intialState = {
     customFieldsData: [],
     singleCircleName: [],
     singleCircleCount: 0,
-    singleCircleData: []
+    singleCircleData: [],
+    circleSuggestionData: []
 }
 
 export const userConsoleMainReducer = (state = intialState, action) => {
@@ -48,9 +49,12 @@ export const userConsoleMainReducer = (state = intialState, action) => {
 
 
         case actionTypes.GET_CIRCLE_SUGGESTION_DATA:
-            console.log(action.payload)
+            // console.log(action.payload)
+            const circleSuggestionDataInitial = action.payload.data.result
+            // console.log(circleSuggestionDataInitial, "circleSuggestionDataInitial")
             return {
-                ...state
+                ...state,
+                circleSuggestionData: circleSuggestionDataInitial
             }
     }
 

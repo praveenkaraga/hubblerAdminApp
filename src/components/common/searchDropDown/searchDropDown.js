@@ -6,29 +6,33 @@ class SearchDropdown extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            result: [],
-            value: ""
+            result: []
         }
     }
 
     handleSearch = value => {
-        let result;
-        if (!value || value.indexOf('@') >= 0) {
-            result = [];
-        } else {
-            result = ['gmail.com', '163.com', 'qq.com'].map(domain => `${value}@${domain}`);
+        const { onChange } = this.props
+        if (onChange) {
+            this.props.onChange(value)
         }
-        this.setState({ result });
     };
+
+    onOptionSelect = (value) => {
+        const { onSelect } = this.props
+        if (onSelect) {
+            this.props.onChange(value)
+        }
+    }
 
 
     render() {
-        const { result, value } = this.state;
-        const { onSearchDropdownSelect, searchDropdownPlaceholder, searchDropdownData, onChangeSearchDropdown } = this.props //onSelect, placeholder, searchData, onChange
-        const children = result.map(email => <Option key={email}><div>{email}</div></Option>);
+        const result = ["Zac", "Praveen", "Manish", "Anusha", "Nis"] // { result } = this.state;
+        const { placeholder = "Search and Add", searchData = [] } = this.props //onSelect, placeholder, searchData, onChange
+        console.log(searchData, "searchData")
+        const children = searchData.map(data => <Option key={data._id}><div>{data.name}</div></Option>);
         return (
             <div>
-                <AutoComplete style={{ width: 200 }} onSearch={this.handleSearch} placeholder="Enter Name to Add" optionLabelProp="value">
+                <AutoComplete style={{ width: 200 }} onSelect={this.onOptionSelect} onSearch={this.handleSearch} placeholder={placeholder} optionLabelProp="value">
                     {children}
                 </AutoComplete>
             </div>
