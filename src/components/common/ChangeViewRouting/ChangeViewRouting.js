@@ -23,7 +23,18 @@ class ChangeViewRouting extends Component {
     constructor(props){
         super (props)
         this.state ={
-            showAddUsersPopUp : false
+            showAddUsersPopUp : false,
+            usersIdArray: [],
+            addUsersCurrentPageNumber: 1,
+            addUsersRowsPerPage: 30,
+            addUsersActiveHeading: "",
+            addUsersSortingType: "",
+            addUsersSearchData: "",
+            allSelectedUsersCurrentPageNumber: 1,
+            allSelectedUsersRowsPerPage: 30,
+            allSelectedUsersActiveHeading: "",
+            allSelectedUsersSortingType: "",
+            allSelectedUsersSearchData: "",
         }
 
     }
@@ -57,6 +68,112 @@ class ChangeViewRouting extends Component {
         this.props.commonDepartmentAction({viewDecider: false})
     }
 
+    addUsersPopUpClose = () => {
+        this.setState({
+            showAddUsersPopUp: false
+        })
+    };
+
+    addUsersPopUpFirstButtonClick = () => { // onClickFirst
+        let data = {
+            users: this.state.usersIdArray,
+            _id: this.props.match.params.id
+        };
+        this.setState({
+            showAddUsersPopUp: false
+        })
+        this.props.postAddSelectedUsers(data);
+        this.props.commonDepartmentAction({commonViewLoader: true})
+        this.props.getAddSelectedUsersPostedData(this.props.match.params.id)
+    };
+
+    addUsersPopUpOnChangeCheckBox = (value) => { //onChangeAddUsersCheckBox
+        this.setState({
+            usersIdArray: value,
+        })
+    };
+
+    addUsersOnClickHeadingColumn = (activeHeading, sortingType) => {
+
+        const {addUsersRowsPerPage, addUsersSearchData, addUsersCurrentPageNumber} = this.state
+        this.props.getAddableUsersData(this.props.match.params.id, addUsersRowsPerPage, addUsersCurrentPageNumber, addUsersSearchData, activeHeading, sortingType)
+        this.setState({
+            addUsersActiveHeading: activeHeading,
+            sortingType
+        })
+    }
+
+    addUsersOnChangeRowsPerPage = (rowsPerPage) => {
+        this.props.getAddableUsersData(this.props.match.params.id, rowsPerPage, 1)
+        this.setState({
+            addUsersRowsPerPage :rowsPerPage,
+            addUsersCurrentPageNumber: 1
+        })
+    }
+
+    addUsersChangePage = (calcData) => {
+        const {addUsersCurrentPageNumber, addUsersRowsPerPage} = this.state
+        const goToPage = addUsersCurrentPageNumber + calcData
+        this.props.getAddableUsersData(this.props.match.params.id, addUsersRowsPerPage, goToPage)
+        this.setState({
+            addUsersCurrentPageNumber: goToPage
+        })
+    }
+
+    addUsersDepartmentSearchData = (e) => {
+        const {addUsersRowsPerPage, addUsersActiveHeading, addUsersSortingType} = this.state;
+        const searchData = e.target.value
+        this.props.getAddableUsersData(this.props.match.params.id, addUsersRowsPerPage, 1, searchData, addUsersActiveHeading, addUsersSortingType)
+        this.setState({
+            addUsersSearchData :searchData,
+            addUsersCurrentPageNumber: 1
+        })
+    }
+
+    allSelectedUsersFirstButtonClick = () => {
+        console.log('yet to write the function : allSelectedUsersFirstButtonClick')
+    }
+
+    allSelectedUsersOnClickHeadingColumn = (activeHeading, sortingType) => {
+        const {allSelectedUsersRowsPerPage, allSelectedUsersSearchData, allSelectedUsersCurrentPageNumber} = this.state
+        this.props.getAddSelectedUsersPostedData(this.props.match.params.id, allSelectedUsersRowsPerPage, allSelectedUsersCurrentPageNumber, allSelectedUsersSearchData, activeHeading, sortingType)
+        this.setState({
+            allSelectedUsersActiveHeading: activeHeading,
+            sortingType
+        })
+    }
+
+    allSelectedUsersOnChangeRowsPerPage = (rowsPerPage) => {
+        this.props.getAddSelectedUsersPostedData(this.props.match.params.id, rowsPerPage, 1)
+        this.setState({
+            allSelectedUsersRowsPerPage:rowsPerPage,
+            allSelectedUsersCurrentPageNumber: 1
+        })
+    }
+
+    allSelectedUsersChangePage = (calcData) => {
+        const {allSelectedUsersCurrentPageNumber, allSelectedUsersRowsPerPage} = this.state
+        const goToPage = allSelectedUsersCurrentPageNumber + calcData
+        this.props.getAddSelectedUsersPostedData(this.props.match.params.id, allSelectedUsersRowsPerPage, goToPage)
+        this.setState({
+            allSelectedUsersCurrentPageNumber: goToPage
+        })
+    }
+
+    allSelectedUsersDepartmentSearchData = (e) => {
+        const {allSelectedUsersRowsPerPage, allSelectedUsersActiveHeading, allSelectedUsersSortingType} = this.state
+        const searchData = e.target.value
+        this.props.getAddSelectedUsersPostedData(this.props.match.params.id, allSelectedUsersRowsPerPage, 1, searchData, allSelectedUsersActiveHeading, allSelectedUsersSortingType)
+        this.setState({
+            allSelectedUsersSearchData:searchData,
+            allSelectedUsersCurrentPageNumber: 1
+        })
+    }
+
+
+
+
+
     render() {
         const {name, viewDecider, addedUsersData, tableColumnsData, totalAllSelectedUsers, commonViewLoader, headerNameWhenRouted,addableUsersData,totalAddableUsers} = this.props.departmentReducer
         const columnData = tableColumnsData ? filter(tableColumnsData, ele => ele._id !== 'departments') : [];
@@ -73,8 +190,28 @@ class ChangeViewRouting extends Component {
                                 addUsersCommonCardButtonClick={this.addUsersCommonCardButtonClick}
                                 showAddUsersPopUp={this.state.showAddUsersPopUp}
                                 addUsersPopUpTableColumnsData={tableColumnsData}
+
                                 addUsersPopUpUsersData={addableUsersData}
-                                addUsersPopUpTotalUsers={totalAddableUsers}/>
+                                addUsersPopUpTotalUsers={totalAddableUsers}
+                                addUsersPopUpClose={this.addUsersPopUpClose}
+                                addUsersPopUpFirstButtonClick={this.addUsersPopUpFirstButtonClick}
+                                addUsersPopUpOnChangeCheckBox={this.addUsersPopUpOnChangeCheckBox}
+                                addUsersOnClickHeadingColumn={this.addUsersOnClickHeadingColumn}
+                                addUsersOnChangeRowsPerPage={this.addUsersOnChangeRowsPerPage}
+                                addUsersChangePage={this.addUsersChangePage}
+                                allSelectedUsersIsUserData={true}
+                                addUsersDepartmentSearchData={this.addUsersDepartmentSearchData}
+                                addUsersCurrentPageNumber={this.state.addUsersCurrentPageNumber}
+                                allSelectedUsersFirstButtonClick={this.allSelectedUsersFirstButtonClick}
+                                allSelectedUsersOnClickHeadingColumn={this.allSelectedUsersOnClickHeadingColumn}
+                                allSelectedUsersOnChangeRowsPerPage={this.allSelectedUsersOnChangeRowsPerPage}
+                                allSelectedUsersChangePage={this.allSelectedUsersChangePage}
+                                allSelectedUsersDepartmentSearchData={this.allSelectedUsersDepartmentSearchData}
+                                allSelectedUsersCurrentPageNumber={this.state.allSelectedUsersCurrentPageNumber}
+                                allSelectedUsersPlaceHolder={'Search Department'}
+                                allSelectedUsersFirstButtonName={`Add Selected`}
+
+            />
         )
     }
 }

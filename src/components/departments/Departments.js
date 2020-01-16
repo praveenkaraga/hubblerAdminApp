@@ -4,6 +4,7 @@ import './departments.scss'
 import {Modal, Input, Button} from 'antd';
 import 'antd/dist/antd.css';
 import {bindActionCreators} from "redux";
+import isEmpty from 'lodash/isEmpty'
 import {
     getDepartmentData,
     commonDepartmentAction,
@@ -13,18 +14,14 @@ import {
     getAddSelectedUsersPostedData,
     getAddableUsersData,
     getTableColumnsData,
-    getCommonViewHeaderName
+    getCommonViewHeaderName, onClickOfDownloadExcel,getImportUserUploadDetails,commonTeamReducerAction
 } from "../../store/actions/actions";
 import AllUserSelect from '../allUserSelect/allUserSelect'
 import filter from "lodash/filter";
 import CreationPopViewCombined from '../common/CreationPopViewCombined/CreationPopViewCombined'
-import {
-    Switch,
-    Route,
-    NavLink,
-    Redirect,
-    withRouter
-} from "react-router-dom";
+import {withRouter} from "react-router-dom";
+import ImportUsersPopUp from '../../components/common/ImportUsersPopUp/ImportUsersPopUp'
+
 
 class Departments extends Component {
     constructor(props) {
@@ -50,12 +47,14 @@ class Departments extends Component {
             addUsersActiveHeading: "",
             addUsersSortingType: "",
             addUsersSearchData: "",
+            importUsersPopUpVisibility: false
         }
     }
 
     componentDidMount() {
         this.props.getDeptTableColumnData();
         this.props.getDepartmentData(30)
+        this.props.onClickOfDownloadExcel()
     }
 
     handleOk = e => {
@@ -76,12 +75,11 @@ class Departments extends Component {
         this.setState({
             departmentName: e.target.value
         })
-    }
-
+    };
 
     onChangeCheckBox = (value) => {
         console.log(value)
-    }
+    };
 
     createDepartment() {
         let data = {name: this.state.departmentName};
@@ -94,11 +92,11 @@ class Departments extends Component {
 
     backToMainDepartmentView = () => {
         this.props.getDeptTableColumnData();
-        this.props.getDepartmentData(30)
+        this.props.getDepartmentData(30);
         this.setState({
             changeToDepartmentCreatedView: false
         })
-    }
+    };
 
     addFromUsersClick = () => {
         const {createdDepartmentData} = this.props.departmentReducer;
@@ -150,9 +148,12 @@ class Departments extends Component {
     };
 
 
-    creationPopSecondButtonHandler = (e) => {
+    creationPopSecondButtonHandler = async (e) => {
         let data = {name: this.state.commonCreationViewHeaderName};
-        this.props.postCreateDeptData(data);
+        await this.props.postCreateDeptData(data);
+        if (!isEmpty(this.props.departmentReducer.createdDepartmentData)) {
+            this.props.history.push(`/people/department/${this.props.departmentReducer.createdDepartmentData.id}`, {headerName: this.props.departmentReducer.createdDepartmentData.result.name})
+        }
         this.setState({
             changeToCreatedView: true,
             creationPopUpVisibility: false,
@@ -368,14 +369,14 @@ class Departments extends Component {
         console.log("nn")
     }
 
-    onRowThisClick =  (rowData) => {
+    onRowThisClick = (rowData) => {
         this.setState({
             changeToCreatedView: true,
             commonCreationViewHeaderName: rowData.departments
         })
-        this.props.history.push(`/people/department/${rowData._id}`,{  headerName :  rowData.departments })
+        this.props.history.push(`/people/department/${rowData._id}`, {headerName: rowData.departments})
 
-        this.props.commonDepartmentAction({commonViewLoader: true , headerNameWhenRouted :rowData.departments })
+        this.props.commonDepartmentAction({commonViewLoader: true, headerNameWhenRouted: rowData.departments})
 
         // await this.props.getCommonViewHeaderName(rowData._id)
         this.props.getTableColumnsData();
@@ -384,20 +385,36 @@ class Departments extends Component {
 
     }
 
-    onSearchDropdownSelect = () =>{
+    onSearchDropdownSelect = () => {
         console.log('SearchDropdownSelect')
     }
 
-    onChangeSearchDropdown =() =>{
+    onChangeSearchDropdown = () => {
         console.log('onChangeSearchDropdown')
     }
+
+    importUsersClick = () => {
+        this.props.commonDepartmentAction({departmentImportUsersVisibility: true})
+    }
+
+    importUsersModalCloseHandler=()=>{
+        this.props.commonDepartmentAction({departmentImportUsersVisibility : false})
+    }
+
+    startUploadHandler = () =>{
+        this.props.commonTeamReducerAction({startUploadStatus: 'true'})
+        this.props.getImportUserUploadDetails()
+    }
+
 
 
 
     render() {
-        const {departmentColumnData, departmentsData, addableUsersData, totalUsers, addedUsersData, tableColumnsData, viewDecider, commonViewLoader, totalAddableUsers, totalAllSelectedUsers, commonViewHeader} = this.props.departmentReducer;
+        const {departmentColumnData, departmentsData, addableUsersData, totalUsers, addedUsersData, tableColumnsData, viewDecider, commonViewLoader, totalAddableUsers, totalAllSelectedUsers, commonViewHeader, departmentImportUsersVisibility} = this.props.departmentReducer;
 
         const columnData = tableColumnsData ? filter(tableColumnsData, ele => ele._id !== 'departments') : [];
+
+        const {sampleExcelFile,uploadPopUpData,uploadPopUpVisibility,startUploadStatus} = this.props.teamViewReducer;
 
         const {creationPopUpVisibility, showAddUsersPopUp, commonCreationViewHeaderName, changeToCreatedView} = this.state;
         return (
@@ -406,6 +423,7 @@ class Departments extends Component {
                     <div className="departments-heading"><h3>Departments</h3></div>
                     <AllUserSelect allHeadingsData={departmentColumnData} userData={departmentsData || []}
                                    searchPlaceHolder={"Search Department"} searchFirstButtonName={"IMPORT RESOURCES"}
+                                   searchFirstButtonClick={this.importUsersClick}
                                    searchSecondButtonName={"ADD DEPARTMENT"} totalUsers={totalUsers}
                                    searchSecondButtonClick={() => this.searchSecondButtonClick(true)} isUserData={false}
                                    onChangeCheckBox={this.onChangeCheckBox}
@@ -416,6 +434,16 @@ class Departments extends Component {
                                    onSearch={this.departmentSearchData}
                                    currentPageNumber={this.state.currentPageNumber}
                                    onClickTableRow={this.onRowThisClick}/>
+                    <ImportUsersPopUp visible={departmentImportUsersVisibility}
+                                      secondButtonClickHandler={this.props.onClickOfDownloadExcel}
+                                      sampleExcelFile={sampleExcelFile}
+                                      thirdButtonClickHandler={this.importUsersModalCloseHandler}
+                                      fourthButtonClickHandler={this.startUploadHandler}
+                                      fourthButtonLoaderStatus={startUploadStatus}
+                                      importUsersUploadPopUpVisibility={uploadPopUpVisibility}
+                                      uploadPopUpData={uploadPopUpData}
+                                      importUsersPopUpCloseHandler={ () => this.props.commonTeamReducerAction({uploadPopUpVisibility: false})}
+                    />
                 </div> : ""}
 
                 <CreationPopViewCombined creationPopUpVisibility={creationPopUpVisibility}
@@ -456,7 +484,7 @@ class Departments extends Component {
                     //function that gets invoked on click of the addUsersCommonCardButton
                                          allSelectedUsersHeadingsData={columnData}
                     //column data (array) for allHeadingsData of AllUsersSelect
-                                         allSelectedUsersUsersData={addedUsersData}
+                                         allSelectedUsersUsersData={addedUsersData ? addedUsersData.result : [] }
                     //users data (array) for userData AllUsersSelect
                                          allSelectedUsersTotalUsers={totalAllSelectedUsers}
                     //total count of users for totalUsers AllUsersSelect
@@ -526,7 +554,8 @@ class Departments extends Component {
 
 const mapStateToProps = state => {
     return {
-        departmentReducer: state.departmentReducer
+        departmentReducer: state.departmentReducer,
+        teamViewReducer: state.teamViewReducer
     };
 };
 
@@ -539,7 +568,7 @@ const mapDispatchToProps = dispatch => {
             postCreateDeptData,
             postAddSelectedUsers,
             getAddSelectedUsersPostedData,
-            getAddableUsersData, getTableColumnsData, getCommonViewHeaderName
+            getAddableUsersData, getTableColumnsData, getCommonViewHeaderName, onClickOfDownloadExcel,getImportUserUploadDetails,commonTeamReducerAction
         },
         dispatch
     );

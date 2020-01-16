@@ -87,7 +87,6 @@ export const getDepartmentsData = (perPageRows, currentPage, searchData, heading
     const startNumber = ((currentPage - 1) * perPageRows) + 1
     return axios.get(`/rest/departments/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "name" : ""}&filterQuery=${searchData || ""}`, axiosConfig);
 
-    // return axios.get(`/rest/departments/?start=1&offset=20&sortKey=_id&sortOrder=dsc&filterKey=&filterQuery=`, axiosConfig);
 };
 
 export const getAddableUserData = (id, perPageRows, currentPage, searchData, headingData, sortingType) => {

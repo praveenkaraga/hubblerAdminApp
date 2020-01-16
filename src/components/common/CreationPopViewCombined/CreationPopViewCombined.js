@@ -35,7 +35,7 @@ class CreationPopViewCombined extends Component {
                                     backButton={backButton} viewDecider={viewDecider}
                                     addUsersCommonCardButtonClick={addUsersCommonCardButtonClick}
                                     allSelectedUsersHeadingsData={allSelectedUsersHeadingsData}
-                                    allSelectedUsersUsersData={allSelectedUsersUsersData ? allSelectedUsersUsersData.result : []}
+                                    allSelectedUsersUsersData={allSelectedUsersUsersData }
                                     allSelectedUsersTotalUsers={allSelectedUsersTotalUsers}
                                     allSelectedUsersPlaceHolder={allSelectedUsersPlaceHolder}
                                     allSelectedUsersFirstButtonName={allSelectedUsersFirstButtonName}

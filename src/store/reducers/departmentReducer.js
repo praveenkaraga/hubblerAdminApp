@@ -13,7 +13,10 @@ const initialState = {
     viewDecider: false, //populateSelectedUsersView
     commonViewLoader: false,
     headerNameWhenRouted:'',
-    addedUsersData:[]
+    addedUsersData:[],
+    createdDepartmentData : {},
+    departmentImportUsersVisibility:false,
+    startUploadStatus:false,
 }
 
 export const departmentReducer = (state = initialState, action) => {
