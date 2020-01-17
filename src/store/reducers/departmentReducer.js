@@ -20,7 +20,7 @@ const initialState = {
     searchLoader: false,
     allSelectedUsersSearchLoader:false,
     addUsersSearchLoader:false,
-
+    departmentSuggestionData :[],
 }
 
 export const departmentReducer = (state = initialState, action) => {
@@ -112,6 +112,13 @@ export const departmentReducer = (state = initialState, action) => {
             console.log(action.payload.data);
             return {
                 headerNameWhenRouted : commonViewHeader
+            }
+
+        case actionTypes.GET_DEPARTMENTS_SUGGESTION_DATA:
+            const departmentSuggestionDataInitial = action.payload.data.result;
+            return {
+                ...state,
+                departmentSuggestionData: departmentSuggestionDataInitial,
             }
 
 
