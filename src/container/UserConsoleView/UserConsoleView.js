@@ -200,6 +200,10 @@ class UserConsoleView extends Component {
                             <Route exact path={"/people/circle"}>
                                 <Redirect to={"/people/console"} />
                             </Route>
+                            <Route exact path={"/people/designation"}>
+                                <Redirect to={"/people/designations"} />
+                            </Route>
+
                             <Route exact path={"/people/console"} component={Console} />
                             <Route exact path={"/people/departments"} component={Departments} />
                             <Route exact path={"/people/designations"} component={Designations} />

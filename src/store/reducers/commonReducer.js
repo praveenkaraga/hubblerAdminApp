@@ -4,7 +4,8 @@ import * as actionTypes from '../actionTypes'
 const intialState = {
     singleViewName: "",
     singleViewCount: 0,
-    singleViewData: []
+    singleViewData: [],
+    singleViewSuggestionData: []
 }
 
 export const commonReducer = (state = intialState, action) => {
@@ -15,12 +16,20 @@ export const commonReducer = (state = intialState, action) => {
 
     switch (action.type) {
         case actionTypes.GET_SINGLE_VIEW_DATA:
-            console.log(action.payload, "GET_SINGLE_VIEW_DATA")
+            const singleViewDataItitial = action.payload.data
             return {
                 ...state,
-                singleViewName: "",
-                singleViewCount: 0,
-                singleViewData: []
+                singleViewName: singleViewDataItitial.name,
+                singleViewCount: singleViewDataItitial.total_count,
+                singleViewData: singleViewDataItitial.result
+            }
+
+
+        case actionTypes.GET_SINGLE_VIEW_SUGGESTION_DATA:
+            const singleViewSuggestionDataInitial = action.payload.data.result
+            return {
+                ...state,
+                singleViewSuggestionData: singleViewSuggestionDataInitial
             }
 
     }

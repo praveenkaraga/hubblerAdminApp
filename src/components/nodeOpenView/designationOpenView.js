@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import {
-    getSingleCircleData,
-    getCircleSuggestionData,
-    getSingleViewData
+    getSingleViewData,
+    getSingleViewSuggestionData
 } from '../../store/actions/actions'
 import CommonCreationView from '../common/CommonCreationView/CommonCreationView'
 import { headingData } from './headingData'
@@ -20,33 +19,22 @@ class DesignationOpenView extends Component {
             rowsPerPage: 30,
             activeheading: "",
             sortingType: "",
-            searchData: ""
+            searchData: "",
+            viewType: "designations"
         }
     }
 
     componentDidMount() {
-        // this.updateNodeId()
-        this.props.getSingleViewData("designations", getNodeId(this.props.history))
+        const nodeId = getNodeId(this.props.history)
+        this.props.getSingleViewData(this.state.viewType, nodeId)
+        this.setState({ singleNodeId: nodeId })
     }
 
 
-    // updateNodeId = () => {
-    //     const nodeId = getNodeId(this.props.history)
-    //     this.props.getSingleCircleData(nodeId)
-    //     this.setState({ singleNodeId: nodeId })
-    // }
-
-    // componentDidUpdate(prevProps, prevState) {
-    //     const currentNodeId = getNodeId(this.props.history)
-    //     if (prevState.singleNodeId !== currentNodeId) {
-    //         this.updateNodeId()
-    //     }
-    // }
-
-
     onChangeSearchDropdown = (searchData) => {
-        const { singleNodeId } = this.state
-        this.props.getCircleSuggestionData(singleNodeId, searchData)
+        const { singleNodeId, viewType } = this.state
+        //this.props.getCircleSuggestionData(singleNodeId, searchData)
+        this.props.getSingleViewSuggestionData(viewType, singleNodeId, searchData)
     }
 
     onSearchDropdownSelect = (value) => {
@@ -56,13 +44,13 @@ class DesignationOpenView extends Component {
     onChangeSearch = (e) => { //onChange of left side of search
         const { rowsPerPage, activeheading, sortingType, singleNodeId } = this.state
         const searchData = e.target.value
-        this.props.getSingleCircleData(singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType)
+        // this.props.getSingleCircleData(singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType)
         this.setState({ searchData, currentPageNumber: 1 })
     }
 
     onClickHeading = (activeheading, sortingType) => {
         const { rowsPerPage, searchData, currentPageNumber, singleNodeId } = this.state
-        this.props.getSingleCircleData(singleNodeId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
+        // this.props.getSingleCircleData(singleNodeId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
         this.setState({
             activeheading,
             sortingType
@@ -71,7 +59,7 @@ class DesignationOpenView extends Component {
 
     onChangeRowsPerPage = (rowsPerPage) => {
         const { singleNodeId } = this.state
-        this.props.designationsData(singleNodeId, rowsPerPage, 1)
+        // this.props.designationsData(singleNodeId, rowsPerPage, 1)
         this.setState({
             rowsPerPage,
             currentPageNumber: 1
@@ -82,42 +70,47 @@ class DesignationOpenView extends Component {
         const selectedUsers = value
     }
 
+    backButtonClick = () => {
+        this.props.history.push("/people/designations")
+    }
+
     render() {
         const { singleCircleName, singleCircleCount, singleCircleData, circleSuggestionData } = this.props.userConsoleMainReducer
+        const { singleViewName, singleViewCount, singleViewData, singleViewSuggestionData } = this.props.commonReducer
         const { searchData, currentPageNumber } = this.state
 
-        return (<CommonCreationView commonCreationViewHeaderName={singleCircleName}
-            viewDecider={searchData || singleCircleCount ? 1 : 0}
-            allSelectedUsersUsersData={singleCircleData}
-            allSelectedUsersHeadingsData={headingData} backButton={false}
+        return (<CommonCreationView commonCreationViewHeaderName={singleViewName}
+            viewDecider={searchData || singleViewCount ? 1 : 0}
+            allSelectedUsersUsersData={singleViewData}
+            allSelectedUsersHeadingsData={headingData} backButton={true}
             allSelectedUsersSearchDropdownPlaceholder={"Enter Name and Add"}
             allSelectedUsersOnChangeSearchDropdown={this.onChangeSearchDropdown}
             allSelectedUsersOnSearchDropdownSelect={this.onSearchDropdownSelect}
-            allSelectedUsersSearchDropdownData={circleSuggestionData}
+            allSelectedUsersSearchDropdownData={singleViewSuggestionData}
             allSelectedUsersAllSelect={true}
             allSelectedUsersSearchData={this.onChangeSearch}
-            allSelectedUsersPlaceHolder={`Search ${singleCircleName}`}
+            allSelectedUsersPlaceHolder={`Search ${singleViewName}`}
             allSelectedUsersOnClickHeadingColumn={this.onClickHeading}
-            allSelectedUsersTotalUsers={singleCircleCount}
+            allSelectedUsersTotalUsers={singleViewCount}
             allSelectedUsersCurrentPageNumber={currentPageNumber}
             allSelectedUsersOnChangeCheckBox={this.onChangeCheckBox}
             allSelectedUsersOnChangeRowsPerPage={this.onChangeRowsPerPage}
+            commonCreationViewBackButtonClick={this.backButtonClick}
         />)
     }
 }
 
 const mapStateToProps = state => {
     return {
-        userConsoleMainReducer: state.userConsoleMainReducer
+        commonReducer: state.commonReducer
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return bindActionCreators(
         {
-            getSingleCircleData,
-            getCircleSuggestionData,
-            getSingleViewData
+            getSingleViewData,
+            getSingleViewSuggestionData
         },
         dispatch
     );
