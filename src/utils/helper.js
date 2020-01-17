@@ -21,3 +21,8 @@ export function validationRules(required, label, minLength, maxLength) {
     { min: minLength, message: `Minimum ${minLength} Letters` },
     { max: maxLength, message: `Maximum ${maxLength} Letters` }]
 }
+
+
+export const getNodeId = (history) => {
+    return history.location.pathname.split("/")[3]
+}

@@ -19,7 +19,9 @@ import Departments from '../../components/departments/Departments'
 import Designations from '../../components/designations/designations'
 import CustomDropdown from '../../components/common/CustomDropdown/customDropdown'
 import CreationPopUp from '../../components/common/CreationPopUp/CreationPopUp'
-import NodeOpenView from '../../components/nodeOpenView/nodeOpenView'
+import CircleOpenView from '../../components/nodeOpenView/circleOpenView'
+import FieldOpenView from '../../components/nodeOpenView/fieldOpenView'
+import DesignationOpenView from '../../components/nodeOpenView/designationOpenView'
 import ChangeViewRouting from '../../components/common/ChangeViewRouting/ChangeViewRouting'
 import {
     Switch,
@@ -29,7 +31,6 @@ import {
     withRouter
 } from "react-router-dom";
 import './userConsoleView.scss'
-import CommonCreationView from "../../components/common/CommonCreationView/CommonCreationView";
 
 const routes = [
     {
@@ -219,9 +220,11 @@ class UserConsoleView extends Component {
                             </Route>
                             <Route exact path={"/people/console"} component={Console} />
                             <Route exact path={"/people/departments"} component={Departments} />
-                            <Route path={"/people/circle/:id"} component={NodeOpenView} />
-                            <Route path={"/people/field"} component={NodeOpenView} />
+                            <Route exact path={"/people/designations"} component={Designations} />
+                            <Route exact path={"/people/circle/:id"} component={CircleOpenView} />
+                            <Route exact path={"/people/field/:id"} component={FieldOpenView} />
                             <Route exact path={"/people/department/:id"} children={<ChangeViewRouting />} />
+                            <Route exact path={"/people/designation/:id"} component={DesignationOpenView} />
                         </Switch>
                     </div>
                 </div>
@@ -246,7 +249,6 @@ const mapDispatchToProps = dispatch => {
             createActiveLink,
             getCirclesData,
             getCustomFields,
-
             getDeptTableColumnData,
             commonDepartmentAction,
             getTableColumnsData,

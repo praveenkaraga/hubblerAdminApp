@@ -134,7 +134,7 @@ export const getCustomFieldsApi = () => {
 
 export const getSingleCircleDataApi = (id, perPageRows, currentPage, searchData, headingData, sortingType) => {
     const startNumber = ((currentPage - 1) * perPageRows) + 1
-    return axios.get(`/users/circles/${id}/?start=${startNumber || 1}&offset=${perPageRows || 50}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}asc&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}`)
+    return axios.get(`/users/circles/${id}/?start=${startNumber || 1}&offset=${perPageRows || 30}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}`)
 };
 
 export const getHeaderName = (id) => {
@@ -146,7 +146,16 @@ export const getCircleSuggestionDataApi = (id, searchData) => {
     return axios.get(`/choose-users/circles/${id}/?start=1&offset=20&sortKey=name&sortOrder=dsc&filterKey=name&filterQuery=${searchData || ""}`)
 }
 
+export const getSingleFieldDataApi = (id, perPageRows, currentPage, searchData, headingData, sortingType) => {
+    const startNumber = ((currentPage - 1) * perPageRows) + 1
+    return axios.get(`/nodes/rest/${id}/?start=${startNumber || 1}&offset=${perPageRows || 30}&sortKey=${headingData || "_id"}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}`)
+};
 
+
+export const getSingleViewDataApi = (viewType, id, perPageRows, currentPage, searchData, headingData, sortingType) => {
+    const startNumber = ((currentPage - 1) * perPageRows) + 1
+    return axios.get(`/users/${viewType}/${id}/?start=${startNumber || 1}&offset=${perPageRows || 30}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}`)
+};
 
 
 

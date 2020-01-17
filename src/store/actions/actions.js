@@ -5,6 +5,7 @@ import * as consoleActions from './consoleActions'
 import * as departmentActions from './departmentActions'
 import * as designationsActions from './designationsAction'
 import * as userConsoleMainActions from './userConsoleMainAction'
+import * as commonActions from './commonActions'
 
 //------------------------------Create User Action---------------------------
 export const { getUserData } = createUserAction
@@ -51,9 +52,21 @@ export const { designationsData, commonDesignationAction } = designationsActions
 
 
 
+
+
 //----------------------------- User Console Main Action ----------------------------//
 
-export const { getCirclesData, getCustomFields, getSingleCircleData, getCircleSuggestionData } = userConsoleMainActions
+export const { getCirclesData, getCustomFields, getSingleCircleData, getCircleSuggestionData, getSingleFieldData } = userConsoleMainActions
 
 //-----------------------------xxxxxxxxxxxxxxxxxxxxxxxxxx----------------------------//
+
+
+
+
+//--------------------------------- Common Actions ----------------------------------
+
+
+export const { getSingleViewData } = commonActions
+
+//------------------------------ xxxxxxxxxxxxxxxxxxxxxxx-----------------------------
 

@@ -3,14 +3,15 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import {
     getSingleCircleData,
-    getCircleSuggestionData
+    getCircleSuggestionData,
+    getSingleFieldData
 } from '../../store/actions/actions'
 import CommonCreationView from '../common/CommonCreationView/CommonCreationView'
-import { headingData } from '../../components/nodeOpenView/headingData'
-
+import { headingData } from './headingData'
 import { withRouter } from "react-router-dom";
+import { getNodeId } from '../../utils/helper'
 
-class NodeOpenView extends Component {
+class FieldOpenView extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -24,18 +25,13 @@ class NodeOpenView extends Component {
 
 
     updateNodeId = () => {
-        const nodeId = this.getNodeId()
+        const nodeId = getNodeId(this.props.history)
         this.props.getSingleCircleData(nodeId)
         this.setState({ singleNodeId: nodeId })
     }
 
-    getNodeId = () => {
-        const nodeId = this.props.history.location.pathname.split("/")[3]
-        return nodeId
-    }
-
     componentDidUpdate(prevProps, prevState) {
-        const currentNodeId = this.getNodeId()
+        const currentNodeId = getNodeId(this.props.history)
         if (prevState.singleNodeId !== currentNodeId) {
             this.updateNodeId()
         }
@@ -77,11 +73,12 @@ const mapDispatchToProps = dispatch => {
     return bindActionCreators(
         {
             getSingleCircleData,
-            getCircleSuggestionData
+            getCircleSuggestionData,
+            getSingleFieldData
         },
         dispatch
     );
 };
 
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NodeOpenView))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FieldOpenView))

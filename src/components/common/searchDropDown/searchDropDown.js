@@ -27,7 +27,6 @@ class SearchDropdown extends Component {
 
 
     render() {
-        // { result } = this.state;
         const { placeholder = "Search and Add", searchData = [] } = this.props
         const children = searchData.map(data => <Option key={data._id} name={data.name}>
             <div className="name_with_profile">
@@ -41,13 +40,12 @@ class SearchDropdown extends Component {
                     {
                         data["designations"] ? data["designations"].length ? <div className="only_designation">{data["designations"] ? data["designations"][0]["name"] : ""}</div> : "" : ""
                     }
-                    {/* <div className="only_designation">{data["designations"] ? data["designations"][0]["name"] : ""}</div> */}
                 </div>
             </div>
         </Option>);
         return (
             <div>
-                <AutoComplete className="searchDropdown" style={{ width: 200 }} onSelect={this.onOptionSelect} onSearch={this.handleSearch} placeholder={placeholder} optionLabelProp="name">
+                <AutoComplete className="searchDropdown" allowClear style={{ width: 200 }} onSelect={this.onOptionSelect} onSearch={this.handleSearch} placeholder={placeholder} optionLabelProp="name">
                     {children}
                 </AutoComplete>
             </div>

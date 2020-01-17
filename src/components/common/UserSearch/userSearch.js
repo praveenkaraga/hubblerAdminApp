@@ -55,7 +55,7 @@ class UserSearch extends Component {
 
     render() {
 
-        const { firstButtonName = "IMPORT", secondButtonName = "ADD", searchPlaceHolder, firstButtonLoader = false,
+        const { firstButtonName = "IMPORT", secondButtonName = "ADD", searchPlaceHolder = "Search", firstButtonLoader = false,
             secondButtonLoader = false, searchLoader = false, onSearch, onClickFirst, onClickSecond, userSelected,
             isUserData = true, onlySelectAndAdd = false, allSelect = false, onSearchDropdownSelect, searchDropdownPlaceholder,
             searchDropdownData, onChangeSearchDropdown } = this.props

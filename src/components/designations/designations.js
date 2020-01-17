@@ -4,7 +4,7 @@ import { bindActionCreators } from "redux";
 import AllUserSelect from '../allUserSelect/allUserSelect'
 import './designations.scss'
 import { designationsData } from '../../store/actions/actions'
-
+import { withRouter } from "react-router-dom";
 
 class Designations extends Component {
 
@@ -93,7 +93,7 @@ class Designations extends Component {
     }
 
     onRowClick = (rowData) => {
-        console.log(rowData)
+        this.props.history.push(`/people/designation/${rowData._id}`)
     }
 
     render() {
@@ -145,8 +145,4 @@ const mapDispatchToProps = dispatch => {
     );
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Designations)
-
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Designations))
