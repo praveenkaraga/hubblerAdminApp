@@ -20,8 +20,6 @@ class UserInfoSlider extends Component {
     render() {
         const {visible, onCloseFunction, teamUserData, userId, getTeamViewOrgData, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, clickedMemberData, contentLoader, changeLoaderStatus, sourceTeamView, url} = this.props;
         const {clickedUserOrgData, clickedTeamUserData} = this.props.teamViewReducer
-        console.log(clickedTeamUserData)
-
         let usersId = teamUserData ? teamUserData._id : '';
         return (
             <div className={'user-info-slider'}>

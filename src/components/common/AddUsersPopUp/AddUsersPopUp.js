@@ -5,7 +5,7 @@ import './addUsersPopUP.scss'
 
 class AddUsersPopUp extends Component {
     render() {
-        const {showAddUsersPopUp = false, addUsersPopUpTitle = `Add Users`, addUsersPopUpClose,addUsersPopUpPlaceHolder = `Search Department`,addUsersPopUpFirstButtonName = `Add Selected`,addUsersPopUpFirstButtonClick,addUsersPopUpOnChangeCheckBox, addUsersPopUpTableColumnsData, addUsersPopUpUsersData, addUsersPopUpTotalUsers,addUsersPopUpIsUserData = true,addUsersPopUpOnlySelectAndAdd = true,addUsersOnClickHeadingColumn,addUsersOnChangeRowsPerPage,addUsersChangePage,addUsersSearchData,addUsersCurrentPageNumber,} = this.props;
+        const {showAddUsersPopUp = false, addUsersPopUpTitle = `Add Users`, addUsersPopUpClose,addUsersPopUpPlaceHolder = `Search Department`,addUsersPopUpFirstButtonName = `Add Selected`,addUsersPopUpFirstButtonClick,addUsersPopUpOnChangeCheckBox, addUsersPopUpTableColumnsData, addUsersPopUpUsersData, addUsersPopUpTotalUsers,addUsersPopUpIsUserData = true,addUsersPopUpOnlySelectAndAdd = true,addUsersOnClickHeadingColumn,addUsersOnChangeRowsPerPage,addUsersChangePage,addUsersSearchData,addUsersCurrentPageNumber,addUsersSearchLoader} = this.props;
         return (
             <Modal
                 visible={showAddUsersPopUp}
@@ -25,7 +25,8 @@ class AddUsersPopUp extends Component {
                                goPrevPage={() => addUsersChangePage(-1)}
                                goNextPage={() => addUsersChangePage(1)}
                                onSearch={addUsersSearchData}
-                               currentPageNumber={addUsersCurrentPageNumber}/>
+                               currentPageNumber={addUsersCurrentPageNumber}
+                               searchLoader={addUsersSearchLoader}/>
             </Modal>
         )
     }

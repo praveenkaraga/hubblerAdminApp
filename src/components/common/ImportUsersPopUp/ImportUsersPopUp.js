@@ -33,9 +33,6 @@ class ImportUsersPopUp extends Component {
     render() {
         const {visible, modalClose,firstButtonName = `Select File`,secondButtonName = 'Download Sample Excel', secondButtonClickHandler,thirdButtonName= `Cancel`,thirdButtonClickHandler,fourthButtonOnLoadingText = `Uploading`,fourthButtonName = `Start Upload` ,fourthButtonClickHandler,fourthButtonLoaderStatus = false,sampleExcelFile, onClickStartUpload, uploadPopUpData, importUsersUploadPopUpVisibility, importUsersPopUpCloseHandler, patchImportUsersData, importUsersUploadResponseData, uploadFileLoadingStatus, commonTeamReducerAction, isFileUploaded,importUsersUploadPopUpHeaderFirstButtonHandler} = this.props;
         const {uploading, fileList} = this.state;
-        console.log(uploadFileLoadingStatus , "uploadFileLoadingStatus")
-        console.log(isFileUploaded , "isFileUploaded")
-
         const props = {
             onRemove: file => {
                 this.setState(state => {

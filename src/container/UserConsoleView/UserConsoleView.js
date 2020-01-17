@@ -91,15 +91,11 @@ class UserConsoleView extends Component {
         ]
     }
 
-
-
     componentDidMount() {
         this.props.createActiveLink(window.location.pathname.substr(1))
         this.props.getCirclesData()
         this.props.getCustomFields()
     }
-
-
 
     dropDownAction = (data, type) => {
         const creationPopUpData = {
@@ -110,7 +106,6 @@ class UserConsoleView extends Component {
         }
         this.setState({ creationPopUpVisibility: true, creationPopUpData, creationPopUpInputData: data.name })
     }
-
 
     creationPopUpInput = (e) => {
         const { creationPopUpData } = this.state
@@ -139,19 +134,6 @@ class UserConsoleView extends Component {
             this.props.history.push(`/people/field/${data._id}`)
         }
     }
-
-    /*someFunc = (id) =>{
-        this.props.getDeptTableColumnData();
-        if(id){
-            this.props.commonDepartmentAction({commonViewLoader: true})
-            this.props.getTableColumnsData();
-            this.props.getAddSelectedUsersPostedData(id)
-        }else {
-            this.props.getDepartmentData(30)
-        }
-    }*/
-
-
 
     render() {
         const { activeLinkName } = this.props.firstReducer

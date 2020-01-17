@@ -39,7 +39,6 @@ class ChangeViewRouting extends Component {
 
     }
     componentDidMount(){
-        console.log(this.props)
         this.props.getDeptTableColumnData();
         if (this.props.match.params.id) {
             this.props.commonDepartmentAction({commonViewLoader: true, headerNameWhenRouted: this.props.history.location.state.headerName})
@@ -49,8 +48,6 @@ class ChangeViewRouting extends Component {
             this.props.getDepartmentData(30)
         }
     }
-
-
     commonCreationViewBackButtonClick = () => {
         this.props.history.push(`/people/departments`)
         this.props.getDeptTableColumnData();
@@ -177,8 +174,6 @@ class ChangeViewRouting extends Component {
     render() {
         const {name, viewDecider, addedUsersData, tableColumnsData, totalAllSelectedUsers, commonViewLoader, headerNameWhenRouted,addableUsersData,totalAddableUsers} = this.props.departmentReducer
         const columnData = tableColumnsData ? filter(tableColumnsData, ele => ele._id !== 'departments') : [];
-        console.log(this.props)
-
         return (
             <CommonCreationView commonCreationViewHeaderName={headerNameWhenRouted}
                                 viewDecider={viewDecider}
