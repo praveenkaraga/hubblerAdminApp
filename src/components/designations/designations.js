@@ -3,8 +3,9 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import AllUserSelect from '../allUserSelect/allUserSelect'
 import './designations.scss'
-import { designationsData } from '../../store/actions/actions'
+import { designationsData, postCommonCreateData, commonActionForCommonReducer } from '../../store/actions/actions'
 import { withRouter } from "react-router-dom";
+import CreationPopUp from '../../components/common/CreationPopUp/CreationPopUp'
 
 class Designations extends Component {
 
@@ -15,7 +16,9 @@ class Designations extends Component {
             rowsPerPage: 30,
             activeheading: "",
             sortingType: "",
-            searchData: ""
+            searchData: "",
+            creationPopUpVisibility: false,
+            newDesignationName: ""
         }
 
         this.designationsColumnData = [
@@ -96,9 +99,26 @@ class Designations extends Component {
         this.props.history.push(`/people/designation/${rowData._id}`)
     }
 
+    creationPopUpInput = (e) => {
+        this.setState({ newDesignationName: e.target.value })
+    }
+
+    onSaveNewDesignation = async () => {
+        const { newDesignationName } = this.state
+        await this.props.postCommonCreateData("designations", { name: newDesignationName }) //waiting for the api to be posted
+
+        const { newDataCreatedSuccessfully, newCreatedDataId } = this.props.commonReducer // will be true if success is true from above post api and pop up will be closed
+        if (newDataCreatedSuccessfully) {
+            this.setState({ creationPopUpVisibility: false })
+            this.props.commonActionForCommonReducer({ newDataCreatedSuccessfully: false })
+            this.props.history.push(`/people/designation/${newCreatedDataId}`)
+        }
+
+    }
+
     render() {
         const { designationData, totalDesignationsCount } = this.props.designationsReducer
-        const { currentPageNumber } = this.state
+        const { currentPageNumber, creationPopUpVisibility, newDesignationName } = this.state
 
         return (
             <div className="designations_main">
@@ -113,6 +133,7 @@ class Designations extends Component {
 
                     headingClickData={this.onClickHeadingColumn}
                     onChangeCheckBox={this.onChangeCheckBox}
+                    searchSecondButtonClick={() => this.setState({ creationPopUpVisibility: true })}
 
 
                     totalUsers={totalDesignationsCount} currentPageNumber={currentPageNumber}
@@ -124,6 +145,22 @@ class Designations extends Component {
                     isUserData={false}
 
                     onClickTableRow={this.onRowClick} />
+
+
+                <CreationPopUp creationPopUpVisibility={creationPopUpVisibility}
+                    creationPopUpTitle={"Add New Designation"}
+                    creationPopFirstButtonName={"Cancel"}
+                    creationPopSecondButtonName={"Create"}
+                    fieldHeader={"Designation Name"}
+                    fieldPlaceHolder={"Enter Designation Name"}
+                    inputValue={newDesignationName}
+                    creationPopFirstButtonHandler={() => this.setState({ creationPopUpVisibility: false })}
+                    creationPopSecondButtonHandler={this.onSaveNewDesignation}
+                    secondButtonDisable={newDesignationName.length >= 3 ? false : true}
+                    afterClose={() => this.setState({ newDesignationName: "" })}
+                    creationPopUpFirstFieldChangeHandler={this.creationPopUpInput}
+
+                />
             </div>
         );
     }
@@ -132,14 +169,17 @@ class Designations extends Component {
 
 const mapStateToProps = state => {
     return {
-        designationsReducer: state.designationsReducer
+        designationsReducer: state.designationsReducer,
+        commonReducer: state.commonReducer
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return bindActionCreators(
         {
-            designationsData
+            designationsData,
+            postCommonCreateData,
+            commonActionForCommonReducer
         },
         dispatch
     );
