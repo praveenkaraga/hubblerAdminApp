@@ -152,11 +152,16 @@ export const getSingleFieldDataApi = (id, perPageRows, currentPage, searchData, 
 };
 
 
-export const getSingleViewDataApi = (viewType, id, perPageRows, currentPage, searchData, headingData, sortingType) => {
+//------ Common Apis for few common components -----
+export const getSingleViewDataApi = (viewType, id, perPageRows, currentPage, searchData, headingData, sortingType) => { //common api for every view that is being fetched using one id
     const startNumber = ((currentPage - 1) * perPageRows) + 1
     return axios.get(`/users/${viewType}/${id}/?start=${startNumber || 1}&offset=${perPageRows || 30}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}`)
 };
 
+export const getSingleViewSuggestionDataApi = (viewType, id, searchData) => { //common api for every user suggestion that is being fetched using one id
+    return axios.get(`/choose-users/${viewType}/${id}/?start=1&offset=20&sortKey=name&sortOrder=dsc&filterKey=name&filterQuery=${searchData || ""}`)
+}
 
+//-------------------xxxxx-------
 
 
