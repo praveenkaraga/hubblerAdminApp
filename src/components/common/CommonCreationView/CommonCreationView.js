@@ -5,36 +5,45 @@ import AllUserSelect from "../../allUserSelect/allUserSelect";
 import AddUsersPopUp from '../../common/AddUsersPopUp/AddUsersPopUp'
 import isEmpty from 'lodash/isEmpty'
 import UserSearch from "../UserSearch/userSearch";
+import {Button} from "antd";
 
 class CommonCreationView extends Component {
 
     render() {
-        const {commonCreationViewHeaderName, commonCreationViewBackButtonClick, backButton = true, viewDecider = 0,commonViewLoader = false} = this.props;
+        const {commonCreationViewHeaderName, commonCreationViewBackButtonClick, backButton = true, viewDecider = 0, commonViewLoader = false} = this.props;
         const {addUsersCommonCardButtonClick} = this.props
-        const {allSelectedUsersHeadingsData, allSelectedUsersUsersData, allSelectedUsersTotalUsers, allSelectedUsersPlaceHolder ,allSelectedUsersFirstButtonName ,allSelectedUsersIsUserData , allSelectedUsersOnChangeCheckBox,allSelectedUsersOnlySelectAndAdd,allSelectedUsersFirstButtonClick,
-            allSelectedUsersOnClickHeadingColumn,allSelectedUsersOnChangeRowsPerPage,allSelectedUsersChangePage,allSelectedUsersSearchData,allSelectedUsersCurrentPageNumber,allSelectedUsersAllSelect,allSelectedUsersOnSearchDropdownSelect,allSelectedUsersSearchDropdownPlaceholder,allSelectedUsersSearchDropdownData,allSelectedUsersOnChangeSearchDropdown} = this.props;
-        const {showAddUsersPopUp, addUsersPopUpTitle, addUsersPopUpClose,addUsersPopUpPlaceHolder,addUsersPopUpFirstButtonName, addUsersPopUpFirstButtonClick, addUsersPopUpOnChangeCheckBox, addUsersPopUpTableColumnsData, addUsersPopUpUsersData, addUsersPopUpTotalUsers, addUsersPopUpIsUserData, addUsersPopUpOnlySelectAndAdd,allSelectedUsersSearchLoader,addUsersSearchLoader
-            ,addUsersOnClickHeadingColumn,addUsersOnChangeRowsPerPage,addUsersChangePage,addUsersSearchData,addUsersCurrentPageNumber
+        const {
+            allSelectedUsersHeadingsData, allSelectedUsersUsersData, allSelectedUsersTotalUsers, allSelectedUsersPlaceHolder, allSelectedUsersFirstButtonName, allSelectedUsersIsUserData, allSelectedUsersOnChangeCheckBox, allSelectedUsersOnlySelectAndAdd, allSelectedUsersFirstButtonClick,
+            allSelectedUsersOnClickHeadingColumn, allSelectedUsersOnChangeRowsPerPage, allSelectedUsersChangePage, allSelectedUsersSearchData, allSelectedUsersCurrentPageNumber, allSelectedUsersAllSelect, allSelectedUsersOnSearchDropdownSelect, allSelectedUsersSearchDropdownPlaceholder, allSelectedUsersSearchDropdownData, allSelectedUsersOnChangeSearchDropdown
+        } = this.props;
+        const {
+            showAddUsersPopUp, addUsersPopUpTitle, addUsersPopUpClose, addUsersPopUpPlaceHolder, addUsersPopUpFirstButtonName, addUsersPopUpFirstButtonClick, addUsersPopUpOnChangeCheckBox, addUsersPopUpTableColumnsData, addUsersPopUpUsersData, addUsersPopUpTotalUsers, addUsersPopUpIsUserData, addUsersPopUpOnlySelectAndAdd, allSelectedUsersSearchLoader, addUsersSearchLoader
+            , addUsersOnClickHeadingColumn, addUsersOnChangeRowsPerPage, addUsersChangePage, addUsersSearchData, addUsersCurrentPageNumber
         } = this.props
 
         return (
             <div className={'common-creation-view'}>
                 <div className={'common-creation-view-header-wrap'}>
-                    <div className={backButton ? 'headerWithBackArrow' :'headerWithoutBackArrow' }
+                    {/*<div className={backButton ? 'headerWithBackArrow' : 'headerWithoutBackArrow'}
                          onClick={backButton ? () => commonCreationViewBackButtonClick() : ''}>
-                    {commonCreationViewHeaderName}
+                        {commonCreationViewHeaderName}
+                    </div>*/}
+                    <div className={'header-wrap'}>
+                        <div className={backButton ? 'headerWithBackArrow' : ''} onClick={backButton ? () => commonCreationViewBackButtonClick() : ''}></div>
+                        <div className={'headerWithoutBackArrow'}> {commonCreationViewHeaderName}</div>
                     </div>
                 </div>
 
 
-                {commonViewLoader ? <div className={'common-view-loader'}></div> :''}
+                {commonViewLoader ? <div className={'common-view-loader'}></div> : ''}
 
                 {viewDecider < 1 ?
-                    !commonViewLoader ? <AddUsersCommonCard addUsersCommonCardButtonClick={addUsersCommonCardButtonClick}/> : '' :
+                    !commonViewLoader ?
+                        <AddUsersCommonCard addUsersCommonCardButtonClick={addUsersCommonCardButtonClick}/> : '' :
 
                     !commonViewLoader ? <div className={'all-selected-users-wrap'}>
                         <AllUserSelect allHeadingsData={allSelectedUsersHeadingsData}
-                                       userData={allSelectedUsersUsersData }
+                                       userData={allSelectedUsersUsersData}
                                        searchPlaceHolder={allSelectedUsersPlaceHolder}
                                        searchFirstButtonName={allSelectedUsersFirstButtonName}
                                        totalUsers={allSelectedUsersTotalUsers}
@@ -48,8 +57,10 @@ class CommonCreationView extends Component {
                                        onSearch={allSelectedUsersSearchData}
                                        currentPageNumber={allSelectedUsersCurrentPageNumber}
                                        allSelect={allSelectedUsersAllSelect}
-                                       onSearchDropdownSelect={allSelectedUsersOnSearchDropdownSelect} searchDropdownPlaceholder={allSelectedUsersSearchDropdownPlaceholder}
-                                       searchDropdownData={allSelectedUsersSearchDropdownData} onChangeSearchDropdown={allSelectedUsersOnChangeSearchDropdown}
+                                       onSearchDropdownSelect={allSelectedUsersOnSearchDropdownSelect}
+                                       searchDropdownPlaceholder={allSelectedUsersSearchDropdownPlaceholder}
+                                       searchDropdownData={allSelectedUsersSearchDropdownData}
+                                       onChangeSearchDropdown={allSelectedUsersOnChangeSearchDropdown}
                                        searchLoader={allSelectedUsersSearchLoader}
 
                         />
@@ -75,7 +86,7 @@ class CommonCreationView extends Component {
                                    addUsersCurrentPageNumber={addUsersCurrentPageNumber}
                                    addUsersSearchLoader={addUsersSearchLoader}
                     />
-                                   : ''}
+                    : ''}
 
 
             </div>

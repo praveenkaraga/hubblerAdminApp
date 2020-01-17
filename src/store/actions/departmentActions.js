@@ -6,7 +6,7 @@ import {
     postAddSelectedUsersData,
     getAddSelectedUsersData,
     getAddableUserData,
-    getDeptAddUsersTableColumns,getHeaderName
+    getDeptAddUsersTableColumns, getHeaderName, getCircleSuggestionDataApi
 } from '../../apiCall'
 
 export const getDepartmentData = (perPageRows, currentPage, searchData, headingData, sortingType) => {
@@ -74,6 +74,15 @@ export const getCommonViewHeaderName = (id) =>{
     const payload = getHeaderName(id)
     return{
         type: actionTypes.GET_COMMON_VIEW_HEADER_NAME,
+        payload
+    }
+}
+
+export const getDepartmentSuggestionData = (id, searchData) =>{
+    const payload = getCircleSuggestionDataApi(id, searchData)
+
+    return{
+        type: actionTypes.GET_DEPARTMENTS_SUGGESTION_DATA,
         payload
     }
 }

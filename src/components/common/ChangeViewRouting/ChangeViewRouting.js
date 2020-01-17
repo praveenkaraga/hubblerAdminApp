@@ -12,7 +12,7 @@ import {
     getAddSelectedUsersPostedData,
     getAddableUsersData,
     getTableColumnsData,
-    getCommonViewHeaderName
+    getCommonViewHeaderName,getDepartmentSuggestionData
 } from "../../../store/actions/actions";
 import CommonCreationView from "../../common/CommonCreationView/CommonCreationView";
 import filter from "lodash/filter";
@@ -121,6 +121,8 @@ class ChangeViewRouting extends Component {
         const {addUsersRowsPerPage, addUsersActiveHeading, addUsersSortingType} = this.state;
         const searchData = e.target.value
         this.props.getAddableUsersData(this.props.match.params.id, addUsersRowsPerPage, 1, searchData, addUsersActiveHeading, addUsersSortingType)
+        this.props.commonDepartmentAction({addUsersSearchLoader: true})
+
         this.setState({
             addUsersSearchData :searchData,
             addUsersCurrentPageNumber: 1
@@ -161,18 +163,21 @@ class ChangeViewRouting extends Component {
         const {allSelectedUsersRowsPerPage, allSelectedUsersActiveHeading, allSelectedUsersSortingType} = this.state
         const searchData = e.target.value
         this.props.getAddSelectedUsersPostedData(this.props.match.params.id, allSelectedUsersRowsPerPage, 1, searchData, allSelectedUsersActiveHeading, allSelectedUsersSortingType)
+        this.props.commonDepartmentAction({allSelectedUsersSearchLoader: true})
+
         this.setState({
             allSelectedUsersSearchData:searchData,
             allSelectedUsersCurrentPageNumber: 1
         })
     }
 
-
-
+    onChangeSearchDropdown = (searchData ) =>{
+        this.props.getDepartmentSuggestionData(this.props.match.params.id, searchData)
+    }
 
 
     render() {
-        const {name, viewDecider, addedUsersData, tableColumnsData, totalAllSelectedUsers, commonViewLoader, headerNameWhenRouted,addableUsersData,totalAddableUsers} = this.props.departmentReducer
+        const {name, viewDecider, addedUsersData, tableColumnsData, totalAllSelectedUsers, commonViewLoader, headerNameWhenRouted,addableUsersData,totalAddableUsers,allSelectedUsersSearchLoader,addUsersSearchLoader} = this.props.departmentReducer
         const columnData = tableColumnsData ? filter(tableColumnsData, ele => ele._id !== 'departments') : [];
         return (
             <CommonCreationView commonCreationViewHeaderName={headerNameWhenRouted}
@@ -185,6 +190,7 @@ class ChangeViewRouting extends Component {
                                 addUsersCommonCardButtonClick={this.addUsersCommonCardButtonClick}
                                 showAddUsersPopUp={this.state.showAddUsersPopUp}
                                 addUsersPopUpTableColumnsData={tableColumnsData}
+                                allSelectedUsersSearchLoader={allSelectedUsersSearchLoader}
 
                                 addUsersPopUpUsersData={addableUsersData}
                                 addUsersPopUpTotalUsers={totalAddableUsers}
@@ -206,6 +212,12 @@ class ChangeViewRouting extends Component {
                                 allSelectedUsersPlaceHolder={'Search Department'}
                                 allSelectedUsersFirstButtonName={`Add Selected`}
                                 allSelectedUsersAllSelect={true}
+                                addUsersSearchLoader={addUsersSearchLoader}
+
+                               /* allSelectedUsersSearchDropdownPlaceholder={"Enter Name and Add"}
+                                allSelectedUsersOnChangeSearchDropdown={this.onChangeSearchDropdown}
+                                allSelectedUsersOnSearchDropdownSelect={this.onSearchDropdownSelect}
+                                allSelectedUsersSearchDropdownData={circleSuggestionData}*/
 
             />
         )
@@ -229,7 +241,7 @@ const mapDispatchToProps = dispatch => {
             getAddSelectedUsersPostedData,
             getAddableUsersData,
             getTableColumnsData,
-            getCommonViewHeaderName
+            getCommonViewHeaderName,getDepartmentSuggestionData
         },
         dispatch
     );

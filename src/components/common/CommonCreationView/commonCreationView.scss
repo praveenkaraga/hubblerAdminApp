@@ -5,6 +5,9 @@
   .common-creation-view-header-wrap{
     height: 30px;
   }
+  .header-wrap{
+    display: flex;
+  }
   .headerWithBackArrow{
     background-image: url("../../../images/arrow right.svg");
     background-repeat: no-repeat;
@@ -14,11 +17,12 @@
     font-size: 20px;
     text-transform: capitalize;
     cursor: pointer;
-    width: 10%;
+    height: 20px;
+    //width: 10%;
   }
   .headerWithoutBackArrow{
     margin: auto 0;
-    padding-left: 15px;
+    //padding-left: 15px;
     font-size: 20px;
     text-transform: capitalize;
   }
