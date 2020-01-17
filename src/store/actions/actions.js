@@ -66,7 +66,7 @@ export const { getCirclesData, getCustomFields, getSingleCircleData, getCircleSu
 //--------------------------------- Common Actions ----------------------------------
 
 
-export const { getSingleViewData, getSingleViewSuggestionData } = commonActions
+export const { getSingleViewData, getSingleViewSuggestionData, postCommonCreateData, commonActionForCommonReducer } = commonActions
 
 //------------------------------ xxxxxxxxxxxxxxxxxxxxxxx-----------------------------
 

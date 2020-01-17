@@ -33,7 +33,6 @@ class DesignationOpenView extends Component {
 
     onChangeSearchDropdown = (searchData) => {
         const { singleNodeId, viewType } = this.state
-        //this.props.getCircleSuggestionData(singleNodeId, searchData)
         this.props.getSingleViewSuggestionData(viewType, singleNodeId, searchData)
     }
 
@@ -42,15 +41,15 @@ class DesignationOpenView extends Component {
     }
 
     onChangeSearch = (e) => { //onChange of left side of search
-        const { rowsPerPage, activeheading, sortingType, singleNodeId } = this.state
+        const { rowsPerPage, activeheading, sortingType, singleNodeId, viewType } = this.state
         const searchData = e.target.value
-        // this.props.getSingleCircleData(singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType)
+        this.props.getSingleViewData(viewType, singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType)
         this.setState({ searchData, currentPageNumber: 1 })
     }
 
     onClickHeading = (activeheading, sortingType) => {
-        const { rowsPerPage, searchData, currentPageNumber, singleNodeId } = this.state
-        // this.props.getSingleCircleData(singleNodeId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
+        const { rowsPerPage, searchData, currentPageNumber, singleNodeId, viewType } = this.state
+        this.props.getSingleViewData(viewType, singleNodeId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
         this.setState({
             activeheading,
             sortingType
@@ -58,8 +57,8 @@ class DesignationOpenView extends Component {
     }
 
     onChangeRowsPerPage = (rowsPerPage) => {
-        const { singleNodeId } = this.state
-        // this.props.designationsData(singleNodeId, rowsPerPage, 1)
+        const { singleNodeId, viewType } = this.state
+        this.props.getSingleViewData(viewType, singleNodeId, rowsPerPage, 1)
         this.setState({
             rowsPerPage,
             currentPageNumber: 1
@@ -75,7 +74,6 @@ class DesignationOpenView extends Component {
     }
 
     render() {
-        const { singleCircleName, singleCircleCount, singleCircleData, circleSuggestionData } = this.props.userConsoleMainReducer
         const { singleViewName, singleViewCount, singleViewData, singleViewSuggestionData } = this.props.commonReducer
         const { searchData, currentPageNumber } = this.state
 

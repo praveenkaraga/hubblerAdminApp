@@ -162,6 +162,11 @@ export const getSingleViewSuggestionDataApi = (viewType, id, searchData) => { //
     return axios.get(`/choose-users/${viewType}/${id}/?start=1&offset=20&sortKey=name&sortOrder=dsc&filterKey=name&filterQuery=${searchData || ""}`)
 }
 
+export const postCommonCreateDataApi = (createForType, data) => {
+    return axios.post(`/rest/${createForType}/`, data, axiosConfig)
+}
+
+
 //-------------------xxxxx-------
 
 

@@ -5,7 +5,8 @@ const intialState = {
     singleViewName: "",
     singleViewCount: 0,
     singleViewData: [],
-    singleViewSuggestionData: []
+    singleViewSuggestionData: [],
+    newDataCreatedSuccessfully: false
 }
 
 export const commonReducer = (state = intialState, action) => {
@@ -30,6 +31,20 @@ export const commonReducer = (state = intialState, action) => {
             return {
                 ...state,
                 singleViewSuggestionData: singleViewSuggestionDataInitial
+            }
+
+        case actionTypes.POST_COMMON_CREATE_DATA:
+            const newDataInitial = action.payload.data
+            return {
+                ...state,
+                newDataCreatedSuccessfully: true,
+                newCreatedDataId: newDataInitial.id
+            }
+
+        case actionTypes.COMMON_ACTION_FOR_COMMON_REDUCER:
+            return {
+                ...state,
+                ...action.payload
             }
 
     }
