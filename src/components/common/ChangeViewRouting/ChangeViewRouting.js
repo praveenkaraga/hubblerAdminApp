@@ -168,6 +168,12 @@ class ChangeViewRouting extends Component {
         })
     }
 
+    allSelectedUsersOnChangeCheckBox = (value) => {
+        this.setState({
+            usersIdArray: value,
+        })
+    }
+
     onChangeSearchDropdown = (searchData ) =>{
         this.props.getSingleViewSuggestionData('departments', this.props.match.params.id, searchData)
     }
@@ -221,6 +227,7 @@ class ChangeViewRouting extends Component {
                                 allSelectedUsersPlaceHolder={'Search Department'}
                                 allSelectedUsersFirstButtonName={`Add Selected`}
                                 allSelectedUsersAllSelect={true}
+                                allSelectedUsersOnChangeCheckBox={this.allSelectedUsersOnChangeCheckBox}
                                 addUsersSearchLoader={addUsersSearchLoader}
 
                                 allSelectedUsersSearchDropdownPlaceholder={"Enter Name and Add"}

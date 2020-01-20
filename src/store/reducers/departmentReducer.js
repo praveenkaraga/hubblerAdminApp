@@ -21,6 +21,8 @@ const initialState = {
     allSelectedUsersSearchLoader:false,
     addUsersSearchLoader:false,
     departmentSuggestionData :[],
+    editUserDataForm:[],
+    editUserDataFormMain:[],
 }
 
 export const departmentReducer = (state = initialState, action) => {
@@ -119,6 +121,13 @@ export const departmentReducer = (state = initialState, action) => {
             return {
                 ...state,
                 departmentSuggestionData: departmentSuggestionDataInitial,
+            }
+        case actionTypes.EDIT_USER_DATA_FORM:
+            const editUserDataFormInitial = action.payload.data ? action.payload.data.result : []
+            return {
+                ...state,
+                editUserDataFormMain: editUserDataFormInitial,
+                editUserDataForm: JSON.parse(JSON.stringify(editUserDataFormInitial))
             }
 
 

@@ -6,7 +6,7 @@ import {
     postAddSelectedUsersData,
     getAddSelectedUsersData,
     getAddableUserData,
-    getDeptAddUsersTableColumns, getHeaderName, getCircleSuggestionDataApi
+    getDeptAddUsersTableColumns, getHeaderName, getCircleSuggestionDataApi, getAddUserDataForm
 } from '../../apiCall'
 
 export const getDepartmentData = (perPageRows, currentPage, searchData, headingData, sortingType) => {
@@ -83,6 +83,14 @@ export const getDepartmentSuggestionData = (id, searchData) =>{
 
     return{
         type: actionTypes.GET_DEPARTMENTS_SUGGESTION_DATA,
+        payload
+    }
+}
+
+export const editUserDataForm = () => {
+    const payload = getAddUserDataForm()
+    return {
+        type: actionTypes.EDIT_USER_DATA_FORM,
         payload
     }
 }
