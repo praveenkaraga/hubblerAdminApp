@@ -368,3 +368,39 @@ Below three props scenarios has been explaned above in UserSearch Comp.
 
 
 **XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
+
+<p>&nbsp;</p>
+
+## `Creation Popup{CreationPopUp}`
+
+* **creationPopUpVisibility** {Boolean}{default : false} : sets the visibility of the popup.
+
+* **creationPopUpTitle** {"String"} {Default : "Add New Department"} : sets the title of the popup.
+
+* **fieldHeader** {"String"} : sets the name of the header of the First field.
+
+* **fieldPlaceHolder** {"String"} : sets the placeholder for the First field.
+
+* **creationPopFirstButtonName** {"String"} {Default : "Cancel"}  : sets the Name of the first button.  
+
+* **creationPopSecondButtonName** {"String"} {Default : "Create"}  : sets the Name of the second button.  
+
+* **creationPopFirstButtonHandler** {function} : onClick of First button.
+
+* **creationPopSecondButtonHandler** {function} : onClick of Second button.
+
+* **creationPopUpFirstFieldChangeHandler** {function(event)} : onChange of First field of the popup you can get the data that's been typed in.
+
+* **customField** {"String"} {Default : "default"} :  type "add"  and "edit"
+
+##### below one will change UI{view} of this component according to 'customField' given 
+
+* **creationPopUpSecondFieldChangeHandler** {function(value)} : onChange of Second field of the popup you can get the data that's been chosen.
+
+* **creationPopUpThirdFieldChangeHandler** {function(checked)} : onChange of Third field of the popup you can get the data that's been chosen.
+
+
+
+
+
+

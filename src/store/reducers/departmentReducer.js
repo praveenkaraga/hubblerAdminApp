@@ -12,17 +12,17 @@ const initialState = {
     tableColumnsData: [],
     viewDecider: false, //populateSelectedUsersView
     commonViewLoader: false,
-    headerNameWhenRouted:'',
-    addedUsersData:[],
-    createdDepartmentData : {},
-    departmentImportUsersVisibility:false,
-    startUploadStatus:false,
+    headerNameWhenRouted: '',
+    addedUsersData: [],
+    createdDepartmentData: {},
+    departmentImportUsersVisibility: false,
+    startUploadStatus: false,
     searchLoader: false,
-    allSelectedUsersSearchLoader:false,
-    addUsersSearchLoader:false,
-    departmentSuggestionData :[],
-    editUserDataForm:[],
-    editUserDataFormMain:[],
+    allSelectedUsersSearchLoader: false,
+    addUsersSearchLoader: false,
+    departmentSuggestionData: [],
+    editUserDataForm: [],
+    editUserDataFormMain: [],
 }
 
 export const departmentReducer = (state = initialState, action) => {
@@ -73,7 +73,7 @@ export const departmentReducer = (state = initialState, action) => {
                 ...state,
                 createdDepartmentData: data,
                 commonViewLoader: false,
-                viewDecider : 0
+                viewDecider: 0
             }
         case actionTypes.POST_ADD_SELECTED_USERS_DATA:
             const dataInitial = action.payload.data;
@@ -92,7 +92,7 @@ export const departmentReducer = (state = initialState, action) => {
                 addedUsersData: addedUsersInitialData ? addedUsersInitialData : [],
                 viewDecider: decideView,
                 commonViewLoader: false,
-                allSelectedUsersSearchLoader:false,
+                allSelectedUsersSearchLoader: false,
                 totalAllSelectedUsers
             };
 
@@ -105,15 +105,15 @@ export const departmentReducer = (state = initialState, action) => {
                 ...state,
                 addableUsersData: userDataCopy,
                 totalAddableUsers,
-                addUsersSearchLoader:false,
+                addUsersSearchLoader: false,
             }
 
         case actionTypes.GET_COMMON_VIEW_HEADER_NAME:
-            let headerInitial = action.payload.data ?   action.payload.data.result : {};
+            let headerInitial = action.payload.data ? action.payload.data.result : {};
             let commonViewHeader = headerInitial.name ? headerInitial.name : '';
             console.log(action.payload.data);
             return {
-                headerNameWhenRouted : commonViewHeader
+                headerNameWhenRouted: commonViewHeader
             }
 
         case actionTypes.GET_DEPARTMENTS_SUGGESTION_DATA:
