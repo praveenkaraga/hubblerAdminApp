@@ -6,7 +6,7 @@ import './designations.scss'
 import { designationsData, postCommonCreateData, commonActionForCommonReducer } from '../../store/actions/actions'
 import { withRouter } from "react-router-dom";
 import CreationPopUp from '../../components/common/CreationPopUp/CreationPopUp'
-
+import { message } from 'antd'
 class Designations extends Component {
 
     constructor(props) {
@@ -107,11 +107,13 @@ class Designations extends Component {
         const { newDesignationName } = this.state
         await this.props.postCommonCreateData("designations", { name: newDesignationName }) //waiting for the api to be posted
 
-        const { newDataCreatedSuccessfully, newCreatedDataId } = this.props.commonReducer // will be true if success is true from above post api and pop up will be closed
+        const { newDataCreatedSuccessfully, newCreatedDataId, errorMsg } = this.props.commonReducer // will be true if success is true from above post api and pop up will be closed
         if (newDataCreatedSuccessfully) {
             this.setState({ creationPopUpVisibility: false })
             this.props.commonActionForCommonReducer({ newDataCreatedSuccessfully: false })
             this.props.history.push(`/people/designation/${newCreatedDataId}`)
+        } else {
+            message.error(errorMsg);
         }
 
     }
@@ -141,7 +143,6 @@ class Designations extends Component {
                     goPrevPage={() => this.changePage(-1)}
                     goNextPage={() => this.changePage(1)}
 
-                    // onlySelectAndAdd={false}
                     isUserData={false}
 
                     onClickTableRow={this.onRowClick} />

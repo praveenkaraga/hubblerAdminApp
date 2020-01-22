@@ -1,5 +1,10 @@
 import * as actionTypes from '../actionTypes'
-import { getSingleViewDataApi, getSingleViewSuggestionDataApi, postCommonCreateDataApi } from '../../apiCall'
+import {
+    getSingleViewDataApi,
+    getSingleViewSuggestionDataApi,
+    postCommonCreateDataApi,
+    patchCommonCreateDataApi
+} from '../../apiCall'
 
 export const getSingleViewData = (viewType, id, perPageRows, currentPage, searchData, headingData, sortingType) => {
     const payload = getSingleViewDataApi(viewType, id, perPageRows, currentPage, searchData, headingData, sortingType)
@@ -31,6 +36,15 @@ export const postCommonCreateData = (createForType, data) => {
 export const commonActionForCommonReducer = (payload) => {
     return {
         type: actionTypes.COMMON_ACTION_FOR_COMMON_REDUCER,
+        payload
+    }
+}
+
+
+export const patchCommonCreateData = (createForType, id, data) => {
+    const payload = patchCommonCreateDataApi(createForType, id, data)
+    return {
+        type: actionTypes.PATCH_COMMON_CREATE_DATA,
         payload
     }
 }

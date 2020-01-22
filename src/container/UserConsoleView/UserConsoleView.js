@@ -1,17 +1,18 @@
-import React, {Component} from 'react';
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
+import React, { Component } from 'react';
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import {
     getUserData,
     createActiveLink,
     getCirclesData,
     getCustomFields,
-
     getDeptTableColumnData,
     commonDepartmentAction,
     getTableColumnsData,
     getAddSelectedUsersPostedData,
-    getDepartmentData
+    getDepartmentData,
+    patchCommonCreateData,
+    commonActionForCommonReducer
 } from '../../store/actions/actions'
 import Console from '../../components/console/Console'
 import TeamView from '../../components/teamView/TeamView'
@@ -30,34 +31,35 @@ import {
     Redirect,
     withRouter
 } from "react-router-dom";
+import { message } from 'antd'
 import './userConsoleView.scss'
 
 const routes = [
     {
         path: "/console",
         exact: true,
-        main: () => <Console/>,
+        main: () => <Console />,
         name: 'Console',
         link_name: 'console',
         class_name: 'console'
     },
     {
         path: "/teamView",
-        main: () => <TeamView/>,
+        main: () => <TeamView />,
         name: 'Team View',
         link_name: 'teamView',
         class_name: 'team-view'
     },
     {
         path: "/departments",
-        main: () => <Departments/>,
+        main: () => <Departments />,
         name: 'Departments',
         link_name: 'departments',
         class_name: 'departments'
     },
     {
         path: "/designations",
-        main: () => <Designations/>,
+        main: () => <Designations />,
         name: 'Designations',
         link_name: 'designations',
         class_name: 'designations'
@@ -74,6 +76,7 @@ class UserConsoleView extends Component {
                 type: "circles",
                 name: "",
                 typeName: "Circle",
+                id: ""
             },
             creationPopUpInputData: ""
         }
@@ -97,34 +100,38 @@ class UserConsoleView extends Component {
         this.props.getCustomFields()
     }
 
-    dropDownAction = (data, type) => {
+    dropDownSettingAction = (data, type) => {
         const creationPopUpData = {
             type,
             typeName: type === "circles" ? "Circle" : "Field",
             name: data.name,
-            fixedName: data.name
+            fixedName: data.name,
+            id: data._id
         }
-        this.setState({creationPopUpVisibility: true, creationPopUpData, creationPopUpInputData: data.name})
+        this.setState({ creationPopUpVisibility: true, creationPopUpData, creationPopUpInputData: data.name })
     }
 
     creationPopUpInput = (e) => {
-        const {creationPopUpData} = this.state
+        const { creationPopUpData } = this.state
         const inputData = e.target.value
         this.setState({
             creationPopUpInputData: inputData,
-            creationPopUpData: {...creationPopUpData, name: inputData ? creationPopUpData.name : ""}
+            creationPopUpData: { ...creationPopUpData, name: inputData ? creationPopUpData.name : "" }
         })
     }
 
-    onSaveCreationPopUp = (type) => {
-        if (type === "circles") {
-            console.log("circles saved")
+    onSaveCreationPopUp = async (type) => {
+        const { creationPopUpInputData, creationPopUpData } = this.state
+        await this.props.patchCommonCreateData("circles", creationPopUpData.id, { name: creationPopUpInputData })
+        const { patchDataCreatedSuccessfully, patchSuccessMessage, errorMsg } = this.props.commonReducer // will be true if success is true from above patch api and pop up will be closed
+        if (patchDataCreatedSuccessfully) {
+            message.success(patchSuccessMessage)
+            this.setState({ creationPopUpVisibility: false })
+            this.props.commonActionForCommonReducer({ patchDataCreatedSuccessfully: false })
+            this.props.getCirclesData()
         } else {
-            console.log("fields saved")
+            message.error(errorMsg);
         }
-        this.setState({
-            creationPopUpVisibility: false
-        })
     }
 
     onSinglePanelClick = (data, type) => {
@@ -141,9 +148,9 @@ class UserConsoleView extends Component {
     }
 
     render() {
-        const {activeLinkName} = this.props.firstReducer
-        const {circlesData, customFieldsData} = this.props.userConsoleMainReducer
-        const {creationPopUpVisibility, creationPopUpData, creationPopUpInputData} = this.state
+        const { activeLinkName } = this.props.firstReducer
+        const { circlesData, customFieldsData } = this.props.userConsoleMainReducer
+        const { creationPopUpVisibility, creationPopUpData, creationPopUpInputData } = this.state
         console.log(this.props.history)
         return (
             <div className={'user-console-view'}>
@@ -167,28 +174,25 @@ class UserConsoleView extends Component {
 
                         </div>
                         {this.customDropdownData.map(singleData => (
-                            <CustomDropdown panelDataype={singleData.type}
-                                            searchPlaceHolder={singleData.searchPlaceHolder}
-                                            panelData={singleData.type === "circles" ? circlesData : customFieldsData}
-                                            onSinglePanelClick={(data) => this.onSinglePanelClick(data, singleData.type)}
-                                            headingName={singleData.headingName}
-                                            onClickSetting={(data) => this.dropDownAction(data, singleData.type)}
+                            <CustomDropdown panelDataype={singleData.type} searchPlaceHolder={singleData.searchPlaceHolder} panelData={singleData.type === "circles" ? circlesData : customFieldsData}
+                                onSinglePanelClick={(data) => this.onSinglePanelClick(data, singleData.type)} headingName={singleData.headingName} onClickSetting={(data) => this.dropDownSettingAction(data, singleData.type)}
                             />
                         ))
                         }
 
                         <CreationPopUp creationPopUpVisibility={creationPopUpVisibility}
-                                       creationPopUpTitle={`Edit ${creationPopUpData.typeName}`}
-                                       creationPopFirstButtonName={"Cancel"}
-                                       creationPopSecondButtonName={"Save"}
-                                       inputValue={creationPopUpInputData || creationPopUpData.name}
-                                       creationPopFirstButtonHandler={() => this.setState({creationPopUpVisibility: false})}
-                                       creationPopSecondButtonHandler={() => this.onSaveCreationPopUp(creationPopUpData.type)}
-                                       secondButtonDisable={!creationPopUpInputData || creationPopUpInputData === creationPopUpData.fixedName ? true : false}
-                                       afterClose={() => this.setState({creationPopUpInputData: ""})}
-                                       creationPopUpFirstFieldChangeHandler={this.creationPopUpInput}
-                                       fieldHeader={`${creationPopUpData.typeName} Name`}
-                                       fieldPlaceHolder={`Enter ${creationPopUpData.typeName} Name`}
+                            creationPopUpTitle={`Edit ${creationPopUpData.typeName}`}
+                            creationPopFirstButtonName={"Cancel"}
+                            creationPopSecondButtonName={"Save"}
+                            inputValue={creationPopUpInputData || creationPopUpData.name}
+                            creationPopFirstButtonHandler={() => this.setState({ creationPopUpVisibility: false })}
+                            creationPopSecondButtonHandler={() => this.onSaveCreationPopUp(creationPopUpData.type)}
+                            secondButtonDisable={!creationPopUpInputData || creationPopUpInputData === creationPopUpData.fixedName ? true : false}
+                            afterClose={() => this.setState({ creationPopUpInputData: "" })}
+                            creationPopUpFirstFieldChangeHandler={this.creationPopUpInput}
+                            fieldHeader={`${creationPopUpData.typeName} Name`}
+                            fieldPlaceHolder={`Enter ${creationPopUpData.typeName} Name`}
+                            customField={creationPopUpData.type === "circles" ? "" : "edit"}
                         />
 
 
@@ -206,22 +210,22 @@ class UserConsoleView extends Component {
 
                             ))}
                             <Route exact path={"/people"}>
-                                <Redirect to={"/people/console"}/>
+                                <Redirect to={"/people/console"} />
                             </Route>
                             <Route exact path={"/people/circle"}>
-                                <Redirect to={"/people/console"}/>
+                                <Redirect to={"/people/console"} />
                             </Route>
                             <Route exact path={"/people/designation"}>
-                                <Redirect to={"/people/designations"}/>
+                                <Redirect to={"/people/designations"} />
                             </Route>
 
-                            <Route exact path={"/people/console"} component={Console}/>
-                            <Route exact path={"/people/departments"} component={Departments}/>
-                            <Route exact path={"/people/designations"} component={Designations}/>
-                            <Route exact path={"/people/circle/:id"} component={CircleOpenView}/>
-                            <Route exact path={"/people/field/:id"} component={FieldOpenView}/>
-                            <Route exact path={"/people/department/:id"} children={<ChangeViewRouting/>}/>
-                            <Route exact path={"/people/designation/:id"} component={DesignationOpenView}/>
+                            <Route exact path={"/people/console"} component={Console} />
+                            <Route exact path={"/people/departments"} component={Departments} />
+                            <Route exact path={"/people/designations"} component={Designations} />
+                            <Route exact path={"/people/circle/:id"} component={CircleOpenView} />
+                            <Route exact path={"/people/field/:id"} component={FieldOpenView} />
+                            <Route exact path={"/people/department/:id"} children={<ChangeViewRouting />} />
+                            <Route exact path={"/people/designation/:id"} component={DesignationOpenView} />
                         </Switch>
                     </div>
                 </div>
@@ -235,7 +239,8 @@ class UserConsoleView extends Component {
 const mapStateToProps = state => {
     return {
         firstReducer: state.firstReducer,
-        userConsoleMainReducer: state.userConsoleMainReducer
+        userConsoleMainReducer: state.userConsoleMainReducer,
+        commonReducer: state.commonReducer
     };
 };
 
@@ -250,7 +255,9 @@ const mapDispatchToProps = dispatch => {
             commonDepartmentAction,
             getTableColumnsData,
             getAddSelectedUsersPostedData,
-            getDepartmentData
+            getDepartmentData,
+            patchCommonCreateData,
+            commonActionForCommonReducer
         },
         dispatch
     );

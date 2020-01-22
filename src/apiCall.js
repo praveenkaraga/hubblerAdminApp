@@ -166,6 +166,9 @@ export const postCommonCreateDataApi = (createForType, data) => {
     return axios.post(`/rest/${createForType}/`, data, axiosConfig)
 }
 
+export const patchCommonCreateDataApi = (createForType, id, data) => {
+    return axios.patch(`/rest/${createForType}/${id}/`, data, axiosConfig)
+}
 
 //-------------------xxxxx-------
 

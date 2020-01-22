@@ -6,7 +6,9 @@ const intialState = {
     singleViewCount: 0,
     singleViewData: [],
     singleViewSuggestionData: [],
-    newDataCreatedSuccessfully: false
+    newDataCreatedSuccessfully: false,
+    patchSuccessMessage: "",
+    patchDataCreatedSuccessfully: false
 }
 
 export const commonReducer = (state = intialState, action) => {
@@ -38,13 +40,21 @@ export const commonReducer = (state = intialState, action) => {
             return {
                 ...state,
                 newDataCreatedSuccessfully: true,
-                newCreatedDataId: newDataInitial.id
+                newCreatedDataId: newDataInitial ? newDataInitial.id : ""
             }
 
         case actionTypes.COMMON_ACTION_FOR_COMMON_REDUCER:
             return {
                 ...state,
                 ...action.payload
+            }
+
+        case actionTypes.PATCH_COMMON_CREATE_DATA:
+            const patchDataInitial = action.payload.data
+            return {
+                ...state,
+                patchDataCreatedSuccessfully: true,
+                patchSuccessMessage: patchDataInitial ? patchDataInitial.result : ""
             }
 
     }
