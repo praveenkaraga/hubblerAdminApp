@@ -36,6 +36,13 @@ class AnimationSearch extends Component {
         }
     }
 
+    onClickPlusIcon = (event) => {
+        event.stopPropagation()
+        if (this.props.onClickAdd) {
+            this.props.onClickAdd()
+        }
+    }
+
 
     render() {
         const { searchActive } = this.state
@@ -48,7 +55,7 @@ class AnimationSearch extends Component {
                     <div className="animationSearch_heading">{headingName}</div>
                     <div className="search_and_plus">
                         <div className="search_icon" onClick={(e) => this.onClickSearch(e, true)}></div>
-                        <div className="plus_icon"></div>
+                        <div className="plus_icon" onClick={this.onClickPlusIcon}></div>
                     </div>
                 </div>
                 <div className={`input_main ${searchActive ? "input_main_active" : "input_main_inactive"}`}>
@@ -119,7 +126,9 @@ class CustomDropdown extends Component {
 
     }
 
-    confirm = () => { }
+    confirm = (event) => {
+        event.stopPropagation()
+    }
 
     onVisibleChange = (status, id) => {
         this.setState({
@@ -141,10 +150,8 @@ class CustomDropdown extends Component {
                     expandIcon={({ isActive }) => <Icon type="caret-right" rotate={isActive ? 90 : 0} />}
                     onChange={this.collapseChange}
                 >
-                    <Panel disabled={panelData.length ? false : true} header={<AnimationSearch collapseStatus={activeCollapse} onLocalSearch={this.onLocalSearch} {...this.props} />} key="1" style={customPanelStyle} >
+                    <Panel disabled={panelData.length ? false : true} header={<AnimationSearch collapseStatus={activeCollapse} onLocalSearch={this.onLocalSearch} {...this.props} />} key="1" style={customPanelStyle}>
                         {!(finalMapData === "noData") ?
-
-
                             finalMapData.map(data => (
                                 <div className={`panelSingleData ${data._id === panelDataActive ? "panelSingleDataActive" : ""}`} onClick={() => this.onSlectingPanelData(data)}>
                                     <div className={`dataImage ${panelDataype === "circles" ? "circleDataImage" : "customDataImage"}`}></div>
@@ -155,12 +162,14 @@ class CustomDropdown extends Component {
                                         <div className={data._id === panelWithPopActive && popConfirmActive ? "action_buttons_active" : "action_buttons"}>
                                             <img className="setting_icon" src={require("../../../images/svg/settings_grey.svg")} onClick={(e) => this.actionButtonsClick(e, "settings", data)} alt="setting" />
                                             <Popconfirm
-                                                title={<p>Are you sure want to delete: <span>{data.name}</span></p>}
+                                                title={<p>Are you sure want to delete: <span className="name">{data.name}</span></p>}
                                                 onConfirm={onDeleteConfirmClick}
                                                 onCancel={onDeleteCancelClick}
                                                 okText={popUpConfirmButtonName}
                                                 cancelText={popUpCancelButtonName}
                                                 onVisibleChange={(status) => this.onVisibleChange(status, data._id)}
+                                                overlayClassName="deletePopUp"
+                                            // onClick={event => event.stopPropagation()}
                                             >
                                                 <img className="delete_icon" src={require("../../../images/svg/delete_red.svg")} onClick={(e) => this.actionButtonsClick(e, "delete", data)} alt="delete" />
                                             </Popconfirm>
@@ -168,8 +177,6 @@ class CustomDropdown extends Component {
                                     </div>
                                 </div>
                             ))
-
-
 
                             : <div className="no_match">No Match Found</div>}
                     </Panel>

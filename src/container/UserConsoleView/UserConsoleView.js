@@ -76,7 +76,9 @@ class UserConsoleView extends Component {
                 type: "circles",
                 name: "",
                 typeName: "Circle",
-                id: ""
+                id: "",
+                mode: "setting",
+                popUpType: ""
             },
             creationPopUpInputData: ""
         }
@@ -106,7 +108,9 @@ class UserConsoleView extends Component {
             typeName: type === "circles" ? "Circle" : "Field",
             name: data.name,
             fixedName: data.name,
-            id: data._id
+            id: data._id,
+            mode: "setting",
+            popUpType: type === "circles" ? "" : "edit"
         }
         this.setState({ creationPopUpVisibility: true, creationPopUpData, creationPopUpInputData: data.name })
     }
@@ -122,13 +126,17 @@ class UserConsoleView extends Component {
 
     onSaveCreationPopUp = async (type) => {
         const { creationPopUpInputData, creationPopUpData } = this.state
-        await this.props.patchCommonCreateData("circles", creationPopUpData.id, { name: creationPopUpInputData })
+        await this.props.patchCommonCreateData(creationPopUpData.type, creationPopUpData.id, { name: creationPopUpInputData })
         const { patchDataCreatedSuccessfully, patchSuccessMessage, errorMsg } = this.props.commonReducer // will be true if success is true from above patch api and pop up will be closed
         if (patchDataCreatedSuccessfully) {
             message.success(patchSuccessMessage)
             this.setState({ creationPopUpVisibility: false })
             this.props.commonActionForCommonReducer({ patchDataCreatedSuccessfully: false })
-            this.props.getCirclesData()
+            if (creationPopUpData.type === "circles") {
+                this.props.getCirclesData()
+            } else {
+                this.props.getCustomFields()
+            }
         } else {
             message.error(errorMsg);
         }
@@ -136,7 +144,7 @@ class UserConsoleView extends Component {
 
     onSinglePanelClick = (data, type) => {
         if (type === "circles") {
-            this.props.history.push(`/people/circle/${data._id}`)
+            this.props.history.push(`/people/circle/${data._id}`, { circleName: data.name })
         } else {
             this.props.history.push(`/people/field/${data._id}`)
         }
@@ -144,14 +152,22 @@ class UserConsoleView extends Component {
 
     createActiveLink = (route) => {
         this.props.createActiveLink(route.link_name)
+    }
 
+    onClickAdd = (type) => {
+        const creationPopUpData = {
+            type,
+            typeName: type === "circles" ? "New Circle" : "New Custom Field",
+            mode: "add",
+            popUpType: type === "circles" ? "" : "add"
+        }
+        this.setState({ creationPopUpVisibility: true, creationPopUpData })
     }
 
     render() {
         const { activeLinkName } = this.props.firstReducer
         const { circlesData, customFieldsData } = this.props.userConsoleMainReducer
         const { creationPopUpVisibility, creationPopUpData, creationPopUpInputData } = this.state
-        console.log(this.props.history)
         return (
             <div className={'user-console-view'}>
                 <div className={'user-console-view-wrap'}>
@@ -176,23 +192,24 @@ class UserConsoleView extends Component {
                         {this.customDropdownData.map(singleData => (
                             <CustomDropdown panelDataype={singleData.type} searchPlaceHolder={singleData.searchPlaceHolder} panelData={singleData.type === "circles" ? circlesData : customFieldsData}
                                 onSinglePanelClick={(data) => this.onSinglePanelClick(data, singleData.type)} headingName={singleData.headingName} onClickSetting={(data) => this.dropDownSettingAction(data, singleData.type)}
+                                onClickAdd={() => this.onClickAdd(singleData.type)}
                             />
                         ))
                         }
 
                         <CreationPopUp creationPopUpVisibility={creationPopUpVisibility}
-                            creationPopUpTitle={`Edit ${creationPopUpData.typeName}`}
+                            creationPopUpTitle={`${creationPopUpData.mode === "setting" ? "Edit" : "Add"} ${creationPopUpData.typeName}`}
                             creationPopFirstButtonName={"Cancel"}
                             creationPopSecondButtonName={"Save"}
                             inputValue={creationPopUpInputData || creationPopUpData.name}
                             creationPopFirstButtonHandler={() => this.setState({ creationPopUpVisibility: false })}
                             creationPopSecondButtonHandler={() => this.onSaveCreationPopUp(creationPopUpData.type)}
-                            secondButtonDisable={!creationPopUpInputData || creationPopUpInputData === creationPopUpData.fixedName ? true : false}
+                            secondButtonDisable={creationPopUpInputData.length < 3 || creationPopUpInputData === creationPopUpData.fixedName ? true : false}
                             afterClose={() => this.setState({ creationPopUpInputData: "" })}
                             creationPopUpFirstFieldChangeHandler={this.creationPopUpInput}
                             fieldHeader={`${creationPopUpData.typeName} Name`}
                             fieldPlaceHolder={`Enter ${creationPopUpData.typeName} Name`}
-                            customField={creationPopUpData.type === "circles" ? "" : "edit"}
+                            customField={creationPopUpData.popUpType}
                         />
 
 
