@@ -476,15 +476,43 @@ _This the view that opens when an user:_
 
 * **allSelectedUsersIsUserData** :  {boolean (default : true) } : `default` table will come(with profile pic and after selecting users all four action buttons will be shown)  and if `false` after selecting user  or data from table only `two` action buttons will come{delete and edit}
 
+* **allSelectedUsersAllSelect** {boolean (default : false) } : if  `true` second `search` will come on right side (this will be with suggestions) and after selecting user  or data from table only `one ` action button{delete} will become active. 
+
+* **allSelectedUsersOnChangeCheckBox** {function(data)} : onClick of checkboxes. You will get all data(array of ids selected) as the first argument of the passed function.
+
+* **allSelectedUsersFirstButtonClick** {function} : onClick of first Button.
+
+* **allSelectedUsersOnChangeRowsPerPage** {function(rowsPerPage)}{default : 30} :  OnChange of the Selection of rows per page. You will pass a function and will get no. of per page selected as first argument.
+
+* **allSelectedUsersChangePage** {function} : onClick of previous or next arrow icon passing -1 or 1 respectively as arguments.
+
+* **allSelectedUsersSearchData**  {function(e){}} : onChange of Search Input.
+
+* **allSelectedUsersCurrentPageNumber** {Number}{default : 0} : Current Page No. of the table.
+
+* **allSelectedUsersOnSearchDropdownSelect** {function(data){data}} : onSelect of any one User data from suggestion. this function will be triggered with value as the first argument of that function.
+
+* **allSelectedUsersSearchDropdownPlaceholder** {"String"}{default : "Search and Add"} : Placeholder for the search dropdown.
+
+* **allSelectedUsersSearchDropdownData** {Array of Objects} : Data to be shown in suggestions(name and _id key is compulsory in each object).
+
+* **allSelectedUsersOnChangeSearchDropdown** {function(data){data}} : onChange of input of the search you can get the data as the first argument of the function you will pass in prop.
+
+* **allSelectedUsersSearchLoader** {"boolean"} : Loader for search.
 
 
 
- 
- 
- 
-  
+<p>&nbsp;</p>
 
+# nnn
 
+<details>
+
+   <summary> Title 1 </summary>
+
+   <p>Content 1 Content 1 Content 1 Content 1 Content 1</p>   
+        
+</details>
 
 
 
