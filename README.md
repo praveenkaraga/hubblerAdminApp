@@ -391,13 +391,101 @@ Below three props scenarios has been explaned above in UserSearch Comp.
 
 * **creationPopUpFirstFieldChangeHandler** {function(event)} : onChange of First field of the popup you can get the data that's been typed in.
 
-* **customField** {"String"} {Default : "default"} :  type "add"  and "edit"
+* **secondButtonDisable** {Boolean} : to disble or enable the second button
 
-##### below one will change UI{view} of this component according to 'customField' given 
+* **inputValue** {"String"} : value to be sent for the input field.
+
+* **afterClose** {function} : function that gets triggered when popup is closed
+
+* **customField** {"String"} {Default : "default"} :  if you pass as the string **"add"**  or  **"edit"**.
+
+##### UI{view} of this component will change according to 'customField' type that's provided, following are the props that has to be passed  
+
+* **secondFieldHeader** : {"String"} : sets the name of the header of the Second field.
+
+* **thirdFieldHeader** : {"String"} : sets the name of the header of the Third field.
 
 * **creationPopUpSecondFieldChangeHandler** {function(value)} : onChange of Second field of the popup you can get the data that's been chosen.
 
 * **creationPopUpThirdFieldChangeHandler** {function(checked)} : onChange of Third field of the popup you can get the data that's been chosen.
+
+**XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
+
+<p>&nbsp;</p>
+
+## `Common Creation View {CommonCreationView}` 
+_This the view that opens when an user:_
+* creates an new department or designation or circle or custom field.
+* clicks on the any of the created department or designation.
+* clicks on of the created circle or custom field.
+
+ - - - -
+ _Props:_
+* **commonCreationViewHeaderName** {"String"} : sets the name for the header, this is the name of the clicked collection entry or the newly created one.
+
+* **backButton** {Boolean} {Default : "true"}  : value will decide whether the back button will be visible or not.
+
+* **commonCreationViewBackButtonClick** {function} : function that triggers on click of the back button.
+
+* **viewDecider** {Boolean} {Default : 0} : if the value passed is 
+
+   #####--> `0 or false` : opens addUsersCard view where new users can be added .
+   #####--> `1 or true` : opens AllSelectedUsers view where you can see the added users.
+   
+* **addUsersCommonCardButtonClick** {function} : function that triggers on click of the button.
+
+* **commonViewLoader** {Boolean} {Default : "false"}: Loader appears while changing views.
+
+* **allSelectedUsersHeadingsData** : {Array} : Array of objects will be passed...{below is sample example}
+
+```javascript
+[
+
+    {
+        "title": "Name",                            //compulsory
+        "dataIndex": "name",                        //compulsory(will be same as _id)
+        "_id": "name",                              //compulsory
+        "lbl": "Name",
+        "type": "text",                             //compulsory
+        "sorter": true,                             //true if you want sorting in table
+        "sortDirections": ["descend", "ascend"],    //type of sorting you want
+        "ellipsis": true                            //true if you want sorting in a particular row
+    },
+    {
+        "title": "Emp ID",
+        "dataIndex": "employee_id",
+        "_id": "employee_id",
+        "lbl": "Emp ID",
+        "type": "text",
+        "sorter": true,
+        "sortDirections": ["descend", "ascend"],
+        "ellipsis": true
+    }
+]   
+```
+
+* **allSelectedUsersOnClickHeadingColumn** {function(activeHeading, sortingType)} : onClick of any Column Heading. You will get two datas as arguments of the passed function . First argument will give the clicked heading `_id` and Second argument will give type of sorting when clicked (for ex. `asc` for ascending, `dsc` for descending and will reset when it comes back to normal mode(when you don't pass anything).
+
+* **allSelectedUsersUsersData** {Array of Objects} : will pass an Array of data to be populated according to allSelectedUsersHeadingsData.
+
+* **allSelectedUsersTotalUsers** {Number}{Default : 0} : Total No. of Users or Data in the table.
+
+* **allSelectedUsersPlaceHolder** {"string"} : Placeholder for search.
+
+* **allSelectedUsersFirstButtonName** {"String"}: Name of first Button.
+
+* **allSelectedUsersIsUserData** :  {boolean (default : true) } : `default` table will come(with profile pic and after selecting users all four action buttons will be shown)  and if `false` after selecting user  or data from table only `two` action buttons will come{delete and edit}
+
+
+
+
+ 
+ 
+ 
+  
+
+
+
 
 
 

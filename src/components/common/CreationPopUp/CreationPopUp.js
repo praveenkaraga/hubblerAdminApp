@@ -8,16 +8,17 @@ const {Option} = Select;
 
 class CreationPopUp extends Component {
 
-
-
-
     test = () =>{
         console.log("Enter")
     }
 
+    inputField = (type) =>{
+
+    }
+
 
     getCustomFieldsSkeleton = (type) =>{
-        const {creationPopUpFirstFieldChangeHandler, fieldHeader, fieldPlaceHolder, creationPopUpSecondFieldChangeHandler,secondFieldHeader=`Type`,thirdFieldHeader=`Required`,creationPopUpThirdFieldChangeHandler,creationPopSecondButtonHandler} = this.props
+        const {creationPopUpFirstFieldChangeHandler, fieldHeader, fieldPlaceHolder, creationPopUpSecondFieldChangeHandler,secondFieldHeader=`Type`,thirdFieldHeader=`Required`,creationPopUpThirdFieldChangeHandler,creationPopSecondButtonHandler,inputValue} = this.props
         const {
             secondFieldOptions = [{name: 'Single Select', key: 'single_select'}, {
                 name: 'Multi Select',
@@ -28,7 +29,9 @@ class CreationPopUp extends Component {
             <div>
                 <div>{fieldHeader}</div>
                 <Input placeholder={fieldPlaceHolder} className={'preferred-field-class'}
-                       onChange={creationPopUpFirstFieldChangeHandler}/>
+                       onChange={creationPopUpFirstFieldChangeHandler}
+                       value={inputValue}  onPressEnter={creationPopSecondButtonHandler}
+                />
             </div>
             <div className={'second-field-wrap'}>
                 <div>{secondFieldHeader}</div>
