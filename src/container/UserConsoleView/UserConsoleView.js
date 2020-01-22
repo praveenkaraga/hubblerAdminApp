@@ -142,10 +142,16 @@ class UserConsoleView extends Component {
         }
     }
 
+    createActiveLink = (route) => {
+        this.props.createActiveLink(route.link_name)
+
+    }
+
     render() {
         const { activeLinkName } = this.props.firstReducer
         const { circlesData, customFieldsData } = this.props.userConsoleMainReducer
         const { creationPopUpVisibility, creationPopUpData, creationPopUpInputData } = this.state
+        console.log(this.props.history)
         return (
             <div className={'user-console-view'}>
                 <div className={'user-console-view-wrap'}>
@@ -158,7 +164,8 @@ class UserConsoleView extends Component {
                                     className={`nav-link ${activeLinkName === route.link_name ? `link-active ${route.class_name}-link-active` : `list-item ${route.class_name}-link`}`}
                                     key={index}
                                     activeClassName={'nav-link-active'}
-                                    onClick={() => this.props.createActiveLink(route.link_name)}>{route.name}
+                                    onClick={() => this.createActiveLink(route)}
+                                    /*onClick={() => this.props.createActiveLink(route.link_name)}*/>{route.name}
                                 </NavLink>
                             ))}
                         </div>

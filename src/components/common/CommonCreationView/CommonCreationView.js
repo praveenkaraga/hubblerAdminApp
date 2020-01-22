@@ -24,10 +24,6 @@ class CommonCreationView extends Component {
         return (
             <div className={'common-creation-view'}>
                 <div className={'common-creation-view-header-wrap'}>
-                    {/*<div className={backButton ? 'headerWithBackArrow' : 'headerWithoutBackArrow'}
-                         onClick={backButton ? () => commonCreationViewBackButtonClick() : ''}>
-                        {commonCreationViewHeaderName}
-                    </div>*/}
                     <div className={'header-wrap'}>
                         <div className={backButton ? 'headerWithBackArrow' : ''} onClick={backButton ? () => commonCreationViewBackButtonClick() : ''}></div>
                         <div className={'headerWithoutBackArrow'}> {commonCreationViewHeaderName}</div>

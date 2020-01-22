@@ -18,7 +18,7 @@ import {
     onClickOfDownloadExcel,
     getImportUserUploadDetails,
     commonTeamReducerAction,
-    patchImportUsersData
+    patchImportUsersData,editUserDataForm
 } from "../../store/actions/actions";
 import AllUserSelect from '../allUserSelect/allUserSelect'
 import filter from "lodash/filter";
@@ -51,7 +51,8 @@ class Departments extends Component {
             addUsersActiveHeading: "",
             addUsersSortingType: "",
             addUsersSearchData: "",
-            importUsersPopUpVisibility: false
+            importUsersPopUpVisibility: false,
+            formPopUpActive:false,
         }
     }
 
@@ -318,7 +319,11 @@ class Departments extends Component {
         const {allSelectedUsersRowsPerPage, allSelectedUsersActiveHeading, allSelectedUsersSortingType} = this.state
         const searchData = e.target.value
         this.props.getAddSelectedUsersPostedData(createdDepartmentData.id, allSelectedUsersRowsPerPage, 1, searchData, allSelectedUsersActiveHeading, allSelectedUsersSortingType)
-        this.props.commonDepartmentAction({ allSelectedUsersCurrentPageNumber :1,allSelectedUsersSearchData : searchData, allSelectedUsersSearchLoader: true})
+        this.props.commonDepartmentAction({
+            allSelectedUsersCurrentPageNumber: 1,
+            allSelectedUsersSearchData: searchData,
+            allSelectedUsersSearchLoader: true
+        })
 
         this.setState({
             searchData,
@@ -366,7 +371,7 @@ class Departments extends Component {
         const {addUsersRowsPerPage, addUsersActiveHeading, addUsersSortingType} = this.state;
         const searchData = e.target.value
         this.props.getAddableUsersData(createdDepartmentData.id, addUsersRowsPerPage, 1, searchData, addUsersActiveHeading, addUsersSortingType)
-        this.props.commonDepartmentAction({searchData,addUsersSearchLoader: true})
+        this.props.commonDepartmentAction({searchData, addUsersSearchLoader: true})
 
         this.setState({
             searchData,
@@ -423,15 +428,24 @@ class Departments extends Component {
         this.props.patchImportUsersData(id, patchData)
     }
 
+    onClickUserEditAction = (status) => {
+        if (status && !this.props.departmentReducer.editUserDataFormMain.length) {
+            this.props.editUserDataForm()
+        }
+        this.setState({
+            formPopUpActive: status
+        })
+    }
+
 
     render() {
-        const {departmentColumnData, departmentsData, addableUsersData, totalUsers, addedUsersData, tableColumnsData, viewDecider, commonViewLoader, totalAddableUsers, totalAllSelectedUsers, commonViewHeader, searchLoader,allSelectedUsersSearchLoader,addUsersSearchLoader} = this.props.departmentReducer;
+        const {departmentColumnData, departmentsData, addableUsersData, totalUsers, addedUsersData, tableColumnsData, viewDecider, commonViewLoader, totalAddableUsers, totalAllSelectedUsers, commonViewHeader, searchLoader, allSelectedUsersSearchLoader, addUsersSearchLoader,editUserDataForm} = this.props.departmentReducer;
 
         const columnData = tableColumnsData ? filter(tableColumnsData, ele => ele._id !== 'departments') : [];
 
         const {importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpData, uploadPopUpVisibility, startUploadStatus, uploadFileStatus, importUsersUploadResponseData, isFileUploaded} = this.props.teamViewReducer;
 
-        const {creationPopUpVisibility, showAddUsersPopUp, commonCreationViewHeaderName, changeToCreatedView} = this.state;
+        const {creationPopUpVisibility, showAddUsersPopUp, commonCreationViewHeaderName, changeToCreatedView,formPopUpActive} = this.state;
         return (
             <div className="departments-main">
                 {!changeToCreatedView ? <div className={'departments-main-view'}>
@@ -450,7 +464,11 @@ class Departments extends Component {
                                    currentPageNumber={this.state.currentPageNumber}
                                    onClickTableRow={this.onRowThisClick}
                                    searchLoader={searchLoader}
-                                   />
+                                   onClickUserEdit={() => this.onClickUserEditAction(true)}
+                                   addUserPopUpActive={formPopUpActive}
+                                   addUserDataForm={editUserDataForm}
+
+                    />
                     <ImportUsersPopUp visible={importUsersPopUpVisiblity}
                                       secondButtonClickHandler={this.props.onClickOfDownloadExcel}
                                       sampleExcelFile={sampleExcelFile}
@@ -487,7 +505,7 @@ class Departments extends Component {
                     //value for third fieldType header
                                          creationPopUpThirdFieldChangeHandler={this.creationPopUpThirdFieldChangeHandler}
                     //function that gets invoked for third fieldType (toggle) of the creation popup
-                                         customField={''} // custom field type ('add' or 'edit') that implies the type of fields that can be added
+                                         customField={'default'} // custom field type ('add' or 'edit') that implies the type of fields that can be added
                                          secondButtonDisable={!commonCreationViewHeaderName ? true : false}
                                          afterClose={this.afterClose}
                                          inputValue={commonCreationViewHeaderName}
@@ -598,7 +616,7 @@ const mapDispatchToProps = dispatch => {
             getCommonViewHeaderName,
             onClickOfDownloadExcel,
             getImportUserUploadDetails,
-            commonTeamReducerAction, patchImportUsersData
+            commonTeamReducerAction, patchImportUsersData,editUserDataForm
         },
         dispatch
     );
