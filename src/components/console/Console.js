@@ -132,7 +132,6 @@ class Console extends Component {
         const { consoleColumnData, consoleUserData, totalUsers, currentPageNumber, searchLoader, columnSettingData, addUserDataForm } = this.props.consoleReducer
         const { clickedTeamUserData, contentLoader, sampleExcelFile, importUsersUploadResponseData } = this.props.teamViewReducer
         const { popUpActive, UserInfoVisible, userId, userData } = this.state;
-        console.log(columnSettingData, "columnSettingData")
         return (
             <div className="console_main">
                 <div className="console_heading"><h3>Console</h3></div>

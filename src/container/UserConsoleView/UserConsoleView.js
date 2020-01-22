@@ -6,12 +6,13 @@ import {
     createActiveLink,
     getCirclesData,
     getCustomFields,
-
     getDeptTableColumnData,
     commonDepartmentAction,
     getTableColumnsData,
     getAddSelectedUsersPostedData,
-    getDepartmentData
+    getDepartmentData,
+    patchCommonCreateData,
+    commonActionForCommonReducer
 } from '../../store/actions/actions'
 import Console from '../../components/console/Console'
 import TeamView from '../../components/teamView/TeamView'
@@ -30,6 +31,7 @@ import {
     Redirect,
     withRouter
 } from "react-router-dom";
+import { message } from 'antd'
 import './userConsoleView.scss'
 
 const routes = [
@@ -74,6 +76,7 @@ class UserConsoleView extends Component {
                 type: "circles",
                 name: "",
                 typeName: "Circle",
+                id: ""
             },
             creationPopUpInputData: ""
         }
@@ -97,12 +100,13 @@ class UserConsoleView extends Component {
         this.props.getCustomFields()
     }
 
-    dropDownAction = (data, type) => {
+    dropDownSettingAction = (data, type) => {
         const creationPopUpData = {
             type,
             typeName: type === "circles" ? "Circle" : "Field",
             name: data.name,
-            fixedName: data.name
+            fixedName: data.name,
+            id: data._id
         }
         this.setState({ creationPopUpVisibility: true, creationPopUpData, creationPopUpInputData: data.name })
     }
@@ -116,15 +120,18 @@ class UserConsoleView extends Component {
         })
     }
 
-    onSaveCreationPopUp = (type) => {
-        if (type === "circles") {
-            console.log("circles saved")
+    onSaveCreationPopUp = async (type) => {
+        const { creationPopUpInputData, creationPopUpData } = this.state
+        await this.props.patchCommonCreateData("circles", creationPopUpData.id, { name: creationPopUpInputData })
+        const { patchDataCreatedSuccessfully, patchSuccessMessage, errorMsg } = this.props.commonReducer // will be true if success is true from above patch api and pop up will be closed
+        if (patchDataCreatedSuccessfully) {
+            message.success(patchSuccessMessage)
+            this.setState({ creationPopUpVisibility: false })
+            this.props.commonActionForCommonReducer({ patchDataCreatedSuccessfully: false })
+            this.props.getCirclesData()
         } else {
-            console.log("fields saved")
+            message.error(errorMsg);
         }
-        this.setState({
-            creationPopUpVisibility: false
-        })
     }
 
     onSinglePanelClick = (data, type) => {
@@ -161,7 +168,7 @@ class UserConsoleView extends Component {
                         </div>
                         {this.customDropdownData.map(singleData => (
                             <CustomDropdown panelDataype={singleData.type} searchPlaceHolder={singleData.searchPlaceHolder} panelData={singleData.type === "circles" ? circlesData : customFieldsData}
-                                onSinglePanelClick={(data) => this.onSinglePanelClick(data, singleData.type)} headingName={singleData.headingName} onClickSetting={(data) => this.dropDownAction(data, singleData.type)}
+                                onSinglePanelClick={(data) => this.onSinglePanelClick(data, singleData.type)} headingName={singleData.headingName} onClickSetting={(data) => this.dropDownSettingAction(data, singleData.type)}
                             />
                         ))
                         }
@@ -178,6 +185,7 @@ class UserConsoleView extends Component {
                             creationPopUpFirstFieldChangeHandler={this.creationPopUpInput}
                             fieldHeader={`${creationPopUpData.typeName} Name`}
                             fieldPlaceHolder={`Enter ${creationPopUpData.typeName} Name`}
+                            customField={creationPopUpData.type === "circles" ? "" : "edit"}
                         />
 
 
@@ -224,7 +232,8 @@ class UserConsoleView extends Component {
 const mapStateToProps = state => {
     return {
         firstReducer: state.firstReducer,
-        userConsoleMainReducer: state.userConsoleMainReducer
+        userConsoleMainReducer: state.userConsoleMainReducer,
+        commonReducer: state.commonReducer
     };
 };
 
@@ -239,7 +248,9 @@ const mapDispatchToProps = dispatch => {
             commonDepartmentAction,
             getTableColumnsData,
             getAddSelectedUsersPostedData,
-            getDepartmentData
+            getDepartmentData,
+            patchCommonCreateData,
+            commonActionForCommonReducer
         },
         dispatch
     );
