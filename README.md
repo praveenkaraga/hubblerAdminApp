@@ -371,7 +371,7 @@ Below three props scenarios has been explaned above in UserSearch Comp.
 
 <p>&nbsp;</p>
 
-## `Creation Popup{CreationPopUp}`
+## `Creation Popup {CreationPopUp}`
 
 * **creationPopUpVisibility** {Boolean}{default : false} : sets the visibility of the popup.
 
@@ -436,7 +436,7 @@ _This the view that opens when an user:_
 
 * **commonViewLoader** {Boolean} {Default : "false"}: Loader appears while changing views.
 
-* **allSelectedUsersHeadingsData** : {Array} : Array of objects will be passed...{below is sample example}
+* **allSelectedUsersHeadingsData** {Array} : Array of objects will be passed...{below is sample example}
 
 ```javascript
 [
@@ -476,13 +476,138 @@ _This the view that opens when an user:_
 
 * **allSelectedUsersIsUserData** :  {boolean (default : true) } : `default` table will come(with profile pic and after selecting users all four action buttons will be shown)  and if `false` after selecting user  or data from table only `two` action buttons will come{delete and edit}
 
+* **allSelectedUsersAllSelect** {boolean (default : false) } : if  `true` second `search` will come on right side (this will be with suggestions) and after selecting user  or data from table only `one ` action button{delete} will become active. 
 
+* **allSelectedUsersOnChangeCheckBox** {function(data)} : onClick of checkboxes. You will get all data(array of ids selected) as the first argument of the passed function.
 
+* **allSelectedUsersFirstButtonClick** {function} : onClick of first Button.
 
+* **allSelectedUsersOnChangeRowsPerPage** {function(rowsPerPage)}{default : 30} :  OnChange of the Selection of rows per page. You will pass a function and will get no. of per page selected as first argument.
+
+* **allSelectedUsersChangePage** {function} : onClick of previous or next arrow icon passing -1 or 1 respectively as arguments.
+
+* **allSelectedUsersSearchData**  {function(e){}} : onChange of Search Input.
+
+* **allSelectedUsersCurrentPageNumber** {Number}{default : 0} : Current Page No. of the table.
+
+* **allSelectedUsersOnSearchDropdownSelect** {function(data){data}} : onSelect of any one User data from suggestion. this function will be triggered with value as the first argument of that function.
+
+* **allSelectedUsersSearchDropdownPlaceholder** {"String"}{default : "Search and Add"} : Placeholder for the search dropdown.
+
+* **allSelectedUsersSearchDropdownData** {Array of Objects} : Data to be shown in suggestions(name and _id key is compulsory in each object).
+
+* **allSelectedUsersOnChangeSearchDropdown** {function(data){data}} : onChange of input of the search you can get the data as the first argument of the function you will pass in prop.
+
+* **allSelectedUsersSearchLoader** {"boolean"} : Loader for search.
+
+_Along with the above props add the props of Add Users Popup{AddUsersPopUp}_.
+
+* **_AddUsersPopUp_** : <a name="add-users-popup" href="#add-users-popup">Click Here to read about the props of add users popup.</a>
+
+**XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
+
+<p>&nbsp;</p>
+
+## `Add Users Popup {AddUsersPopUp}`
+
+###### Add users popup 
+
+***_This component is a popup that contains users of the organization who could be added to different collections._***
+
+___
+
+_Props :_
+
+* **showAddUsersPopUp** {Boolean} {Default : 'false'}: boolean value decides the visibility of the popup.
+
+* **addUsersPopUpTitle** {"String"} : Name of the popup.
+
+* **addUsersPopUpClose** {function} : function to close the popup.
+
+* **addUsersPopUpPlaceHolder** {"String"} : Placeholder for search.
+
+* **addUsersPopUpFirstButtonName** {"String"} : Name for the First Button.
+
+* **addUsersPopUpFirstButtonClick** {function} : onClick of first Button.
+
+* **addUsersPopUpOnChangeCheckBox** {function(data)} : onClick of checkboxes. You will get all data(array of ids selected) as the first argument of the passed function.
+
+* **addUsersPopUpTableColumnsData** {Array} : Array of objects will be passed...{below is sample example}
+
+```javascript
+[
+
+    {
+        "title": "Name",                            //compulsory
+        "dataIndex": "name",                        //compulsory(will be same as _id)
+        "_id": "name",                              //compulsory
+        "lbl": "Name",
+        "type": "text",                             //compulsory
+        "sorter": true,                             //true if you want sorting in table
+        "sortDirections": ["descend", "ascend"],    //type of sorting you want
+        "ellipsis": true                            //true if you want sorting in a particular row
+    },
+    {
+        "title": "Emp ID",
+        "dataIndex": "employee_id",
+        "_id": "employee_id",
+        "lbl": "Emp ID",
+        "type": "text",
+        "sorter": true,
+        "sortDirections": ["descend", "ascend"],
+        "ellipsis": true
+    }
+]   
+```
+* **addUsersOnClickHeadingColumn** {function(activeHeading, sortingType)} : onClick of any Column Heading. You will get two datas as arguments of the passed function . First argument will give the clicked heading `_id` and Second argument will give type of sorting when clicked (for ex. `asc` for ascending, `dsc` for descending and will reset when it comes back to normal mode(when you don't pass anything).
+
+* **addUsersPopUpUsersData** {Array of Objects} : will pass an Array of data to be populated according to addUsersPopUpTableColumnsData.
+
+* **addUsersPopUpTotalUsers** {Number}{Default : 0} : Total No. of Users or Data in the table.
+
+* **addUsersPopUpIsUserData** :  {boolean (default : true) } : `default` table will come(with profile pic and after selecting users all four action buttons will be shown)  and if `false` after selecting user  or data from table only `two` action buttons will come{delete and edit}
+
+* **addUsersPopUpOnlySelectAndAdd** {boolean (default : false) } : if this `true` (`one` button will appear and will be inactive)and after selecting a user or data from table that button will become active along with the count of the selected users.
+
+* **addUsersOnChangeRowsPerPage** {function(rowsPerPage)}{default : 30} :  OnChange of the Selection of rows per page. You will pass a function and will get no. of per page selected as first argument.
+
+* **addUsersChangePage** : {function} : onClick of previous or next arrow icon passing -1 or 1 respectively as arguments. 
+
+* **addUsersSearchData** {function(e){}} : onChange of Search Input.
+
+* **addUsersCurrentPageNumber** {Number}{default : 0} : Current Page No. of the table.
+
+* **addUsersSearchLoader** {"boolean"} : Loader for search.
+
+**XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
+
+<p>&nbsp;</p>
+
+## `Add Users Common Card {AddUsersCommonCard}`
+
+***_This component appears like a card that will let you add users through the AddUsersPopUp component._***
+___
+
+_Props :_
+
+* **addUsersCardTitle** {"String"} {Default : "Add Users"}: Title of the card.
+
+* **addUsersCardSubText** {"String"} {Default : "You don't have any Users here. Please add from the Users list"}: Subtext of the card.
+
+* **buttonName** {"String"} {Default : "Add from Users List"} : Name of the button.
+
+* **addUsersCommonCardButtonClick** {function} : function that triggers on click of the button. 
  
- 
- 
-  
+**XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
+
+<p>&nbsp;</p>
+
+## `Import Users Popup {ImportUsersPopUp}`
+
+***_This component is a popup that facilitates the bulk upload of users._***
+___
+
+_Props :_
 
 
 

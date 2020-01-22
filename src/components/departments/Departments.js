@@ -505,7 +505,7 @@ class Departments extends Component {
                     //value for third fieldType header
                                          creationPopUpThirdFieldChangeHandler={this.creationPopUpThirdFieldChangeHandler}
                     //function that gets invoked for third fieldType (toggle) of the creation popup
-                                         customField={'default'} // custom field type ('add' or 'edit') that implies the type of fields that can be added
+                                         customField={'edit'} // custom field type ('add' or 'edit') that implies the type of fields that can be added
                                          secondButtonDisable={!commonCreationViewHeaderName ? true : false}
                                          afterClose={this.afterClose}
                                          inputValue={commonCreationViewHeaderName}
