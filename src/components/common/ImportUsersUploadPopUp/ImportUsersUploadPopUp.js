@@ -196,7 +196,7 @@ class ImportUsersUploadPopUp extends Component {
     }
 
     processImportUsersData = () => {
-        const {uploadPopUpData, patchImportUsersData, importUsersUploadResponseData, commonTeamReducerAction} = this.props;
+        const {uploadPopUpData, patchImportUsersDataHandler, importUsersUploadResponseData, commonTeamReducerAction} = this.props;
         let _this = this
         let addingUpdatedBy = this.state.mappings.map(function (ele) {
             var result = _this.state.reqFieldIds.filter(inEle => inEle === ele._id);
@@ -213,7 +213,7 @@ class ImportUsersUploadPopUp extends Component {
             upload_type: this.state.uploadOption,
         }*/
         // patchImportUsersData(uploadPopUpData._id, patchData,)
-        patchImportUsersData(uploadPopUpData._id, omitIndexes,true,this.state.uploadOption)
+        patchImportUsersDataHandler(uploadPopUpData._id, omitIndexes,true,this.state.uploadOption)
     }
 
     componentDidMount() {
@@ -287,7 +287,7 @@ class ImportUsersUploadPopUp extends Component {
     render() {
         const {importUsersUploadResponseData, uploadFileLoadingStatus, isFileUploaded} = this.props;
         const {importUsersUploadPopUpHeaderFirstButtonHandler, importUsersUploadPopUpFooterFirstButtonHandler, importUsersUploadPopUpFooterSecondButtonHandler} = this.props
-        const {importUsersUploadPopUpVisibility = false, importUsersUploadPopUpTitle = "IMPORT USERS", uploadPopUpData, fileName, importUsersUploadPopUpHeaderFirstButtonName = `Import Another File`, importUsersUploadPopUpFooterFirstButtonName = `Cancel`, importUsersUploadPopUpFooterSecondButtonName = `Process`, uploadingStatusText = 'Processing', footerSecondButtonPopUpTitle = `Import Status`, footerSecondButtonPopUpPrimaryButtonName = `Download Error Log`, footerSecondButtonPopUpSecondaryButtonName = `Done`, footerFirstButtonConfirmationPopUpTitle = `Cancel Excel Upload`, headerFirstButtonConfirmationPopUpTitle = `Import Another File`, confirmationPopUpPrimaryButtonName = `Cancel`, footerFirstButtonConfirmationPopUpSecondaryButtonName = `Ok`, headerFirstButtonConfirmationPopUpSecondaryButtonName = `Import`,headerFirstButtonConfirmationPopUpBodyText=`Are you sure you want to cancel the Excel Upload and Import another file ?` ,footerFirstButtonConfirmationPopUpBodyText =`Are you sure you want to cancel the Excel Upload` } = this.props
+        const {importUsersUploadPopUpVisibility = false, importUsersUploadPopUpTitle = "IMPORT USERS", uploadPopUpData, fileName, importUsersUploadPopUpHeaderFirstButtonName = `Import Another File`, importUsersUploadPopUpFooterFirstButtonName = `Cancel`, importUsersUploadPopUpFooterSecondButtonName = `Process`, uploadingStatusText = 'Processing', footerSecondButtonPopUpTitle = `Import Status`, footerSecondButtonPopUpPrimaryButtonName = `Download Error Log`, footerSecondButtonPopUpSecondaryButtonName = `Done`, footerFirstButtonConfirmationPopUpTitle = `Cancel Excel Upload`, headerFirstButtonConfirmationPopUpTitle = `Import Another File`, confirmationPopUpPrimaryButtonName = `Cancel`, footerFirstButtonConfirmationPopUpSecondaryButtonName = `Ok`, headerFirstButtonConfirmationPopUpSecondaryButtonName = `Import`,headerFirstButtonConfirmationPopUpBodyText=`Are you sure you want to cancel the Excel Upload and Import another file ?` ,footerFirstButtonConfirmationPopUpBodyText =`Are you sure you want to cancel the Excel Upload?` } = this.props
         let _this = this;
         return (
             <div>

@@ -446,6 +446,8 @@ class Departments extends Component {
         const {importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpData, uploadPopUpVisibility, startUploadStatus, uploadFileStatus, importUsersUploadResponseData, isFileUploaded} = this.props.teamViewReducer;
 
         const {creationPopUpVisibility, showAddUsersPopUp, commonCreationViewHeaderName, changeToCreatedView,formPopUpActive} = this.state;
+
+        console.log(importUsersUploadResponseData)
         return (
             <div className="departments-main">
                 {!changeToCreatedView ? <div className={'departments-main-view'}>
@@ -478,7 +480,7 @@ class Departments extends Component {
                                       importUsersUploadPopUpVisibility={uploadPopUpVisibility}
                                       uploadPopUpData={uploadPopUpData}
                                       importUsersPopUpCloseHandler={() => this.props.commonTeamReducerAction({uploadPopUpVisibility: false})}
-                                      patchImportUsersData={this.patchImportUserData}
+                                      patchImportUsersDataHandler={this.patchImportUserData}
                                       importUsersUploadResponseData={importUsersUploadResponseData}
                                       uploadFileLoadingStatus={uploadFileStatus}
                                       isFileUploaded={isFileUploaded}
@@ -505,7 +507,7 @@ class Departments extends Component {
                     //value for third fieldType header
                                          creationPopUpThirdFieldChangeHandler={this.creationPopUpThirdFieldChangeHandler}
                     //function that gets invoked for third fieldType (toggle) of the creation popup
-                                         customField={'edit'} // custom field type ('add' or 'edit') that implies the type of fields that can be added
+                                         customField={'default'} // custom field type ('add' or 'edit') that implies the type of fields that can be added
                                          secondButtonDisable={!commonCreationViewHeaderName ? true : false}
                                          afterClose={this.afterClose}
                                          inputValue={commonCreationViewHeaderName}
