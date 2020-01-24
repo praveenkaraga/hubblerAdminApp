@@ -18,7 +18,7 @@ import {
     onClickOfDownloadExcel,
     getImportUserUploadDetails,
     commonTeamReducerAction,
-    patchImportUsersData,editUserDataForm
+    patchImportUsersData, editUserDataForm
 } from "../../store/actions/actions";
 import AllUserSelect from '../allUserSelect/allUserSelect'
 import filter from "lodash/filter";
@@ -52,7 +52,7 @@ class Departments extends Component {
             addUsersSortingType: "",
             addUsersSearchData: "",
             importUsersPopUpVisibility: false,
-            formPopUpActive:false,
+            formPopUpActive: false,
         }
     }
 
@@ -439,13 +439,13 @@ class Departments extends Component {
 
 
     render() {
-        const {departmentColumnData, departmentsData, addableUsersData, totalUsers, addedUsersData, tableColumnsData, viewDecider, commonViewLoader, totalAddableUsers, totalAllSelectedUsers, commonViewHeader, searchLoader, allSelectedUsersSearchLoader, addUsersSearchLoader,editUserDataForm} = this.props.departmentReducer;
+        const {departmentColumnData, departmentsData, addableUsersData, totalUsers, addedUsersData, tableColumnsData, viewDecider, commonViewLoader, totalAddableUsers, totalAllSelectedUsers, commonViewHeader, searchLoader, allSelectedUsersSearchLoader, addUsersSearchLoader, editUserDataForm} = this.props.departmentReducer;
 
         const columnData = tableColumnsData ? filter(tableColumnsData, ele => ele._id !== 'departments') : [];
 
         const {importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpData, uploadPopUpVisibility, startUploadStatus, uploadFileStatus, importUsersUploadResponseData, isFileUploaded} = this.props.teamViewReducer;
 
-        const {creationPopUpVisibility, showAddUsersPopUp, commonCreationViewHeaderName, changeToCreatedView,formPopUpActive} = this.state;
+        const {creationPopUpVisibility, showAddUsersPopUp, commonCreationViewHeaderName, changeToCreatedView, formPopUpActive} = this.state;
 
         console.log(importUsersUploadResponseData)
         return (
@@ -511,6 +511,8 @@ class Departments extends Component {
                                          secondButtonDisable={!commonCreationViewHeaderName ? true : false}
                                          afterClose={this.afterClose}
                                          inputValue={commonCreationViewHeaderName}
+                                         inputMaxLength={50}
+                    //maximum number of charecters a user can enter in the input field
 
                     // *end of CreationPopUp props*
                                          commonCreationViewBackButtonClick={this.commonCreationViewBackButtonClick}
@@ -618,7 +620,7 @@ const mapDispatchToProps = dispatch => {
             getCommonViewHeaderName,
             onClickOfDownloadExcel,
             getImportUserUploadDetails,
-            commonTeamReducerAction, patchImportUsersData,editUserDataForm
+            commonTeamReducerAction, patchImportUsersData, editUserDataForm
         },
         dispatch
     );

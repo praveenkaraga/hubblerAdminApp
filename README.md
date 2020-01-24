@@ -409,6 +409,8 @@ Below three props scenarios has been explaned above in UserSearch Comp.
 
 * **creationPopUpThirdFieldChangeHandler** {function(checked)} : onChange of Third field of the popup you can get the data that's been chosen.
 
+* **inputMaxLength** {Number} {Default : 50} : maximum number of charecters a user can enter in the input field.
+
 **XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
 
 <p>&nbsp;</p>

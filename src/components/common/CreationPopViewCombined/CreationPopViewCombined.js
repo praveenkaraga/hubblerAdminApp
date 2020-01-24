@@ -5,7 +5,7 @@ import CommonCreationView from '../../common/CommonCreationView/CommonCreationVi
 
 class CreationPopViewCombined extends Component {
     render() {
-        const {creationPopUpVisibility, creationPopUpTitle, creationPopFirstButtonName, creationPopSecondButtonName, creationPopFirstButtonHandler, creationPopSecondButtonHandler, creationPopUpFirstFieldChangeHandler, customField, changeToCreatedView,fieldHeader,fieldPlaceHolder,secondFieldHeader,creationPopUpSecondFieldChangeHandler,thirdFieldHeader,creationPopUpThirdFieldChangeHandler,inputValue,secondButtonDisable,afterClose} = this.props;
+        const {creationPopUpVisibility, creationPopUpTitle, creationPopFirstButtonName, creationPopSecondButtonName, creationPopFirstButtonHandler, creationPopSecondButtonHandler, creationPopUpFirstFieldChangeHandler, customField, changeToCreatedView,fieldHeader,fieldPlaceHolder,secondFieldHeader,creationPopUpSecondFieldChangeHandler,thirdFieldHeader,creationPopUpThirdFieldChangeHandler,inputValue,secondButtonDisable,afterClose,inputMaxLength} = this.props;
         const {commonCreationViewHeaderName, commonCreationViewBackButtonClick, backButton, viewDecider, addUsersCommonCardButtonClick, allSelectedUsersHeadingsData, allSelectedUsersUsersData, allSelectedUsersTotalUsers, allSelectedUsersPlaceHolder, allSelectedUsersFirstButtonName, allSelectedUsersIsUserData, allSelectedUsersOnChangeCheckBox, allSelectedUsersOnlySelectAndAdd, allSelectedUsersFirstButtonClick, showAddUsersPopUp, addUsersPopUpTitle, addUsersPopUpClose, addUsersPopUpPlaceHolder, addUsersPopUpFirstButtonName, addUsersPopUpFirstButtonClick, addUsersPopUpOnChangeCheckBox, addUsersPopUpTableColumnsData, addUsersPopUpUsersData, addUsersPopUpTotalUsers, addUsersPopUpIsUserData, addUsersPopUpOnlySelectAndAdd,
             allSelectedUsersOnClickHeadingColumn,allSelectedUsersOnChangeRowsPerPage,allSelectedUsersChangePage,allSelectedUsersSearchData,allSelectedUsersCurrentPageNumber,
             addUsersOnClickHeadingColumn,addUsersOnChangeRowsPerPage,addUsersChangePage,addUsersSearchData,addUsersCurrentPageNumber,commonViewLoader,allSelectedUsersAllSelect,allSelectedUsersOnSearchDropdownSelect,allSelectedUsersSearchDropdownPlaceholder,allSelectedUsersSearchDropdownData,allSelectedUsersOnChangeSearchDropdown,allSelectedUsersSearchLoader,addUsersSearchLoader
@@ -26,7 +26,9 @@ class CreationPopViewCombined extends Component {
                                creationPopUpThirdFieldChangeHandler={creationPopUpThirdFieldChangeHandler}
                                inputValue={inputValue}
                                secondButtonDisable={secondButtonDisable}
-                               afterClose={afterClose}/>
+                               afterClose={afterClose}
+                               inputMaxLength={inputMaxLength}
+                />
             )
         } else if (changeToCreatedView) {
             return (

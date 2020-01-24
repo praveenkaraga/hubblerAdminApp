@@ -18,7 +18,7 @@ class CreationPopUp extends Component {
 
 
     getCustomFieldsSkeleton = (type) =>{
-        const {creationPopUpFirstFieldChangeHandler, fieldHeader, fieldPlaceHolder, creationPopUpSecondFieldChangeHandler,secondFieldHeader=`Type`,thirdFieldHeader=`Required`,creationPopUpThirdFieldChangeHandler,creationPopSecondButtonHandler,inputValue} = this.props
+        const {creationPopUpFirstFieldChangeHandler, fieldHeader, fieldPlaceHolder, creationPopUpSecondFieldChangeHandler,secondFieldHeader=`Type`,thirdFieldHeader=`Required`,creationPopUpThirdFieldChangeHandler,creationPopSecondButtonHandler,inputValue,inputMaxLength} = this.props
         const {
             secondFieldOptions = [{name: 'Single Select', key: 'single_select'}, {
                 name: 'Multi Select',
@@ -31,6 +31,7 @@ class CreationPopUp extends Component {
                 <Input placeholder={fieldPlaceHolder} className={'preferred-field-class'}
                        onChange={creationPopUpFirstFieldChangeHandler}
                        value={inputValue}  onPressEnter={creationPopSecondButtonHandler}
+                       maxLength={inputMaxLength}
                 />
             </div>
             <div className={'second-field-wrap'}>
@@ -55,7 +56,7 @@ class CreationPopUp extends Component {
     }
 
     getRequiredFields = (customField) => {
-        const {creationPopUpFirstFieldChangeHandler, fieldHeader, fieldPlaceHolder,inputValue,creationPopSecondButtonHandler} = this.props
+        const {creationPopUpFirstFieldChangeHandler, fieldHeader, fieldPlaceHolder,inputValue,creationPopSecondButtonHandler,inputMaxLength} = this.props
         // console.log(inputValue ,'inputValue')
         switch (customField) {
             case 'add' : {
@@ -68,7 +69,7 @@ class CreationPopUp extends Component {
                 return <div>
                     <div>{fieldHeader}</div>
                     <Input placeholder={fieldPlaceHolder} className={'preferred-field-class'}
-                        onChange={creationPopUpFirstFieldChangeHandler} value={inputValue}  onPressEnter={creationPopSecondButtonHandler}/>
+                        onChange={creationPopUpFirstFieldChangeHandler} value={inputValue}  onPressEnter={creationPopSecondButtonHandler} maxLength={inputMaxLength}/>
                 </div>
             }
         }
@@ -78,7 +79,7 @@ class CreationPopUp extends Component {
     render() {
         const { creationPopUpVisibility = false, creationPopUpTitle = `Add New Department`, creationPopFirstButtonName = `Cancel`,
             creationPopSecondButtonName = `Create`, creationPopFirstButtonHandler, creationPopSecondButtonHandler,
-            customField = 'default', afterClose, secondButtonDisable } = this.props
+            customField = 'default', afterClose, secondButtonDisable, inputMaxLength = "50" } = this.props
 
         return (
             <div className={'creation-pop-up'}>
