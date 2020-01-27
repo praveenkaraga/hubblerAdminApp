@@ -22,8 +22,17 @@ class Console extends Component {
             popUpActive: false,
             UserInfoVisible: false,
             userId: "",
-            userData: {}
+            userData: {},
+            checkedDataKeys: [],
+            disableHeaderButtonNames: []
         }
+        this.selectedUsers = []
+    }
+
+    componentDidMount() {
+        // const { consoleUserData } = this.props.consoleReducer
+        this.props.getConsoleUserData(30)
+        this.props.getTableColumnData()
     }
 
 
@@ -35,8 +44,37 @@ class Console extends Component {
     }
 
 
-    onChangeCheckBox = (value) => {
-        const selectedUsers = value
+    onChangeCheckBox = (selectedRowsKeys, selectedRows) => {
+        const checkedDataKeys = selectedRowsKeys
+        selectedRows.forEach(element => { // taking all the id and status of deactivate of selected data from any page
+            if (!this.selectedUsers.find(data => data._id === element._id)) { // making the data unique
+                this.selectedUsers.push({ _id: element._id, deactivate: element.deactivate })
+            }
+        });
+        this.setState({ checkedDataKeys })
+    }
+
+    changeStatusOfUserAction = (selectedDataOriginal) => { //handelling the case to enable and disable the activate and deactivate button on selection
+
+        const selectedData = selectedDataOriginal.map(data => data.deactivate)
+        let disableHeaderButtonNames = []
+        if (selectedData.includes(true) && (selectedData.includes(false) || selectedData.includes(undefined))) {
+            disableHeaderButtonNames = ["edit", "activate", "deactivate"]
+        } else if ((selectedData.includes(false) || selectedData.includes(undefined))) {
+            disableHeaderButtonNames = selectedDataOriginal.length > 1 ? ["edit", "activate"] : ["activate"]
+        } else {
+            disableHeaderButtonNames = selectedDataOriginal.length > 1 ? ["edit", "deactivate"] : ["deactivate"]
+        }
+
+        this.setState({ disableHeaderButtonNames })
+    }
+
+    onSelectRow = (record, selected) => {
+        if (!selected) { // removing the unselected data from the array 
+            const indexOfRemovedData = this.selectedUsers.map(data => data._id).indexOf(record._id) //taking the index from the array of objects
+            this.selectedUsers.splice(indexOfRemovedData, 1)
+        }
+        this.changeStatusOfUserAction(this.selectedUsers)
     }
 
     onChangeRowsPerPage = (rowsPerPage) => {
@@ -52,11 +90,6 @@ class Console extends Component {
         this.props.commonConsoleAction({ currentPageNumber: goToPage })
     }
 
-    componentDidMount() {
-        // const { consoleUserData } = this.props.consoleReducer
-        this.props.getConsoleUserData(30)
-        this.props.getTableColumnData()
-    }
 
     onClickHeadingColumn = (activeheading, sortingType) => {
         const { currentPageNumber, rowsPerPage, searchData } = this.props.consoleReducer
@@ -127,11 +160,17 @@ class Console extends Component {
         })
     }
 
+    showButtons = () => {
+        return [{ id: "activate", label: "Activate User" }, { id: "deactivate", label: "Deactivate User" },
+        { id: "edit", label: "Edit User" }, { id: "delete", label: "Delete User" }]
+
+    }
+
 
     render() {
         const { consoleColumnData, consoleUserData, totalUsers, currentPageNumber, searchLoader, columnSettingData, addUserDataForm } = this.props.consoleReducer
         const { clickedTeamUserData, contentLoader, sampleExcelFile, importUsersUploadResponseData } = this.props.teamViewReducer
-        const { popUpActive, UserInfoVisible, userId, userData } = this.state;
+        const { popUpActive, UserInfoVisible, userId, userData, checkedDataKeys, disableHeaderButtonNames } = this.state;
         return (
             <div className="console_main">
                 <div className="console_heading"><h3>Console</h3></div>
@@ -153,6 +192,7 @@ class Console extends Component {
                     goNextPage={() => this.changePage(1)} currentPageNumber={currentPageNumber}
                     headingClickData={this.onClickHeadingColumn}
                     allHeadingsData={consoleColumnData} userData={consoleUserData}
+                    onSelectRow={this.onSelectRow}
 
                     //props of column setting component
                     onClickColumnSetting={this.onClickColumnSetting} columnSettingData={columnSettingData}
@@ -175,6 +215,11 @@ class Console extends Component {
 
                     //table fn
                     onClickTableRow={this.onRowClick}
+
+                    //buttons to show and hide 
+                    // showHeaderButtonNames={this.showButtons()}
+                    showHeaderButtons={this.showButtons()}
+                    disableButtonNames={disableHeaderButtonNames}
                 />
 
                 <UserInfoSlider visible={UserInfoVisible} onCloseFunction={() => this.onCloseUserInfo(false)}

@@ -45,8 +45,8 @@ export const userConsoleMainReducer = (state = intialState, action) => {
             const singleCircleDataInitial = action.payload.data
             return {
                 ...state,
-                singleCircleName: singleCircleDataInitial.name,
-                singleCircleCount: singleCircleDataInitial.total_count,
+                singleCircleName: singleCircleDataInitial ? singleCircleDataInitial.name : "",
+                singleCircleCount: singleCircleDataInitial ? singleCircleDataInitial.total_count : 0,
                 singleCircleData: singleCircleDataInitial ? singleCircleDataInitial.result : []
             }
 

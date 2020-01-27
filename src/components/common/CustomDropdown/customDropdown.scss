@@ -213,6 +213,14 @@
     padding-right: 0;
 }
 
+.deletePopUp{
+    .ant-popover-message-title{
+        .name{
+            font-weight: 600;
+        }
+    }
+} 
+
 
 
 @keyframes inputAnimation{

@@ -19,7 +19,8 @@ class CircleOpenView extends Component {
             rowsPerPage: 30,
             activeheading: "",
             sortingType: "",
-            searchData: ""
+            searchData: "",
+            patchDataCreatedSuccessfully: false
         }
     }
 
@@ -34,8 +35,24 @@ class CircleOpenView extends Component {
         this.setState({ singleNodeId: nodeId })
     }
 
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (prevState.patchDataCreatedSuccessfully !== nextProps.commonReducer.patchDataCreatedSuccessfully) {
+            return {
+                patchDataCreatedSuccessfully: nextProps.commonReducer.patchDataCreatedSuccessfully
+            };
+        }
+        return null;
+    }
+
     componentDidUpdate(prevProps, prevState) {
         const currentNodeId = getNodeId(this.props.history)
+
+        if (prevState.patchDataCreatedSuccessfully) {
+            if (this.props.commonReducer.patchDataCreatedSuccessfully !== prevState.patchDataCreatedSuccessfully) {
+                this.updateNodeId()
+            }
+        }
         if (prevState.singleNodeId !== currentNodeId) {
             this.updateNodeId()
         }
@@ -106,7 +123,8 @@ class CircleOpenView extends Component {
 
 const mapStateToProps = state => {
     return {
-        userConsoleMainReducer: state.userConsoleMainReducer
+        userConsoleMainReducer: state.userConsoleMainReducer,
+        commonReducer: state.commonReducer
     };
 };
 
