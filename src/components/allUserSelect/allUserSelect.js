@@ -69,11 +69,15 @@ class AllUserSelect extends Component {
                     switch (dataType) {
                         case "text":
                             singleUserData["name"] = <div className="name_with_image">
-                                {isUserData ?
-                                    singleUserData["profile_image"] ?
-                                        <img src={singleUserData["profile_image"]["thumbnail"]} alt="Profile Pic" />
-                                        :
-                                        <div className="no_profile_pic"><p>{singleUserData.firstname.substring(0, 2)}</p></div>
+                                {isUserData ? // if prop isUserData true then we will show profile pic/ initial names as profiles pic(if pic is not there)
+
+                                    !(singleUserData["deactivate"] === true) ? //checking if user is deactivated or not{a eactivated sign will be shown instead of profile pic}
+                                        singleUserData["profile_image"] // checking if user has profile pic or not
+                                            ?
+                                            <img src={singleUserData["profile_image"]["thumbnail"]} alt="Profile Pic" /> //profile pic
+                                            :
+                                            <div className="no_profile_pic"><p>{singleUserData.firstname.substring(0, 2)}</p></div> //if no profile pic then we are showing first two intials of their first name
+                                        : <div className="no_profile_pic"><img className="deactivated_user_pic" src={require('../../images/svg/deactivate-user-pic.svg')} /></div>
                                     : ""}
                                 <div className="only_name">{singleUserData.firstname || ""}  {singleUserData.lastname || ""}</div>
                             </div>

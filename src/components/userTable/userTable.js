@@ -45,6 +45,11 @@ class UserTable extends Component {
         }
     }
 
+
+    rowClassName = (record) => { // changing the classname of row of the table according to the active status of user
+        return !(record.deactivate === true) ? "user_table_row user_table_row_active_user" : "user_table_row user_table_row_deactivated_user"
+    }
+
     render() {
         const { selectedRowKeys } = this.state;
         const { allHeadingsData, modifiedUserData, onClickTableRow } = this.props
@@ -55,11 +60,13 @@ class UserTable extends Component {
             onSelectAll: this.onSelectAll
         }
 
-        return <Table className={`user_table_main ${onClickTableRow ? "row_clickable" : "row_not_clickable"}`}
+        console.log(modifiedUserData, "modifiedUserData")
+
+        return <Table rowKey={record => record.key} className={`user_table_main ${onClickTableRow ? "row_clickable" : "row_not_clickable"}`}
             rowSelection={rowSelection} columns={allHeadingsData}
             dataSource={modifiedUserData} pagination={false} scroll={{ y: "unset" }}
             onChange={this.onChange} {...this.props} onRow={this.onRowClick}
-        // rowClassName
+            rowClassName={this.rowClassName}
         />
     }
 }
