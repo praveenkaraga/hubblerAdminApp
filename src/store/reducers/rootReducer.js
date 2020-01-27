@@ -6,7 +6,7 @@ import { departmentReducer } from './departmentReducer'
 import { designationsReducer } from './designationsReducer'
 import { userConsoleMainReducer } from './userConsoleMainReducer'
 import { commonReducer } from './commonReducer'
-
+import { holidayReducer } from './holidayReducer'
 
 const rootReducer = combineReducers({
     firstReducer,
@@ -15,7 +15,8 @@ const rootReducer = combineReducers({
     departmentReducer,
     designationsReducer,
     userConsoleMainReducer,
-    commonReducer
+    commonReducer,
+    holidayReducer,
 });
 
 

@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { connect } from "react-redux";
+import React, {Component} from 'react';
+import {connect} from "react-redux";
 import UserConsoleView from '../UserConsoleView/UserConsoleView'
 import ProfileView from '../ProfileView/ProfileView'
-import { Drawer } from 'antd';
+import {Drawer} from 'antd';
 import 'antd/dist/antd.css';
 import './adminNav.scss'
-import { bindActionCreators } from "redux";
-import { hamburgerIconClick, createActiveLink } from "../../store/actions/actions";
+import {bindActionCreators} from "redux";
+import {hamburgerIconClick, createActiveLink} from "../../store/actions/actions";
 import {
     BrowserRouter as Router,
     Switch,
@@ -19,14 +19,14 @@ const routes = [
     {
         path: "/people",
         exact: false,
-        main: () => <UserConsoleView />,
+        main: () => <UserConsoleView/>,
         name: "People",
         class_name: 'people',
     },
     {
         path: "/profile",
         main: () => <ProfileView/>,
-        name: "Profile",
+        name: "Profiles",
         class_name: 'profile'
     },
     {
@@ -53,14 +53,13 @@ const routes = [
 class AdminNav extends Component {
 
     render() {
-        const { consoleDrawerVisible } = this.props.firstReducer
+        const {consoleDrawerVisible} = this.props.firstReducer
         return (
             <div className={'admin-nav'}>
                 <div className={'admin-nav-header'}>
                     <div className={'hamburger-icon'} onClick={() => this.props.hamburgerIconClick(true)}></div>
                     <div className={'header-text-hubbler'}>hubbler</div>
                 </div>
-                {/* <UserConsoleView/>*/}
                 <Router>
                     <Drawer
                         className={'admin-drawer'}
@@ -73,10 +72,10 @@ class AdminNav extends Component {
                                 <NavLink
                                     className={`admin-link list-item ${route.class_name}-link`}
                                     key={index}
-                                    to={route.path} onClick={() => this.props.hamburgerIconClick(false)}>{route.name}</NavLink>
+                                    to={route.path}
+                                    onClick={() => this.props.hamburgerIconClick(false)}>{route.name}</NavLink>
                             ))}
                         </div>
-
                     </Drawer>
                     <div className={'console-main-route-wrap'}>
                         <Switch>
@@ -85,13 +84,11 @@ class AdminNav extends Component {
                                     key={index}
                                     path={route.path}
                                     exact={route.exact}
-                                    children={<route.main />}
-                                />
+                                    children={<route.main/>}/>
                             ))}
                         </Switch>
                     </div>
                 </Router>
-
             </div>
         )
     }

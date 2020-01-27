@@ -6,7 +6,7 @@ import * as departmentActions from './departmentActions'
 import * as designationsActions from './designationsAction'
 import * as userConsoleMainActions from './userConsoleMainAction'
 import * as commonActions from './commonActions'
-
+import * as holidayActions from './holidayActions'
 //------------------------------Create User Action---------------------------
 export const { getUserData } = createUserAction
 
@@ -70,3 +70,9 @@ export const { getSingleViewData, getSingleViewSuggestionData, postCommonCreateD
 
 //------------------------------ xxxxxxxxxxxxxxxxxxxxxxx-----------------------------
 
+
+//------------------------------ Holiday Profile Actions -------------------------------//
+
+export const {  commonHolidayAction,getHolidayTableColumnData,getHolidayProfileData } = holidayActions;
+
+//------------------------------xxxxxxxxxxxxxxxxxxx-------------------------------//
