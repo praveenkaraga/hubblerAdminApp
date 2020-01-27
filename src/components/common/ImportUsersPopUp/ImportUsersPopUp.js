@@ -28,10 +28,8 @@ class ImportUsersPopUp extends Component {
     };
 
 
-
-
     render() {
-        const {visible, modalClose,firstButtonName = `Select File`,secondButtonName = 'Download Sample Excel', secondButtonClickHandler,thirdButtonName= `Cancel`,thirdButtonClickHandler,fourthButtonOnLoadingText = `Uploading`,fourthButtonName = `Start Upload` ,fourthButtonClickHandler,fourthButtonLoaderStatus = false,sampleExcelFile, onClickStartUpload, uploadPopUpData, importUsersUploadPopUpVisibility, importUsersPopUpCloseHandler, patchImportUsersData, importUsersUploadResponseData, uploadFileLoadingStatus, commonTeamReducerAction, isFileUploaded,importUsersUploadPopUpHeaderFirstButtonHandler} = this.props;
+        const {visible, modalClose, firstButtonName = `Select File`, secondButtonName = 'Download Sample Excel', secondButtonClickHandler, thirdButtonName = `Cancel`, thirdButtonClickHandler, fourthButtonOnLoadingText = `Uploading`, fourthButtonName = `Start Upload`, fourthButtonClickHandler, fourthButtonLoaderStatus = false, sampleExcelFile, onClickStartUpload, uploadPopUpData, importUsersUploadPopUpVisibility, importUsersPopUpCloseHandler, patchImportUsersDataHandler, importUsersUploadResponseData, uploadFileLoadingStatus, commonTeamReducerAction, isFileUploaded, importUsersUploadPopUpHeaderFirstButtonHandler} = this.props;
         const {uploading, fileList} = this.state;
         const props = {
             onRemove: file => {
@@ -93,18 +91,20 @@ class ImportUsersPopUp extends Component {
                 </div>
             </Modal>
 
-            {importUsersUploadPopUpVisibility ? <ImportUsersUploadPopUp importUsersUploadPopUpVisibility={importUsersUploadPopUpVisibility}
-                                                                        importUsersPopUpCloseHandler={importUsersPopUpCloseHandler}
-                                                             fileName={fileList[0] ? fileList[0].name : ''}
-                                                             modalClose={thirdButtonClickHandler}
-                                                             uploadProps={props}
-                                                             sampleExcelFile={sampleExcelFile}
-                                                             uploadPopUpData={uploadPopUpData}
-                                                             patchImportUsersData={patchImportUsersData}
-                                                             importUsersUploadResponseData={importUsersUploadResponseData}
-                                                                        uploadFileLoadingStatus={uploadFileLoadingStatus}
-                                                             commonTeamReducerAction={commonTeamReducerAction}
-                                                             isFileUploaded={isFileUploaded} importUsersUploadPopUpHeaderFirstButtonHandler={importUsersUploadPopUpHeaderFirstButtonHandler}/> : ''}
+            {importUsersUploadPopUpVisibility ?
+                <ImportUsersUploadPopUp importUsersUploadPopUpVisibility={importUsersUploadPopUpVisibility}
+                                        importUsersPopUpCloseHandler={importUsersPopUpCloseHandler}
+                                        fileName={fileList[0] ? fileList[0].name : ''}
+                                        modalClose={thirdButtonClickHandler}
+                                        uploadProps={props}
+                                        sampleExcelFile={sampleExcelFile}
+                                        uploadPopUpData={uploadPopUpData}
+                                        patchImportUsersDataHandler={patchImportUsersDataHandler}
+                                        importUsersUploadResponseData={importUsersUploadResponseData}
+                                        uploadFileLoadingStatus={uploadFileLoadingStatus}
+                                        commonTeamReducerAction={commonTeamReducerAction}
+                                        isFileUploaded={isFileUploaded}
+                                        importUsersUploadPopUpHeaderFirstButtonHandler={importUsersUploadPopUpHeaderFirstButtonHandler}/> : ''}
         </div>
 
     }

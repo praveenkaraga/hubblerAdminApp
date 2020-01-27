@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import UserConsoleView from '../UserConsoleView/UserConsoleView'
+import ProfileView from '../ProfileView/ProfileView'
 import { Drawer } from 'antd';
 import 'antd/dist/antd.css';
 import './adminNav.scss'
@@ -24,7 +25,7 @@ const routes = [
     },
     {
         path: "/profile",
-        main: () => 'Profile',
+        main: () => <ProfileView/>,
         name: "Profile",
         class_name: 'profile'
     },
