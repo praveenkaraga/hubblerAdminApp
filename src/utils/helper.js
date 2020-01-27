@@ -26,3 +26,8 @@ export function validationRules(required, label, minLength, maxLength) {
 export const getNodeId = (history) => {
     return history.location.pathname.split("/")[3]
 }
+
+
+export const capitalFirstLetter = (data) => {
+    return data.charAt(0).toUpperCase() + data.slice(1)
+}

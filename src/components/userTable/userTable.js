@@ -11,9 +11,10 @@ class UserTable extends Component {
     }
 
 
-    onSelectChange = selectedRowKeys => {
-        // console.log('selectedRowKeys changed: ', selectedRowKeys);
-        this.props.onChangeCheckBox(selectedRowKeys)
+    onSelectChange = (selectedRowKeys, selectedRows) => {
+        if (this.props.onChangeCheckBox) {
+            this.props.onChangeCheckBox(selectedRowKeys, selectedRows)
+        }
         this.setState({ selectedRowKeys });
     };
 
@@ -32,18 +33,34 @@ class UserTable extends Component {
         }
     }
 
+    onSelectRow = (record, selected, selectedRows) => {
+        if (this.props.onSelectRow) {
+            this.props.onSelectRow(record, selected, selectedRows)
+        }
+    }
+
+    onSelectAll = (selected, selectedRows) => {
+        if (this.props.onSelectAll) {
+            this.props.onSelectAll(selected, selectedRows)
+        }
+    }
+
     render() {
         const { selectedRowKeys } = this.state;
         const { allHeadingsData, modifiedUserData, onClickTableRow } = this.props
         const rowSelection = {
             selectedRowKeys,
             onChange: this.onSelectChange,
+            onSelect: this.onSelectRow,
+            onSelectAll: this.onSelectAll
         }
 
         return <Table className={`user_table_main ${onClickTableRow ? "row_clickable" : "row_not_clickable"}`}
             rowSelection={rowSelection} columns={allHeadingsData}
             dataSource={modifiedUserData} pagination={false} scroll={{ y: "unset" }}
-            onChange={this.onChange} {...this.props} onRow={this.onRowClick} />
+            onChange={this.onChange} {...this.props} onRow={this.onRowClick}
+        // rowClassName
+        />
     }
 }
 

@@ -73,12 +73,12 @@ class UserConsoleView extends Component {
         this.state = {
             creationPopUpVisibility: false,
             creationPopUpData: {
-                type: "circles",
-                name: "",
-                typeName: "Circle",
-                id: "",
-                mode: "setting",
-                popUpType: ""
+                type: "circles", //type of dropdown
+                name: "", //name of the item selected
+                typeName: "Circle", //used this for showing heading and few more props of popup
+                id: "", // id of the user on which has been clicked
+                mode: "setting", //checking if user has clicked on setting or add icon [input box will have default value if "setting"]
+                popUpType: ""  // according to this we will change different types of popup ui and fn
             },
             creationPopUpInputData: ""
         }
@@ -102,15 +102,15 @@ class UserConsoleView extends Component {
         this.props.getCustomFields()
     }
 
-    dropDownSettingAction = (data, type) => {
+    dropDownSettingAction = (data, type) => { //onCLick of setting icon of header in dropdown
         const creationPopUpData = {
             type,
             typeName: type === "circles" ? "Circle" : "Field",
             name: data.name,
             fixedName: data.name,
             id: data._id,
-            mode: "setting",
-            popUpType: type === "circles" ? "" : "edit"
+            mode: "setting", // will have default value in input box 
+            popUpType: type === "circles" ? "" : "edit" // if empty("") normal pop will be openend else custom filed pop up will open
         }
         this.setState({ creationPopUpVisibility: true, creationPopUpData, creationPopUpInputData: data.name })
     }
@@ -127,8 +127,8 @@ class UserConsoleView extends Component {
     onSaveCreationPopUp = async (type) => {
         const { creationPopUpInputData, creationPopUpData } = this.state
         await this.props.patchCommonCreateData(creationPopUpData.type, creationPopUpData.id, { name: creationPopUpInputData })
-        const { patchDataCreatedSuccessfully, patchSuccessMessage, errorMsg } = this.props.commonReducer // will be true if success is true from above patch api and pop up will be closed
-        if (patchDataCreatedSuccessfully) {
+        const { patchDataCreatedSuccessfully, patchSuccessMessage, errorMsg } = this.props.commonReducer
+        if (patchDataCreatedSuccessfully) {// will be true if success is true from above patch api and pop up will be closed
             message.success(patchSuccessMessage)
             this.setState({ creationPopUpVisibility: false })
             this.props.commonActionForCommonReducer({ patchDataCreatedSuccessfully: false })
@@ -142,9 +142,9 @@ class UserConsoleView extends Component {
         }
     }
 
-    onSinglePanelClick = (data, type) => {
-        if (type === "circles") {
-            this.props.history.push(`/people/circle/${data._id}`, { circleName: data.name })
+    onSinglePanelClick = (data, type) => { //Onclick of items of dropdown panel
+        if (type === "circles") { //making url change acording to type of dropdown
+            this.props.history.push(`/people/circle/${data._id}`)
         } else {
             this.props.history.push(`/people/field/${data._id}`)
         }
@@ -154,12 +154,12 @@ class UserConsoleView extends Component {
         this.props.createActiveLink(route.link_name)
     }
 
-    onClickAdd = (type) => {
+    onClickAdd = (type) => { //if click plus(add) icon of the dropdown Header making changes in the pop up data
         const creationPopUpData = {
             type,
             typeName: type === "circles" ? "New Circle" : "New Custom Field",
-            mode: "add",
-            popUpType: type === "circles" ? "" : "add"
+            mode: "add", //will be opened with empty value in input box
+            popUpType: type === "circles" ? "" : "add" // if empty normal pop up will open and else it will open for custom fields
         }
         this.setState({ creationPopUpVisibility: true, creationPopUpData })
     }

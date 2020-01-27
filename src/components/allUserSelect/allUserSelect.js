@@ -5,6 +5,7 @@ import UserSearch from '../common/UserSearch/userSearch'
 import AddUser from '../addUser/addUser'
 import ColumnSetting from './columnSetting/columnSetting'
 import UserTable from '../userTable/userTable'
+import find from 'lodash/find';
 
 
 class AllUserSelect extends Component {
@@ -21,7 +22,6 @@ class AllUserSelect extends Component {
             popUpActive: false,
             visibleColumnSetting: false,
         }
-        this.plainOptions = []
     }
 
     onChangeRowsPerPage = (value) => { //when changing data per rows
@@ -46,9 +46,16 @@ class AllUserSelect extends Component {
 
     }
 
-    onChangeCheckBox = (list) => {
-        this.props.onChangeCheckBox(list)
-        this.setState({ checkedList: list })
+    onChangeCheckBox = (selectedRowsKeys, selectedRows) => {
+        this.props.onChangeCheckBox(selectedRowsKeys, selectedRows)
+        this.setState({ checkedList: selectedRowsKeys })
+    }
+
+    onSelectRow = (record, selected, selectedRows) => {
+        if (this.props.onSelectRow) { //if this prop is used then enable this prop
+            this.props.onSelectRow(record, selected, selectedRows)
+        }
+
     }
 
 
@@ -114,14 +121,10 @@ class AllUserSelect extends Component {
         const { allHeadingsData, userData, searchFirstButtonName, searchSecondButtonName, searchPlaceHolder, searchFirstButtonLoader = false, onChangeCheckBox,
             searchSecondButtonLoader = false, searchFirstButtonClick, searchSecondButtonClick, searchLoader = false, onSearch, totalUsers, goPrevPage, goNextPage, currentPageNumber, columnSettingData,
             onClickUserActivate, onClickUserDeactivate, onClickUserDelete, onClickUserEdit, addUserPopUpActive, addUserCloseButton, addUserDataForm, isUserData = true, onlySelectAndAdd = false,
-            typeOfData = "Total Data", onClickTableRow, columnConfigurable = false, allSelect, onSearchDropdownSelect, searchDropdownPlaceholder, searchDropdownData, onChangeSearchDropdown } = this.props
+            typeOfData = "Total Data", onClickTableRow, columnConfigurable = false, allSelect, onSearchDropdownSelect, searchDropdownPlaceholder, searchDropdownData, onChangeSearchDropdown, showHeaderButtons, disableButtonNames } = this.props
         const perPageOptions = [7, 10, 20, 30, 40, 50, 100]
         const { checkedList, rowsPerPage, visibleColumnSetting } = this.state
         const totalPages = Math.ceil(totalUsers / rowsPerPage)
-        this.plainOptions = []
-        userData.forEach(element => {
-            this.plainOptions.push(element._id)
-        });
         const modifiedUserData = this.modellingData(userData, allHeadingsData)
         return (
             <div className="allUserSelect_main">
@@ -132,7 +135,7 @@ class AllUserSelect extends Component {
                         onUserActivate={onClickUserActivate} onUserDeactivate={onClickUserDeactivate} onlySelectAndAdd={onlySelectAndAdd}
                         onUserDelete={onClickUserDelete} onUserEdit={onClickUserEdit} addUserPopUpActive={addUserPopUpActive} isUserData={isUserData}
                         allSelect={allSelect} onSearchDropdownSelect={onSearchDropdownSelect} searchDropdownPlaceholder={searchDropdownPlaceholder}
-                        searchDropdownData={searchDropdownData} onChangeSearchDropdown={onChangeSearchDropdown} />
+                        searchDropdownData={searchDropdownData} onChangeSearchDropdown={onChangeSearchDropdown} showButtonNames={showHeaderButtons} disableButtonNames={disableButtonNames} />
 
 
                     <div className="setting_table_combine">
@@ -153,7 +156,8 @@ class AllUserSelect extends Component {
                         </div> : ""}
 
                         <UserTable ref={table => this.wholeTable = table} modifiedUserData={modifiedUserData} allHeadingsData={allHeadingsData}
-                            sortingData={this.onheadingClick} onChangeCheckBox={this.onChangeCheckBox} loading={!modifiedUserData.length ? true : false} onClickTableRow={onClickTableRow} />
+                            sortingData={this.onheadingClick} onChangeCheckBox={this.onChangeCheckBox} loading={!modifiedUserData.length ? true : false}
+                            onClickTableRow={onClickTableRow} onSelectRow={this.onSelectRow} />
                     </div>
 
 
