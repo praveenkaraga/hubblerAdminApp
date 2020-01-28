@@ -60,16 +60,7 @@ class UserSearch extends Component {
             isUserData = true, onlySelectAndAdd = false, allSelect = false, onSearchDropdownSelect, searchDropdownPlaceholder,
             searchDropdownData, onChangeSearchDropdown, showButtonNames = [], disableButtonNames = [] } = this.props
 
-        let startActionPoint = !isUserData ? 3 : 0
-        let endActionPoint = 5
-        if (allSelect) {
-            startActionPoint = 3
-            endActionPoint = 4
-        }
-
         const alluserActions = this.createUserActionButtons(showButtonNames)
-
-        // const alluserActions = this.createUserActionButtons([])
 
         return (
             <div className={`search_and_buttons ${userSelected ? "user_selected" : "no_user_selected"}`}>
@@ -82,7 +73,7 @@ class UserSearch extends Component {
                             <Tooltip key={`totalUserstooltip`} placement="top" title={"Total Users Selected"}>
                                 <div className="user_count">{userSelected}</div>
                             </Tooltip>
-                            {alluserActions.slice(startActionPoint, endActionPoint).map((data, i) => {
+                            {alluserActions.map((data, i) => {
                                 if (data.class !== "partition_div") {
                                     return (
                                         <Tooltip key={`${data.class}tooltip`} placement="top" title={data.tooltip}>

@@ -48,7 +48,6 @@ class AllUserSelect extends Component {
 
     onChangeCheckBox = (selectedRowsKeys, selectedRows) => {
         this.props.onChangeCheckBox(selectedRowsKeys, selectedRows)
-        this.setState({ checkedList: selectedRowsKeys })
     }
 
     onSelectRow = (record, selected, selectedRows) => {
@@ -125,17 +124,19 @@ class AllUserSelect extends Component {
         const { allHeadingsData, userData, searchFirstButtonName, searchSecondButtonName, searchPlaceHolder, searchFirstButtonLoader = false, onChangeCheckBox,
             searchSecondButtonLoader = false, searchFirstButtonClick, searchSecondButtonClick, searchLoader = false, onSearch, totalUsers, goPrevPage, goNextPage, currentPageNumber, columnSettingData,
             onClickUserActivate, onClickUserDeactivate, onClickUserDelete, onClickUserEdit, addUserPopUpActive, addUserCloseButton, addUserDataForm, isUserData = true, onlySelectAndAdd = false,
-            typeOfData = "Total Data", onClickTableRow, columnConfigurable = false, allSelect, onSearchDropdownSelect, searchDropdownPlaceholder, searchDropdownData, onChangeSearchDropdown, showHeaderButtons, disableButtonNames } = this.props
+            typeOfData = "Total Data", onClickTableRow, columnConfigurable = false, allSelect, onSearchDropdownSelect, searchDropdownPlaceholder, searchDropdownData, onChangeSearchDropdown,
+            showHeaderButtons, disableButtonNames, selectedDataCount } = this.props
         const perPageOptions = [7, 10, 20, 30, 40, 50, 100]
-        const { checkedList, rowsPerPage, visibleColumnSetting } = this.state
+        const { rowsPerPage, visibleColumnSetting } = this.state
         const totalPages = Math.ceil(totalUsers / rowsPerPage)
         const modifiedUserData = this.modellingData(userData, allHeadingsData)
+
         return (
             <div className="allUserSelect_main">
                 <div className="allUserSelect_container">
                     <UserSearch firstButtonName={searchFirstButtonName} secondButtonName={searchSecondButtonName} searchPlaceHolder={searchPlaceHolder}
                         firstButtonLoader={searchFirstButtonLoader} secondButtonLoader={searchSecondButtonLoader} searchLoader={searchLoader} onSearch={onSearch}
-                        onClickFirst={searchFirstButtonClick} onClickSecond={searchSecondButtonClick} userSelected={checkedList.length}
+                        onClickFirst={searchFirstButtonClick} onClickSecond={searchSecondButtonClick} userSelected={selectedDataCount}
                         onUserActivate={onClickUserActivate} onUserDeactivate={onClickUserDeactivate} onlySelectAndAdd={onlySelectAndAdd}
                         onUserDelete={onClickUserDelete} onUserEdit={onClickUserEdit} addUserPopUpActive={addUserPopUpActive} isUserData={isUserData}
                         allSelect={allSelect} onSearchDropdownSelect={onSearchDropdownSelect} searchDropdownPlaceholder={searchDropdownPlaceholder}
@@ -161,7 +162,7 @@ class AllUserSelect extends Component {
 
                         <UserTable ref={table => this.wholeTable = table} modifiedUserData={modifiedUserData} allHeadingsData={allHeadingsData}
                             sortingData={this.onheadingClick} onChangeCheckBox={this.onChangeCheckBox} loading={!modifiedUserData.length ? true : false}
-                            onClickTableRow={onClickTableRow} onSelectRow={this.onSelectRow} />
+                            onClickTableRow={onClickTableRow} onSelectRow={this.onSelectRow} selectedDataCount={selectedDataCount} />
                     </div>
 
 

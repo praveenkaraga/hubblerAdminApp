@@ -52,15 +52,13 @@ class UserTable extends Component {
 
     render() {
         const { selectedRowKeys } = this.state;
-        const { allHeadingsData, modifiedUserData, onClickTableRow } = this.props
+        const { allHeadingsData, modifiedUserData, onClickTableRow, selectedDataCount = 0 } = this.props
         const rowSelection = {
-            selectedRowKeys,
+            selectedRowKeys: selectedDataCount ? selectedRowKeys : [],
             onChange: this.onSelectChange,
             onSelect: this.onSelectRow,
             onSelectAll: this.onSelectAll
         }
-
-        console.log(modifiedUserData, "modifiedUserData")
 
         return <Table rowKey={record => record.key} className={`user_table_main ${onClickTableRow ? "row_clickable" : "row_not_clickable"}`}
             rowSelection={rowSelection} columns={allHeadingsData}

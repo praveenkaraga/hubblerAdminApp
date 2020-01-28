@@ -1,5 +1,5 @@
 import * as actionTypes from '../actionTypes'
-import { getTableColumns, getUsers, getTableColumnSetting, getAddUserDataForm } from '../../apiCall'
+import { getTableColumns, getUsers, getTableColumnSetting, getAddUserDataForm, postCommonActionOnUserApi } from '../../apiCall'
 
 export const getTableColumnData = () => {
     const payload = getTableColumns()
@@ -40,6 +40,15 @@ export const addUserDataForm = () => {
     const payload = getAddUserDataForm()
     return {
         type: actionTypes.ADD_USER_DATA_FORM,
+        payload
+    }
+}
+
+
+export const postCommonActionOnUser = (typeOfAction, data) => {
+    const payload = postCommonActionOnUserApi(typeOfAction, data)
+    return {
+        type: actionTypes.POST_COMMON_ACTION_ON_USER,
         payload
     }
 }

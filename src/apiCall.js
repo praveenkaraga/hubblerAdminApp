@@ -170,6 +170,13 @@ export const patchCommonCreateDataApi = (createForType, id, data) => {
     return axios.patch(`/rest/${createForType}/${id}/`, data, axiosConfig)
 }
 
+
+
+//actions on users----------
+export const postCommonActionOnUserApi = (typeOfAction, data) => {
+    return axios.post(`/${typeOfAction === "delete" ? "rest/users" : "users"}/${typeOfAction}/`, data, axiosConfig)
+}
+
 //-------------------xxxxx-------
 
 

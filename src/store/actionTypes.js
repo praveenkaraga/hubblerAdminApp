@@ -56,3 +56,6 @@ export const COMMON_ACTION_FOR_COMMON_REDUCER = "COMMON_ACTION_FOR_COMMON_REDUCE
 export const PATCH_COMMON_CREATE_DATA = "PATCH_COMMON_CREATE_DATA"
 
 
+export const POST_COMMON_ACTION_ON_USER = "POST_COMMON_ACTION_ON_USER" // post actions like delete, activate or deactivate
+
+
