@@ -180,3 +180,12 @@ export const postCommonActionOnUserApi = (typeOfAction, data) => {
 //-------------------xxxxx-------
 
 
+export const getHolidayTableColumns = () =>{
+    return  axios.get ("https://demo4798197.mockable.io/holiday-profile-columns")
+}
+
+export const getHolidayProfilesData = (perPageRows, currentPage, searchData, headingData, sortingType) => {
+    const startNumber = ((currentPage - 1) * perPageRows) + 1
+    return axios.get(`/holiday/holiday-profiles/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "name" : ""}&filterQuery=${searchData || ""}`, axiosConfig);
+
+};

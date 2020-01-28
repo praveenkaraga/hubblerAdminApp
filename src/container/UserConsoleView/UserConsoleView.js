@@ -179,9 +179,8 @@ class UserConsoleView extends Component {
                                     to={`/people${route.path}`}
                                     className={`nav-link ${activeLinkName === route.link_name ? `link-active ${route.class_name}-link-active` : `list-item ${route.class_name}-link`}`}
                                     key={index}
-                                    activeClassName={'nav-link-active'}
-                                    onClick={() => this.createActiveLink(route)}
-                                    /*onClick={() => this.props.createActiveLink(route.link_name)}*/>{route.name}
+                                    activeClassName={`${route.class_name}-link-active nav-link-active`}
+                                    onClick={() => this.createActiveLink(route)}>{route.name}
                                 </NavLink>
                             ))}
                         </div>
