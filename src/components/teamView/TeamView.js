@@ -14,7 +14,7 @@ import {
     importUsersPopUPVisibility,
     onClickOfDownloadExcel,
     getImportUserUploadDetails,
-    uploadImportUsersPopUPVisibility, patchImportUsersData,commonTeamReducerAction
+    uploadImportUsersPopUPVisibility, patchImportUsersData, commonTeamReducerAction
 } from "../../store/actions/actions";
 import {teamViewReducer} from "../../store/reducers/teamViewReducer";
 import UserInfoSlider from '../../components/common/UserInfoSlider/UserInfoSlider'
@@ -30,8 +30,7 @@ class TeamView extends Component {
 
     showModal = () => {
         this.props.importUsersPopUPVisibility(true);
-        this.props.commonTeamReducerAction({importStatus : false})
-
+        this.props.commonTeamReducerAction({isFileUploaded: false})
     };
 
     closeModal = () => {
@@ -46,10 +45,37 @@ class TeamView extends Component {
         this.props.getImportUserUploadDetails()
     };
 
+    patchImportUserData = (id, mappings,skipFirstRow,uploadType) => {
+        let patchData = {
+            mappings: mappings,
+            skip_first_row: skipFirstRow,
+            upload_type: uploadType,
+        }
+        this.props.commonTeamReducerAction({uploadFileStatus: 'true'});
+        this.props.patchImportUsersData(id, patchData)
+    }
+
+    importUsersModalCloseHandler = () => {
+        this.props.importUsersPopUPVisibility(false)
+    }
+
+    startUploadHandler = () =>{
+        this.props.commonTeamReducerAction({startUploadStatus: 'true'});
+        this.props.getImportUserUploadDetails()
+    }
+
+    test = () =>{
+        console.log('test called')
+    }
+
+    importUsersUploadPopUpFirstButtonHandler = () =>{
+       console.log('whatever')
+    };
 
     render() {
-        const {orgChartUsers, teamViewUserDrawerVisible, clickedTeamUserData, teamViewClickedUserId, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, loader, clickedMemberData, contentLoader, importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpVisibility, uploadPopUpData, importUsersUploadResponseData,uploadFileStatus,importStatus,startUploadStatus} = this.props.teamViewReducer
-        console.log(importUsersUploadResponseData)
+        const {orgChartUsers, teamViewUserDrawerVisible, clickedTeamUserData, teamViewClickedUserId, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, loader, clickedMemberData, contentLoader, importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpVisibility, uploadPopUpData, importUsersUploadResponseData, uploadFileStatus, isFileUploaded, startUploadStatus, clickedUserOrgData} = this.props.teamViewReducer
+        console.log(clickedTeamUserData)
+        console.log(clickedMemberData)
         return (
             <div className={'team-view'}>
                 {loader ? <div className={'loader'}></div> : <div>
@@ -62,21 +88,57 @@ class TeamView extends Component {
                     <OrgChart/>
 
                     <UserInfoSlider visible={teamViewUserDrawerVisible}
+                                    sourceTeamView={true}
                                     onCloseFunction={(flag) => this.props.teamViewUserClick(flag)}
-                                    teamUserData={clickedTeamUserData} userId={teamViewClickedUserId}
-                                    getTeamViewOrgData={(id) => this.props.getTeamViewOrgData(id)}
-                                    clickedUserOrgManagerData={clickedUserOrgManagerData}
-                                    clickedUserOrgReporteesData={clickedUserOrgReporteesData}
-                                    total_Count={total_Count} clickedMemberData={clickedMemberData}
+                                    teamUserData={clickedTeamUserData}
+                                    userId={teamViewClickedUserId}
+                                    url={`/reportees/organization/${teamViewClickedUserId}/?start=1&offset=100&sortKey=name&sortOrder=dsc&filterKey=_id&filterQuery=`}
+
+                                     // getTeamViewOrgData={(id) => this.props.getTeamViewOrgData(id)}
+                                     // clickedUserOrgData={clickedUserOrgData}
+                                    clickedMemberData={clickedMemberData}
                                     contentLoader={contentLoader}
-                                    changeLoaderStatus={(flag) => this.props.changeLoaderStatus(flag)}/>
-                    <ImportUsersPopUp visible={importUsersPopUpVisiblity} modalClose={() => this.closeModal()}
-                                      onClickDownload={() => this.downloadExcel()} sampleExcelFile={sampleExcelFile}
-                                      onClickStartUpload={() => this.onClickOfUpload()}
-                                      uploadPopUpVisibility={uploadPopUpVisibility} uploadPopUpData={uploadPopUpData}
-                                      uploadImportUsersPopUPVisibility={() => this.props.uploadImportUsersPopUPVisibility()}
-                                      patchImportUsersData={(id, data) => this.props.patchImportUsersData(id, data)}
-                                      importUsersUploadResponseData={importUsersUploadResponseData} uploadFileStatus={uploadFileStatus} commonTeamReducerAction={this.props.commonTeamReducerAction} importStatus={importStatus} startUploadStatus={startUploadStatus}/>
+
+                        /* changeLoaderStatus={(flag) => this.props.changeLoaderStatus(flag)}*//>
+
+                    <ImportUsersPopUp visible={importUsersPopUpVisiblity}
+                                        //boolean value to handle the visiblity of the importUsersPopup
+                                      firstButtonName={'Select File'}
+                                      //name of the first button of the importUsersPopup
+                                      secondButtonName={'Download Sample Excel'}
+                                      //name of the second button of the importUsersPopup
+                                      secondButtonClickHandler={this.props.onClickOfDownloadExcel}
+                                      //function that gets invoked on click of the the second button(Downloads a sample excel) of importUsersPopup
+                                      sampleExcelFile={sampleExcelFile}
+                                      //sample file that has been downloaded on click of secondButton
+                                      thirdButtonName={'Cancel'}
+                                      //name of the third button of the importUsersPopup
+                                      thirdButtonClickHandler={this.importUsersModalCloseHandler}
+                                      //function that gets invoked on click of the the third button of importUsersPopup
+                                      fourthButtonName={'Start Upload'}
+                                      //name of the fourth button of the importUsersPopup
+                                      fourthButtonClickHandler={this.startUploadHandler}
+                                      //function that gets invoked on click of the the fourth button
+                                      fourthButtonLoaderStatus={startUploadStatus}
+                                      //boolean value to check the loader status
+                                      fourthButtonOnLoadingText={'Uploading'}
+                                      //text that you wish to be displayed when uploading is in process
+                        //end of 1st
+                                      importUsersUploadPopUpVisibility={uploadPopUpVisibility}
+                                      //boolean value to handle the visiblity of the importUsersUploadPopUp
+                                      uploadPopUpData={uploadPopUpData}
+                                      //data to be fed in form of an object
+                                      importUsersPopUpCloseHandler={this.props.uploadImportUsersPopUPVisibility}
+                                      //function to close the importUsersUploadPopUp
+                                      patchImportUsersData={this.patchImportUserData}
+                                      //function that gets invoked on click of the the third button(footer second button) of importUsersPopup
+                                      importUsersUploadResponseData={importUsersUploadResponseData}
+                                      //data (object) obatined after the execution of patchImportUsersData function
+                                      uploadFileLoadingStatus={uploadFileStatus}
+                                      //loader status of footerSecondButton(Process) button - boolean
+                                      isFileUploaded={isFileUploaded}
+                                      //boolean value for if file is uploaded
+                    />
                 </div>}
             </div>
         )
@@ -99,7 +161,7 @@ const mapDispatchToProps = dispatch => {
             importUsersPopUPVisibility,
             onClickOfDownloadExcel,
             getImportUserUploadDetails,
-            uploadImportUsersPopUPVisibility, patchImportUsersData,commonTeamReducerAction
+            uploadImportUsersPopUPVisibility, patchImportUsersData, commonTeamReducerAction
         },
         dispatch
     );

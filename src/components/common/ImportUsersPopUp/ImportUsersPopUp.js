@@ -23,19 +23,13 @@ class ImportUsersPopUp extends Component {
 
     closeModal = (uploadProps) => {
         let _this = this
-        _this.props.modalClose()
+        _this.props.thirdButtonClickHandler()
         uploadProps.onRemove(_this.props.sampleExcelFile)
     };
 
-    startUpload = () => {
-        const {onClickStartUpload, commonTeamReducerAction} = this.props;
-
-        commonTeamReducerAction({startUploadStatus: 'true'});
-        onClickStartUpload()
-    }
 
     render() {
-        const {visible, modalClose, onClickDownload, sampleExcelFile, onClickStartUpload, uploadPopUpData, uploadPopUpVisibility, uploadImportUsersPopUPVisibility, patchImportUsersData, importUsersUploadResponseData, uploadFileStatus, commonTeamReducerAction, importStatus, startUploadStatus} = this.props;
+        const {visible, modalClose, firstButtonName = `Select File`, secondButtonName = 'Download Sample Excel', secondButtonClickHandler, thirdButtonName = `Cancel`, thirdButtonClickHandler, fourthButtonOnLoadingText = `Uploading`, fourthButtonName = `Start Upload`, fourthButtonClickHandler, fourthButtonLoaderStatus = false, sampleExcelFile, onClickStartUpload, uploadPopUpData, importUsersUploadPopUpVisibility, importUsersPopUpCloseHandler, patchImportUsersDataHandler, importUsersUploadResponseData, uploadFileLoadingStatus, commonTeamReducerAction, isFileUploaded, importUsersUploadPopUpHeaderFirstButtonHandler} = this.props;
         const {uploading, fileList} = this.state;
         const props = {
             onRemove: file => {
@@ -56,6 +50,7 @@ class ImportUsersPopUp extends Component {
             },
             fileList,
         };
+
         return <div>
             <Modal
                 visible={visible}
@@ -66,21 +61,21 @@ class ImportUsersPopUp extends Component {
                 centered
                 footer={[
                     <div>
-                        <Button key="download" onClick={onClickDownload}>
-                            <a href={sampleExcelFile || ''} download> Download Sample Excel</a>
+                        <Button key="download" onClick={secondButtonClickHandler}>
+                            <a href={sampleExcelFile || ''} download> {secondButtonName}</a>
                         </Button>
 
                     </div>,
                     <div>
                         <Button key="cancel" onClick={() => this.closeModal(props)}>
-                            Cancel
+                            {thirdButtonName}
                         </Button>
                         <Button
                             type="primary"
-                            onClick={this.startUpload}
+                            onClick={fourthButtonClickHandler}
                             disabled={fileList.length === 0}
-                            loading={startUploadStatus}>
-                            {startUploadStatus ? 'Uploading' : 'Start Upload'}
+                            loading={fourthButtonLoaderStatus}>
+                            {fourthButtonLoaderStatus ? fourthButtonOnLoadingText : fourthButtonName}
                         </Button>
                     </div>
 
@@ -90,24 +85,26 @@ class ImportUsersPopUp extends Component {
                     <Upload {...props} className={'upload-wrap'}
                             accept={'.csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'}>
                         <Button>
-                            <Icon type="upload"/> Select File
+                            <Icon type="upload"/> {firstButtonName}
                         </Button>
                     </Upload>
                 </div>
             </Modal>
 
-            {uploadPopUpVisibility ? <ImportUsersUploadPopUp uploadPopUpVisibility={uploadPopUpVisibility}
-                                                             uploadImportUsersPopUPVisibility={uploadImportUsersPopUPVisibility}
-                                                             fileName={fileList[0] ? fileList[0].name : ''}
-                                                             modalClose={modalClose}
-                                                             uploadProps={props}
-                                                             sampleExcelFile={sampleExcelFile}
-                                                             uploadPopUpData={uploadPopUpData}
-                                                             patchImportUsersData={patchImportUsersData}
-                                                             importUsersUploadResponseData={importUsersUploadResponseData}
-                                                             uploadFileStatus={uploadFileStatus}
-                                                             commonTeamReducerAction={commonTeamReducerAction}
-                                                             importStatus={importStatus}/> : ''}
+            {importUsersUploadPopUpVisibility ?
+                <ImportUsersUploadPopUp importUsersUploadPopUpVisibility={importUsersUploadPopUpVisibility}
+                                        importUsersPopUpCloseHandler={importUsersPopUpCloseHandler}
+                                        fileName={fileList[0] ? fileList[0].name : ''}
+                                        modalClose={thirdButtonClickHandler}
+                                        uploadProps={props}
+                                        sampleExcelFile={sampleExcelFile}
+                                        uploadPopUpData={uploadPopUpData}
+                                        patchImportUsersDataHandler={patchImportUsersDataHandler}
+                                        importUsersUploadResponseData={importUsersUploadResponseData}
+                                        uploadFileLoadingStatus={uploadFileLoadingStatus}
+                                        commonTeamReducerAction={commonTeamReducerAction}
+                                        isFileUploaded={isFileUploaded}
+                                        importUsersUploadPopUpHeaderFirstButtonHandler={importUsersUploadPopUpHeaderFirstButtonHandler}/> : ''}
         </div>
 
     }

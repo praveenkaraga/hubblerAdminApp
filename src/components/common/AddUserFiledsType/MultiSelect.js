@@ -7,8 +7,7 @@ class MultiDropdown extends Component {
 
     render() {
 
-        const { label, validationRules, options } = this.props
-        const { getFieldDecorator } = this.props.form;
+        const { label, validationRules, options, getFieldDecorator, fieldId } = this.props
 
         const config = {
             rules: [{
@@ -21,7 +20,7 @@ class MultiDropdown extends Component {
         console.warn = () => { }
         return (
             <Form.Item label={label}>
-                {getFieldDecorator('select-multiple', config)(
+                {getFieldDecorator(fieldId, config)(
                     <Select style={{ width: "100%" }} mode="multiple" {...this.props}>
                         {options.map(singleOption => (<Option key={singleOption.id} value={singleOption.id}>{singleOption.name}</Option>))}
                     </Select>
@@ -31,6 +30,4 @@ class MultiDropdown extends Component {
     }
 }
 
-const WrappedMultiDropdownForm = Form.create()(MultiDropdown);
-
-export default WrappedMultiDropdownForm;
+export default MultiDropdown;

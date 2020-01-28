@@ -8,6 +8,7 @@
         width: 56%;
         .ant-input-affix-wrapper{
             width : 63%; 
+            
             .ant-input-suffix{
             left: 12px;
             right: unset;
@@ -21,6 +22,8 @@
         input{
             text-indent: 24px;
             background-color : #f5f5f5;
+            -webkit-transition: unset; 
+            transition: unset;
         }
 
         
@@ -33,6 +36,11 @@
           }
     }
 
+    .all_buttons{
+        display: flex;
+        justify-content: flex-end;
+    }
+
 .import_button, .import_button:focus{
     color: #4a4a4a;
     background-color: #d9dadb;
@@ -41,6 +49,20 @@
 
 .import_button{
     margin-right: 20px;
+    display: flex;
+
+    div{
+        width: 32px;
+        border-radius: 4px;
+        background-color: white;
+        margin-left: 10px;
+        color: #4a4a4a;
+    }
+}
+
+.import_button_disable{
+    pointer-events: none;
+    opacity: 0.5;
 }
 
 .import_button, .add_user_button{

@@ -1,0 +1,43 @@
+.common-creation-view{
+  display: flex;
+  flex-direction: column;
+  height: 95%;
+  .common-creation-view-header-wrap{
+    height: 30px;
+  }
+  .header-wrap{
+    display: flex;
+  }
+  .headerWithBackArrow{
+    background-image: url("../../../images/arrow right.svg");
+    background-repeat: no-repeat;
+    background-position: center left;
+    margin: auto 0;
+    padding-left: 35px;
+    font-size: 20px;
+    text-transform: capitalize;
+    cursor: pointer;
+    height: 20px;
+    //width: 10%;
+  }
+  .headerWithoutBackArrow{
+    margin: auto 0;
+    //padding-left: 15px;
+    font-size: 20px;
+    text-transform: capitalize;
+  }
+  .all-selected-users-wrap{
+    margin-top: 10px;
+    height: 100%;
+  }
+  .common-view-loader{
+    background-image: url(../../../images/loader-black.svg);
+    background-size: 70px;
+    background-position: center;
+    background-repeat: no-repeat;
+    top: 0;
+    width: 78%;
+    height: 100%;
+    position: absolute;
+  }
+}

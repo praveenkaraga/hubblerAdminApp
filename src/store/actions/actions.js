@@ -3,8 +3,10 @@ import * as activeLinkAction from './activeLinkAction'
 import * as teamViewActions from './teamViewActions'
 import * as consoleActions from './consoleActions'
 import * as departmentActions from './departmentActions'
-
-
+import * as designationsActions from './designationsAction'
+import * as userConsoleMainActions from './userConsoleMainAction'
+import * as commonActions from './commonActions'
+import * as holidayActions from './holidayActions'
 //------------------------------Create User Action---------------------------
 export const { getUserData } = createUserAction
 
@@ -14,7 +16,7 @@ export const { getUserData } = createUserAction
 
 //------------------------------Console Action-------------------------------//
 
-export const { getTableColumnData, getConsoleUserData, commonConsoleAction, tableColumnSetting, addUserDataForm } = consoleActions
+export const { getTableColumnData, getConsoleUserData, commonConsoleAction, tableColumnSetting, addUserDataForm, postCommonActionOnUser } = consoleActions
 
 //------------------------------xxxxxxxxxxxxxx-------------------------------//
 
@@ -34,6 +36,43 @@ export const { getTeamViewUsersData, teamViewUserClick, getClickedTeamUserData, 
 
 //------------------------------ Department Action -------------------------------//
 
-export const {getDepartmentData,commonDepartmentAction,getDeptTableColumnData} = departmentActions
+export const { getDepartmentData, commonDepartmentAction, getDeptTableColumnData, postCreateDeptData, postAddSelectedUsers, getAddSelectedUsersPostedData, getAddableUsersData, getTableColumnsData, getCommonViewHeaderName, getDepartmentSuggestionData, editUserDataForm } = departmentActions
 
 //------------------------------xxxxxxxxxxxxxx-------------------------------//
+
+
+
+
+
+//------------------------------ Designations Action -------------------------------//
+
+export const { designationsData, commonDesignationAction } = designationsActions
+
+//------------------------------xxxxxxxxxxxxxxxxxxx-------------------------------//
+
+
+
+
+
+//----------------------------- User Console Main Action ----------------------------//
+
+export const { getCirclesData, getCustomFields, getSingleCircleData, getCircleSuggestionData, getSingleFieldData } = userConsoleMainActions
+
+//-----------------------------xxxxxxxxxxxxxxxxxxxxxxxxxx----------------------------//
+
+
+
+
+//--------------------------------- Common Actions ----------------------------------
+
+
+export const { getSingleViewData, getSingleViewSuggestionData, postCommonCreateData, commonActionForCommonReducer, patchCommonCreateData } = commonActions
+
+//------------------------------ xxxxxxxxxxxxxxxxxxxxxxx-----------------------------
+
+
+//------------------------------ Holiday Profile Actions -------------------------------//
+
+export const {  commonHolidayAction,getHolidayTableColumnData,getHolidayProfileData } = holidayActions;
+
+//------------------------------xxxxxxxxxxxxxxxxxxx-------------------------------//

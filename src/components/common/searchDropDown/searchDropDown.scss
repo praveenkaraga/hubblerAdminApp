@@ -1,0 +1,48 @@
+
+.name_with_profile{
+    display: flex;
+    // justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    .no_profile_pic{
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background-color: whitesmoke;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        p{
+            margin: 0;
+            text-transform: uppercase;
+        }
+    }
+
+    img{
+        height: 38px;
+        width: 38px;
+        border-radius: 50%;
+    }
+
+    .name_with_designation{
+        margin-left : 12px ;
+        text-transform: capitalize;
+
+        .only_name{
+            font-weight: 600;
+        }
+
+        .only_designation{
+            font-size: 12px;
+        }
+    }
+}
+
+
+.searchDropdown{
+    .ant-input{
+        text-transform: capitalize;
+    }
+}

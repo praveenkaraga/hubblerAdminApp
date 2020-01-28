@@ -5,15 +5,22 @@ import {Drawer} from "antd";
 import 'antd/dist/antd.css';
 import './userInfoSlider.scss'
 import UserInfoSliderContent from '../UserInfoSlider/UserInfoSliderContent'
+import {getTeamViewOrgData, changeLoaderStatus, getClickedTeamUserData} from "../../../store/actions/actions";
 
 
 class UserInfoSlider extends Component {
     componentDidMount() {
+        /*const {sourceTeamView, teamUserData} = this.props
+        let usersId = teamUserData ? teamUserData._id : '';
+        if (!sourceTeamView) {
+            this.props.getClickedTeamUserData(usersId)
+        }*/
     }
 
     render() {
-        const {visible, onCloseFunction, teamUserData, userId, getTeamViewOrgData, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count,clickedMemberData,contentLoader,changeLoaderStatus} = this.props;
-
+        const {visible = false, onCloseFunction, teamUserData, userId, getTeamViewOrgData, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, clickedMemberData, contentLoader, changeLoaderStatus, sourceTeamView, url} = this.props;
+        const {clickedUserOrgData, clickedTeamUserData} = this.props.teamViewReducer
+        let usersId = teamUserData ? teamUserData._id : '';
         return (
             <div className={'user-info-slider'}>
                 <Drawer
@@ -22,11 +29,18 @@ class UserInfoSlider extends Component {
                     closable={false}
                     onClose={() => onCloseFunction(false)}
                     visible={visible}>
-                    <UserInfoSliderContent teamUserData={teamUserData} userId={userId} onCloseFunction={onCloseFunction}
-                                           getTeamViewOrgData={getTeamViewOrgData}
+                    <UserInfoSliderContent teamUserData={teamUserData} userId={usersId}
+                                           onCloseFunction={onCloseFunction}
+                                           clickedUserOrgData={clickedUserOrgData}
+                                           sourceTeamView={sourceTeamView}
+                                           clickedTeamUserData={clickedTeamUserData}
+                                           url={url}
+                                           getTeamViewOrgData={(url) => this.props.getTeamViewOrgData(url)}
+                                           changeLoaderStatus={(flag) => this.props.changeLoaderStatus(flag)}
                                            clickedUserOrgManagerData={clickedUserOrgManagerData}
                                            clickedUserOrgReporteesData={clickedUserOrgReporteesData}
-                                           total_Count={total_Count} clickedMemberData={clickedMemberData} contentLoader={contentLoader} changeLoaderStatus={changeLoaderStatus}/>
+                                           total_Count={total_Count} clickedMemberData={clickedMemberData}
+                                           contentLoader={contentLoader}/>
                 </Drawer>
             </div>
         )
@@ -41,7 +55,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return bindActionCreators(
-        {},
+        {getTeamViewOrgData, changeLoaderStatus, getClickedTeamUserData},
         dispatch
     );
 };

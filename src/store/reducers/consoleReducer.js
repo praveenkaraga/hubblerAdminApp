@@ -15,7 +15,9 @@ const intialState = {
     columnSettingData: {},
     columnSettingDataOriginal: {},
     addUserDataForm: [],
-    addUserDataFormMain: []
+    addUserDataFormMain: [],
+    actionSuccessMessage: "",
+    actionOnUserSuccess: false
 }
 
 export const consoleReducer = (state = intialState, action) => {
@@ -66,6 +68,15 @@ export const consoleReducer = (state = intialState, action) => {
                 addUserDataFormMain: addUserDataFormInitial,
                 addUserDataForm: JSON.parse(JSON.stringify(addUserDataFormInitial))
             }
+
+        case actionTypes.POST_COMMON_ACTION_ON_USER:
+            const actionOnUserDataInitial = action.payload.data.result
+            return {
+                ...state,
+                actionOnUserSuccess: true,
+                actionSuccessMessage: actionOnUserDataInitial.message || (actionOnUserDataInitial.deactivated ? `${actionOnUserDataInitial.deactivated} User(s) Succefully Deactivated` : "Not Deactivated")
+            }
+
     }
 
 

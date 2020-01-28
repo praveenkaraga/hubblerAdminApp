@@ -26,15 +26,15 @@ export const teamViewUserClick = (payload) => {
 
 }
 
-export const getClickedTeamUserData = (userId) => {
-    const payload = getClickedTeamViewUser(userId)
+export const getClickedTeamUserData = (id) => {
+    const payload = getClickedTeamViewUser(id)
     return {
         type: actionTypes.GET_CLICKED_TEAM_USER_DATA,
         payload
     }
 }
-export const getTeamViewOrgData = (userId) => {
-    const payload = getClickedTeamViewOrgData(userId)
+export const getTeamViewOrgData = (url) => {
+    const payload = getClickedTeamViewOrgData(url)
     return {
         type: actionTypes.GET_TEAM_VIEW_ORG_DATA,
         payload
@@ -113,7 +113,7 @@ export const uploadImportUsersPopUPVisibility = (flag) => {
     }
 }
 
-export const patchImportUsersData = (id,data) =>{
+export const patchImportUsersData = (id,data,status) =>{
     const payload = patchUploadData(id,data)
     return {
         type: actionTypes.PATCH_IMPORT_USERS_DATA,

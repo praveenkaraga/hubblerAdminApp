@@ -130,7 +130,8 @@ class ImportUsersUploadPopUp extends Component {
         switchStatus: true,
         mappings: [],
         uploadOption: 'create',
-        reqFieldIds :[],
+        reqFieldIds: [],
+        activateCancel: false,
     };
 
     setDropValue = (dataObj) => {
@@ -148,10 +149,10 @@ class ImportUsersUploadPopUp extends Component {
 
     handleOk = e => {
         let _this = this
-        const {uploadImportUsersPopUPVisibility, uploadProps, sampleExcelFile, modalClose, importStatus} = _this.props
-        uploadImportUsersPopUPVisibility()
+        const {importUsersPopUpCloseHandler, uploadProps, sampleExcelFile, modalClose, isFileUploaded} = _this.props
+        importUsersPopUpCloseHandler() //importUsersPopUpCloseHandler //uploadImportUsersPopUPVisibility
         uploadProps.onRemove(sampleExcelFile)
-        if (_this.state.activateCancel || importStatus) {
+        if (_this.state.activateCancel || isFileUploaded) {
             modalClose()
         }
         this.setState({
@@ -160,7 +161,7 @@ class ImportUsersUploadPopUp extends Component {
     };
 
     openSubModal = (type) => {
-        let activateCancel = ''
+        let activateCancel = '';
         if (type === 'importUser') {
             activateCancel = true
         } else {
@@ -195,20 +196,24 @@ class ImportUsersUploadPopUp extends Component {
     }
 
     processImportUsersData = () => {
-        const {uploadPopUpData, patchImportUsersData, importUsersUploadResponseData, commonTeamReducerAction} = this.props;
+        const {uploadPopUpData, patchImportUsersDataHandler, importUsersUploadResponseData, commonTeamReducerAction} = this.props;
         let _this = this
-        let addingUpdatedBy = this.state.mappings.map(function(ele){
-            var result=_this.state.reqFieldIds.filter(inEle=> inEle === ele._id);
-            if(result.length>0) { ele.update_by = true;}
-            return ele})
+        let addingUpdatedBy = this.state.mappings.map(function (ele) {
+            var result = _this.state.reqFieldIds.filter(inEle => inEle === ele._id);
+            if (result.length > 0) {
+                ele.update_by = true;
+            }
+            return ele
+        })
         let omitIndexes = map(addingUpdatedBy, item => omit(item, 'index'));
-        commonTeamReducerAction({uploadFileStatus: 'true'});
-        let patchData = {
+        // commonTeamReducerAction({uploadFileStatus: 'true'});
+        /*let patchData = {
             mappings: omitIndexes,
             skip_first_row: true,
             upload_type: this.state.uploadOption,
-        }
-        patchImportUsersData(uploadPopUpData._id, patchData)
+        }*/
+        // patchImportUsersData(uploadPopUpData._id, patchData,)
+        patchImportUsersDataHandler(uploadPopUpData._id, omitIndexes,true,this.state.uploadOption)
     }
 
     componentDidMount() {
@@ -246,59 +251,95 @@ class ImportUsersUploadPopUp extends Component {
         })
     }
 
+
+    onCloseHandler = () => {
+        const {isFileUploaded, importUsersUploadPopUpHeaderFirstButtonHandler} = this.props
+        if (isFileUploaded) {
+            this.handleOk()
+        } else {
+            this.openSubModal('importUser')
+        }
+        if (importUsersUploadPopUpHeaderFirstButtonHandler) {
+            importUsersUploadPopUpHeaderFirstButtonHandler()
+        }
+    }
+
+    onCancelHandler = () => {
+        const {importUsersUploadPopUpFooterFirstButtonHandler} = this.props
+        if (importUsersUploadPopUpFooterFirstButtonHandler) {
+            importUsersUploadPopUpFooterFirstButtonHandler()
+        }
+        this.openSubModal('importUser')
+    }
+
+    headerFirstButtonClick = () => {
+        this.openSubModal('importFile')
+    }
+
+    footerSecondButtonClick = () => {
+        const {importUsersUploadPopUpFooterSecondButtonHandler} = this.props
+        this.processImportUsersData() //patchImportUsersData
+        if (importUsersUploadPopUpFooterSecondButtonHandler) {
+            importUsersUploadPopUpFooterSecondButtonHandler()
+        }
+    }
+
     render() {
-        const {uploadPopUpData, fileName, importUsersUploadResponseData, uploadFileStatus, importStatus} = this.props;
+        const {importUsersUploadResponseData, uploadFileLoadingStatus, isFileUploaded} = this.props;
+        const {importUsersUploadPopUpHeaderFirstButtonHandler, importUsersUploadPopUpFooterFirstButtonHandler, importUsersUploadPopUpFooterSecondButtonHandler} = this.props
+        const {importUsersUploadPopUpVisibility = false, importUsersUploadPopUpTitle = "IMPORT USERS", uploadPopUpData, fileName, importUsersUploadPopUpHeaderFirstButtonName = `Import Another File`, importUsersUploadPopUpFooterFirstButtonName = `Cancel`, importUsersUploadPopUpFooterSecondButtonName = `Process`, uploadingStatusText = 'Processing', footerSecondButtonPopUpTitle = `Import Status`, footerSecondButtonPopUpPrimaryButtonName = `Download Error Log`, footerSecondButtonPopUpSecondaryButtonName = `Done`, footerFirstButtonConfirmationPopUpTitle = `Cancel Excel Upload`, headerFirstButtonConfirmationPopUpTitle = `Import Another File`, confirmationPopUpPrimaryButtonName = `Cancel`, footerFirstButtonConfirmationPopUpSecondaryButtonName = `Ok`, headerFirstButtonConfirmationPopUpSecondaryButtonName = `Import`,headerFirstButtonConfirmationPopUpBodyText=`Are you sure you want to cancel the Excel Upload and Import another file ?` ,footerFirstButtonConfirmationPopUpBodyText =`Are you sure you want to cancel the Excel Upload?` } = this.props
         let _this = this;
         return (
             <div>
                 <Modal
-                    title={importStatus ? 'Import Status' : "IMPORT USERS"}
-                    visible={uploadPopUpData}
+                    title={isFileUploaded ? footerSecondButtonPopUpTitle : importUsersUploadPopUpTitle}
+                    visible={importUsersUploadPopUpVisibility}
                     onOk={this.handleOk}
-                    onCancel={importStatus ? this.handleOk : () => this.openSubModal('importUser')}
-                    centered={importStatus ? true : false}
-                    className={importStatus ? 'upload-modal import-status-pop' : 'upload-modal'}
-                    footer={importStatus ? [
+                    onCancel={this.onCloseHandler}
+                    centered={isFileUploaded ? true : false}
+                    className={isFileUploaded ? 'upload-modal import-status-pop' : 'upload-modal'}
+                    footer={isFileUploaded ? [
                         <div className={'import-status-footer'}>
                             <Button key="cancel">
-                                <a href={importUsersUploadResponseData.error_file || ''} download> Download Error
-                                    Log</a>
+                                <a href={importUsersUploadResponseData.error_file || ''}
+                                   download>{footerSecondButtonPopUpPrimaryButtonName}</a>
                             </Button>
-                            <Button onClick={this.handleOk}>Done</Button>
+                            <Button onClick={this.handleOk}>{footerSecondButtonPopUpSecondaryButtonName}</Button>
                         </div>
 
                     ] : [<div>
-                        <Button key="cancel" onClick={() => this.openSubModal('importUser')}>
-                            Cancel
+                        <Button key="cancel" onClick={this.onCancelHandler}>
+                            {importUsersUploadPopUpFooterFirstButtonName}
                         </Button>
                         <Button
-                            onClick={_this.processImportUsersData}
+                            onClick={this.footerSecondButtonClick}
                             type="primary"
-                            loading={uploadFileStatus}>
-                            {uploadFileStatus ? 'Processing' : 'Process'}
+                            loading={uploadFileLoadingStatus}>
+                            {uploadFileLoadingStatus ? uploadingStatusText : importUsersUploadPopUpFooterSecondButtonName}
                         </Button>
                     </div>]}>
                     {this.state.open ?
                         <Modal
                             className={'import-another-file-modal'}
-                            title={this.state.activateCancel ? 'Cancel Excel Upload' : "Import Another File"}
+                            title={this.state.activateCancel ? footerFirstButtonConfirmationPopUpTitle : headerFirstButtonConfirmationPopUpTitle}
                             visible={this.state.visible}
                             onOk={this.handleOk}
                             centered
                             onCancel={this.handleCancel}
                             footer={[
                                 <Button key="cancel" onClick={this.handleCancel}>
-                                    Cancel
+                                    {confirmationPopUpPrimaryButtonName}
                                 </Button>,
                                 <Button key="ok" onClick={this.handleOk} className={'okay'}>
-                                    {this.state.activateCancel ? 'Ok' : 'Import'}
+                                    {this.state.activateCancel ? footerFirstButtonConfirmationPopUpSecondaryButtonName : headerFirstButtonConfirmationPopUpSecondaryButtonName}
                                 </Button>,
                             ]}
                         >
-                            {`Are you sure you want to cancel the ${this.state.activateCancel ? 'Excel Upload ' : 'Excel Upload and Import another file ?'}`}
+                            {this.state.activateCancel ? footerFirstButtonConfirmationPopUpBodyText : headerFirstButtonConfirmationPopUpBodyText }
+                            {/*{`Are you sure you want to cancel the ${this.state.activateCancel ? 'Excel Upload ' : 'Excel Upload and Import another file ?'}`}*/}
                         </Modal> : ''
                     }
-                    {importStatus ? <div>
+                    {isFileUploaded ? <div>
                         {isEmpty(importUsersUploadResponseData.result) ? '' : <div>
                             <div>{`Success : ${importUsersUploadResponseData.result[0].created} ${importUsersUploadResponseData.result[0].lbl} Created`}</div>
                             <div>{`Failure : ${importUsersUploadResponseData.result[0].invalid} ${importUsersUploadResponseData.result[0].lbl} Created`}</div>
@@ -307,10 +348,10 @@ class ImportUsersUploadPopUp extends Component {
                     </div> : <div>
                         <div className={'upload-pop-header'}>
                             <div onClick={'file-name'}>{`File Name: ${fileName}`}</div>
-                            <div className={'import-another-file'}
-                                 onClick={() => this.openSubModal('importFile')}>Import
-                                Another File
-                            </div>
+                            <Button key="importFile" onClick={this.headerFirstButtonClick}
+                                    className={'import-another-file'}>
+                                {importUsersUploadPopUpHeaderFirstButtonName}
+                            </Button>
                         </div>
                         <div className={'switch-type'}>
                             <Switch defaultChecked onChange={this.onChangeSwitch}/>
@@ -333,7 +374,7 @@ class ImportUsersUploadPopUp extends Component {
                                         <Select onChange={_this.uploadUpdateOptionChange.bind(_this)}
                                                 mode="multiple"
                                                 placeholder={'Select'}
-                                                className={'upload-update-select'}>
+                                                 className={'upload-update-select'}>
                                             {map(this.state.reqFields, function (inele, inde) {
                                                 return <Option value={inele._id}
                                                                key={inele._id}>{inele.title}</Option>
