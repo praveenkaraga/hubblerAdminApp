@@ -52,7 +52,7 @@ class UserTable extends Component {
 
     render() {
         const { selectedRowKeys } = this.state;
-        const { allHeadingsData, modifiedUserData, onClickTableRow, selectedDataCount = 0 } = this.props
+        const { allHeadingsData, modifiedUserData, onClickTableRow, selectedDataCount = selectedRowKeys.length } = this.props
         const rowSelection = {
             selectedRowKeys: selectedDataCount ? selectedRowKeys : [],
             onChange: this.onSelectChange,
