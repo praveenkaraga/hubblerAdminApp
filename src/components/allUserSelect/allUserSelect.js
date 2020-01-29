@@ -125,7 +125,7 @@ class AllUserSelect extends Component {
             searchSecondButtonLoader = false, searchFirstButtonClick, searchSecondButtonClick, searchLoader = false, onSearch, totalUsers, goPrevPage, goNextPage, currentPageNumber, columnSettingData,
             onClickUserActivate, onClickUserDeactivate, onClickUserDelete, onClickUserEdit, addUserPopUpActive, addUserCloseButton, addUserDataForm, isUserData = true, onlySelectAndAdd = false,
             typeOfData = "Total Data", onClickTableRow, columnConfigurable = false, allSelect, onSearchDropdownSelect, searchDropdownPlaceholder, searchDropdownData, onChangeSearchDropdown,
-            showHeaderButtons, disableButtonNames, selectedDataCount, onClickAddUserButton } = this.props
+            showHeaderButtons, disableButtonNames, selectedDataCount, onClickAddUserButton, onSelectAll } = this.props
         const perPageOptions = [7, 10, 20, 30, 40, 50, 100]
         const { rowsPerPage, visibleColumnSetting } = this.state
         const totalPages = Math.ceil(totalUsers / rowsPerPage)
@@ -163,7 +163,7 @@ class AllUserSelect extends Component {
 
                         <UserTable ref={table => this.wholeTable = table} modifiedUserData={modifiedUserData} allHeadingsData={allHeadingsData}
                             sortingData={this.onheadingClick} onChangeCheckBox={this.onChangeCheckBox} loading={!modifiedUserData.length ? true : false}
-                            onClickTableRow={onClickTableRow} onSelectRow={this.onSelectRow} selectedDataCount={selectedDataCount} />
+                            onClickTableRow={onClickTableRow} onSelectRow={this.onSelectRow} selectedDataCount={selectedDataCount} onSelectAll={onSelectAll} />
                     </div>
 
 
