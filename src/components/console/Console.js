@@ -207,6 +207,7 @@ class Console extends Component {
     }
 
 
+
     render() {
         const { consoleColumnData, consoleUserData, totalUsers, currentPageNumber, searchLoader, columnSettingData, addUserDataForm } = this.props.consoleReducer
         const { importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpData, uploadPopUpVisibility, startUploadStatus, uploadFileStatus,
@@ -263,6 +264,8 @@ class Console extends Component {
 
                     //to empty the selected Data
                     selectedDataCount={checkedDataKeys.length}
+
+
                 />
 
                 <UserInfoSlider visible={UserInfoVisible} onCloseFunction={() => this.onCloseUserInfo(false)}

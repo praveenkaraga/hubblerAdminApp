@@ -129,7 +129,7 @@ export const getCirclesDataApi = (searchData) => {
 }
 
 export const getCustomFieldsApi = () => {
-    return axios.get(`/meta/nodes/?start=1&offset=100&sortKey=_id&sortOrder=asc&filterKey=_id&filterQuery=`)
+    return axios.get(`/rest/nodes/?start=1&offset=100&sortKey=_id&sortOrder=asc&filterKey=_id&filterQuery=`)
 };
 
 export const getSingleCircleDataApi = (id, perPageRows, currentPage, searchData, headingData, sortingType) => {
@@ -180,8 +180,8 @@ export const postCommonActionOnUserApi = (typeOfAction, data) => {
 //-------------------xxxxx-------
 
 
-export const getHolidayTableColumns = () =>{
-    return  axios.get ("https://demo4798197.mockable.io/holiday-profile-columns")
+export const getHolidayTableColumns = () => {
+    return axios.get("https://demo4798197.mockable.io/holiday-profile-columns")
 }
 
 export const getHolidayProfilesData = (perPageRows, currentPage, searchData, headingData, sortingType) => {

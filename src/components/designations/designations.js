@@ -158,6 +158,8 @@ class Designations extends Component {
         this.setState({ creationPopUpVisibility: true, creationPopUpMode: "edit" })
     }
 
+
+
     render() {
         const { designationData, totalDesignationsCount } = this.props.designationsReducer
         const { currentPageNumber, creationPopUpVisibility, newDesignationName, checkedDataKeys, creationPopUpMode, editRowName } = this.state
