@@ -10,9 +10,15 @@ import {
     tableColumnSetting,
     addUserDataForm,
     getClickedTeamUserData,
-    commonTeamReducerAction
+    commonTeamReducerAction,
+    onClickOfDownloadExcel,
+    getImportUserUploadDetails,
+    patchImportUsersData,
+    postCommonActionOnUser
 } from '../../store/actions/actions'
 import UserInfoSlider from '../common/UserInfoSlider/UserInfoSlider'
+import ImportUsersPopUp from '../common/ImportUsersPopUp/ImportUsersPopUp'
+import { message } from 'antd'
 
 class Console extends Component {
 
@@ -30,9 +36,9 @@ class Console extends Component {
     }
 
     componentDidMount() {
-        // const { consoleUserData } = this.props.consoleReducer
         this.props.getConsoleUserData(30)
         this.props.getTableColumnData()
+        this.props.onClickOfDownloadExcel()
     }
 
 
@@ -106,17 +112,17 @@ class Console extends Component {
 
 
     onClickUserActions = (typeOfAction) => {
+
+
         switch (typeOfAction) {
             case "activate":
-                console.log("activate")
+                this.actionOnUser("activate")
                 break;
-
             case "deactivate":
-                console.log("deactivate")
+                this.actionOnUser("deactivate")
                 break;
-
             case "delete":
-                console.log("delete")
+                this.actionOnUser("delete")
                 break;
 
             case "edit":
@@ -124,9 +130,27 @@ class Console extends Component {
                 break;
 
             default:
-                console.log("default")
+                alert("Some error occured")
         }
     }
+
+
+    actionOnUser = async (actionType) => {
+        const { checkedDataKeys } = this.state
+        await this.props.postCommonActionOnUser(actionType, { users: checkedDataKeys })
+        const { actionSuccessMessage, errorMsg, actionOnUserSuccess, rowsPerPage, activeheading, sortingType, searchData, currentPageNumber } = this.props.consoleReducer
+        if (actionOnUserSuccess) {
+            message.success(actionSuccessMessage)
+            this.props.commonConsoleAction({ actionOnUserSuccess: false })
+            this.props.getConsoleUserData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
+            this.setState({ checkedDataKeys: [] })
+            this.selectedUsers = []
+        } else {
+            message.error(errorMsg)
+        }
+
+    }
+
 
 
     searchSecondButtonClick = (status) => {
@@ -139,7 +163,7 @@ class Console extends Component {
     }
 
     searchFirstButtonClick = () => {
-        console.log("searchFirstButtonClick")
+        this.props.commonTeamReducerAction({ importUsersPopUpVisiblity: true })
     }
 
     onRowClick = (rowData) => {
@@ -167,9 +191,27 @@ class Console extends Component {
     }
 
 
+    startUploadHandler = () => {
+        this.props.commonTeamReducerAction({ startUploadStatus: 'true' })
+        this.props.getImportUserUploadDetails()
+    }
+
+    patchImportUserData = (id, mappings, skipFirstRow, uploadType) => {
+        let patchData = {
+            mappings: mappings,
+            skip_first_row: skipFirstRow,
+            upload_type: uploadType,
+        }
+        this.props.commonTeamReducerAction({ uploadFileStatus: 'true' });
+        this.props.patchImportUsersData(id, patchData)
+    }
+
+
+
     render() {
         const { consoleColumnData, consoleUserData, totalUsers, currentPageNumber, searchLoader, columnSettingData, addUserDataForm } = this.props.consoleReducer
-        const { clickedTeamUserData, contentLoader, sampleExcelFile, importUsersUploadResponseData } = this.props.teamViewReducer
+        const { importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpData, uploadPopUpVisibility, startUploadStatus, uploadFileStatus,
+            importUsersUploadResponseData, isFileUploaded, clickedTeamUserData, contentLoader } = this.props.teamViewReducer;
         const { popUpActive, UserInfoVisible, userId, userData, checkedDataKeys, disableHeaderButtonNames } = this.state;
         return (
             <div className="console_main">
@@ -217,9 +259,13 @@ class Console extends Component {
                     onClickTableRow={this.onRowClick}
 
                     //buttons to show and hide 
-                    // showHeaderButtonNames={this.showButtons()}
                     showHeaderButtons={this.showButtons()}
                     disableButtonNames={disableHeaderButtonNames}
+
+                    //to empty the selected Data
+                    selectedDataCount={checkedDataKeys.length}
+
+
                 />
 
                 <UserInfoSlider visible={UserInfoVisible} onCloseFunction={() => this.onCloseUserInfo(false)}
@@ -231,24 +277,20 @@ class Console extends Component {
                 />
 
 
-                {/* <ImportUsersPopUp 
-                    visible={importUsersPopUpVisiblity} 
-                    modalClose={}
-
-                    onClickDownload={() => this.props.onClickOfDownloadExcel()}
+                <ImportUsersPopUp visible={importUsersPopUpVisiblity}
+                    secondButtonClickHandler={this.props.onClickOfDownloadExcel}
                     sampleExcelFile={sampleExcelFile}
-
-                    onClickStartUpload={() => this.props.getImportUserUploadDetails()}
-                    uploadPopUpVisibility={uploadPopUpVisibility} uploadPopUpData={uploadPopUpData}
-
-                    uploadImportUsersPopUPVisibility={() => this.props.uploadImportUsersPopUPVisibility()}
-                   // patchImportUsersData={(id, data) => this.props.patchImportUsersData(id, data)}
-
+                    thirdButtonClickHandler={() => this.props.commonTeamReducerAction({ importUsersPopUpVisiblity: false })}
+                    fourthButtonClickHandler={this.startUploadHandler}
+                    fourthButtonLoaderStatus={startUploadStatus}
+                    importUsersUploadPopUpVisibility={uploadPopUpVisibility}
+                    uploadPopUpData={uploadPopUpData}
+                    importUsersPopUpCloseHandler={() => this.props.commonTeamReducerAction({ uploadPopUpVisibility: false })}
+                    patchImportUsersDataHandler={this.patchImportUserData}
                     importUsersUploadResponseData={importUsersUploadResponseData}
-
-                    uploadFileStatus={uploadFileStatus}
-                    commonTeamReducerAction={this.props.commonTeamReducerAction}
-                    importStatus={importStatus} startUploadStatus={startUploadStatus} /> */}
+                    uploadFileLoadingStatus={uploadFileStatus}
+                    isFileUploaded={isFileUploaded}
+                />
             </div>
         )
     }
@@ -258,7 +300,7 @@ class Console extends Component {
 const mapStateToProps = state => {
     return {
         consoleReducer: state.consoleReducer,
-        teamViewReducer: state.teamViewReducer
+        teamViewReducer: state.teamViewReducer,
     };
 };
 
@@ -271,7 +313,11 @@ const mapDispatchToProps = dispatch => {
             tableColumnSetting,
             addUserDataForm,
             getClickedTeamUserData,
-            commonTeamReducerAction
+            commonTeamReducerAction,
+            onClickOfDownloadExcel,
+            getImportUserUploadDetails,
+            patchImportUsersData,
+            postCommonActionOnUser
         },
         dispatch
     );

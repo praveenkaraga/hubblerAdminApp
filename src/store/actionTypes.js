@@ -63,3 +63,6 @@ export const GET_HOLIDAY_PROFILES_DATA= "GET_HOLIDAY_PROFILES_DATA"
 
 
 
+export const POST_COMMON_ACTION_ON_USER = "POST_COMMON_ACTION_ON_USER" // post actions like delete, activate or deactivate
+
+

@@ -77,6 +77,40 @@
        
 }
 
+.suggestionSearch_with_addUser{
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+
+    .ant-select-auto-complete.ant-select .ant-input{
+        border-width: 0;
+    }
+
+    .ant-select-auto-complete.ant-select .ant-input:hover{
+        border-color: unset;
+        border-right-width: 0 !important;
+    }
+    
+
+    .add_user{
+        display: flex;
+        margin-left: 12px;
+    
+        .vLine{
+            border: 0.5px solid #bcbcbc;
+            margin-right: 9px;
+        }
+
+        img{
+            height: 24px;
+            margin-right: 5px;
+            cursor: pointer;
+        }
+
+    }
+}
+
 
 .user_selected{
     

@@ -92,7 +92,7 @@ class CustomDropdown extends Component {
     }
 
 
-    onSlectingPanelData = (data) => {
+    onSelectingPanelData = (data) => {
         this.props.onSinglePanelClick(data)
         this.setState({ panelDataActive: data._id })
     }
@@ -153,7 +153,7 @@ class CustomDropdown extends Component {
                     <Panel disabled={panelData.length ? false : true} header={<AnimationSearch collapseStatus={activeCollapse} onLocalSearch={this.onLocalSearch} {...this.props} />} key="1" style={customPanelStyle}>
                         {!(finalMapData === "noData") ?
                             finalMapData.map(data => (
-                                <div className={`panelSingleData ${data._id === panelDataActive ? "panelSingleDataActive" : ""}`} onClick={() => this.onSlectingPanelData(data)}>
+                                <div className={`panelSingleData ${data._id === panelDataActive ? "panelSingleDataActive" : ""}`} onClick={() => this.onSelectingPanelData(data)}>
                                     <div className={`dataImage ${panelDataype === "circles" ? "circleDataImage" : "customDataImage"}`}></div>
                                     <div className="singleDataName">
 
