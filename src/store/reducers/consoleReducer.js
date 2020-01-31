@@ -18,7 +18,7 @@ const intialState = {
     addUserDataFormMain: [],
     actionSuccessMessage: "",
     actionOnUserSuccess: false,
-
+    patchColumnSettingStatus: false
 }
 
 export const consoleReducer = (state = intialState, action) => {
@@ -55,68 +55,11 @@ export const consoleReducer = (state = intialState, action) => {
                 columnSettingCategories,
                 columnSettingFields
             }
-            // console.log(finalColumnSettingData, "intialcolumnSettingData")
-            const columnSettingData = {
-                "basic fields": [
-                    {
-                        "_id": "name",
-                        "lbl": "Name",
-                        "type": "text",
-                        "isDraggable": false
-                    },
-                    {
-                        "_id": "email",
-                        "lbl": "Email",
-                        "type": "text",
-                        "isDraggable": true
-                    },
-                    {
-                        "_id": "departments",
-                        "lbl": "Departments",
-                        "type": "object",
-                        "isDraggable": true
-                    },
-                    {
-                        "_id": "employee_id",
-                        "lbl": "Employee ID",
-                        "type": "text",
-                        "isDraggable": true
-                    },
-                    {
-                        "_id": "manager",
-                        "lbl": "Manager",
-                        "type": "object",
-                        "isDraggable": true
-                    },
-                    {
-                        "_id": "designations",
-                        "lbl": "Designations",
-                        "type": "object",
-                        "isDraggable": true
-                    }
-                ],
 
-                "category": [
-                    {
-                        "_id": "location",
-                        "lbl": "Location",
-                        "type": "string",
-                        "isDraggable": true
-                    },
-                    {
-                        "_id": "mobile",
-                        "lbl": "Mobile",
-                        "type": "number",
-                        "isDraggable": true
-                    }
-                ]
-            }
             return {
                 ...state,
                 columnSettingDataOriginal: finalColumnSettingData,
                 columnSettingData: JSON.parse(JSON.stringify(finalColumnSettingData)),
-                // columnSettingCategories: intialcolumnSettingCategories,
-                // columnSettingFields: intialcolumnSettingField
             }
 
         case actionTypes.ADD_USER_DATA_FORM:
@@ -133,6 +76,13 @@ export const consoleReducer = (state = intialState, action) => {
                 ...state,
                 actionOnUserSuccess: true,
                 actionSuccessMessage: actionOnUserDataInitial.message || (actionOnUserDataInitial.deactivated ? `${actionOnUserDataInitial.deactivated} User(s) Succefully Deactivated` : "Not Deactivated")
+            }
+
+        case actionTypes.PATCH_TABLE_COLUMN_SETTING:
+            console.log(action.payload)
+            return {
+                ...state,
+                patchColumnSettingStatus: true
             }
 
     }

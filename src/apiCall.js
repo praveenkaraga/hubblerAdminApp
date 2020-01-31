@@ -69,9 +69,17 @@ export const patchUploadData = (id, data) => {
 }
 
 
-export const getTableColumnSetting = () => {
+//---------- Apis for table column Settings
+
+export const getTableColumnSetting = () => { //to get all column setting data
     return axios.get("/table/fields/rest/users/")
 }
+
+export const patchTableColumnSettingApi = (data) => { //to patch column setting data
+    return axios.patch("/table/fields/rest/users/", data, axiosConfig)
+}
+
+//------------*****************----------
 
 
 export const getAddUserDataForm = () => {

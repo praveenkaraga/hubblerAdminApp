@@ -21,7 +21,8 @@ export const {
     commonConsoleAction,
     tableColumnSetting,
     addUserDataForm,
-    postCommonActionOnUser
+    postCommonActionOnUser,
+    patchTableColumnSetting
 } = consoleActions
 
 //------------------------------xxxxxxxxxxxxxx-------------------------------//

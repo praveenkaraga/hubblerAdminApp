@@ -13,7 +13,8 @@ import {
     onClickOfDownloadExcel,
     getImportUserUploadDetails,
     patchImportUsersData,
-    postCommonActionOnUser
+    postCommonActionOnUser,
+    patchTableColumnSetting
 } from '../../store/actions/actions'
 import UserInfoSlider from '../common/UserInfoSlider/UserInfoSlider'
 import ImportUsersPopUp from '../common/ImportUsersPopUp/ImportUsersPopUp'
@@ -205,6 +206,20 @@ class Console extends Component {
     }
 
 
+    onColumnSettingSave = async (settingData) => { // on save of table column setting 
+        const copySavedSettingData = JSON.parse(JSON.stringify(settingData)) //making a deep copy of setting data
+        const removeKeys = ["sorter", "title", "dataIndex", "sortDirections", "ellipsis"] //keys to remove from each object
+        copySavedSettingData.forEach(data => removeKeys.forEach(key => delete data[key])) //removing all keys that we don't want to send to backend
+        await this.props.patchTableColumnSetting(copySavedSettingData)
+        const { patchColumnSettingStatus, errorMsg } = this.props.consoleReducer
+        if (patchColumnSettingStatus) {
+            message.success("Table Column Setting Saved")
+        } else {
+            message.error(errorMsg)
+        }
+    }
+
+
 
     render() {
         const { consoleUserData, totalUsers, currentPageNumber, searchLoader, columnSettingData, addUserDataForm } = this.props.consoleReducer
@@ -239,6 +254,7 @@ class Console extends Component {
 
                     //props of column setting component
                     onClickColumnSetting={this.onClickColumnSetting} columnSettingData={columnSettingData}
+                    columnConfigurable={true} onColumnSettingSave={this.onColumnSettingSave}
 
                     //props for all the actions to be done on user
                     onClickUserActivate={() => this.onClickUserActions("activate")}
@@ -252,9 +268,6 @@ class Console extends Component {
 
                     //to check if it is userData or not
                     isUserData={true}
-
-                    //columnConfigurable
-                    columnConfigurable={true}
 
                     //table fn
                     onClickTableRow={this.onRowClick}
@@ -318,7 +331,8 @@ const mapDispatchToProps = dispatch => {
             onClickOfDownloadExcel,
             getImportUserUploadDetails,
             patchImportUsersData,
-            postCommonActionOnUser
+            postCommonActionOnUser,
+            patchTableColumnSetting
         },
         dispatch
     );

@@ -78,6 +78,12 @@ class ColumnSetting extends Component {
         )
     }
 
+    onColumnSetingFinalAction = (status) => {
+        const { columnDataDraggable, columnDataNotDraggable } = this.state
+        if (status && this.props.onColumnSettingSave) {
+            this.props.onColumnSettingSave([...columnDataNotDraggable, ...columnDataDraggable])
+        }
+    }
 
 
     render() {
@@ -128,7 +134,7 @@ class ColumnSetting extends Component {
 
                     <div className="save_and_cancel">
                         <div className="cancel_button">Cancel</div>
-                        <div className="save_button">Save</div>
+                        <div className="save_button" onClick={() => this.onColumnSetingFinalAction(true)}>Save</div>
                     </div>
                 </div>
             </div>
