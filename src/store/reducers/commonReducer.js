@@ -8,7 +8,9 @@ const intialState = {
     singleViewSuggestionData: [],
     newDataCreatedSuccessfully: false,
     patchSuccessMessage: "",
-    patchDataCreatedSuccessfully: false
+    patchDataCreatedSuccessfully: false,
+    tableColumnData: []
+
 }
 
 export const commonReducer = (state = intialState, action) => {
@@ -55,6 +57,23 @@ export const commonReducer = (state = intialState, action) => {
                 ...state,
                 patchDataCreatedSuccessfully: true,
                 patchSuccessMessage: patchDataInitial ? patchDataInitial.result : ""
+            }
+
+
+        case actionTypes.GET_LOGIN_SESSION_DATA:
+            const intitalSessionData = action.payload.data ? action.payload.data.session_user : []
+            const intitalTableConf = intitalSessionData.table_configuration.users || []
+            const finalTableConf = intitalTableConf.fields || []
+            finalTableConf.forEach((data, i) => {
+                finalTableConf[i]["title"] = data.lbl
+                finalTableConf[i]["dataIndex"] = data._id
+                finalTableConf[i]["sorter"] = true
+                finalTableConf[i]["sortDirections"] = ["descend", "ascend"]
+                finalTableConf[i]["ellipsis"] = true
+            });
+            return {
+                ...state,
+                tableColumnData: finalTableConf
             }
 
     }

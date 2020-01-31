@@ -4,7 +4,6 @@ import AllUserSelect from '../allUserSelect/allUserSelect'
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import {
-    getTableColumnData,
     getConsoleUserData,
     commonConsoleAction,
     tableColumnSetting,
@@ -37,7 +36,6 @@ class Console extends Component {
 
     componentDidMount() {
         this.props.getConsoleUserData(30)
-        this.props.getTableColumnData()
         this.props.onClickOfDownloadExcel()
     }
 
@@ -209,9 +207,11 @@ class Console extends Component {
 
 
     render() {
-        const { consoleColumnData, consoleUserData, totalUsers, currentPageNumber, searchLoader, columnSettingData, addUserDataForm } = this.props.consoleReducer
+        const { consoleUserData, totalUsers, currentPageNumber, searchLoader, columnSettingData, addUserDataForm } = this.props.consoleReducer
         const { importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpData, uploadPopUpVisibility, startUploadStatus, uploadFileStatus,
             importUsersUploadResponseData, isFileUploaded, clickedTeamUserData, contentLoader } = this.props.teamViewReducer;
+        const { tableColumnData } = this.props.commonReducer
+
         const { popUpActive, UserInfoVisible, userId, userData, checkedDataKeys, disableHeaderButtonNames } = this.state;
         return (
             <div className="console_main">
@@ -233,7 +233,8 @@ class Console extends Component {
                     onChangeRowsPerPage={this.onChangeRowsPerPage} goPrevPage={() => this.changePage(-1)}
                     goNextPage={() => this.changePage(1)} currentPageNumber={currentPageNumber}
                     headingClickData={this.onClickHeadingColumn}
-                    allHeadingsData={consoleColumnData} userData={consoleUserData}
+                    allHeadingsData={tableColumnData}
+                    userData={consoleUserData}
                     onSelectRow={this.onSelectRow}
 
                     //props of column setting component
@@ -301,13 +302,13 @@ const mapStateToProps = state => {
     return {
         consoleReducer: state.consoleReducer,
         teamViewReducer: state.teamViewReducer,
+        commonReducer: state.commonReducer
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return bindActionCreators(
         {
-            getTableColumnData,
             getConsoleUserData,
             commonConsoleAction,
             tableColumnSetting,

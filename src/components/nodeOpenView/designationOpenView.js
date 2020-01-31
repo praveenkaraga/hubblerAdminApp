@@ -20,7 +20,8 @@ class DesignationOpenView extends Component {
             activeheading: "",
             sortingType: "",
             searchData: "",
-            viewType: "designations"
+            viewType: "designations",
+            addUsersPopUpStatus: false
         }
     }
 
@@ -73,9 +74,14 @@ class DesignationOpenView extends Component {
         this.props.history.push("/people/designations")
     }
 
+    onClickOfAddUsers = (status) => {
+        this.setState({ addUsersPopUpStatus: status })
+
+    }
+
     render() {
         const { singleViewName, singleViewCount, singleViewData, singleViewSuggestionData } = this.props.commonReducer
-        const { searchData, currentPageNumber } = this.state
+        const { searchData, currentPageNumber, addUsersPopUpStatus } = this.state
 
         return (<CommonCreationView commonCreationViewHeaderName={singleViewName}
             viewDecider={searchData || singleViewCount ? 1 : 0}
@@ -94,13 +100,17 @@ class DesignationOpenView extends Component {
             allSelectedUsersOnChangeCheckBox={this.onChangeCheckBox}
             allSelectedUsersOnChangeRowsPerPage={this.onChangeRowsPerPage}
             commonCreationViewBackButtonClick={this.backButtonClick}
+            addUsersCommonCardButtonClick={() => this.onClickOfAddUsers(true)}
+            showAddUsersPopUp={addUsersPopUpStatus}
+            addUsersPopUpClose={() => this.onClickOfAddUsers(false)}
         />)
     }
 }
 
 const mapStateToProps = state => {
     return {
-        commonReducer: state.commonReducer
+        commonReducer: state.commonReducer,
+        consoleReducer: state.consoleReducer
     };
 };
 

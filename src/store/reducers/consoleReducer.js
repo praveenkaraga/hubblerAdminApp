@@ -17,7 +17,8 @@ const intialState = {
     addUserDataForm: [],
     addUserDataFormMain: [],
     actionSuccessMessage: "",
-    actionOnUserSuccess: false
+    actionOnUserSuccess: false,
+
 }
 
 export const consoleReducer = (state = intialState, action) => {
@@ -27,13 +28,6 @@ export const consoleReducer = (state = intialState, action) => {
     }
 
     switch (action.type) {
-        case actionTypes.GET_TABLE_COLUMN_DATA:
-            const columnDataIntial = action.payload.data
-            const columnData = columnDataIntial ? action.payload.data.result : []
-            return {
-                ...state,
-                consoleColumnData: columnData
-            }
 
         case actionTypes.GET_CONSOLE_USER_DATA:
             const consoleUserDataIntital = action.payload.data
@@ -54,11 +48,75 @@ export const consoleReducer = (state = intialState, action) => {
             }
 
         case actionTypes.TABLE_COLUMN_SETTING_DATA:
-            const columnSettingData = action.payload.data ? action.payload.data.result : {}
+            const intialcolumnSettingData = action.payload.data.result
+            const columnSettingCategories = intialcolumnSettingData ? intialcolumnSettingData.categories : []
+            const columnSettingFields = intialcolumnSettingData ? intialcolumnSettingData.fields : []
+            const finalColumnSettingData = {
+                columnSettingCategories,
+                columnSettingFields
+            }
+            // console.log(finalColumnSettingData, "intialcolumnSettingData")
+            const columnSettingData = {
+                "basic fields": [
+                    {
+                        "_id": "name",
+                        "lbl": "Name",
+                        "type": "text",
+                        "isDraggable": false
+                    },
+                    {
+                        "_id": "email",
+                        "lbl": "Email",
+                        "type": "text",
+                        "isDraggable": true
+                    },
+                    {
+                        "_id": "departments",
+                        "lbl": "Departments",
+                        "type": "object",
+                        "isDraggable": true
+                    },
+                    {
+                        "_id": "employee_id",
+                        "lbl": "Employee ID",
+                        "type": "text",
+                        "isDraggable": true
+                    },
+                    {
+                        "_id": "manager",
+                        "lbl": "Manager",
+                        "type": "object",
+                        "isDraggable": true
+                    },
+                    {
+                        "_id": "designations",
+                        "lbl": "Designations",
+                        "type": "object",
+                        "isDraggable": true
+                    }
+                ],
+
+                "category": [
+                    {
+                        "_id": "location",
+                        "lbl": "Location",
+                        "type": "string",
+                        "isDraggable": true
+                    },
+                    {
+                        "_id": "mobile",
+                        "lbl": "Mobile",
+                        "type": "number",
+                        "isDraggable": true
+                    }
+                ]
+            }
             return {
                 ...state,
-                columnSettingDataOriginal: columnSettingData,
-                columnSettingData: JSON.parse(JSON.stringify(columnSettingData))
+                columnSettingDataOriginal: finalColumnSettingData,
+                columnSettingData: JSON.parse(JSON.stringify(finalColumnSettingData)),
+                // columnSettingCategories: intialcolumnSettingCategories,
+                // columnSettingFields: intialcolumnSettingField
             }
 
         case actionTypes.ADD_USER_DATA_FORM:

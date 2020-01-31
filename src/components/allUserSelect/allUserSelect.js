@@ -121,7 +121,7 @@ class AllUserSelect extends Component {
 
 
     render() {
-        const { allHeadingsData, userData, searchFirstButtonName, searchSecondButtonName, searchPlaceHolder, searchFirstButtonLoader = false, onChangeCheckBox,
+        const { allHeadingsData = [], userData = [], searchFirstButtonName, searchSecondButtonName, searchPlaceHolder, searchFirstButtonLoader = false, onChangeCheckBox,
             searchSecondButtonLoader = false, searchFirstButtonClick, searchSecondButtonClick, searchLoader = false, onSearch, totalUsers, goPrevPage, goNextPage, currentPageNumber, columnSettingData,
             onClickUserActivate, onClickUserDeactivate, onClickUserDelete, onClickUserEdit, addUserPopUpActive, addUserCloseButton, addUserDataForm, isUserData = true, onlySelectAndAdd = false,
             typeOfData = "Total Data", onClickTableRow, columnConfigurable = false, allSelect, onSearchDropdownSelect, searchDropdownPlaceholder, searchDropdownData, onChangeSearchDropdown,

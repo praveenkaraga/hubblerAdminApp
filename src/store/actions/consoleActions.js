@@ -1,14 +1,6 @@
 import * as actionTypes from '../actionTypes'
 import { getTableColumns, getUsers, getTableColumnSetting, getAddUserDataForm, postCommonActionOnUserApi } from '../../apiCall'
 
-export const getTableColumnData = () => {
-    const payload = getTableColumns()
-    return {
-        type: actionTypes.GET_TABLE_COLUMN_DATA,
-        payload
-    }
-
-}
 
 export const getConsoleUserData = (perPageRows, currentPage, searchData, headingData, sortingType) => {
     const payload = getUsers(perPageRows, currentPage, searchData, headingData, sortingType)
