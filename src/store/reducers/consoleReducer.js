@@ -17,7 +17,8 @@ const intialState = {
     addUserDataForm: [],
     addUserDataFormMain: [],
     actionSuccessMessage: "",
-    actionOnUserSuccess: false
+    actionOnUserSuccess: false,
+    patchColumnSettingStatus: false
 }
 
 export const consoleReducer = (state = intialState, action) => {
@@ -27,13 +28,6 @@ export const consoleReducer = (state = intialState, action) => {
     }
 
     switch (action.type) {
-        case actionTypes.GET_TABLE_COLUMN_DATA:
-            const columnDataIntial = action.payload.data
-            const columnData = columnDataIntial ? action.payload.data.result : []
-            return {
-                ...state,
-                consoleColumnData: columnData
-            }
 
         case actionTypes.GET_CONSOLE_USER_DATA:
             const consoleUserDataIntital = action.payload.data
@@ -54,11 +48,18 @@ export const consoleReducer = (state = intialState, action) => {
             }
 
         case actionTypes.TABLE_COLUMN_SETTING_DATA:
-            const columnSettingData = action.payload.data ? action.payload.data.result : {}
+            const intialcolumnSettingData = action.payload.data.result
+            const columnSettingCategories = intialcolumnSettingData ? intialcolumnSettingData.categories : []
+            const columnSettingFields = intialcolumnSettingData ? intialcolumnSettingData.fields : []
+            const finalColumnSettingData = {
+                columnSettingCategories,
+                columnSettingFields
+            }
+
             return {
                 ...state,
-                columnSettingDataOriginal: columnSettingData,
-                columnSettingData: JSON.parse(JSON.stringify(columnSettingData))
+                columnSettingDataOriginal: finalColumnSettingData,
+                columnSettingData: JSON.parse(JSON.stringify(finalColumnSettingData)),
             }
 
         case actionTypes.ADD_USER_DATA_FORM:
@@ -75,6 +76,13 @@ export const consoleReducer = (state = intialState, action) => {
                 ...state,
                 actionOnUserSuccess: true,
                 actionSuccessMessage: actionOnUserDataInitial.message || (actionOnUserDataInitial.deactivated ? `${actionOnUserDataInitial.deactivated} User(s) Succefully Deactivated` : "Not Deactivated")
+            }
+
+        case actionTypes.PATCH_TABLE_COLUMN_SETTING:
+            console.log(action.payload)
+            return {
+                ...state,
+                patchColumnSettingStatus: true
             }
 
     }

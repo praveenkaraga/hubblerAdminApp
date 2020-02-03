@@ -149,7 +149,7 @@ All Props of searchDropdown Component (<a name="search-with-dropdown" href="#sea
 <p>&nbsp;</p>
 
 
-## `Search With Dropdown'{searchDropdown}`
+## `Search With Dropdown{searchDropdown}`
 (containing propfile pic , name and designations)
 
 * **searchDropdownPlaceholder** {"String"}{default : "Search and Add"} : Name of Second Button

@@ -69,14 +69,17 @@ export const patchUploadData = (id, data) => {
 }
 
 
-export const getTableColumns = () => {
-    return axios.get("https://demo1025512.mockable.io/experiment-antd-table")
-};
+//---------- Apis for table column Settings
 
-
-export const getTableColumnSetting = () => {
-    return axios.get("https://demo1025512.mockable.io/user-table-setting")
+export const getTableColumnSetting = () => { //to get all column setting data
+    return axios.get("/table/fields/rest/users/")
 }
+
+export const patchTableColumnSettingApi = (data) => { //to patch column setting data
+    return axios.patch("/table/fields/rest/users/", data, axiosConfig)
+}
+
+//------------*****************----------
 
 
 export const getAddUserDataForm = () => {
@@ -124,11 +127,11 @@ export const getDeptAddUsersTableColumns = () => {
     return axios.get("https://demo4798197.mockable.io/dept-user-columns")
 };
 
-export const getCirclesDataApi = (searchData) => {
+export const getCirclesDataApi = (searchData) => { // to get all data of circles
     return axios.get(`/rest/circles/?start=1&offset=100&sortKey=name&sortOrder=dsc&filterKey=_id&filterQuery=${searchData || ""}`)
 }
 
-export const getCustomFieldsApi = () => {
+export const getCustomFieldsApi = () => { // to get all data of nodes{custom fields}
     return axios.get(`/rest/nodes/?start=1&offset=100&sortKey=_id&sortOrder=asc&filterKey=_id&filterQuery=`)
 };
 
@@ -179,6 +182,13 @@ export const postCommonActionOnUserApi = (typeOfAction, data) => {
 
 //-------------------xxxxx-------
 
+
+
+//------session api---
+export const getLoginSessionDataApi = () => {
+    return axios.get('/sessions/check/login/')
+}
+//-------------------
 
 export const getHolidayTableColumns = () => {
     return axios.get("https://demo4798197.mockable.io/holiday-profile-columns")

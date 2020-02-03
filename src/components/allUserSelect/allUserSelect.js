@@ -121,11 +121,11 @@ class AllUserSelect extends Component {
 
 
     render() {
-        const { allHeadingsData, userData, searchFirstButtonName, searchSecondButtonName, searchPlaceHolder, searchFirstButtonLoader = false, onChangeCheckBox,
+        const { allHeadingsData = [], userData = [], searchFirstButtonName, searchSecondButtonName, searchPlaceHolder, searchFirstButtonLoader = false, onChangeCheckBox,
             searchSecondButtonLoader = false, searchFirstButtonClick, searchSecondButtonClick, searchLoader = false, onSearch, totalUsers, goPrevPage, goNextPage, currentPageNumber, columnSettingData,
             onClickUserActivate, onClickUserDeactivate, onClickUserDelete, onClickUserEdit, addUserPopUpActive, addUserCloseButton, addUserDataForm, isUserData = true, onlySelectAndAdd = false,
             typeOfData = "Total Data", onClickTableRow, columnConfigurable = false, allSelect, onSearchDropdownSelect, searchDropdownPlaceholder, searchDropdownData, onChangeSearchDropdown,
-            showHeaderButtons, disableButtonNames, selectedDataCount, onClickAddUserButton, onSelectAll } = this.props
+            showHeaderButtons, disableButtonNames, selectedDataCount, onClickAddUserButton, onSelectAll, onColumnSettingSave } = this.props
         const perPageOptions = [7, 10, 20, 30, 40, 50, 100]
         const { rowsPerPage, visibleColumnSetting } = this.state
         const totalPages = Math.ceil(totalUsers / rowsPerPage)
@@ -147,7 +147,7 @@ class AllUserSelect extends Component {
                     <div className="setting_table_combine">
                         {columnConfigurable ? <div className="column_settings">
                             <Popover
-                                content={<ColumnSetting columnData={allHeadingsData} columnSettingData={columnSettingData} />}
+                                content={<ColumnSetting columnData={allHeadingsData} columnSettingData={columnSettingData} onColumnSettingSave={onColumnSettingSave} />}
                                 title="Column Setting"
                                 trigger="click"
                                 visible={this.state.visibleColumnSetting}

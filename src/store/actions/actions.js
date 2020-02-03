@@ -16,19 +16,40 @@ export const { getUserData } = createUserAction
 
 //------------------------------Console Action-------------------------------//
 
-export const { getTableColumnData, getConsoleUserData, commonConsoleAction, tableColumnSetting, addUserDataForm, postCommonActionOnUser } = consoleActions
+export const {
+    getConsoleUserData,
+    commonConsoleAction,
+    tableColumnSetting,
+    addUserDataForm,
+    postCommonActionOnUser,
+    patchTableColumnSetting
+} = consoleActions
 
 //------------------------------xxxxxxxxxxxxxx-------------------------------//
 
 
 //-----------------       -------------------------
 
-export const { createActiveLink, hamburgerIconClick } = activeLinkAction
+export const { createActiveLink,
+    hamburgerIconClick } = activeLinkAction
 //-------------------xxxxxxxxxxxxxxxxxxxxxxx------------
 
 
 //-----------------------------Team View Chart Users---------------------------
-export const { getTeamViewUsersData, teamViewUserClick, getClickedTeamUserData, getTeamViewOrgData, storeClickedUserId, changeLoaderStatus, getClickedTeamUserReporteeData, updateRollBackData, importUsersPopUPVisibility, onClickOfDownloadExcel, getImportUserUploadDetails, uploadImportUsersPopUPVisibility, patchImportUsersData, commonTeamReducerAction } = teamViewActions
+export const { getTeamViewUsersData,
+    teamViewUserClick,
+    getClickedTeamUserData,
+    getTeamViewOrgData,
+    storeClickedUserId,
+    changeLoaderStatus,
+    getClickedTeamUserReporteeData,
+    updateRollBackData,
+    importUsersPopUPVisibility,
+    onClickOfDownloadExcel,
+    getImportUserUploadDetails,
+    uploadImportUsersPopUPVisibility,
+    patchImportUsersData,
+    commonTeamReducerAction } = teamViewActions
 
 
 //------------------------------xxxxxxxxxxxxxxxxx--------------------------------
@@ -36,7 +57,17 @@ export const { getTeamViewUsersData, teamViewUserClick, getClickedTeamUserData, 
 
 //------------------------------ Department Action -------------------------------//
 
-export const { getDepartmentData, commonDepartmentAction, getDeptTableColumnData, postCreateDeptData, postAddSelectedUsers, getAddSelectedUsersPostedData, getAddableUsersData, getTableColumnsData, getCommonViewHeaderName, getDepartmentSuggestionData, editUserDataForm } = departmentActions
+export const { getDepartmentData,
+    commonDepartmentAction,
+    getDeptTableColumnData,
+    postCreateDeptData,
+    postAddSelectedUsers,
+    getAddSelectedUsersPostedData,
+    getAddableUsersData,
+    getTableColumnsData,
+    getCommonViewHeaderName,
+    getDepartmentSuggestionData,
+    editUserDataForm } = departmentActions
 
 //------------------------------xxxxxxxxxxxxxx-------------------------------//
 
@@ -46,7 +77,8 @@ export const { getDepartmentData, commonDepartmentAction, getDeptTableColumnData
 
 //------------------------------ Designations Action -------------------------------//
 
-export const { designationsData, commonDesignationAction } = designationsActions
+export const { designationsData,
+    commonDesignationAction } = designationsActions
 
 //------------------------------xxxxxxxxxxxxxxxxxxx-------------------------------//
 
@@ -56,7 +88,11 @@ export const { designationsData, commonDesignationAction } = designationsActions
 
 //----------------------------- User Console Main Action ----------------------------//
 
-export const { getCirclesData, getCustomFields, getSingleCircleData, getCircleSuggestionData, getSingleFieldData } = userConsoleMainActions
+export const { getCirclesData,
+    getCustomFields,
+    getSingleCircleData,
+    getCircleSuggestionData,
+    getSingleFieldData } = userConsoleMainActions
 
 //-----------------------------xxxxxxxxxxxxxxxxxxxxxxxxxx----------------------------//
 
@@ -66,13 +102,18 @@ export const { getCirclesData, getCustomFields, getSingleCircleData, getCircleSu
 //--------------------------------- Common Actions ----------------------------------
 
 
-export const { getSingleViewData, getSingleViewSuggestionData, postCommonCreateData, commonActionForCommonReducer, patchCommonCreateData } = commonActions
+export const { getSingleViewData,
+    getSingleViewSuggestionData,
+    postCommonCreateData,
+    commonActionForCommonReducer,
+    patchCommonCreateData,
+    getLoginSessionData } = commonActions
 
 //------------------------------ xxxxxxxxxxxxxxxxxxxxxxx-----------------------------
 
 
 //------------------------------ Holiday Profile Actions -------------------------------//
 
-export const {  commonHolidayAction,getHolidayTableColumnData,getHolidayProfileData } = holidayActions;
+export const { commonHolidayAction, getHolidayTableColumnData, getHolidayProfileData } = holidayActions;
 
 //------------------------------xxxxxxxxxxxxxxxxxxx-------------------------------//

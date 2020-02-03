@@ -1,14 +1,6 @@
 import * as actionTypes from '../actionTypes'
-import { getTableColumns, getUsers, getTableColumnSetting, getAddUserDataForm, postCommonActionOnUserApi } from '../../apiCall'
+import { getUsers, getTableColumnSetting, getAddUserDataForm, postCommonActionOnUserApi, patchTableColumnSettingApi } from '../../apiCall'
 
-export const getTableColumnData = () => {
-    const payload = getTableColumns()
-    return {
-        type: actionTypes.GET_TABLE_COLUMN_DATA,
-        payload
-    }
-
-}
 
 export const getConsoleUserData = (perPageRows, currentPage, searchData, headingData, sortingType) => {
     const payload = getUsers(perPageRows, currentPage, searchData, headingData, sortingType)
@@ -31,6 +23,14 @@ export const tableColumnSetting = () => {
     const payload = getTableColumnSetting()
     return {
         type: actionTypes.TABLE_COLUMN_SETTING_DATA,
+        payload
+    }
+}
+
+export const patchTableColumnSetting = (settingData) => { //patching the saved table column setting data
+    const payload = patchTableColumnSettingApi(settingData)
+    return {
+        type: actionTypes.PATCH_TABLE_COLUMN_SETTING,
         payload
     }
 }

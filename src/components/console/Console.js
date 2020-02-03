@@ -4,7 +4,6 @@ import AllUserSelect from '../allUserSelect/allUserSelect'
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import {
-    getTableColumnData,
     getConsoleUserData,
     commonConsoleAction,
     tableColumnSetting,
@@ -14,7 +13,8 @@ import {
     onClickOfDownloadExcel,
     getImportUserUploadDetails,
     patchImportUsersData,
-    postCommonActionOnUser
+    postCommonActionOnUser,
+    patchTableColumnSetting
 } from '../../store/actions/actions'
 import UserInfoSlider from '../common/UserInfoSlider/UserInfoSlider'
 import ImportUsersPopUp from '../common/ImportUsersPopUp/ImportUsersPopUp'
@@ -37,7 +37,6 @@ class Console extends Component {
 
     componentDidMount() {
         this.props.getConsoleUserData(30)
-        this.props.getTableColumnData()
         this.props.onClickOfDownloadExcel()
     }
 
@@ -207,11 +206,27 @@ class Console extends Component {
     }
 
 
+    onColumnSettingSave = async (settingData) => { // on save of table column setting 
+        const copySavedSettingData = JSON.parse(JSON.stringify(settingData)) //making a deep copy of setting data
+        const removeKeys = ["sorter", "title", "dataIndex", "sortDirections", "ellipsis"] //keys to remove from each object
+        copySavedSettingData.forEach(data => removeKeys.forEach(key => delete data[key])) //removing all keys that we don't want to send to backend
+        await this.props.patchTableColumnSetting(copySavedSettingData)
+        const { patchColumnSettingStatus, errorMsg } = this.props.consoleReducer
+        if (patchColumnSettingStatus) {
+            message.success("Table Column Setting Saved")
+        } else {
+            message.error(errorMsg)
+        }
+    }
+
+
 
     render() {
-        const { consoleColumnData, consoleUserData, totalUsers, currentPageNumber, searchLoader, columnSettingData, addUserDataForm } = this.props.consoleReducer
+        const { consoleUserData, totalUsers, currentPageNumber, searchLoader, columnSettingData, addUserDataForm } = this.props.consoleReducer
         const { importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpData, uploadPopUpVisibility, startUploadStatus, uploadFileStatus,
             importUsersUploadResponseData, isFileUploaded, clickedTeamUserData, contentLoader } = this.props.teamViewReducer;
+        const { tableColumnData } = this.props.commonReducer
+
         const { popUpActive, UserInfoVisible, userId, userData, checkedDataKeys, disableHeaderButtonNames } = this.state;
         return (
             <div className="console_main">
@@ -233,11 +248,13 @@ class Console extends Component {
                     onChangeRowsPerPage={this.onChangeRowsPerPage} goPrevPage={() => this.changePage(-1)}
                     goNextPage={() => this.changePage(1)} currentPageNumber={currentPageNumber}
                     headingClickData={this.onClickHeadingColumn}
-                    allHeadingsData={consoleColumnData} userData={consoleUserData}
+                    allHeadingsData={tableColumnData}
+                    userData={consoleUserData}
                     onSelectRow={this.onSelectRow}
 
                     //props of column setting component
                     onClickColumnSetting={this.onClickColumnSetting} columnSettingData={columnSettingData}
+                    columnConfigurable={true} onColumnSettingSave={this.onColumnSettingSave}
 
                     //props for all the actions to be done on user
                     onClickUserActivate={() => this.onClickUserActions("activate")}
@@ -251,9 +268,6 @@ class Console extends Component {
 
                     //to check if it is userData or not
                     isUserData={true}
-
-                    //columnConfigurable
-                    columnConfigurable={true}
 
                     //table fn
                     onClickTableRow={this.onRowClick}
@@ -301,13 +315,13 @@ const mapStateToProps = state => {
     return {
         consoleReducer: state.consoleReducer,
         teamViewReducer: state.teamViewReducer,
+        commonReducer: state.commonReducer
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return bindActionCreators(
         {
-            getTableColumnData,
             getConsoleUserData,
             commonConsoleAction,
             tableColumnSetting,
@@ -317,7 +331,8 @@ const mapDispatchToProps = dispatch => {
             onClickOfDownloadExcel,
             getImportUserUploadDetails,
             patchImportUsersData,
-            postCommonActionOnUser
+            postCommonActionOnUser,
+            patchTableColumnSetting
         },
         dispatch
     );

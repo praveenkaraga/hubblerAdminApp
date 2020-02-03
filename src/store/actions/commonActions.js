@@ -3,7 +3,8 @@ import {
     getSingleViewDataApi,
     getSingleViewSuggestionDataApi,
     postCommonCreateDataApi,
-    patchCommonCreateDataApi
+    patchCommonCreateDataApi,
+    getLoginSessionDataApi
 } from '../../apiCall'
 
 export const getSingleViewData = (viewType, id, perPageRows, currentPage, searchData, headingData, sortingType) => {
@@ -45,6 +46,17 @@ export const patchCommonCreateData = (createForType, id, data) => {
     const payload = patchCommonCreateDataApi(createForType, id, data)
     return {
         type: actionTypes.PATCH_COMMON_CREATE_DATA,
+        payload
+    }
+}
+
+
+
+//Login Session Get Api
+export const getLoginSessionData = () => {
+    const payload = getLoginSessionDataApi()
+    return {
+        type: actionTypes.GET_LOGIN_SESSION_DATA,
         payload
     }
 }

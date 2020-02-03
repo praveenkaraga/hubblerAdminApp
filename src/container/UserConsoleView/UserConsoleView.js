@@ -12,7 +12,8 @@ import {
     getAddSelectedUsersPostedData,
     getDepartmentData,
     patchCommonCreateData,
-    commonActionForCommonReducer
+    commonActionForCommonReducer,
+    getLoginSessionData
 } from '../../store/actions/actions'
 import Console from '../../components/console/Console'
 import TeamView from '../../components/teamView/TeamView'
@@ -100,6 +101,7 @@ class UserConsoleView extends Component {
         this.props.createActiveLink(window.location.pathname.substr(1))
         this.props.getCirclesData()
         this.props.getCustomFields()
+        this.props.getLoginSessionData()
     }
 
     dropDownSettingAction = (data, type) => { //onCLick of setting icon of header in dropdown
@@ -273,7 +275,8 @@ const mapDispatchToProps = dispatch => {
             getAddSelectedUsersPostedData,
             getDepartmentData,
             patchCommonCreateData,
-            commonActionForCommonReducer
+            commonActionForCommonReducer,
+            getLoginSessionData
         },
         dispatch
     );
