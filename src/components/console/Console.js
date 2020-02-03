@@ -76,7 +76,7 @@ class Console extends Component {
     }
 
     onSelectRow = (record, selected) => {
-        if (!selected) { // removing the unselected data from the array 
+        if (!selected) { // removing the unselected data from the array
             const indexOfRemovedData = this.selectedUsers.map(data => data._id).indexOf(record._id) //taking the index from the array of objects
             this.selectedUsers.splice(indexOfRemovedData, 1)
         }

@@ -18,13 +18,16 @@ import {
     onClickOfDownloadExcel,
     getImportUserUploadDetails,
     commonTeamReducerAction,
-    patchImportUsersData, editUserDataForm
+    patchImportUsersData, editUserDataForm, commonActionForCommonReducer, patchCommonCreateData, postCommonCreateData
 } from "../../store/actions/actions";
 import AllUserSelect from '../allUserSelect/allUserSelect'
 import filter from "lodash/filter";
 import CreationPopViewCombined from '../common/CreationPopViewCombined/CreationPopViewCombined'
 import {withRouter} from "react-router-dom";
 import ImportUsersPopUp from '../../components/common/ImportUsersPopUp/ImportUsersPopUp'
+import {message} from 'antd'
+
+import CreationPopUp from "../common/CreationPopUp/CreationPopUp";
 
 
 class Departments extends Component {
@@ -53,6 +56,11 @@ class Departments extends Component {
             addUsersSearchData: "",
             importUsersPopUpVisibility: false,
             formPopUpActive: false,
+            newDepartmentName: "",
+            checkedDataKeys: [],
+            creationPopUpMode: "add",
+            editRowName: "",
+            editRowId: ""
         }
     }
 
@@ -82,8 +90,19 @@ class Departments extends Component {
         })
     };
 
-    onChangeCheckBox = (value) => {
-        console.log(value)
+    onChangeCheckBox = (selectedRowsKeys, selectedRows) => {
+        let editRowName = ""
+        let editRowId = ""
+        if (selectedRows[0]) {
+            editRowName = selectedRows[0].departments
+            editRowId = selectedRows[0]._id
+        }
+        this.setState({
+            checkedDataKeys: selectedRowsKeys,
+            editRowName,
+            editRowId,
+            commonCreationViewHeaderName: editRowName
+        })
     };
 
     createDepartment() {
@@ -139,8 +158,8 @@ class Departments extends Component {
     //retain this
     searchSecondButtonClick = (status) => {
         this.setState({
-            creationPopUpVisibility: true
-
+            creationPopUpVisibility: true,
+            creationPopUpMode: "add"
         })
     }
 
@@ -154,7 +173,7 @@ class Departments extends Component {
 
 
     creationPopSecondButtonHandler = async (e) => {
-        let data = {name: this.state.commonCreationViewHeaderName};
+        /*let data = {name: this.state.commonCreationViewHeaderName};
         await this.props.postCreateDeptData(data);
         if (!isEmpty(this.props.departmentReducer.createdDepartmentData)) {
             this.props.history.push(`/people/department/${this.props.departmentReducer.createdDepartmentData.id}`, {headerName: this.props.departmentReducer.createdDepartmentData.result.name})
@@ -162,14 +181,49 @@ class Departments extends Component {
         this.setState({
             changeToCreatedView: true,
             creationPopUpVisibility: false,
-        })
+        })*/
+
+
+        let data = {name: this.state.commonCreationViewHeaderName};
+        await this.props.postCreateDeptData(data);
+        const {errorMsg} = this.props.commonReducer // will be true if success is true from above post api and pop up will be closed
+        if (!isEmpty(this.props.departmentReducer.createdDepartmentData)) {
+            this.setState({creationPopUpVisibility: false})
+            message.success("Department Created Successfully");
+            this.props.commonDepartmentAction({newDataCreatedSuccessfully: false})
+            this.props.history.push(`/people/department/${this.props.departmentReducer.createdDepartmentData.id}`, {headerName: this.props.departmentReducer.createdDepartmentData.result.name})
+
+        } else {
+            message.error(errorMsg);
+        }
+
+
+    }
+
+    onSaveEditedDepartment = async () => {
+        const { editRowId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType} = this.state
+        await this.props.patchCommonCreateData("departments", editRowId, { name: this.state.commonCreationViewHeaderName }) //waiting for the api to be posted
+
+        const {patchDataCreatedSuccessfully, patchSuccessMessage, errorMsg} = this.props.commonReducer // will be true if success is true from above post api and pop up will be closed
+        if (patchDataCreatedSuccessfully) {
+            this.setState({creationPopUpVisibility: false, checkedDataKeys: []})
+            message.success(patchSuccessMessage || "Saved Successfully");
+            this.props.commonActionForCommonReducer({newDataCreatedSuccessfully: false})
+            this.props.getDepartmentData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
+        } else {
+            message.error(errorMsg);
+        }
+
     }
 
     creationPopUpFirstFieldChangeHandler = (e) => {
+        const {editRowName} = this.state
         const inputData = e.target.value
-        this.setState({
-            commonCreationViewHeaderName: inputData
-        })
+        /* this.setState({
+             commonCreationViewHeaderName: inputData
+         })*/
+        this.setState({commonCreationViewHeaderName: inputData, editRowName: inputData ? editRowName : ""})
+
     };
 
 
@@ -437,6 +491,34 @@ class Departments extends Component {
         })
     }
 
+    onClickDepartmentActions = (actionType) => {
+        this.setState({ creationPopUpVisibility: true, creationPopUpMode: "edit" })
+    }
+
+    /*changeStatusOfUserAction = (selectedDataOriginal) => { //handelling the case to enable and disable the activate and deactivate button on selection
+
+        const selectedData = selectedDataOriginal.map(data => data.deactivate)
+        let disableHeaderButtonNames = []
+        if (selectedData.includes(true) && (selectedData.includes(false) || selectedData.includes(undefined))) {
+            disableHeaderButtonNames = ["edit", "activate", "deactivate"]
+        } else if ((selectedData.includes(false) || selectedData.includes(undefined))) {
+            disableHeaderButtonNames = selectedDataOriginal.length > 1 ? ["edit", "activate"] : ["activate"]
+        } else {
+            disableHeaderButtonNames = selectedDataOriginal.length > 1 ? ["edit", "deactivate"] : ["deactivate"]
+        }
+
+        this.setState({ disableHeaderButtonNames })
+    }
+
+
+    onSelectRow = (record, selected) => {
+        if (!selected) { // removing the unselected data from the array
+            const indexOfRemovedData = this.selectedUsers.map(data => data._id).indexOf(record._id) //taking the index from the array of objects
+            this.selectedUsers.splice(indexOfRemovedData, 1)
+        }
+        this.changeStatusOfUserAction(this.selectedUsers)
+    }*/
+
 
     render() {
         const {departmentColumnData, departmentsData, addableUsersData, totalUsers, addedUsersData, tableColumnsData, viewDecider, commonViewLoader, totalAddableUsers, totalAllSelectedUsers, commonViewHeader, searchLoader, allSelectedUsersSearchLoader, addUsersSearchLoader, editUserDataForm} = this.props.departmentReducer;
@@ -445,7 +527,7 @@ class Departments extends Component {
 
         const {importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpData, uploadPopUpVisibility, startUploadStatus, uploadFileStatus, importUsersUploadResponseData, isFileUploaded} = this.props.teamViewReducer;
 
-        const {creationPopUpVisibility, showAddUsersPopUp, commonCreationViewHeaderName, changeToCreatedView, formPopUpActive} = this.state;
+        const {creationPopUpVisibility, showAddUsersPopUp, commonCreationViewHeaderName, changeToCreatedView, formPopUpActive, creationPopUpMode,checkedDataKeys} = this.state;
 
         console.log(importUsersUploadResponseData)
         return (
@@ -466,9 +548,14 @@ class Departments extends Component {
                                    currentPageNumber={this.state.currentPageNumber}
                                    onClickTableRow={this.onRowThisClick}
                                    searchLoader={searchLoader}
-                                   onClickUserEdit={() => this.onClickUserEditAction(true)}
+                                   // onClickUserEdit={() => this.onClickUserEditAction(true)}
                                    addUserPopUpActive={formPopUpActive}
                                    addUserDataForm={editUserDataForm}
+                                   showHeaderButtons={[{ id: "edit", label: "Edit Department" }, { id: "delete", label: "Delete Department" }]}
+                                   disableButtonNames={[checkedDataKeys.length > 1 ? "edit" : ""]}
+                                   selectedDataCount={checkedDataKeys.length}
+                                   onClickUserDelete={() => this.onClickDepartmentActions("delete")}
+                                   onClickUserEdit={() => this.onClickDepartmentActions("edit")}
 
                     />
                     <ImportUsersPopUp visible={importUsersPopUpVisiblity}
@@ -484,6 +571,7 @@ class Departments extends Component {
                                       importUsersUploadResponseData={importUsersUploadResponseData}
                                       uploadFileLoadingStatus={uploadFileStatus}
                                       isFileUploaded={isFileUploaded}
+                                      commonAction={ this.props.commonTeamReducerAction}
                     />
                 </div> : ""}
 
@@ -491,7 +579,7 @@ class Departments extends Component {
                     //implies the visibility status of creation PopUP = boolean
                                          creationPopFirstButtonHandler={this.creationPopFirstButtonHandler}
                     //function that gets invoked on click of the the first button of create pop
-                                         creationPopSecondButtonHandler={this.creationPopSecondButtonHandler}
+                                         creationPopSecondButtonHandler={creationPopUpMode === "add" ? this.creationPopSecondButtonHandler : this.onSaveEditedDepartment}
                     //function that gets invoked on click of the second button of create popup
                                          creationPopUpFirstFieldChangeHandler={this.creationPopUpFirstFieldChangeHandler}
                     //function that gets invoked for first fieldType (input) of the creation popup
@@ -513,6 +601,9 @@ class Departments extends Component {
                                          inputValue={commonCreationViewHeaderName}
                                          inputMaxLength={50}
                     //maximum number of charecters a user can enter in the input field
+                                         creationPopUpTitle={creationPopUpMode === "add" ? "Add New Designation" : "Edit Designation"}
+                                         creationPopSecondButtonName={creationPopUpMode === "add" ? "Create" : "Save"}
+
 
                     // *end of CreationPopUp props*
                                          commonCreationViewBackButtonClick={this.commonCreationViewBackButtonClick}
@@ -602,7 +693,9 @@ class Departments extends Component {
 const mapStateToProps = state => {
     return {
         departmentReducer: state.departmentReducer,
-        teamViewReducer: state.teamViewReducer
+        teamViewReducer: state.teamViewReducer,
+        commonReducer: state.commonReducer
+
     };
 };
 
@@ -620,7 +713,12 @@ const mapDispatchToProps = dispatch => {
             getCommonViewHeaderName,
             onClickOfDownloadExcel,
             getImportUserUploadDetails,
-            commonTeamReducerAction, patchImportUsersData, editUserDataForm
+            commonTeamReducerAction,
+            patchImportUsersData,
+            editUserDataForm,
+            patchCommonCreateData,
+            postCommonCreateData,
+            commonActionForCommonReducer
         },
         dispatch
     );
