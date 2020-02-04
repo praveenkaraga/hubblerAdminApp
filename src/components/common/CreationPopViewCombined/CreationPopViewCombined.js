@@ -9,7 +9,7 @@ class CreationPopViewCombined extends Component {
         const {commonCreationViewHeaderName, commonCreationViewBackButtonClick, backButton, viewDecider, addUsersCommonCardButtonClick, allSelectedUsersHeadingsData, allSelectedUsersUsersData, allSelectedUsersTotalUsers, allSelectedUsersPlaceHolder, allSelectedUsersFirstButtonName, allSelectedUsersIsUserData, allSelectedUsersOnChangeCheckBox, allSelectedUsersOnlySelectAndAdd, allSelectedUsersFirstButtonClick, showAddUsersPopUp, addUsersPopUpTitle, addUsersPopUpClose, addUsersPopUpPlaceHolder, addUsersPopUpFirstButtonName, addUsersPopUpFirstButtonClick, addUsersPopUpOnChangeCheckBox, addUsersPopUpTableColumnsData, addUsersPopUpUsersData, addUsersPopUpTotalUsers, addUsersPopUpIsUserData, addUsersPopUpOnlySelectAndAdd,
             allSelectedUsersOnClickHeadingColumn,allSelectedUsersOnChangeRowsPerPage,allSelectedUsersChangePage,allSelectedUsersSearchData,allSelectedUsersCurrentPageNumber,
             addUsersOnClickHeadingColumn,addUsersOnChangeRowsPerPage,addUsersChangePage,addUsersSearchData,addUsersCurrentPageNumber,commonViewLoader,allSelectedUsersAllSelect,allSelectedUsersOnSearchDropdownSelect,allSelectedUsersSearchDropdownPlaceholder,allSelectedUsersSearchDropdownData,allSelectedUsersOnChangeSearchDropdown,allSelectedUsersSearchLoader,addUsersSearchLoader
-        } = this.props
+        } = this.props;
         if (creationPopUpVisibility) {
             return (
                 <CreationPopUp creationPopUpVisibility={creationPopUpVisibility}

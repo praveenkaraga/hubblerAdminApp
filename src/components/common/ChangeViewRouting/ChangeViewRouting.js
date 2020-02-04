@@ -17,6 +17,8 @@ import {
 import CommonCreationView from "../../common/CommonCreationView/CommonCreationView";
 import filter from "lodash/filter";
 import CreationPopViewCombined from "../CreationPopViewCombined/CreationPopViewCombined";
+import AllUserSelect from "../../allUserSelect/allUserSelect";
+import AddUsersPopUp from "../AddUsersPopUp/AddUsersPopUp";
 
 
 class ChangeViewRouting extends Component {
@@ -234,6 +236,10 @@ class ChangeViewRouting extends Component {
                                 allSelectedUsersOnChangeSearchDropdown={this.onChangeSearchDropdown}
                                 allSelectedUsersOnSearchDropdownSelect={this.onSearchDropdownSelect}
                                 allSelectedUsersSearchDropdownData={singleViewSuggestionData}
+
+                                allSelectedUsersShowHeaderButtons={[ { id: "delete", label: "Remove Users" }]}
+
+
 
             />
         )

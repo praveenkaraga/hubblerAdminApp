@@ -49,7 +49,8 @@ class ExcelFieldsList extends Component {
             }
         })
 
-        this.props.setDropValue(dataObj);
+        this.props.setDropValue(dataObj,dob);
+        console.log(dataObj)
         console.log(dob)
     }
 
@@ -112,8 +113,8 @@ class SampleDataList extends Component {
                         return (<li className={'sample-data-list-item'} key={index}>
                             {dropDownObj.index === index ?
                                 <div
-                                    className={'field-holder'}>{switchStatus ? dropDownObj.patchData.data : dropDownObj.patchData.name} </div> :
-                                <div className={'field-holder'}>{switchStatus ? ele.data : ele.name} </div>}
+                                    className={'field-holder nush'}>{switchStatus ? dropDownObj.patchData.data : dropDownObj.patchData.name} </div> :
+                                <div className={'field-holder nush'}>{switchStatus ? ele.data : ele.name} </div>}
                         </li>)
                     })
                 }
@@ -134,9 +135,9 @@ class ImportUsersUploadPopUp extends Component {
         activateCancel: false,
     };
 
-    setDropValue = (dataObj) => {
+    setDropValue = (dataObj,dob) => {
         this.setState({
-                dropDownObj: dataObj
+                dropDownObj: dataObj,mappings: dob,
             }
         )
     }
@@ -149,12 +150,13 @@ class ImportUsersUploadPopUp extends Component {
 
     handleOk = e => {
         let _this = this
-        const {importUsersPopUpCloseHandler, uploadProps, sampleExcelFile, modalClose, isFileUploaded} = _this.props
+        const {importUsersPopUpCloseHandler, uploadProps, sampleExcelFile, modalClose, isFileUploaded, commonAction} = _this.props
         importUsersPopUpCloseHandler() //importUsersPopUpCloseHandler //uploadImportUsersPopUPVisibility
         uploadProps.onRemove(sampleExcelFile)
         if (_this.state.activateCancel || isFileUploaded) {
             modalClose()
         }
+        commonAction({isFileUploaded: false})
         this.setState({
             visible: false,
         });
@@ -213,7 +215,7 @@ class ImportUsersUploadPopUp extends Component {
             upload_type: this.state.uploadOption,
         }*/
         // patchImportUsersData(uploadPopUpData._id, patchData,)
-        patchImportUsersDataHandler(uploadPopUpData._id, omitIndexes,true,this.state.uploadOption)
+        patchImportUsersDataHandler(uploadPopUpData._id, omitIndexes, true, this.state.uploadOption)
     }
 
     componentDidMount() {
@@ -287,7 +289,9 @@ class ImportUsersUploadPopUp extends Component {
     render() {
         const {importUsersUploadResponseData, uploadFileLoadingStatus, isFileUploaded} = this.props;
         const {importUsersUploadPopUpHeaderFirstButtonHandler, importUsersUploadPopUpFooterFirstButtonHandler, importUsersUploadPopUpFooterSecondButtonHandler} = this.props
-        const {importUsersUploadPopUpVisibility = false, importUsersUploadPopUpTitle = "IMPORT USERS", uploadPopUpData, fileName, importUsersUploadPopUpHeaderFirstButtonName = `Import Another File`, importUsersUploadPopUpFooterFirstButtonName = `Cancel`, importUsersUploadPopUpFooterSecondButtonName = `Process`, uploadingStatusText = 'Processing', footerSecondButtonPopUpTitle = `Import Status`, footerSecondButtonPopUpPrimaryButtonName = `Download Error Log`, footerSecondButtonPopUpSecondaryButtonName = `Done`, footerFirstButtonConfirmationPopUpTitle = `Cancel Excel Upload`, headerFirstButtonConfirmationPopUpTitle = `Import Another File`, confirmationPopUpPrimaryButtonName = `Cancel`, footerFirstButtonConfirmationPopUpSecondaryButtonName = `Ok`, headerFirstButtonConfirmationPopUpSecondaryButtonName = `Import`,headerFirstButtonConfirmationPopUpBodyText=`Are you sure you want to cancel the Excel Upload and Import another file ?` ,footerFirstButtonConfirmationPopUpBodyText =`Are you sure you want to cancel the Excel Upload?` } = this.props
+        const {
+            importUsersUploadPopUpVisibility = false, importUsersUploadPopUpTitle = "IMPORT USERS", uploadPopUpData, fileName, importUsersUploadPopUpHeaderFirstButtonName = `Import Another File`, importUsersUploadPopUpFooterFirstButtonName = `Cancel`, importUsersUploadPopUpFooterSecondButtonName = `Process`, uploadingStatusText = 'Processing', footerSecondButtonPopUpTitle = `Import Status`, footerSecondButtonPopUpPrimaryButtonName = `Download Error Log`, footerSecondButtonPopUpSecondaryButtonName = `Done`, footerFirstButtonConfirmationPopUpTitle = `Cancel Excel Upload`, headerFirstButtonConfirmationPopUpTitle = `Import Another File`, confirmationPopUpPrimaryButtonName = `Cancel`, footerFirstButtonConfirmationPopUpSecondaryButtonName = `Ok`, headerFirstButtonConfirmationPopUpSecondaryButtonName = `Import`, headerFirstButtonConfirmationPopUpBodyText = `Are you sure you want to cancel the Excel Upload and Import another file ?`, footerFirstButtonConfirmationPopUpBodyText = `Are you sure you want to cancel the Excel Upload?`
+        } = this.props
         let _this = this;
         return (
             <div>
@@ -335,7 +339,7 @@ class ImportUsersUploadPopUp extends Component {
                                 </Button>,
                             ]}
                         >
-                            {this.state.activateCancel ? footerFirstButtonConfirmationPopUpBodyText : headerFirstButtonConfirmationPopUpBodyText }
+                            {this.state.activateCancel ? footerFirstButtonConfirmationPopUpBodyText : headerFirstButtonConfirmationPopUpBodyText}
                             {/*{`Are you sure you want to cancel the ${this.state.activateCancel ? 'Excel Upload ' : 'Excel Upload and Import another file ?'}`}*/}
                         </Modal> : ''
                     }
@@ -374,7 +378,7 @@ class ImportUsersUploadPopUp extends Component {
                                         <Select onChange={_this.uploadUpdateOptionChange.bind(_this)}
                                                 mode="multiple"
                                                 placeholder={'Select'}
-                                                 className={'upload-update-select'}>
+                                                className={'upload-update-select'}>
                                             {map(this.state.reqFields, function (inele, inde) {
                                                 return <Option value={inele._id}
                                                                key={inele._id}>{inele.title}</Option>

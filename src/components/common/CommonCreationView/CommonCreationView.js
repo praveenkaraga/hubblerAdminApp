@@ -14,11 +14,11 @@ class CommonCreationView extends Component {
         const {addUsersCommonCardButtonClick} = this.props
         const {
             allSelectedUsersHeadingsData, allSelectedUsersUsersData, allSelectedUsersTotalUsers, allSelectedUsersPlaceHolder, allSelectedUsersFirstButtonName, allSelectedUsersIsUserData, allSelectedUsersOnChangeCheckBox, allSelectedUsersOnlySelectAndAdd, allSelectedUsersFirstButtonClick,
-            allSelectedUsersOnClickHeadingColumn, allSelectedUsersOnChangeRowsPerPage, allSelectedUsersChangePage, allSelectedUsersSearchData, allSelectedUsersCurrentPageNumber, allSelectedUsersAllSelect, allSelectedUsersOnSearchDropdownSelect, allSelectedUsersSearchDropdownPlaceholder, allSelectedUsersSearchDropdownData, allSelectedUsersOnChangeSearchDropdown
+            allSelectedUsersOnClickHeadingColumn, allSelectedUsersOnChangeRowsPerPage, allSelectedUsersChangePage, allSelectedUsersSearchData, allSelectedUsersCurrentPageNumber, allSelectedUsersAllSelect, allSelectedUsersOnSearchDropdownSelect, allSelectedUsersSearchDropdownPlaceholder, allSelectedUsersSearchDropdownData, allSelectedUsersOnChangeSearchDropdown,allSelectedUsersShowHeaderButtons,allSelectedUsersDisableButtonNames,allSelectedUsersSelectedDataCount,allSelectedUsersOnClickActions,allSelectedUsersOnClickAddUserButton,allSelectedUsersOnSelectRow,allSelectedUsersOnSelectAll
         } = this.props;
         const {
             showAddUsersPopUp, addUsersPopUpTitle, addUsersPopUpClose, addUsersPopUpPlaceHolder, addUsersPopUpFirstButtonName, addUsersPopUpFirstButtonClick, addUsersPopUpOnChangeCheckBox, addUsersPopUpTableColumnsData, addUsersPopUpUsersData, addUsersPopUpTotalUsers, addUsersPopUpIsUserData, addUsersPopUpOnlySelectAndAdd, allSelectedUsersSearchLoader, addUsersSearchLoader
-            , addUsersOnClickHeadingColumn, addUsersOnChangeRowsPerPage, addUsersChangePage, addUsersSearchData, addUsersCurrentPageNumber
+            , addUsersOnClickHeadingColumn, addUsersOnChangeRowsPerPage, addUsersChangePage, addUsersSearchData, addUsersCurrentPageNumber,addUsersShowHeaderButtons,addUsersDisableButtonNames,addUsersSelectedDataCount,addUsersOnClickActions,addUsersOnClickAddUserButton,addUsersOnSelectRow,addUsersOnSelectAll
         } = this.props
 
         return (
@@ -59,6 +59,15 @@ class CommonCreationView extends Component {
                                        onChangeSearchDropdown={allSelectedUsersOnChangeSearchDropdown}
                                        searchLoader={allSelectedUsersSearchLoader}
 
+                                       showHeaderButtons={allSelectedUsersShowHeaderButtons}
+                                       disableButtonNames={allSelectedUsersDisableButtonNames}
+                                       selectedDataCount={allSelectedUsersSelectedDataCount}
+                                       onClickUserDelete={allSelectedUsersOnClickActions}
+                                       onClickUserEdit={allSelectedUsersOnClickActions}
+                                       onClickAddUserButton={allSelectedUsersOnClickAddUserButton}
+                                       onSelectRow={allSelectedUsersOnSelectRow}
+                                       onSelectAll={allSelectedUsersOnSelectAll}
+
                         />
                     </div> : ''
                 }
@@ -81,6 +90,14 @@ class CommonCreationView extends Component {
                                    addUsersSearchData={addUsersSearchData}
                                    addUsersCurrentPageNumber={addUsersCurrentPageNumber}
                                    addUsersSearchLoader={addUsersSearchLoader}
+
+                                   addUsersShowHeaderButtons={addUsersShowHeaderButtons}
+                                   addUsersDisableButtonNames={addUsersDisableButtonNames}
+                                   addUsersSelectedDataCount={addUsersSelectedDataCount}
+                                   addUsersOnClickActions={addUsersOnClickActions}
+                                   addUsersOnClickAddUserButton={addUsersOnClickAddUserButton}
+                                   addUsersOnSelectRow={addUsersOnSelectRow}
+                                   addUsersOnSelectAll={addUsersOnSelectAll}
                     />
                     : ''}
 

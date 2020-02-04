@@ -73,6 +73,7 @@ export const departmentReducer = (state = initialState, action) => {
                 ...state,
                 createdDepartmentData: data,
                 commonViewLoader: false,
+                newDataCreatedSuccessfully : true,
                 viewDecider: 0
             }
         case actionTypes.POST_ADD_SELECTED_USERS_DATA:
