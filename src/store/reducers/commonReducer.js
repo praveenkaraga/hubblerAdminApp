@@ -9,7 +9,8 @@ const intialState = {
     newDataCreatedSuccessfully: false,
     patchSuccessMessage: "",
     patchDataCreatedSuccessfully: false,
-    tableColumnData: []
+    tableColumnData: [],
+    singleViewSuggestionDataCount: 0
 
 }
 
@@ -24,17 +25,18 @@ export const commonReducer = (state = intialState, action) => {
             const singleViewDataItitial = action.payload.data
             return {
                 ...state,
-                singleViewName: singleViewDataItitial.name,
-                singleViewCount: singleViewDataItitial.total_count,
-                singleViewData: singleViewDataItitial.result
+                singleViewName: singleViewDataItitial ? singleViewDataItitial.name : "",
+                singleViewCount: singleViewDataItitial ? singleViewDataItitial.total_count : 0,
+                singleViewData: singleViewDataItitial ? singleViewDataItitial.result : []
             }
 
 
         case actionTypes.GET_SINGLE_VIEW_SUGGESTION_DATA:
-            const singleViewSuggestionDataInitial = action.payload.data.result
+            const singleViewSuggestionDataInitial = action.payload.data
             return {
                 ...state,
-                singleViewSuggestionData: singleViewSuggestionDataInitial
+                singleViewSuggestionData: singleViewSuggestionDataInitial ? singleViewSuggestionDataInitial.result : [],
+                singleViewSuggestionDataCount: singleViewSuggestionDataInitial ? singleViewSuggestionDataInitial.total_count : 0
             }
 
         case actionTypes.POST_COMMON_CREATE_DATA:
@@ -75,6 +77,18 @@ export const commonReducer = (state = intialState, action) => {
                 ...state,
                 tableColumnData: finalTableConf
             }
+
+
+        case actionTypes.GET_SINGLE_FIELD_DATA:
+            const singleFieldDataInitial = action.payload.data
+            console.log(singleFieldDataInitial, "singleFieldDataInitial")
+            return {
+                ...state,
+                // // singleFieldName: singleFieldDataInitial.name,
+                // singleFieldCount: singleFieldDataInitial.total_count,
+                // singleFieldData: singleFieldDataInitial ? singleFieldDataInitial.result : []
+            }
+
 
     }
 

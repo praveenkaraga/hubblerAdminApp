@@ -90,9 +90,8 @@ export const { designationsData,
 
 export const { getCirclesData,
     getCustomFields,
-    getSingleCircleData,
     getCircleSuggestionData,
-    getSingleFieldData } = userConsoleMainActions
+} = userConsoleMainActions
 
 //-----------------------------xxxxxxxxxxxxxxxxxxxxxxxxxx----------------------------//
 
@@ -107,7 +106,8 @@ export const { getSingleViewData,
     postCommonCreateData,
     commonActionForCommonReducer,
     patchCommonCreateData,
-    getLoginSessionData } = commonActions
+    getLoginSessionData,
+    getSingleFieldData } = commonActions
 
 //------------------------------ xxxxxxxxxxxxxxxxxxxxxxx-----------------------------
 

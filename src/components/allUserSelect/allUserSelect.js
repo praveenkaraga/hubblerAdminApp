@@ -47,7 +47,9 @@ class AllUserSelect extends Component {
     }
 
     onChangeCheckBox = (selectedRowsKeys, selectedRows) => {
-        this.props.onChangeCheckBox(selectedRowsKeys, selectedRows)
+        if (this.props.onChangeCheckBox) {
+            this.props.onChangeCheckBox(selectedRowsKeys, selectedRows)
+        }
     }
 
     onSelectRow = (record, selected, selectedRows) => {

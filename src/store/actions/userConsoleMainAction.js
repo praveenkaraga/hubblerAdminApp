@@ -2,9 +2,7 @@ import * as actionTypes from '../actionTypes'
 import {
     getCirclesDataApi,
     getCustomFieldsApi,
-    getSingleCircleDataApi,
-    getCircleSuggestionDataApi,
-    getSingleFieldDataApi
+    getCircleSuggestionDataApi
 } from '../../apiCall'
 
 
@@ -28,15 +26,6 @@ export const getCustomFields = () => {
 
 
 
-export const getSingleCircleData = (id, perPageRows, currentPage, searchData, headingData, sortingType) => {
-    const payload = getSingleCircleDataApi(id, perPageRows, currentPage, searchData, headingData, sortingType)
-    return {
-        type: actionTypes.GET_SINGLE_CIRCLE_DATA,
-        payload
-    }
-}
-
-
 export const getCircleSuggestionData = (id, searchData) => {
     const payload = getCircleSuggestionDataApi(id, searchData)
     return {
@@ -46,10 +35,10 @@ export const getCircleSuggestionData = (id, searchData) => {
 }
 
 
-export const getSingleFieldData = (id, perPageRows, currentPage, searchData, headingData, sortingType) => {
-    const payload = getSingleFieldDataApi(id, perPageRows, currentPage, searchData, headingData, sortingType)
-    return {
-        type: actionTypes.GET_SINGLE_FIELD_DATA,
-        payload
-    }
-}
+// export const getSingleFieldData = (id, perPageRows, currentPage, searchData, headingData, sortingType) => {
+//     const payload = getSingleFieldDataApi(id, perPageRows, currentPage, searchData, headingData, sortingType)
+//     return {
+//         type: actionTypes.GET_SINGLE_FIELD_DATA,
+//         payload
+//     }
+// }

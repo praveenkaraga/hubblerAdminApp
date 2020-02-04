@@ -21,7 +21,7 @@ import Departments from '../../components/departments/Departments'
 import Designations from '../../components/designations/designations'
 import CustomDropdown from '../../components/common/CustomDropdown/customDropdown'
 import CreationPopUp from '../../components/common/CreationPopUp/CreationPopUp'
-import CircleOpenView from '../../components/nodeOpenView/circleOpenView'
+// import CircleOpenView from '../../components/nodeOpenView/circleOpenView'
 import FieldOpenView from '../../components/nodeOpenView/fieldOpenView'
 import DesignationOpenView from '../../components/nodeOpenView/designationOpenView'
 import ChangeViewRouting from '../../components/common/ChangeViewRouting/ChangeViewRouting'
@@ -148,7 +148,8 @@ class UserConsoleView extends Component {
         if (type === "circles") { //making url change acording to type of dropdown
             this.props.history.push(`/people/circle/${data._id}`)
         } else {
-            this.props.history.push(`/people/field/${data._id}`)
+            const initialUniqueTableHeadingId = data.fields[0]._id
+            this.props.history.push(`/people/field/${data._id}`, { uniqueTableHeadingId: initialUniqueTableHeadingId })
         }
     }
 
@@ -240,10 +241,11 @@ class UserConsoleView extends Component {
                             <Route exact path={"/people/console"} component={Console} />
                             <Route exact path={"/people/departments"} component={Departments} />
                             <Route exact path={"/people/designations"} component={Designations} />
-                            <Route exact path={"/people/circle/:id"} component={CircleOpenView} />
-                            <Route exact path={"/people/field/:id"} component={FieldOpenView} />
+                            <Route exact path={"/people/circle/:id"} children={<DesignationOpenView viewType="circles" />} />
+                            <Route exact path={"/people/field/:id/:id"} children={<DesignationOpenView viewType="nodes" />} />
+                            <Route exact path={"/people/field/:id/"} component={FieldOpenView} />
                             <Route exact path={"/people/department/:id"} children={<ChangeViewRouting />} />
-                            <Route exact path={"/people/designation/:id"} component={DesignationOpenView} />
+                            <Route exact path={"/people/designation/:id"} children={<DesignationOpenView viewType="designations" />} />
                         </Switch>
                     </div>
                 </div>

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import {
     getSingleViewData,
-    getSingleViewSuggestionData
+    getSingleViewSuggestionData,
 } from '../../store/actions/actions'
 import CommonCreationView from '../common/CommonCreationView/CommonCreationView'
 import { headingData } from './headingData'
@@ -20,21 +20,70 @@ class DesignationOpenView extends Component {
             activeheading: "",
             sortingType: "",
             searchData: "",
-            viewType: "designations",
-            addUsersPopUpStatus: false
+            viewType: this.props.viewType,
+            addUsersPopUpStatus: false,
+
+            addUsersCurrentPageNumber: 1,
+            addUsersRowsPerPage: 30,
+            addUsersActiveheading: "",
+            addUsersSortingType: "",
+            addUsersSearchData: "",
+            apiCallFlag: false
         }
+
+    }
+
+    updateNodeId = (status) => {
+        const nodeId = getNodeId(this.props.history)
+        if (status) this.setState({ singleNodeId: nodeId })
+        this.props.getSingleViewData(this.state.viewType, nodeId)
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+
+        if (prevState.patchDataCreatedSuccessfully !== nextProps.commonReducer.patchDataCreatedSuccessfully) {
+            return {
+                patchDataCreatedSuccessfully: nextProps.commonReducer.patchDataCreatedSuccessfully
+            };
+        }
+
+
+        if (nextProps.viewType !== prevState.viewType) {
+            return { viewType: nextProps.viewType }
+        }
+        return null;
     }
 
     componentDidMount() {
-        const nodeId = getNodeId(this.props.history)
-        this.props.getSingleViewData(this.state.viewType, nodeId)
-        this.setState({ singleNodeId: nodeId })
+        this.updateNodeId(true)
+
     }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.viewType === "circles") {
+            const currentNodeId = getNodeId(this.props.history)
+            const { apiCallFlag } = this.state
+            if (prevState.singleNodeId !== currentNodeId && !apiCallFlag) {
+                this.setState({ singleNodeId: currentNodeId, apiCallFlag: true })
+                this.updateNodeId(false)
+            }
+            if (apiCallFlag) {
+                this.setState({ apiCallFlag: false })
+            }
+            if (prevState.patchDataCreatedSuccessfully) {
+                if (this.props.commonReducer.patchDataCreatedSuccessfully !== prevState.patchDataCreatedSuccessfully) {
+                    this.updateNodeId()
+                }
+            }
+        }
+
+    }
+
 
 
     onChangeSearchDropdown = (searchData) => {
         const { singleNodeId, viewType } = this.state
-        this.props.getSingleViewSuggestionData(viewType, singleNodeId, searchData)
+        this.props.getSingleViewSuggestionData(viewType, singleNodeId, 30, 1, searchData)
     }
 
     onSearchDropdownSelect = (value) => {
@@ -58,8 +107,8 @@ class DesignationOpenView extends Component {
     }
 
     onChangeRowsPerPage = (rowsPerPage) => {
-        const { singleNodeId, viewType } = this.state
-        this.props.getSingleViewData(viewType, singleNodeId, rowsPerPage, 1)
+        const { searchData, singleNodeId, viewType, activeheading, sortingType } = this.state
+        this.props.getSingleViewData(viewType, singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType)
         this.setState({
             rowsPerPage,
             currentPageNumber: 1
@@ -75,12 +124,46 @@ class DesignationOpenView extends Component {
     }
 
     onClickOfAddUsers = (status) => {
+        const { viewType, singleNodeId } = this.state
         this.setState({ addUsersPopUpStatus: status })
+        if (status) {
+            this.props.getSingleViewSuggestionData(viewType, singleNodeId)
+        }
 
     }
 
+    addUsersOnClickHeadingColumn = (activeheading, sortingType) => {
+        const { addUsersCurrentPageNumber, addUsersRowsPerPage, addUsersSearchData, viewType, singleNodeId } = this.state
+        this.props.getSingleViewSuggestionData(viewType, singleNodeId, addUsersRowsPerPage, addUsersCurrentPageNumber, addUsersSearchData, activeheading, sortingType)
+        this.setState({
+            addUsersActiveheading: activeheading,
+            addUsersSortingType: sortingType,
+        })
+    }
+
+    addUsersOnChangeRowsPerPage = (rowsPerPage) => {
+        const { addUsersSearchData, addUsersActiveheading, addUsersSortingType, viewType, singleNodeId } = this.state
+        this.props.getSingleViewSuggestionData(viewType, singleNodeId, rowsPerPage, 1, addUsersSearchData, addUsersActiveheading, addUsersSortingType)
+        this.setState({
+            addUsersRowsPerPage: rowsPerPage,
+            addUsersCurrentPageNumber: 1
+        })
+    }
+
+    onSearchInAddUsers = (e) => {
+        const searchvalue = e.target.value
+        const { addUsersRowsPerPage, addUsersSearchData, addUsersActiveheading, addUsersSortingType, viewType, singleNodeId } = this.state
+        this.props.getSingleViewSuggestionData(viewType, singleNodeId, addUsersRowsPerPage, 1, addUsersSearchData, addUsersActiveheading, addUsersSortingType)
+
+        this.setState({
+            addUsersSearchData: searchvalue,
+            addUsersCurrentPageNumber: 1
+        })
+    }
+
+
     render() {
-        const { singleViewName, singleViewCount, singleViewData, singleViewSuggestionData } = this.props.commonReducer
+        const { singleViewName, singleViewCount, singleViewData, singleViewSuggestionData, singleViewSuggestionDataCount, tableColumnData } = this.props.commonReducer
         const { searchData, currentPageNumber, addUsersPopUpStatus } = this.state
 
         return (<CommonCreationView commonCreationViewHeaderName={singleViewName}
@@ -100,9 +183,22 @@ class DesignationOpenView extends Component {
             allSelectedUsersOnChangeCheckBox={this.onChangeCheckBox}
             allSelectedUsersOnChangeRowsPerPage={this.onChangeRowsPerPage}
             commonCreationViewBackButtonClick={this.backButtonClick}
+
             addUsersCommonCardButtonClick={() => this.onClickOfAddUsers(true)}
             showAddUsersPopUp={addUsersPopUpStatus}
             addUsersPopUpClose={() => this.onClickOfAddUsers(false)}
+            addUsersPopUpTableColumnsData={tableColumnData}
+            addUsersPopUpUsersData={singleViewSuggestionData}
+            addUsersPopUpTotalUsers={singleViewSuggestionDataCount}
+            addUsersOnClickHeadingColumn={this.addUsersOnClickHeadingColumn}
+            addUsersOnChangeRowsPerPage={this.addUsersOnChangeRowsPerPage}
+            addUsersSearchData={this.onSearchInAddUsers}
+
+        //addUsersPopUpFirstButtonClick
+        // addUsersPopUpOnChangeCheckBox
+
+        // addUsersCurrentPageNumber
+        // addUsersSearchLoader
         />)
     }
 }
