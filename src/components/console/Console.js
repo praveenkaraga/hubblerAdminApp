@@ -31,7 +31,8 @@ class Console extends Component {
             userId: "",
             userData: {},
             checkedDataKeys: [],
-            disableHeaderButtonNames: []
+            disableHeaderButtonNames: [],
+            visibleColumnSetting: false
         }
         this.selectedUsers = []
     }
@@ -104,10 +105,15 @@ class Console extends Component {
     }
 
     onClickColumnSetting = () => {
-        const { columnSettingDataOriginal } = this.props.consoleReducer
-        if (!Object.keys(columnSettingDataOriginal).length) {
-            this.props.tableColumnSetting()
+        const { visibleColumnSetting } = this.state
+        if (!visibleColumnSetting) {
+            const { columnSettingDataOriginal } = this.props.consoleReducer
+            if (!Object.keys(columnSettingDataOriginal).length) {
+                this.props.tableColumnSetting()
+            }
         }
+        this.setState({ visibleColumnSetting: !visibleColumnSetting })
+
     }
 
 
@@ -231,7 +237,7 @@ class Console extends Component {
             importUsersUploadResponseData, isFileUploaded, clickedTeamUserData, contentLoader } = this.props.teamViewReducer;
         const { tableColumnData } = this.props.commonReducer
 
-        const { popUpActive, UserInfoVisible, userId, userData, checkedDataKeys, disableHeaderButtonNames } = this.state;
+        const { popUpActive, UserInfoVisible, userId, userData, checkedDataKeys, disableHeaderButtonNames, visibleColumnSetting } = this.state;
         return (
             <div className="console_main">
                 <div className="console_heading"><h3>Console</h3></div>
@@ -257,8 +263,12 @@ class Console extends Component {
                     onSelectRow={this.onSelectRow}
 
                     //props of column setting component
-                    onClickColumnSetting={this.onClickColumnSetting} columnSettingData={columnSettingData}
-                    columnConfigurable={true} onColumnSettingSave={this.onColumnSettingSave}
+                    onClickColumnSetting={this.onClickColumnSetting}
+                    columnSettingData={columnSettingData}
+                    columnConfigurable={true}
+                    onColumnSettingSave={this.onColumnSettingSave}
+                    visibleColumnSetting={visibleColumnSetting}
+                    onColumnSettingCancel={() => this.setState({ visibleColumnSetting: false })}
 
                     //props for all the actions to be done on user
                     onClickUserActivate={() => this.onClickUserActions("activate")}

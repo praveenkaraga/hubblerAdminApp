@@ -63,8 +63,8 @@ export const getLoginSessionData = () => {
 }
 
 
-export const getSingleFieldData = (id, perPageRows, currentPage, searchData, headingData, sortingType) => {
-    const payload = getSingleFieldDataApi(id, perPageRows, currentPage, searchData, headingData, sortingType)
+export const getSingleFieldData = (id, perPageRows, currentPage, searchData, headingData, sortingType, filterKeyId) => {
+    const payload = getSingleFieldDataApi(id, perPageRows, currentPage, searchData, headingData, sortingType, filterKeyId)
     return {
         type: actionTypes.GET_SINGLE_FIELD_DATA,
         payload

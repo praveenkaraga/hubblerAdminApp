@@ -109,7 +109,8 @@ class Designations extends Component {
     }
 
     onChangeRowsPerPage = (rowsPerPage) => {
-        this.props.designationsData(rowsPerPage, 1)
+        const { searchData, activeheading, sortingType } = this.state
+        this.props.designationsData(rowsPerPage, 1, searchData, activeheading, sortingType)
         this.setState({
             rowsPerPage,
             currentPageNumber: 1
@@ -117,10 +118,10 @@ class Designations extends Component {
     }
 
     changePage = (calcData) => {
-        const { currentPageNumber, rowsPerPage } = this.state
+        const { currentPageNumber, rowsPerPage, searchData, activeheading, sortingType } = this.state
 
         const goToPage = currentPageNumber + calcData
-        this.props.designationsData(rowsPerPage, goToPage)
+        this.props.designationsData(rowsPerPage, goToPage, searchData, activeheading, sortingType)
         this.setState({
             currentPageNumber: goToPage
         })

@@ -20,7 +20,6 @@ class AllUserSelect extends Component {
             activeheading: "",
             sortingtype: "dsc",
             popUpActive: false,
-            visibleColumnSetting: false,
         }
     }
 
@@ -42,7 +41,9 @@ class AllUserSelect extends Component {
         } else {
             sortingtype = ""
         }
-        this.props.headingClickData(sortingtype ? data.field : "", sortingtype || "")
+        if (this.props.headingClickData) {
+            this.props.headingClickData(sortingtype ? data.field : "", sortingtype || "")
+        }
 
     }
 
@@ -113,9 +114,8 @@ class AllUserSelect extends Component {
         return modifiedUserData
     }
 
-    handleVisibleChange = visible => {
-        this.setState({ visibleColumnSetting: visible });
-        this.props.onClickColumnSetting()
+    onClickColumnSetting = () => {
+        if (this.props.onClickColumnSetting) this.props.onClickColumnSetting()
     };
 
 
@@ -127,9 +127,9 @@ class AllUserSelect extends Component {
             searchSecondButtonLoader = false, searchFirstButtonClick, searchSecondButtonClick, searchLoader = false, onSearch, totalUsers, goPrevPage, goNextPage, currentPageNumber, columnSettingData,
             onClickUserActivate, onClickUserDeactivate, onClickUserDelete, onClickUserEdit, addUserPopUpActive, addUserCloseButton, addUserDataForm, isUserData = true, onlySelectAndAdd = false,
             typeOfData = "Total Data", onClickTableRow, columnConfigurable = false, allSelect, onSearchDropdownSelect, searchDropdownPlaceholder, searchDropdownData, onChangeSearchDropdown,
-            showHeaderButtons, disableButtonNames, selectedDataCount, onClickAddUserButton, onSelectAll, onColumnSettingSave } = this.props
+            showHeaderButtons, disableButtonNames, selectedDataCount, onClickAddUserButton, onSelectAll, onColumnSettingSave, visibleColumnSetting, onColumnSettingCancel } = this.props
         const perPageOptions = [7, 10, 20, 30, 40, 50, 100]
-        const { rowsPerPage, visibleColumnSetting } = this.state
+        const { rowsPerPage } = this.state
         const totalPages = Math.ceil(totalUsers / rowsPerPage)
         const modifiedUserData = this.modellingData(userData, allHeadingsData)
 
@@ -149,16 +149,17 @@ class AllUserSelect extends Component {
                     <div className="setting_table_combine">
                         {columnConfigurable ? <div className="column_settings">
                             <Popover
-                                content={<ColumnSetting columnData={allHeadingsData} columnSettingData={columnSettingData} onColumnSettingSave={onColumnSettingSave} />}
+                                content={<ColumnSetting columnData={allHeadingsData} columnSettingData={columnSettingData} onColumnSettingSave={onColumnSettingSave} onColumnSettingCancel={onColumnSettingCancel} />}
                                 title="Column Setting"
                                 trigger="click"
-                                visible={this.state.visibleColumnSetting}
+                                visible={visibleColumnSetting}
                                 placement="bottomRight"
                                 autoAdjustOverflow
                                 overlayClassName="allUserSelect_popover"
+                            //mouseLeaveDelay={5000}
                             >
                                 <img src={require(`../../images/svg/${!visibleColumnSetting ? "settings_grey" : "close-app"}.svg`)}
-                                    onClick={() => this.handleVisibleChange(visibleColumnSetting ? false : true)} alt="Column Setting" />
+                                    onClick={this.onClickColumnSetting} alt="Column Setting" />
 
                             </Popover>
                         </div> : ""}

@@ -149,7 +149,7 @@ class UserConsoleView extends Component {
             this.props.history.push(`/people/circle/${data._id}`)
         } else {
             const initialUniqueTableHeadingId = data.fields[0]._id
-            this.props.history.push(`/people/field/${data._id}`, { uniqueTableHeadingId: initialUniqueTableHeadingId })
+            this.props.history.push(`/people/field/${data._id}`, { uniqueTableHeadingId: initialUniqueTableHeadingId, singleFieldHeadingName: data.name })
         }
     }
 

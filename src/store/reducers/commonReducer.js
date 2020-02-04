@@ -10,8 +10,9 @@ const intialState = {
     patchSuccessMessage: "",
     patchDataCreatedSuccessfully: false,
     tableColumnData: [],
-    singleViewSuggestionDataCount: 0
-
+    singleViewSuggestionDataCount: 0,
+    singleFieldCount: 0,
+    singleFieldData: []
 }
 
 export const commonReducer = (state = intialState, action) => {
@@ -64,8 +65,8 @@ export const commonReducer = (state = intialState, action) => {
 
         case actionTypes.GET_LOGIN_SESSION_DATA:
             const intitalSessionData = action.payload.data ? action.payload.data.session_user : []
-            const intitalTableConf = intitalSessionData ? intitalSessionData.table_configuration.users : []
-            const finalTableConf = intitalTableConf.fields || []
+            const intitalTableConf = Object.keys(intitalSessionData).length ? intitalSessionData.table_configuration.users : []
+            const finalTableConf = Object.keys(intitalSessionData).length ? intitalTableConf.fields : []
             finalTableConf.forEach((data, i) => {
                 finalTableConf[i]["title"] = data.lbl
                 finalTableConf[i]["dataIndex"] = data._id
@@ -81,12 +82,12 @@ export const commonReducer = (state = intialState, action) => {
 
         case actionTypes.GET_SINGLE_FIELD_DATA:
             const singleFieldDataInitial = action.payload.data
-            console.log(singleFieldDataInitial, "singleFieldDataInitial")
+            // console.log(singleFieldDataInitial, "singleFieldDataInitial")
             return {
                 ...state,
-                // // singleFieldName: singleFieldDataInitial.name,
-                // singleFieldCount: singleFieldDataInitial.total_count,
-                // singleFieldData: singleFieldDataInitial ? singleFieldDataInitial.result : []
+                // // singleFieldName: singleFieldDataInitial ? singleFieldDataInitial.name : "",
+                singleFieldCount: singleFieldDataInitial ? singleFieldDataInitial.total_count : 0,
+                singleFieldData: singleFieldDataInitial ? singleFieldDataInitial.result : []
             }
 
 

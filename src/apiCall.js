@@ -149,9 +149,9 @@ export const getCircleSuggestionDataApi = (id, searchData) => {
     return axios.get(`/choose-users/circles/${id}/?start=1&offset=20&sortKey=name&sortOrder=dsc&filterKey=name&filterQuery=${searchData || ""}`)
 }
 
-export const getSingleFieldDataApi = (id, perPageRows, currentPage, searchData, headingData, sortingType) => {
+export const getSingleFieldDataApi = (id, perPageRows, currentPage, searchData, headingData, sortingType, filterKeyId) => {
     const startNumber = ((currentPage - 1) * perPageRows) + 1
-    return axios.get(`/nodes/rest/${id}/?start=${startNumber || 1}&offset=${perPageRows || 30}&sortKey=${headingData || "_id"}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}`)
+    return axios.get(`/nodes/rest/${id}/?start=${startNumber || 1}&offset=${perPageRows || 30}&sortKey=${headingData || "_id"}&sortOrder=${sortingType || ""}&filterKey=${searchData ? filterKeyId : ""}&filterQuery=${searchData || ""}`)
 };
 
 
