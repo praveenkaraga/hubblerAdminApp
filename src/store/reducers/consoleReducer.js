@@ -48,7 +48,7 @@ export const consoleReducer = (state = intialState, action) => {
             }
 
         case actionTypes.TABLE_COLUMN_SETTING_DATA:
-            const intialcolumnSettingData = action.payload.data.result
+            const intialcolumnSettingData = action.payload.data ? action.payload.data.result : []
             const columnSettingCategories = intialcolumnSettingData ? intialcolumnSettingData.categories : []
             const columnSettingFields = intialcolumnSettingData ? intialcolumnSettingData.fields : []
             const finalColumnSettingData = {
@@ -79,7 +79,6 @@ export const consoleReducer = (state = intialState, action) => {
             }
 
         case actionTypes.PATCH_TABLE_COLUMN_SETTING:
-            console.log(action.payload)
             return {
                 ...state,
                 patchColumnSettingStatus: true

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import {
-    getSingleCircleData,
+    getSingleViewData,
+    getSingleViewSuggestionData,
     getCircleSuggestionData
 } from '../../store/actions/actions'
 import CommonCreationView from '../common/CommonCreationView/CommonCreationView'
@@ -20,6 +21,7 @@ class CircleOpenView extends Component {
             activeheading: "",
             sortingType: "",
             searchData: "",
+            viewType: "circles",
             patchDataCreatedSuccessfully: false
         }
     }
@@ -31,7 +33,7 @@ class CircleOpenView extends Component {
 
     updateNodeId = () => {
         const nodeId = getNodeId(this.props.history)
-        this.props.getSingleCircleData(nodeId)
+        this.props.getSingleViewData(this.state.viewType, nodeId)
         this.setState({ singleNodeId: nodeId })
     }
 
@@ -69,15 +71,15 @@ class CircleOpenView extends Component {
     }
 
     onChangeSearch = (e) => { //onChange of left side of search
-        const { rowsPerPage, activeheading, sortingType, singleNodeId } = this.state
+        const { rowsPerPage, activeheading, sortingType, singleNodeId, viewType } = this.state
         const searchData = e.target.value
-        this.props.getSingleCircleData(singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType)
+        this.props.getSingleViewData(viewType, singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType)
         this.setState({ searchData, currentPageNumber: 1 })
     }
 
     onClickHeading = (activeheading, sortingType) => {
-        const { rowsPerPage, searchData, currentPageNumber, singleNodeId } = this.state
-        this.props.getSingleCircleData(singleNodeId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
+        const { rowsPerPage, searchData, currentPageNumber, singleNodeId, viewType } = this.state
+        this.props.getSingleViewData(viewType, singleNodeId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
         this.setState({
             activeheading,
             sortingType
@@ -85,8 +87,8 @@ class CircleOpenView extends Component {
     }
 
     onChangeRowsPerPage = (rowsPerPage) => {
-        const { singleNodeId } = this.state
-        this.props.designationsData(singleNodeId, rowsPerPage, 1)
+        const { searchData, singleNodeId, viewType, activeheading, sortingType } = this.state
+        this.props.getSingleViewData(viewType, singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType)
         this.setState({
             rowsPerPage,
             currentPageNumber: 1
@@ -99,11 +101,12 @@ class CircleOpenView extends Component {
 
     render() {
         const { singleCircleName, singleCircleCount, singleCircleData, circleSuggestionData } = this.props.userConsoleMainReducer
+        const { singleViewName, singleViewCount, singleViewData, singleViewSuggestionData, singleViewSuggestionDataCount, tableColumnData } = this.props.commonReducer
         const { searchData, currentPageNumber } = this.state
 
-        return (<CommonCreationView commonCreationViewHeaderName={singleCircleName}
-            viewDecider={searchData || singleCircleCount ? 1 : 0}
-            allSelectedUsersUsersData={singleCircleData}
+        return (<CommonCreationView commonCreationViewHeaderName={singleViewName}
+            viewDecider={searchData || singleViewCount ? 1 : 0}
+            allSelectedUsersUsersData={singleViewData}
             allSelectedUsersHeadingsData={headingData} backButton={false}
             allSelectedUsersSearchDropdownPlaceholder={"Enter Name and Add"}
             allSelectedUsersOnChangeSearchDropdown={this.onChangeSearchDropdown}
@@ -111,12 +114,29 @@ class CircleOpenView extends Component {
             allSelectedUsersSearchDropdownData={circleSuggestionData}
             allSelectedUsersAllSelect={true}
             allSelectedUsersSearchData={this.onChangeSearch}
-            allSelectedUsersPlaceHolder={`Search ${singleCircleName}`}
+            allSelectedUsersPlaceHolder={`Search ${singleViewName}`}
             allSelectedUsersOnClickHeadingColumn={this.onClickHeading}
-            allSelectedUsersTotalUsers={singleCircleCount}
+            allSelectedUsersTotalUsers={singleViewCount}
             allSelectedUsersCurrentPageNumber={currentPageNumber}
             allSelectedUsersOnChangeCheckBox={this.onChangeCheckBox}
             allSelectedUsersOnChangeRowsPerPage={this.onChangeRowsPerPage}
+
+
+        // addUsersCommonCardButtonClick={() => this.onClickOfAddUsers(true)}
+        // showAddUsersPopUp={addUsersPopUpStatus}
+        // addUsersPopUpClose={() => this.onClickOfAddUsers(false)}
+        // addUsersPopUpTableColumnsData={tableColumnData}
+        // addUsersPopUpUsersData={singleViewSuggestionData}
+        // addUsersPopUpTotalUsers={singleViewSuggestionDataCount}
+        // addUsersOnClickHeadingColumn={this.addUsersOnClickHeadingColumn}
+        // addUsersOnChangeRowsPerPage={this.addUsersOnChangeRowsPerPage}
+        // addUsersSearchData={this.onSearchInAddUsers}
+
+        //addUsersPopUpFirstButtonClick
+        // addUsersPopUpOnChangeCheckBox
+
+        // addUsersCurrentPageNumber
+        // addUsersSearchLoader
         />)
     }
 }
@@ -131,7 +151,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return bindActionCreators(
         {
-            getSingleCircleData,
+            getSingleViewData,
+            getSingleViewSuggestionData,
             getCircleSuggestionData
         },
         dispatch

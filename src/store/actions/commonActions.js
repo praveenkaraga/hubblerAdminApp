@@ -4,7 +4,8 @@ import {
     getSingleViewSuggestionDataApi,
     postCommonCreateDataApi,
     patchCommonCreateDataApi,
-    getLoginSessionDataApi
+    getLoginSessionDataApi,
+    getSingleFieldDataApi
 } from '../../apiCall'
 
 export const getSingleViewData = (viewType, id, perPageRows, currentPage, searchData, headingData, sortingType) => {
@@ -16,8 +17,8 @@ export const getSingleViewData = (viewType, id, perPageRows, currentPage, search
 }
 
 
-export const getSingleViewSuggestionData = (viewType, id, searchData) => {
-    const payload = getSingleViewSuggestionDataApi(viewType, id, searchData)
+export const getSingleViewSuggestionData = (viewType, id, perPageRows, currentPage, searchData, headingData, sortingType) => {
+    const payload = getSingleViewSuggestionDataApi(viewType, id, perPageRows, currentPage, searchData, headingData, sortingType)
     return {
         type: actionTypes.GET_SINGLE_VIEW_SUGGESTION_DATA,
         payload
@@ -57,6 +58,15 @@ export const getLoginSessionData = () => {
     const payload = getLoginSessionDataApi()
     return {
         type: actionTypes.GET_LOGIN_SESSION_DATA,
+        payload
+    }
+}
+
+
+export const getSingleFieldData = (id, perPageRows, currentPage, searchData, headingData, sortingType) => {
+    const payload = getSingleFieldDataApi(id, perPageRows, currentPage, searchData, headingData, sortingType)
+    return {
+        type: actionTypes.GET_SINGLE_FIELD_DATA,
         payload
     }
 }

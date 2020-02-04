@@ -14,7 +14,8 @@ import {
     getImportUserUploadDetails,
     patchImportUsersData,
     postCommonActionOnUser,
-    patchTableColumnSetting
+    patchTableColumnSetting,
+    getLoginSessionData
 } from '../../store/actions/actions'
 import UserInfoSlider from '../common/UserInfoSlider/UserInfoSlider'
 import ImportUsersPopUp from '../common/ImportUsersPopUp/ImportUsersPopUp'
@@ -210,10 +211,13 @@ class Console extends Component {
         const copySavedSettingData = JSON.parse(JSON.stringify(settingData)) //making a deep copy of setting data
         const removeKeys = ["sorter", "title", "dataIndex", "sortDirections", "ellipsis"] //keys to remove from each object
         copySavedSettingData.forEach(data => removeKeys.forEach(key => delete data[key])) //removing all keys that we don't want to send to backend
-        await this.props.patchTableColumnSetting(copySavedSettingData)
-        const { patchColumnSettingStatus, errorMsg } = this.props.consoleReducer
+        await this.props.patchTableColumnSetting({ fields: copySavedSettingData })
+        const { patchColumnSettingStatus, errorMsg, rowsPerPage, activeheading, sortingType, searchData, currentPageNumber } = this.props.consoleReducer
         if (patchColumnSettingStatus) {
             message.success("Table Column Setting Saved")
+            this.props.getLoginSessionData()
+            this.props.getConsoleUserData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
+
         } else {
             message.error(errorMsg)
         }
@@ -332,7 +336,8 @@ const mapDispatchToProps = dispatch => {
             getImportUserUploadDetails,
             patchImportUsersData,
             postCommonActionOnUser,
-            patchTableColumnSetting
+            patchTableColumnSetting,
+            getLoginSessionData
         },
         dispatch
     );

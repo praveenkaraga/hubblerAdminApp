@@ -144,7 +144,7 @@ class Designations extends Component {
         const { newDataCreatedSuccessfully, newCreatedDataId, errorMsg } = this.props.commonReducer // will be true if success is true from above post api and pop up will be closed
         if (newDataCreatedSuccessfully) {
             this.setState({ creationPopUpVisibility: false })
-            message.success(newDataCreatedSuccessfully || "Designation Created Successfully");
+            message.success("Designation Created Successfully");
             this.props.commonActionForCommonReducer({ newDataCreatedSuccessfully: false })
             this.props.history.push(`/people/designation/${newCreatedDataId}`)
 
@@ -153,6 +153,7 @@ class Designations extends Component {
         }
 
     }
+
 
     onClickDesignationActions = (actionType) => {
         this.setState({ creationPopUpVisibility: true, creationPopUpMode: "edit" })
