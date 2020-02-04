@@ -33,7 +33,9 @@ class SystemFieldsList extends Component {
 }
 
 class ExcelFieldsList extends Component {
-    onChange(index, ele, mappings, value) {
+    onChange(index, ele, mappings,slicedDataFilled, value) {
+        const {uploadPopUpData} = this.props;
+
         let matchedObj = find(this.props.uploadPopUpData.sheet_columns, ['_id', value]);
         let dataObj = {
             value: value,
@@ -41,6 +43,17 @@ class ExcelFieldsList extends Component {
             ele: ele,
             patchData: matchedObj
         };
+
+        let test = map(slicedDataFilled,item=>{
+            if(item._id === dataObj.ele._id){
+                return {...item , data:  dataObj.patchData.data}
+            }else{
+                return item
+            }
+        })
+
+        console.log(test)
+
         let dob = map(mappings, function (inEle, ind) {
             if (index === ind) {
                 return {...inEle, matchedId: value}
@@ -49,9 +62,7 @@ class ExcelFieldsList extends Component {
             }
         })
 
-        this.props.setDropValue(dataObj,dob);
-        console.log(dataObj)
-        console.log(dob)
+        this.props.setDropValue(dataObj, dob);
     }
 
 
@@ -78,7 +89,7 @@ class ExcelFieldsList extends Component {
                                     style={{width: 300}}
                                     className={'dropDown'}
                                     optionFilterProp="children"
-                                    onChange={_this.onChange.bind(_this, index, ele, mappings)}
+                                    onChange={_this.onChange.bind(_this, index, ele, mappings,slicedDataFilled)}
                                     onSearch={_this.onSearch.bind(_this)}
                                     filterOption={(input, option) =>
                                         option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
@@ -87,7 +98,6 @@ class ExcelFieldsList extends Component {
                                     {map(uploadPopUpData.sheet_columns_original, function (inele, inde) {
                                         return <Option value={inele._id}
                                                        key={inele._id}>{switchStatus ? inele.name : `Column ${inele.columnName}`}</Option>
-
                                     })}
                                 </Select>
                             </div>
@@ -101,8 +111,9 @@ class ExcelFieldsList extends Component {
 
 class SampleDataList extends Component {
     render() {
-        const {uploadPopUpData, dropDownObj, switchStatus} = this.props;
+        const {uploadPopUpData, dropDownObj, switchStatus,mappings} = this.props;
         let slicedData = slice(uploadPopUpData.sheet_columns, 0, uploadPopUpData.fields.length);
+        console.log(slicedData)
         let count = slicedData.length < uploadPopUpData.fields.length ? uploadPopUpData.fields.length - slicedData.length : ''
         let fillArrayData = fill(Array(count), {data: 'None', name: "None"})
         let slicedDataFilled = count ? slicedData.concat(fillArrayData) : slicedData
@@ -135,9 +146,10 @@ class ImportUsersUploadPopUp extends Component {
         activateCancel: false,
     };
 
-    setDropValue = (dataObj,dob) => {
+    setDropValue = (dataObj, dob) => {
         this.setState({
-                dropDownObj: dataObj,mappings: dob,
+                dropDownObj: dataObj,
+                mappings: dob,
             }
         )
     }
@@ -400,7 +412,7 @@ class ImportUsersUploadPopUp extends Component {
                             <div className={'record-content-wrap'}>
                                 <SystemFieldsList {...this.props}/>
                                 <ExcelFieldsList {...this.props}
-                                                 setDropValue={(obj) => this.setDropValue(obj)}{...this.state}/>
+                                                 setDropValue={(obj,arr) => this.setDropValue(obj,arr)}{...this.state}/>
                                 <SampleDataList {...this.props} {...this.state}/>
                             </div>
                         </div>
