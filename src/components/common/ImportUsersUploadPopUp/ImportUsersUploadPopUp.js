@@ -33,9 +33,8 @@ class SystemFieldsList extends Component {
 }
 
 class ExcelFieldsList extends Component {
-    onChange(index, ele, mappings,slicedDataFilled, value) {
-        const {uploadPopUpData} = this.props;
-
+    onChange(index, ele, mappings, slicedDataFilled, value) {
+        let {switchStatus} = this.props
         let matchedObj = find(this.props.uploadPopUpData.sheet_columns, ['_id', value]);
         let dataObj = {
             value: value,
@@ -43,16 +42,18 @@ class ExcelFieldsList extends Component {
             ele: ele,
             patchData: matchedObj
         };
+        console.log(dataObj)
 
-        let test = map(slicedDataFilled,item=>{
-            if(item._id === dataObj.ele._id){
-                return {...item , data:  dataObj.patchData.data}
-            }else{
+        let sampleDataModeled = map(slicedDataFilled, item => {
+            if (item._id === dataObj.ele._id) {
+                return {...item, data: dataObj.patchData.data,name: dataObj.patchData.name}
+
+            } else {
                 return item
             }
         })
 
-        console.log(test)
+        console.log(sampleDataModeled)
 
         let dob = map(mappings, function (inEle, ind) {
             if (index === ind) {
@@ -61,8 +62,7 @@ class ExcelFieldsList extends Component {
                 return {...inEle}
             }
         })
-
-        this.props.setDropValue(dataObj, dob);
+        this.props.setDropValue(dataObj, dob, sampleDataModeled);
     }
 
 
@@ -71,10 +71,10 @@ class ExcelFieldsList extends Component {
     }
 
     render() {
-        const {uploadPopUpData, switchStatus, mappings} = this.props;
+        const {uploadPopUpData, switchStatus, mappings,sampleDataModeled} = this.props;
         let slicedData = slice(uploadPopUpData.sheet_columns, 0, uploadPopUpData.fields.length)
         let count = slicedData.length < uploadPopUpData.fields.length ? uploadPopUpData.fields.length - slicedData.length : ''
-        let fillArrayData = fill(Array(count), {columnName: 'None', name: "None"})
+        let fillArrayData = fill(Array(count), {columnName: 'None', name: "None",data:"None"})
         let slicedDataFilled = count ? slicedData.concat(fillArrayData) : slicedData
         let _this = this
         return (
@@ -89,7 +89,7 @@ class ExcelFieldsList extends Component {
                                     style={{width: 300}}
                                     className={'dropDown'}
                                     optionFilterProp="children"
-                                    onChange={_this.onChange.bind(_this, index, ele, mappings,slicedDataFilled)}
+                                    onChange={_this.onChange.bind(_this, index, ele, mappings, sampleDataModeled)}
                                     onSearch={_this.onSearch.bind(_this)}
                                     filterOption={(input, option) =>
                                         option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
@@ -111,12 +111,11 @@ class ExcelFieldsList extends Component {
 
 class SampleDataList extends Component {
     render() {
-        const {uploadPopUpData, dropDownObj, switchStatus,mappings} = this.props;
+        const {uploadPopUpData, dropDownObj, switchStatus, sampleDataModeled} = this.props;
         let slicedData = slice(uploadPopUpData.sheet_columns, 0, uploadPopUpData.fields.length);
-        console.log(slicedData)
         let count = slicedData.length < uploadPopUpData.fields.length ? uploadPopUpData.fields.length - slicedData.length : ''
         let fillArrayData = fill(Array(count), {data: 'None', name: "None"})
-        let slicedDataFilled = count ? slicedData.concat(fillArrayData) : slicedData
+        let slicedDataFilled = /*count ? slicedData.concat(fillArrayData) : slicedData*/ sampleDataModeled ? sampleDataModeled : slicedData
         return (
             <ul className={'sample-data-list'}>
                 {
@@ -144,12 +143,14 @@ class ImportUsersUploadPopUp extends Component {
         uploadOption: 'create',
         reqFieldIds: [],
         activateCancel: false,
+
     };
 
-    setDropValue = (dataObj, dob) => {
+    setDropValue = (dataObj, dob, sampleDataModeled) => {
         this.setState({
                 dropDownObj: dataObj,
                 mappings: dob,
+                sampleDataModeled: sampleDataModeled
             }
         )
     }
@@ -232,6 +233,13 @@ class ImportUsersUploadPopUp extends Component {
 
     componentDidMount() {
         let _this = this
+        const {uploadPopUpData} = this.props;
+        let slicedData = slice(uploadPopUpData.sheet_columns, 0, uploadPopUpData.fields.length)
+        let count = slicedData.length < uploadPopUpData.fields.length ? uploadPopUpData.fields.length - slicedData.length : ''
+        let fillArrayData = fill(Array(count), {columnName: 'None', name: "None",data:"None"})
+        let slicedDataFilled = count ? slicedData.concat(fillArrayData) : slicedData
+
+
         let mappingData = map(_this.props.uploadPopUpData.fields, function (ele, index) {
             return {
                 _id: ele._id,
@@ -248,6 +256,8 @@ class ImportUsersUploadPopUp extends Component {
         this.setState({
                 mappings: mappingData,
                 reqFields: compact(reqFields),
+                sampleDataModeled: slicedDataFilled
+
             }
         )
     }
@@ -358,7 +368,7 @@ class ImportUsersUploadPopUp extends Component {
                     {isFileUploaded ? <div>
                         {isEmpty(importUsersUploadResponseData.result) ? '' : <div>
                             <div>{`Success : ${importUsersUploadResponseData.result[0].created} ${importUsersUploadResponseData.result[0].lbl} Created`}</div>
-                            <div>{`Failure : ${importUsersUploadResponseData.result[0].invalid} ${importUsersUploadResponseData.result[0].lbl} Created`}</div>
+                            <div>{`Failure : ${importUsersUploadResponseData.result[0].invalid} ${importUsersUploadResponseData.result[0].lbl} Failed`}</div>
                         </div>}
 
                     </div> : <div>
@@ -412,7 +422,7 @@ class ImportUsersUploadPopUp extends Component {
                             <div className={'record-content-wrap'}>
                                 <SystemFieldsList {...this.props}/>
                                 <ExcelFieldsList {...this.props}
-                                                 setDropValue={(obj,arr) => this.setDropValue(obj,arr)}{...this.state}/>
+                                                 setDropValue={(obj, arr, sampleDataModeled) => this.setDropValue(obj, arr, sampleDataModeled)}{...this.state}/>
                                 <SampleDataList {...this.props} {...this.state}/>
                             </div>
                         </div>

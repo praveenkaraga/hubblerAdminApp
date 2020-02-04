@@ -165,11 +165,13 @@
 
         .ant-select-selection.ant-select-selection--single {
           border: none;
+          box-shadow: none!important;
         }
 
         .ant-select-selection__placeholder {
           color: #444
         }
+
       }
     }
 
