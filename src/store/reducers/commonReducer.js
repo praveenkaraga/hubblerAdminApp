@@ -64,7 +64,7 @@ export const commonReducer = (state = intialState, action) => {
 
         case actionTypes.GET_LOGIN_SESSION_DATA:
             const intitalSessionData = action.payload.data ? action.payload.data.session_user : []
-            const intitalTableConf = intitalSessionData ? table_configuration.users : []
+            const intitalTableConf = intitalSessionData ? intitalSessionData.table_configuration.users : []
             const finalTableConf = intitalTableConf.fields || []
             finalTableConf.forEach((data, i) => {
                 finalTableConf[i]["title"] = data.lbl
