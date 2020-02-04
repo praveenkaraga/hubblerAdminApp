@@ -70,7 +70,7 @@ class HolidayProfile extends Component {
         })
     }
 
-    departmentSearchData = (e) => {
+    holidaySearchData = (e) => {
         const {rowsPerPage, activeheading, sortingType} = this.state
         const searchData = e.target.value
         this.props.getHolidayProfileData(rowsPerPage, 1, searchData, activeheading, sortingType)
@@ -95,7 +95,7 @@ class HolidayProfile extends Component {
                                headingClickData={this.onClickHeadingColumn}
                                goPrevPage={() => this.changePage(-1)}
                                goNextPage={() => this.changePage(1)}
-                               onSearch={this.departmentSearchData}
+                               onSearch={this.holidaySearchData}
                                currentPageNumber={this.state.currentPageNumber}
                                onClickTableRow={this.onRowThisClick}
                                searchLoader={searchLoader}
