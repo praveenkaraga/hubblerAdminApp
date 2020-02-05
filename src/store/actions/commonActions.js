@@ -6,11 +6,12 @@ import {
     patchCommonCreateDataApi,
     getLoginSessionDataApi,
     getSingleFieldDataApi,
-    postCommonAddSelectedUsersDataApi
+    postCommonAddSelectedUsersDataApi,
+    postCommonRemovePeopleApi
 } from '../../apiCall'
 
-export const getSingleViewData = (viewType, id, perPageRows, currentPage, searchData, headingData, sortingType) => {
-    const payload = getSingleViewDataApi(viewType, id, perPageRows, currentPage, searchData, headingData, sortingType)
+export const getSingleViewData = (viewType, id, perPageRows, currentPage, searchData, headingData, sortingType, id2) => {
+    const payload = getSingleViewDataApi(viewType, id, perPageRows, currentPage, searchData, headingData, sortingType, id2)
     return {
         type: actionTypes.GET_SINGLE_VIEW_DATA,
         payload
@@ -18,8 +19,8 @@ export const getSingleViewData = (viewType, id, perPageRows, currentPage, search
 }
 
 
-export const getSingleViewSuggestionData = (viewType, id, perPageRows, currentPage, searchData, headingData, sortingType) => {
-    const payload = getSingleViewSuggestionDataApi(viewType, id, perPageRows, currentPage, searchData, headingData, sortingType)
+export const getSingleViewSuggestionData = (viewType, id, perPageRows, currentPage, searchData, headingData, sortingType, id2) => {
+    const payload = getSingleViewSuggestionDataApi(viewType, id, perPageRows, currentPage, searchData, headingData, sortingType, id2)
     return {
         type: actionTypes.GET_SINGLE_VIEW_SUGGESTION_DATA,
         payload
@@ -80,4 +81,14 @@ export const postCommonAddSelectedUsersData = (viewType, data) => {
         type: actionTypes.POST_COMMON_ADD_SELECTED_USERS_DATA,
         payload
     }
+}
+
+
+export const postCommonRemovePeople = (viewType, data) => {
+    const payload = postCommonRemovePeopleApi(viewType, data)
+    return {
+        type: actionTypes.POST_COMMON_REMOVE_PEOPLE,
+        payload
+    }
+
 }

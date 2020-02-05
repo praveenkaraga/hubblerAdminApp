@@ -27,6 +27,10 @@ export const getNodeId = (history) => {
     return history.location.pathname.split("/")[3]
 }
 
+export const getSubNodeId = (history) => {
+    return history.location.pathname.split("/")[4]
+}
+
 
 export const capitalFirstLetter = (data) => {
     return data.charAt(0).toUpperCase() + data.slice(1)

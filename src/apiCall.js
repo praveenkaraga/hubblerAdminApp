@@ -164,14 +164,14 @@ export const getSingleFieldDataApi = (id, perPageRows, currentPage, searchData, 
 
 export const getSingleViewDataApi = (viewType, id, perPageRows, currentPage, searchData, headingData, sortingType, id2) => { //common api for every view that is being fetched using one id
     const startNumber = ((currentPage - 1) * perPageRows) + 1
-    return axios.get(`/users/${viewType}/${id}/?start=${startNumber || 1}&offset=${perPageRows || 30}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}&version=1`)
-    // return axios.get(`/users/${viewType}/${viewType === "nodes" ? id+"/"+id2 : id}/?start=${startNumber || 1}&offset=${perPageRows || 30}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}&version=1`)
+    // return axios.get(`/users/${viewType}/${id}/?start=${startNumber || 1}&offset=${perPageRows || 30}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}&version=1`)
+    return axios.get(`/users/${viewType}/${viewType === "nodes" ? (id + "/" + id2) : id}/?start=${startNumber || 1}&offset=${perPageRows || 30}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}&version=1`)
 
 };
 
-export const getSingleViewSuggestionDataApi = (viewType, id, perPageRows, currentPage, searchData, headingData, sortingType) => { //common api for every user suggestion that is being fetched using one id
+export const getSingleViewSuggestionDataApi = (viewType, id, perPageRows, currentPage, searchData, headingData, sortingType, id2) => { //common api for every user suggestion that is being fetched using one id
     const startNumber = ((currentPage - 1) * perPageRows) + 1
-    return axios.get(`/choose-users/${viewType}/${id}/?start=${startNumber || 1}&offset=${perPageRows || 30}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}&version=1`)
+    return axios.get(`/choose-users/${viewType}/${viewType === "nodes" ? (id + "/" + id2) : id}/?start=${startNumber || 1}&offset=${perPageRows || 30}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}&version=1`)
 }
 
 export const postCommonCreateDataApi = (createForType, data) => {
@@ -182,8 +182,12 @@ export const patchCommonCreateDataApi = (createForType, id, data) => {
     return axios.patch(`/rest/${createForType}/${id}/`, data, axiosConfig)
 }
 
+export const postCommonRemovePeopleApi = (viewType, data) => {
+    return axios.post(`/remove-people/${viewType}/`, data, axiosConfig)
+}
 
-export const postCommonActionOnUserApi = (typeOfAction, data) => { //actions on users
+
+export const postCommonActionOnUserApi = (typeOfAction, data, viewType) => { //actions on users
     return axios.post(`/${typeOfAction === "delete" ? "rest/users" : "users"}/${typeOfAction}/`, data, axiosConfig)
 }
 

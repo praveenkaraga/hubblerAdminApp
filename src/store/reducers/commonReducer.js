@@ -14,7 +14,9 @@ const intialState = {
     singleFieldCount: 0,
     singleFieldData: [],
     postSelectedUsersSuccessMessage: "",
-    postSelectedUsersSuccessfully: false
+    postSelectedUsersSuccessfully: false,
+    postRemovePeopleSuccessfully: false,
+    postRemovePeopleSuccessMessage: ""
 }
 
 export const commonReducer = (state = intialState, action) => {
@@ -96,10 +98,18 @@ export const commonReducer = (state = intialState, action) => {
             const initialPostSelectedUsersData = action.payload.data
             return {
                 ...state,
-                postSelectedUsersSuccessMessage: initialPostSelectedUsersData ? "Users Added" : "",
+                postSelectedUsersSuccessMessage: initialPostSelectedUsersData ? initialPostSelectedUsersData.msg : "Users Added",
                 postSelectedUsersSuccessfully: true
             }
 
+
+        case actionTypes.POST_COMMON_REMOVE_PEOPLE:
+            const intitialRemovePeopleData = action.payload.data
+            return {
+                ...state,
+                postRemovePeopleSuccessMessage: intitialRemovePeopleData ? intitialRemovePeopleData.msg : "Users Removed",
+                postRemovePeopleSuccessfully: true
+            }
 
     }
 

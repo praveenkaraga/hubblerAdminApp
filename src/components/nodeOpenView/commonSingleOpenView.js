@@ -4,12 +4,13 @@ import { bindActionCreators } from "redux";
 import {
     getSingleViewData,
     getSingleViewSuggestionData,
-    postCommonAddSelectedUsersData
+    postCommonAddSelectedUsersData,
+    postCommonRemovePeople
 } from '../../store/actions/actions'
 import CommonCreationView from '../common/CommonCreationView/CommonCreationView'
 import { headingData } from './headingData'
 import { withRouter } from "react-router-dom";
-import { getNodeId } from '../../utils/helper'
+import { getNodeId, getSubNodeId } from '../../utils/helper'
 import { message } from 'antd'
 class CommonSingleOpenView extends Component {
     constructor(props) {
@@ -24,6 +25,7 @@ class CommonSingleOpenView extends Component {
             viewType: this.props.viewType,
             addUsersPopUpStatus: false,
             checkedDataKeys: [],
+            subNodeId: "",
 
             apiCallFlag: false,
 
@@ -32,15 +34,20 @@ class CommonSingleOpenView extends Component {
             addUsersActiveheading: "",
             addUsersSortingType: "",
             addUsersSearchData: "",
-            addUsersCheckedDataKeys: []
+            addUsersCheckedDataKeys: [],
+
+            //key to give to previous or back field comp
+            filterKey: this.props.history.location.state ? this.props.history.location.state.uniqueTableHeadingId : ""
         }
 
     }
 
     updateNodeId = (status) => {
+        const { rowsPerPage, activeheading, sortingType, searchData, viewType, currentPageNumber } = this.state
         const nodeId = getNodeId(this.props.history)
-        if (status) this.setState({ singleNodeId: nodeId })
-        this.props.getSingleViewData(this.state.viewType, nodeId)
+        const nodeId2 = viewType === "nodes" ? getSubNodeId(this.props.history) : ""
+        if (status) this.setState({ singleNodeId: nodeId, subNodeId: nodeId2 })
+        this.props.getSingleViewData(viewType, nodeId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType, nodeId2)
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -92,15 +99,15 @@ class CommonSingleOpenView extends Component {
 
 
     onChangeSearch = (e) => { //onChange of left side of search
-        const { rowsPerPage, activeheading, sortingType, singleNodeId, viewType } = this.state
+        const { rowsPerPage, activeheading, sortingType, singleNodeId, viewType, subNodeId } = this.state
         const searchData = e.target.value
-        this.props.getSingleViewData(viewType, singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType)
+        this.props.getSingleViewData(viewType, singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType, subNodeId)
         this.setState({ searchData, currentPageNumber: 1 })
     }
 
     onClickHeading = (activeheading, sortingType) => {
-        const { rowsPerPage, searchData, currentPageNumber, singleNodeId, viewType } = this.state
-        this.props.getSingleViewData(viewType, singleNodeId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
+        const { rowsPerPage, searchData, currentPageNumber, singleNodeId, viewType, subNodeId } = this.state
+        this.props.getSingleViewData(viewType, singleNodeId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType, subNodeId)
         this.setState({
             activeheading,
             sortingType
@@ -108,8 +115,8 @@ class CommonSingleOpenView extends Component {
     }
 
     onChangeRowsPerPage = (rowsPerPage) => {
-        const { searchData, singleNodeId, viewType, activeheading, sortingType } = this.state
-        this.props.getSingleViewData(viewType, singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType)
+        const { searchData, singleNodeId, viewType, activeheading, sortingType, subNodeId } = this.state
+        this.props.getSingleViewData(viewType, singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType, subNodeId)
         this.setState({
             rowsPerPage,
             currentPageNumber: 1
@@ -117,10 +124,10 @@ class CommonSingleOpenView extends Component {
     }
 
     onChangePage = (calcData) => {
-        const { currentPageNumber, viewType, singleNodeId, rowsPerPage, searchData, activeheading, sortingType } = this.state
+        const { currentPageNumber, viewType, singleNodeId, rowsPerPage, searchData, activeheading, sortingType, subNodeId } = this.state
         const goToPage = currentPageNumber + calcData
 
-        this.props.getSingleViewData(viewType, singleNodeId, rowsPerPage, goToPage, searchData, activeheading, sortingType)
+        this.props.getSingleViewData(viewType, singleNodeId, rowsPerPage, goToPage, searchData, activeheading, sortingType, subNodeId)
         this.setState({
             currentPageNumber: goToPage
         })
@@ -128,24 +135,30 @@ class CommonSingleOpenView extends Component {
 
 
     backButtonClick = () => {
-        this.props.history.push("/people/designations")
+        const { viewType, singleNodeId, filterKey } = this.state
+
+        this.props.history.push(`/people/${!(viewType === "nodes") ? viewType : ("field/" + singleNodeId)}`, { uniqueTableHeadingId: filterKey })
+    }
+
+    onChangeCheckBox = (value) => {
+        this.setState({ checkedDataKeys: value })
     }
 
 
     //below functions are for add Users Comp
     onClickOfAddUsers = (status) => {
-        const { viewType, singleNodeId } = this.state
+        const { viewType, singleNodeId, subNodeId } = this.state
 
         if (status) {
-            this.props.getSingleViewSuggestionData(viewType, singleNodeId, 30, 1)
+            this.props.getSingleViewSuggestionData(viewType, singleNodeId, 30, 1, "", "", "", subNodeId)
         }
         this.setState({ addUsersPopUpStatus: status, addUsersCurrentPageNumber: 1 })
 
     }
 
     addUsersOnClickHeadingColumn = (activeheading, sortingType) => {
-        const { addUsersCurrentPageNumber, addUsersRowsPerPage, addUsersSearchData, viewType, singleNodeId } = this.state
-        this.props.getSingleViewSuggestionData(viewType, singleNodeId, addUsersRowsPerPage, addUsersCurrentPageNumber, addUsersSearchData, activeheading, sortingType)
+        const { addUsersCurrentPageNumber, addUsersRowsPerPage, addUsersSearchData, viewType, singleNodeId, subNodeId } = this.state
+        this.props.getSingleViewSuggestionData(viewType, singleNodeId, addUsersRowsPerPage, addUsersCurrentPageNumber, addUsersSearchData, activeheading, sortingType, subNodeId)
         this.setState({
             addUsersActiveheading: activeheading,
             addUsersSortingType: sortingType,
@@ -153,8 +166,8 @@ class CommonSingleOpenView extends Component {
     }
 
     addUsersOnChangeRowsPerPage = (rowsPerPage) => {
-        const { addUsersSearchData, addUsersActiveheading, addUsersSortingType, viewType, singleNodeId } = this.state
-        this.props.getSingleViewSuggestionData(viewType, singleNodeId, rowsPerPage, 1, addUsersSearchData, addUsersActiveheading, addUsersSortingType)
+        const { addUsersSearchData, addUsersActiveheading, addUsersSortingType, viewType, singleNodeId, subNodeId } = this.state
+        this.props.getSingleViewSuggestionData(viewType, singleNodeId, rowsPerPage, 1, addUsersSearchData, addUsersActiveheading, addUsersSortingType, subNodeId)
         this.setState({
             addUsersRowsPerPage: rowsPerPage,
             addUsersCurrentPageNumber: 1
@@ -163,8 +176,8 @@ class CommonSingleOpenView extends Component {
 
     onSearchInAddUsers = (e) => {
         const searchvalue = e.target.value
-        const { addUsersRowsPerPage, addUsersActiveheading, addUsersSortingType, viewType, singleNodeId } = this.state
-        this.props.getSingleViewSuggestionData(viewType, singleNodeId, addUsersRowsPerPage, 1, searchvalue, addUsersActiveheading, addUsersSortingType)
+        const { addUsersRowsPerPage, addUsersActiveheading, addUsersSortingType, viewType, singleNodeId, subNodeId } = this.state
+        this.props.getSingleViewSuggestionData(viewType, singleNodeId, addUsersRowsPerPage, 1, searchvalue, addUsersActiveheading, addUsersSortingType, subNodeId)
 
         this.setState({
             addUsersSearchData: searchvalue,
@@ -172,20 +185,17 @@ class CommonSingleOpenView extends Component {
         })
     }
 
-    onChangeCheckBox = (value) => {
-        this.setState({ checkedDataKeys: value })
-    }
+
 
     addUsersPopUpOnChangeCheckBox = (data) => {
-
         this.setState({ addUsersCheckedDataKeys: data })
     }
 
     addUsersChangePage = (calcData) => {
-        const { addUsersCurrentPageNumber, addUsersRowsPerPage, addUsersActiveheading, addUsersSearchData, addUsersSortingType, viewType, singleNodeId } = this.state
+        const { addUsersCurrentPageNumber, addUsersRowsPerPage, addUsersActiveheading, addUsersSearchData, addUsersSortingType, viewType, singleNodeId, subNodeId } = this.state
         const goToPage = addUsersCurrentPageNumber + calcData
 
-        this.props.getSingleViewSuggestionData(viewType, singleNodeId, addUsersRowsPerPage, goToPage, addUsersSearchData, addUsersActiveheading, addUsersSortingType)
+        this.props.getSingleViewSuggestionData(viewType, singleNodeId, addUsersRowsPerPage, goToPage, addUsersSearchData, addUsersActiveheading, addUsersSortingType, subNodeId)
         this.setState({
             addUsersCurrentPageNumber: goToPage
         })
@@ -193,12 +203,13 @@ class CommonSingleOpenView extends Component {
 
 
     onClickAddSelectedButton = async () => {
-        const { addUsersCheckedDataKeys, singleNodeId, viewType, rowsPerPage, searchData, activeheading, sortingType } = this.state
+        const { addUsersCheckedDataKeys, singleNodeId, viewType, rowsPerPage, searchData, activeheading, sortingType, subNodeId } = this.state
         const finalData = { users: addUsersCheckedDataKeys, _id: singleNodeId }
+        if (viewType === "nodes") finalData["node_item_id"] = subNodeId
         await this.props.postCommonAddSelectedUsersData(viewType, finalData)
         const { postSelectedUsersSuccessfully, postSelectedUsersSuccessMessage, errorMsg } = this.props.commonReducer
         if (postSelectedUsersSuccessfully) {
-            this.props.getSingleViewData(viewType, singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType)
+            this.props.getSingleViewData(viewType, singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType, subNodeId)
             this.setState({ addUsersPopUpStatus: false, currentPageNumber: 1, addUsersCheckedDataKeys: [] })
             message.success(postSelectedUsersSuccessMessage)
         } else {
@@ -214,24 +225,38 @@ class CommonSingleOpenView extends Component {
         this.onChangeSearchDropdown("")
     }
 
-    onDeleteUser = (data) => {
-        console.log("data", data)
+    onDeleteUser = async (data) => {
+        if (data === "delete") {
+            const { checkedDataKeys, singleNodeId, viewType, rowsPerPage, searchData, activeheading, sortingType, subNodeId } = this.state
+            const finalData = { users: checkedDataKeys, _id: singleNodeId }
+            if (viewType === "nodes") finalData["node_item_id"] = subNodeId
+            await this.props.postCommonRemovePeople(viewType, finalData)
+            const { postRemovePeopleSuccessfully, postRemovePeopleSuccessMessage, errorMsg } = this.props.commonReducer
+            console.log(postRemovePeopleSuccessfully, "postRemovePeopleSuccessfully")
+            if (postRemovePeopleSuccessfully) {
+                this.props.getSingleViewData(viewType, singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType, subNodeId)
+                this.setState({ currentPageNumber: 1, checkedDataKeys: [] })
+                message.success(postRemovePeopleSuccessMessage)
+            } else {
+                message.error(errorMsg)
+            }
+        }
     }
 
 
 
     render() {
         const { singleViewName, singleViewCount, singleViewData, singleViewSuggestionData, singleViewSuggestionDataCount, tableColumnData } = this.props.commonReducer
-        console.log(tableColumnData, "tableColumnData")
-        const { searchData, currentPageNumber, addUsersPopUpStatus, checkedDataKeys, addUsersCheckedDataKeys, addUsersCurrentPageNumber } = this.state
+        const { searchData, currentPageNumber, addUsersPopUpStatus, checkedDataKeys, addUsersCheckedDataKeys, addUsersCurrentPageNumber, viewType } = this.state
 
         return (<CommonCreationView commonCreationViewHeaderName={singleViewName}
             viewDecider={searchData || singleViewCount ? 1 : 0}
             allSelectedUsersUsersData={singleViewData}
-            allSelectedUsersHeadingsData={tableColumnData} backButton={true}
+            allSelectedUsersHeadingsData={tableColumnData} backButton={!(viewType === "circles") ? true : false}
             allSelectedUsersAllSelect={true}
             allSelectedUsersSearchData={this.onChangeSearch}
-            allSelectedUsersPlaceHolder={`Search ${singleViewName}`}
+            allSelectedUsersPlaceHolder={`Search ${singleViewName}`
+            }
             allSelectedUsersOnClickHeadingColumn={this.onClickHeading}
             allSelectedUsersTotalUsers={singleViewCount}
             allSelectedUsersCurrentPageNumber={currentPageNumber}
@@ -242,7 +267,7 @@ class CommonSingleOpenView extends Component {
             allSelectedUsersSelectedDataCount={checkedDataKeys.length}
             allSelectedUsersOnClickAddUserButton={() => this.onClickOfAddUsers(true)}
             allSelectedUsersChangePage={this.onChangePage}
-            allSelectedUsersOnClickActions={this.onDeleteUser}
+            allSelectedUsersOnClickUserActions={this.onDeleteUser}
 
             //search with suggestion comp props
             allSelectedUsersSearchDropdownPlaceholder={"Enter Name and Add"}
@@ -288,7 +313,8 @@ const mapDispatchToProps = dispatch => {
         {
             getSingleViewData,
             getSingleViewSuggestionData,
-            postCommonAddSelectedUsersData
+            postCommonAddSelectedUsersData,
+            postCommonRemovePeople
         },
         dispatch
     );

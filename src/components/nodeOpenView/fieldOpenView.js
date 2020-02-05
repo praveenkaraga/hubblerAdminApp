@@ -135,9 +135,10 @@ class FieldOpenView extends Component {
         })
     }
 
-    // onRowClick = (rowData) => {
-    //     this.props.history.push(`/people/designation/${rowData._id}`)
-    // }
+    onRowClick = (rowData) => {
+        const { singleNodeId, filterKeyId } = this.state
+        this.props.history.push(`/people/field/${singleNodeId}/${rowData._id}`, { uniqueTableHeadingId: filterKeyId })
+    }
 
     // creationPopUpInput = (e) => {
     //     const { editRowName } = this.state
@@ -230,7 +231,7 @@ class FieldOpenView extends Component {
 
                     isUserData={false}
 
-                    // onClickTableRow={this.onRowClick}
+                    onClickTableRow={this.onRowClick}
 
                     // //buttons to show and hide 
                     showHeaderButtons={[{ id: "edit", label: "Edit Item" }, { id: "delete", label: "Delete Items" }]}

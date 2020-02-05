@@ -108,7 +108,8 @@ export const { getSingleViewData,
     patchCommonCreateData,
     getLoginSessionData,
     getSingleFieldData,
-    postCommonAddSelectedUsersData } = commonActions
+    postCommonAddSelectedUsersData,
+    postCommonRemovePeople } = commonActions
 
 //------------------------------ xxxxxxxxxxxxxxxxxxxxxxx-----------------------------
 
