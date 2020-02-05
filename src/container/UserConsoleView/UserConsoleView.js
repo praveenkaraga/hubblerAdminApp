@@ -23,7 +23,7 @@ import CustomDropdown from '../../components/common/CustomDropdown/customDropdow
 import CreationPopUp from '../../components/common/CreationPopUp/CreationPopUp'
 // import CircleOpenView from '../../components/nodeOpenView/circleOpenView'
 import FieldOpenView from '../../components/nodeOpenView/fieldOpenView'
-import DesignationOpenView from '../../components/nodeOpenView/designationOpenView'
+import CommonSingleOpenView from '../../components/nodeOpenView/commonSingleOpenView'
 import ChangeViewRouting from '../../components/common/ChangeViewRouting/ChangeViewRouting'
 import {
     Switch,
@@ -241,11 +241,11 @@ class UserConsoleView extends Component {
                             <Route exact path={"/people/console"} component={Console} />
                             <Route exact path={"/people/departments"} component={Departments} />
                             <Route exact path={"/people/designations"} component={Designations} />
-                            <Route exact path={"/people/circle/:id"} children={<DesignationOpenView viewType="circles" />} />
-                            <Route exact path={"/people/field/:id/:id"} children={<DesignationOpenView viewType="nodes" />} />
+                            <Route exact path={"/people/circle/:id"} children={<CommonSingleOpenView viewType="circles" />} />
+                            <Route exact path={"/people/field/:id/:id"} children={<CommonSingleOpenView viewType="nodes" />} />
                             <Route exact path={"/people/field/:id/"} component={FieldOpenView} />
-                            <Route exact path={"/people/department/:id"} children={<ChangeViewRouting />} />
-                            <Route exact path={"/people/designation/:id"} children={<DesignationOpenView viewType="designations" />} />
+                            <Route exact path={"/people/department/:id"} children={<CommonSingleOpenView viewType="departments" />} />
+                            <Route exact path={"/people/designation/:id"} children={<CommonSingleOpenView viewType="designations" />} />
                         </Switch>
                     </div>
                 </div>

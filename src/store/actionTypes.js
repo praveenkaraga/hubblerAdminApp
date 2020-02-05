@@ -65,3 +65,5 @@ export const POST_COMMON_ACTION_ON_USER = "POST_COMMON_ACTION_ON_USER" // post a
 export const GET_LOGIN_SESSION_DATA = "GET_LOGIN_SESSION_DATA" //for login session api
 
 export const PATCH_TABLE_COLUMN_SETTING = "PATCH_TABLE_COLUMN_SETTING" //for patching the saved table column setting data
+
+export const POST_COMMON_ADD_SELECTED_USERS_DATA = "POST_COMMON_ADD_SELECTED_USERS_DATA"

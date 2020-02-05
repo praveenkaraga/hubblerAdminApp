@@ -4,13 +4,14 @@ import { bindActionCreators } from "redux";
 import {
     getSingleViewData,
     getSingleViewSuggestionData,
+    postCommonAddSelectedUsersData
 } from '../../store/actions/actions'
 import CommonCreationView from '../common/CommonCreationView/CommonCreationView'
 import { headingData } from './headingData'
 import { withRouter } from "react-router-dom";
 import { getNodeId } from '../../utils/helper'
-
-class DesignationOpenView extends Component {
+import { message } from 'antd'
+class CommonSingleOpenView extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -89,9 +90,6 @@ class DesignationOpenView extends Component {
         this.props.getSingleViewSuggestionData(viewType, singleNodeId, 30, 1, searchData)
     }
 
-    onSearchDropdownSelect = (value) => {
-        // console.log(value, "onSearchDropdownSelect")
-    }
 
     onChangeSearch = (e) => { //onChange of left side of search
         const { rowsPerPage, activeheading, sortingType, singleNodeId, viewType } = this.state
@@ -128,9 +126,6 @@ class DesignationOpenView extends Component {
         })
     }
 
-    onChangeCheckBox = (value) => {
-        this.setState({ checkedDataKeys: value })
-    }
 
     backButtonClick = () => {
         this.props.history.push("/people/designations")
@@ -140,10 +135,11 @@ class DesignationOpenView extends Component {
     //below functions are for add Users Comp
     onClickOfAddUsers = (status) => {
         const { viewType, singleNodeId } = this.state
-        this.setState({ addUsersPopUpStatus: status })
+
         if (status) {
-            this.props.getSingleViewSuggestionData(viewType, singleNodeId)
+            this.props.getSingleViewSuggestionData(viewType, singleNodeId, 30, 1)
         }
+        this.setState({ addUsersPopUpStatus: status, addUsersCurrentPageNumber: 1 })
 
     }
 
@@ -176,6 +172,9 @@ class DesignationOpenView extends Component {
         })
     }
 
+    onChangeCheckBox = (value) => {
+        this.setState({ checkedDataKeys: value })
+    }
 
     addUsersPopUpOnChangeCheckBox = (data) => {
 
@@ -193,14 +192,43 @@ class DesignationOpenView extends Component {
     }
 
 
+    onClickAddSelectedButton = async () => {
+        const { addUsersCheckedDataKeys, singleNodeId, viewType, rowsPerPage, searchData, activeheading, sortingType } = this.state
+        const finalData = { users: addUsersCheckedDataKeys, _id: singleNodeId }
+        await this.props.postCommonAddSelectedUsersData(viewType, finalData)
+        const { postSelectedUsersSuccessfully, postSelectedUsersSuccessMessage, errorMsg } = this.props.commonReducer
+        if (postSelectedUsersSuccessfully) {
+            this.props.getSingleViewData(viewType, singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType)
+            this.setState({ addUsersPopUpStatus: false, currentPageNumber: 1, addUsersCheckedDataKeys: [] })
+            message.success(postSelectedUsersSuccessMessage)
+        } else {
+            message.error(errorMsg)
+        }
+
+    }
+
+    onSearchDropdownSelect = async (value) => {
+        console.log(value, "onSearchDropdownSelect")
+        await this.addUsersPopUpOnChangeCheckBox([value])
+        this.onClickAddSelectedButton()
+        this.onChangeSearchDropdown("")
+    }
+
+    onDeleteUser = (data) => {
+        console.log("data", data)
+    }
+
+
+
     render() {
         const { singleViewName, singleViewCount, singleViewData, singleViewSuggestionData, singleViewSuggestionDataCount, tableColumnData } = this.props.commonReducer
+        console.log(tableColumnData, "tableColumnData")
         const { searchData, currentPageNumber, addUsersPopUpStatus, checkedDataKeys, addUsersCheckedDataKeys, addUsersCurrentPageNumber } = this.state
 
         return (<CommonCreationView commonCreationViewHeaderName={singleViewName}
             viewDecider={searchData || singleViewCount ? 1 : 0}
             allSelectedUsersUsersData={singleViewData}
-            allSelectedUsersHeadingsData={headingData} backButton={true}
+            allSelectedUsersHeadingsData={tableColumnData} backButton={true}
             allSelectedUsersAllSelect={true}
             allSelectedUsersSearchData={this.onChangeSearch}
             allSelectedUsersPlaceHolder={`Search ${singleViewName}`}
@@ -214,6 +242,7 @@ class DesignationOpenView extends Component {
             allSelectedUsersSelectedDataCount={checkedDataKeys.length}
             allSelectedUsersOnClickAddUserButton={() => this.onClickOfAddUsers(true)}
             allSelectedUsersChangePage={this.onChangePage}
+            allSelectedUsersOnClickActions={this.onDeleteUser}
 
             //search with suggestion comp props
             allSelectedUsersSearchDropdownPlaceholder={"Enter Name and Add"}
@@ -237,6 +266,7 @@ class DesignationOpenView extends Component {
             addUsersSelectedDataCount={addUsersCheckedDataKeys.length}
             addUsersChangePage={this.addUsersChangePage}
             addUsersCurrentPageNumber={addUsersCurrentPageNumber}
+            addUsersPopUpFirstButtonClick={this.onClickAddSelectedButton}
         //addUsersPopUpFirstButtonClick
         // addUsersPopUpOnChangeCheckBox
 
@@ -257,11 +287,12 @@ const mapDispatchToProps = dispatch => {
     return bindActionCreators(
         {
             getSingleViewData,
-            getSingleViewSuggestionData
+            getSingleViewSuggestionData,
+            postCommonAddSelectedUsersData
         },
         dispatch
     );
 };
 
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DesignationOpenView))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CommonSingleOpenView))

@@ -12,7 +12,9 @@ const intialState = {
     tableColumnData: [],
     singleViewSuggestionDataCount: 0,
     singleFieldCount: 0,
-    singleFieldData: []
+    singleFieldData: [],
+    postSelectedUsersSuccessMessage: "",
+    postSelectedUsersSuccessfully: false
 }
 
 export const commonReducer = (state = intialState, action) => {
@@ -85,9 +87,17 @@ export const commonReducer = (state = intialState, action) => {
             // console.log(singleFieldDataInitial, "singleFieldDataInitial")
             return {
                 ...state,
-                // // singleFieldName: singleFieldDataInitial ? singleFieldDataInitial.name : "",
+                singleFieldName: singleFieldDataInitial ? singleFieldDataInitial.name : "",
                 singleFieldCount: singleFieldDataInitial ? singleFieldDataInitial.total_count : 0,
                 singleFieldData: singleFieldDataInitial ? singleFieldDataInitial.result : []
+            }
+
+        case actionTypes.POST_COMMON_ADD_SELECTED_USERS_DATA:
+            const initialPostSelectedUsersData = action.payload.data
+            return {
+                ...state,
+                postSelectedUsersSuccessMessage: initialPostSelectedUsersData ? "Users Added" : "",
+                postSelectedUsersSuccessfully: true
             }
 
 

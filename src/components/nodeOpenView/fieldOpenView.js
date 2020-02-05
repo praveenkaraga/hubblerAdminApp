@@ -171,7 +171,7 @@ class FieldOpenView extends Component {
     //id, perPageRows, currentPage, searchData, headingData, sortingType
 
     render() {
-        const { singleFieldData, singleFieldCount } = this.props.commonReducer
+        const { singleFieldData, singleFieldCount, singleFieldName } = this.props.commonReducer
         const { currentPageNumber, creationPopUpVisibility, newFieldItemName, checkedDataKeys, creationPopUpMode, editRowName, filterKeyId } = this.state
 
         const fieldsColumnData = [
@@ -202,14 +202,14 @@ class FieldOpenView extends Component {
 
         return (
             <div className="fields_main">
-                <div className="fields_heading"><h3>Node Name</h3></div>
+                <div className="fields_heading"><h3>{singleFieldName}</h3></div>
 
                 <AllUserSelect userData={singleFieldData}
 
                     searchFirstButtonName={"IMPORT RESOURCES"}
                     searchSecondButtonName={"ADD NEW ITEM"}
                     allHeadingsData={fieldsColumnData}
-                    searchPlaceHolder={"Search Node Name"}
+                    searchPlaceHolder={`Search ${singleFieldName}`}
                     onSearch={this.fieldSearchData}
                     typeOfData="Total Items"
 

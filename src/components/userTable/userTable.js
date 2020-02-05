@@ -64,7 +64,7 @@ class UserTable extends Component {
             rowSelection={rowSelection} columns={allHeadingsData}
             dataSource={modifiedUserData} pagination={false} scroll={{ y: "unset" }}
             onChange={this.onChange} {...this.props} onRow={this.onRowClick}
-            rowClassName={this.rowClassName}
+            rowClassName={this.rowClassName} scrollToFirstRowOnChange={true}
         />
     }
 }

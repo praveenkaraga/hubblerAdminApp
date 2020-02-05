@@ -34,11 +34,15 @@ let axiosConfig = {
 };
 
 
+
 export const getUsers = (perPageRows, currentPage, searchData, headingData, sortingType) => {
     const startNumber = ((currentPage - 1) * perPageRows) + 1
     return axios.get(`/rest/users/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}&version=1`, axiosConfig);
 };
 
+
+
+//--------------------TEAM VIEW API'S------------------------------------------------------------------
 export const getTeamViewUsers = () => {
     return axios.get("/reportees/orgchart//?sortKey=name&sortOrder=asc&filterKey=id&filterQuery=", axiosConfig);
 };
@@ -50,6 +54,12 @@ export const getClickedTeamViewUser = (id) => {
 export const getClickedTeamViewOrgData = (url) => {
     return axios.get(url, axiosConfig);
 };
+
+
+//XXXXXXXXXXXXXXXXX---END OF TEAM VIEW API'S------XXXXXXXXXXXXXXXXXXXXXXXXX
+
+
+
 
 export const downloadExcelCall = (id) => {
     return axios.get(`/bulk-upload/sample-file/users/`, axiosConfig);
@@ -135,17 +145,12 @@ export const getCustomFieldsApi = () => { // to get all data of nodes{custom fie
     return axios.get(`/rest/nodes/?start=1&offset=100&sortKey=_id&sortOrder=asc&filterKey=_id&filterQuery=`)
 };
 
-// export const getSingleCircleDataApi = (id, perPageRows, currentPage, searchData, headingData, sortingType) => {
-//     const startNumber = ((currentPage - 1) * perPageRows) + 1
-//     return axios.get(`/users/circles/${id}/?start=${startNumber || 1}&offset=${perPageRows || 30}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}`)
-// };
-
 export const getHeaderName = (id) => {
     return axios.get(`/rest/departments/${id}/`);
 };
 
 
-export const getCircleSuggestionDataApi = (id, searchData) => {
+export const getCircleSuggestionDataApi = (id, searchData) => { // to remove
     return axios.get(`/choose-users/circles/${id}/?start=1&offset=20&sortKey=name&sortOrder=dsc&filterKey=name&filterQuery=${searchData || ""}`)
 }
 
@@ -156,16 +161,17 @@ export const getSingleFieldDataApi = (id, perPageRows, currentPage, searchData, 
 
 
 //------ Common Apis for few common components -----
-export const getSingleViewDataApi = (viewType, id, perPageRows, currentPage, searchData, headingData, sortingType) => { //common api for every view that is being fetched using one id
+
+export const getSingleViewDataApi = (viewType, id, perPageRows, currentPage, searchData, headingData, sortingType, id2) => { //common api for every view that is being fetched using one id
     const startNumber = ((currentPage - 1) * perPageRows) + 1
-    return axios.get(`/users/${viewType}/${id}/?start=${startNumber || 1}&offset=${perPageRows || 30}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}`)
-    // return axios.get(`/${viewType === "nodes" ? "nodes/rest" : `users/${viewType}`}/${id}/?start=${startNumber || 1}&offset=${perPageRows || 30}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}`)
+    return axios.get(`/users/${viewType}/${id}/?start=${startNumber || 1}&offset=${perPageRows || 30}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}&version=1`)
+    // return axios.get(`/users/${viewType}/${viewType === "nodes" ? id+"/"+id2 : id}/?start=${startNumber || 1}&offset=${perPageRows || 30}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}&version=1`)
 
 };
 
 export const getSingleViewSuggestionDataApi = (viewType, id, perPageRows, currentPage, searchData, headingData, sortingType) => { //common api for every user suggestion that is being fetched using one id
     const startNumber = ((currentPage - 1) * perPageRows) + 1
-    return axios.get(`/choose-users/${viewType}/${id}/?start=${startNumber || 1}&offset=${perPageRows || 30}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}`)
+    return axios.get(`/choose-users/${viewType}/${id}/?start=${startNumber || 1}&offset=${perPageRows || 30}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}&version=1`)
 }
 
 export const postCommonCreateDataApi = (createForType, data) => {
@@ -177,12 +183,13 @@ export const patchCommonCreateDataApi = (createForType, id, data) => {
 }
 
 
-
-
 export const postCommonActionOnUserApi = (typeOfAction, data) => { //actions on users
     return axios.post(`/${typeOfAction === "delete" ? "rest/users" : "users"}/${typeOfAction}/`, data, axiosConfig)
 }
 
+export const postCommonAddSelectedUsersDataApi = (viewType, data) => {
+    return axios.post(`/add-people/${viewType}/`, data, axiosConfig)
+}
 
 //-------------------xxxxx-------
 
@@ -194,6 +201,16 @@ export const getLoginSessionDataApi = () => {
 }
 //-------------------
 
+
+
+
+
+
+
+//-----------------------------------------------------------------------------------------------------------------
+//------------------------------PROFILES---------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------
+
 export const getHolidayTableColumns = () => {
     return axios.get("https://demo4798197.mockable.io/holiday-profile-columns")
 }
@@ -203,3 +220,9 @@ export const getHolidayProfilesData = (perPageRows, currentPage, searchData, hea
     return axios.get(`/holiday/holiday-profiles/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "name" : ""}&filterQuery=${searchData || ""}`, axiosConfig);
 
 };
+
+
+
+//-----------------------------------------------------------------------------------------------------------------
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX------END PROFILES------XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+//-----------------------------------------------------------------------------------------------------------------

@@ -5,7 +5,8 @@ import {
     postCommonCreateDataApi,
     patchCommonCreateDataApi,
     getLoginSessionDataApi,
-    getSingleFieldDataApi
+    getSingleFieldDataApi,
+    postCommonAddSelectedUsersDataApi
 } from '../../apiCall'
 
 export const getSingleViewData = (viewType, id, perPageRows, currentPage, searchData, headingData, sortingType) => {
@@ -67,6 +68,16 @@ export const getSingleFieldData = (id, perPageRows, currentPage, searchData, hea
     const payload = getSingleFieldDataApi(id, perPageRows, currentPage, searchData, headingData, sortingType, filterKeyId)
     return {
         type: actionTypes.GET_SINGLE_FIELD_DATA,
+        payload
+    }
+}
+
+
+
+export const postCommonAddSelectedUsersData = (viewType, data) => {
+    const payload = postCommonAddSelectedUsersDataApi(viewType, data)
+    return {
+        type: actionTypes.POST_COMMON_ADD_SELECTED_USERS_DATA,
         payload
     }
 }
