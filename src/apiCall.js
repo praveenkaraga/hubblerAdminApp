@@ -174,12 +174,22 @@ export const getSingleViewSuggestionDataApi = (viewType, id, perPageRows, curren
     return axios.get(`/choose-users/${viewType}/${viewType === "nodes" ? (id + "/" + id2) : id}/?start=${startNumber || 1}&offset=${perPageRows || 30}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}&version=1`)
 }
 
-export const postCommonCreateDataApi = (createForType, data) => {
-    return axios.post(`/rest/${createForType}/`, data, axiosConfig)
+
+export const postCommonCreateDataApi = (createForType, data, id) => {
+    if (createForType === "node_items") {
+        return axios.post(`/rest/nodes/${id}/`, data, axiosConfig)
+    } else {
+        return axios.post(`/rest/${createForType}/`, data, axiosConfig)
+
+    }
 }
 
-export const patchCommonCreateDataApi = (createForType, id, data) => {
-    return axios.patch(`/rest/${createForType}/${id}/`, data, axiosConfig)
+export const patchCommonCreateDataApi = (createForType, id, data, id2) => {
+    if (createForType === "node_items") {
+        return axios.patch(`/rest/nodes/${id}/${id2}/`, data, axiosConfig)
+    } else {
+        return axios.patch(`/rest/${createForType}/${id}/`, data, axiosConfig)
+    }
 }
 
 export const postCommonRemovePeopleApi = (viewType, data) => {

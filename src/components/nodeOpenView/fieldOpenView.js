@@ -100,24 +100,10 @@ class FieldOpenView extends Component {
         })
     }
 
-    // onSaveEditedDesignation = async () => {
-    //     const { newFieldItemName, editRowId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType } = this.state
-    //     await this.props.patchCommonCreateData("designations", editRowId, { name: newFieldItemName }) //waiting for the api to be posted
-    //     const { patchDataCreatedSuccessfully, patchSuccessMessage, errorMsg } = this.props.commonReducer // will be true if success is true from above post api and pop up will be closed
-    //     if (patchDataCreatedSuccessfully) {
-    //         this.setState({ creationPopUpVisibility: false, checkedDataKeys: [] })
-    //         message.success(patchSuccessMessage || "Saved Successfully");
-    //         this.props.commonActionForCommonReducer({ newDataCreatedSuccessfully: false })
-    //         this.props.designationsData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
-    //     } else {
-    //         message.error(errorMsg);
-    //     }
-
-    // }
 
     onChangeRowsPerPage = (rowsPerPage) => {
         const { searchData, activeheading, sortingType, singleNodeId, filterKeyId } = this.state
-        this.props.designationsData(singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType, filterKeyId)
+        this.props.getSingleFieldData(singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType, filterKeyId)
         this.setState({
             rowsPerPage,
             currentPageNumber: 1
@@ -129,7 +115,7 @@ class FieldOpenView extends Component {
         const { currentPageNumber, rowsPerPage, searchData, activeheading, sortingType, singleNodeId, filterKeyId } = this.state
 
         const goToPage = currentPageNumber + calcData
-        this.props.designationsData(singleNodeId, rowsPerPage, goToPage, searchData, activeheading, sortingType, filterKeyId)
+        this.props.getSingleFieldData(singleNodeId, rowsPerPage, goToPage, searchData, activeheading, sortingType, filterKeyId)
         this.setState({
             currentPageNumber: goToPage
         })
@@ -140,36 +126,35 @@ class FieldOpenView extends Component {
         this.props.history.push(`/people/field/${singleNodeId}/${rowData._id}`, { uniqueTableHeadingId: filterKeyId })
     }
 
-    // creationPopUpInput = (e) => {
-    //     const { editRowName } = this.state
-    //     const inputData = e.target.value
-    //     this.setState({ newFieldItemName: inputData, editRowName: inputData ? editRowName : "" })
-
-    // }
-
-    // onSaveNewDesignation = async () => {
-    //     const { newFieldItemName } = this.state
-    //     await this.props.postCommonCreateData("designations", { name: newFieldItemName }) //waiting for the api to be posted
-
-    //     const { newDataCreatedSuccessfully, newCreatedDataId, errorMsg } = this.props.commonReducer // will be true if success is true from above post api and pop up will be closed
-    //     if (newDataCreatedSuccessfully) {
-    //         this.setState({ creationPopUpVisibility: false })
-    //         message.success("Designation Created Successfully");
-    //         this.props.commonActionForCommonReducer({ newDataCreatedSuccessfully: false })
-    //         this.props.history.push(`/people/designation/${newCreatedDataId}`)
-
-    //     } else {
-    //         message.error(errorMsg);
-    //     }
-
-    // }
+    creationPopUpInput = (e) => {
+        const { editRowName } = this.state
+        const inputData = e.target.value
+        this.setState({ newFieldItemName: inputData, editRowName: inputData ? editRowName : "" })
+    }
 
 
-    // onClickDesignationActions = (actionType) => {
-    //     this.setState({ creationPopUpVisibility: true, creationPopUpMode: "edit" })
-    // }
 
-    //id, perPageRows, currentPage, searchData, headingData, sortingType
+    onFieldItemActions = (actionType) => {
+        this.setState({ creationPopUpVisibility: true, creationPopUpMode: "edit" })
+    }
+
+    onSaveEditOrCreateField = async (type) => {
+        const { newFieldItemName, editRowId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType, filterKeyId, singleNodeId } = this.state
+        if (type === "edit") {
+            await this.props.patchCommonCreateData("node_items", singleNodeId, { [filterKeyId]: newFieldItemName }, editRowId) //waiting for the api to be patch
+        } else {
+            await this.props.postCommonCreateData("node_items", { [filterKeyId]: newFieldItemName }, singleNodeId) //waiting for the api to be posted
+        }
+        const { patchDataCreatedSuccessfully, patchSuccessMessage, newDataCreatedSuccessfully, errorMsg } = this.props.commonReducer // will be true if success is true from above post api and pop up will be closed
+        if (type === "edit" ? patchDataCreatedSuccessfully : newDataCreatedSuccessfully) {
+            this.setState({ creationPopUpVisibility: false, checkedDataKeys: [] })
+            message.success(type === "edit" ? "Saved Successfully" : "Created Successfully ");
+            this.props.commonActionForCommonReducer({ patchDataCreatedSuccessfully: false, newDataCreatedSuccessfully: false })
+            this.props.getSingleFieldData(singleNodeId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
+        } else {
+            message.error(errorMsg);
+        }
+    }
 
     render() {
         const { singleFieldData, singleFieldCount, singleFieldName } = this.props.commonReducer
@@ -216,7 +201,7 @@ class FieldOpenView extends Component {
 
                     headingClickData={this.onClickHeadingColumn}
                     onChangeCheckBox={this.onChangeCheckBox}
-                    // searchSecondButtonClick={() => this.setState({ creationPopUpVisibility: true, creationPopUpMode: "add" })}
+                    searchSecondButtonClick={() => this.setState({ creationPopUpVisibility: true, creationPopUpMode: "add" })}
 
 
                     totalUsers={singleFieldCount}
@@ -226,8 +211,8 @@ class FieldOpenView extends Component {
                     goNextPage={() => this.changePage(1)}
 
                     // //onClick Designation Header Action Buttons
-                    // onClickUserDelete={() => this.onClickDesignationActions("delete")}
-                    // onClickUserEdit={() => this.onClickDesignationActions("edit")}
+                    onClickUserDelete={() => this.onFieldItemActions("delete")}
+                    onClickUserEdit={() => this.onFieldItemActions("edit")}
 
                     isUserData={false}
 
@@ -242,20 +227,20 @@ class FieldOpenView extends Component {
                 />
 
 
-                {/* <CreationPopUp creationPopUpVisibility={creationPopUpVisibility}
-                    creationPopUpTitle={creationPopUpMode === "add" ? "Add New Designation" : "Edit Designation"}
+                <CreationPopUp creationPopUpVisibility={creationPopUpVisibility}
+                    creationPopUpTitle={creationPopUpMode === "add" ? "Add New Item" : "Edit Item name"}
                     creationPopFirstButtonName={"Cancel"}
                     creationPopSecondButtonName={creationPopUpMode === "add" ? "Create" : "Save"}
-                    fieldHeader={"Designation Name"}
-                    fieldPlaceHolder={"Enter Designation Name"}
+                    fieldHeader={"Item Name"}
+                    fieldPlaceHolder={"Enter Item Name"}
                     inputValue={newFieldItemName || editRowName}
                     creationPopFirstButtonHandler={() => this.setState({ creationPopUpVisibility: false })}
-                    creationPopSecondButtonHandler={creationPopUpMode === "add" ? this.onSaveNewDesignation : this.onSaveEditedDesignation}
+                    creationPopSecondButtonHandler={() => this.onSaveEditOrCreateField(creationPopUpMode)}
                     secondButtonDisable={newFieldItemName.length < 3 || newFieldItemName === editRowName ? true : false}
-                    afterClose={() => this.setState({ newFieldItemName: "" })}
+                    afterClose={() => this.setState({ newFieldItemName: "", editRowName: "" })}
                     creationPopUpFirstFieldChangeHandler={this.creationPopUpInput}
 
-                /> */}
+                />
             </div>
         );
     }

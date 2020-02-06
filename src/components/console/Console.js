@@ -119,25 +119,25 @@ class Console extends Component {
 
     onClickUserActions = (typeOfAction) => {
 
+        //     switch (typeOfAction) {
+        //         case "activate":
+        //             this.actionOnUser("activate")
+        //             break;
+        //         case "deactivate":
+        //             this.actionOnUser("deactivate")
+        //             break;
+        //         case "delete":
+        //             this.actionOnUser("delete")
+        //             break;
 
-        switch (typeOfAction) {
-            case "activate":
-                this.actionOnUser("activate")
-                break;
-            case "deactivate":
-                this.actionOnUser("deactivate")
-                break;
-            case "delete":
-                this.actionOnUser("delete")
-                break;
+        //         case "edit":
+        //             console.log("edit")
+        //             break;
 
-            case "edit":
-                console.log("edit")
-                break;
-
-            default:
-                alert("Some error occured")
-        }
+        //         default:
+        //             alert("Some error occured")
+        //     }
+        console.log(typeOfAction)
     }
 
 
@@ -271,9 +271,9 @@ class Console extends Component {
                     onColumnSettingCancel={() => this.setState({ visibleColumnSetting: false })}
 
                     //props for all the actions to be done on user
-                    onClickUserActivate={() => this.onClickUserActions("activate")}
-                    onClickUserDeactivate={() => this.onClickUserActions("deactivate")}
-                    onClickUserDelete={() => this.onClickUserActions("delete")}
+                    onClickUserActivate={() => this.actionOnUser("activate")}
+                    onClickUserDeactivate={() => this.actionOnUser("deactivate")}
+                    onClickUserDelete={() => this.actionOnUser("delete")}
                     onClickUserEdit={() => this.onClickUserActions("edit")}
 
                     //props for add user component

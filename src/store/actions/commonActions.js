@@ -28,8 +28,8 @@ export const getSingleViewSuggestionData = (viewType, id, perPageRows, currentPa
 }
 
 
-export const postCommonCreateData = (createForType, data) => {
-    const payload = postCommonCreateDataApi(createForType, data)
+export const postCommonCreateData = (createForType, data, id) => {
+    const payload = postCommonCreateDataApi(createForType, data, id)
     return {
         type: actionTypes.POST_COMMON_CREATE_DATA,
         payload
@@ -45,8 +45,8 @@ export const commonActionForCommonReducer = (payload) => {
 }
 
 
-export const patchCommonCreateData = (createForType, id, data) => {
-    const payload = patchCommonCreateDataApi(createForType, id, data)
+export const patchCommonCreateData = (createForType, id, data, id2) => {
+    const payload = patchCommonCreateDataApi(createForType, id, data, id2)
     return {
         type: actionTypes.PATCH_COMMON_CREATE_DATA,
         payload

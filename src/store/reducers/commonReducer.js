@@ -46,6 +46,7 @@ export const commonReducer = (state = intialState, action) => {
 
         case actionTypes.POST_COMMON_CREATE_DATA:
             const newDataInitial = action.payload.data
+            // console.log(newDataInitial)
             return {
                 ...state,
                 newDataCreatedSuccessfully: true,
@@ -98,7 +99,7 @@ export const commonReducer = (state = intialState, action) => {
             const initialPostSelectedUsersData = action.payload.data
             return {
                 ...state,
-                postSelectedUsersSuccessMessage: initialPostSelectedUsersData ? initialPostSelectedUsersData.msg : "Users Added",
+                postSelectedUsersSuccessMessage: initialPostSelectedUsersData?.msg || "Users Added",
                 postSelectedUsersSuccessfully: true
             }
 
