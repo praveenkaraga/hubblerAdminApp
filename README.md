@@ -135,13 +135,30 @@ In all conditions Left Search will come before and after selecting User or Data
 
 ##### below props will get active if `allSelect` will be `true` (right Side Search with suggestions)
 
+* **onClickAddUserButton** {function}: On click of the Add User Icon which is on the right side of the searchDropdown
+
+All Props of searchDropdown Component (<a name="search-with-dropdown" href="#search-with-dropdownsearchdropdown">Click Here to read about them.</a>)
+
+<br/>
+
+**XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
+
+
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+
+## `Search With Dropdown{searchDropdown}`
+(containing propfile pic , name and designations)
+
 * **searchDropdownPlaceholder** {"String"}{default : "Search and Add"} : Name of Second Button
 
 * **onChangeSearchDropdown** {function(data){data}} : onChange of input of the search you can get the data as the first argument of the function you will pass in prop
 
-* **searchDropdownData** {Array of Objects} : Data to be shown in suggestions(name and _id key is compulsory in each object)
+* **searchDropdownData** {Array of Objects} : Data to be shown in suggestions(name and _id key is compulsory in each object). And for profile pic and designation the normal keys that we get in users data will work
 
-* **onSearchDropdownSelect** {function(data){data}} : onSelect of any one User? data from suggestion. You have to pass a function in which value will come as first argument of that function <br/>
+* **onSearchDropdownSelect** {function(data){data}} : onSelect of any one User? data from suggestion. You have to pass a function in which value will come as first argument of that function 
 
 **XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
 
@@ -176,6 +193,8 @@ In all conditions Left Search will come before and after selecting User or Data
 * **onSinglePanelClick** {function}  : OnClick of Single item of DropDown {function(data){data}} //you will get the whole object of the selected item
 
 * **onClickSetting** {function}  : OnClick of Setting Icon of items in DropDown {function(data){data}} //you will get the whole object of the selected item
+
+* **onClickAdd** {function}  : OnClick of Plus Icon of Header of DropDown 
 
 * **onClickDelete** {function}  : OnClick of Delete Icon of items in DropDown {function(data){data}} //you will get the whole object of the selected item {if you want all actions on delete pop up then don't pass this}
 
@@ -239,6 +258,36 @@ In all conditions Left Search will come before and after selecting User or Data
 ##### ** When one or more Table Data has been selected **
 Actions that has to be done on user or users will get activated {and based on few scenarios visible action buttons will change}(all scenarios has been covered in `UserSearch` Component Doc Above)
 
+* **showHeaderButtons** {Array of Objects} : How many Buttons you want from the given Options. 
+Options are(ids ) : "activate", "deactivate", "delete", "edit", "duplicate"
+
+Data example of `showHeaderButtons`
+
+```javascript
+    [
+        { 
+            id: "activate", // to change this from the above given options
+            label: "Activate User" // Text you want to show on tooltip of the button
+         },
+
+        { 
+            id: "deactivate", 
+            label: "Deactivate User" 
+        }
+    ]
+
+```
+* **disableButtonNames** {Array of texts} : array of is of buttons you want to disable. Disable means this buttons will be shown but will be in deactivated mode User cant do anything.
+Options are(ids ) : "activate", "deactivate", "delete", "edit", "duplicate"
+
+Example of `disableButtonNames`
+```javascript
+//suppose you want to disable edit and delete button
+["edit", "delete"]
+```
+
+
+According to above configurations only you will be able to use below props:
 * **onClickUserActivate** {function} : onClick of Activate Button
 
 * **onClickUserDeactivate** {function} : onClick of Deactivate Button
@@ -334,10 +383,15 @@ columnSettingData example :-
 
 * **userData** {Array of Objects} : will pass an Array with the datas to be populated according to headingData
 
-* **onChangeCheckBox** {function(data)} : onClick of checkboxes. You will get all data(array of ids selected) as the first argument of the passed function
+* **onChangeCheckBox** {function(selectedRowsKeys, selectedRows)} : onClick of checkboxes you will get two data data. First argument will give array of keys of all selectd data and Second Argument will give the data of the selected rows on that particular view.
+
+* **onSelectRow** {function(record, selected, selectedRows)} : onClick of Checkboxes of each row you will get three arguments. First will give the data of the current selected row. Second will give boolean(true if selected and false if unselected) of the current selected row. Third will give you the Data of all selected rows on that particular view. 
+
+* **onSelectAll** {function(selected, selectedRows)} : onClick of Slect All CheckBox. First argument will give boolean(true if selected and false if unselected). Second argument will give data of all the selectd and unselected of that view page
 
 * **onClickTableRow** {function(rowData)} : onClick of Each full row of table. You will get whole object of that particular clicked column as the first argument.
 
+* **selectedDataCount** {Number} : Number of Data selected. It is compulsory to pass this props if you wants to show header for different actions. And also can unselect all the selected data just by passing 0 in this props. 
 
 
 Below three props scenarios has been explaned above in UserSearch Comp. 
@@ -369,6 +423,7 @@ Below three props scenarios has been explaned above in UserSearch Comp.
 
 **XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
 
+<p>&nbsp;</p>
 <p>&nbsp;</p>
 
 ## `Creation Popup {CreationPopUp}`

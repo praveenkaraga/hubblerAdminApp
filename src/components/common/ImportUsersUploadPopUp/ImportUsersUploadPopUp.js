@@ -33,7 +33,8 @@ class SystemFieldsList extends Component {
 }
 
 class ExcelFieldsList extends Component {
-    onChange(index, ele, mappings, value) {
+    onChange(index, ele, mappings, slicedDataFilled, value) {
+        let {switchStatus} = this.props
         let matchedObj = find(this.props.uploadPopUpData.sheet_columns, ['_id', value]);
         let dataObj = {
             value: value,
@@ -41,6 +42,19 @@ class ExcelFieldsList extends Component {
             ele: ele,
             patchData: matchedObj
         };
+        console.log(dataObj)
+
+        let sampleDataModeled = map(slicedDataFilled, item => {
+            if (item._id === dataObj.ele._id) {
+                return {...item, data: dataObj.patchData.data,name: dataObj.patchData.name}
+
+            } else {
+                return item
+            }
+        })
+
+        console.log(sampleDataModeled)
+
         let dob = map(mappings, function (inEle, ind) {
             if (index === ind) {
                 return {...inEle, matchedId: value}
@@ -48,9 +62,7 @@ class ExcelFieldsList extends Component {
                 return {...inEle}
             }
         })
-
-        this.props.setDropValue(dataObj);
-        console.log(dob)
+        this.props.setDropValue(dataObj, dob, sampleDataModeled);
     }
 
 
@@ -59,10 +71,10 @@ class ExcelFieldsList extends Component {
     }
 
     render() {
-        const {uploadPopUpData, switchStatus, mappings} = this.props;
+        const {uploadPopUpData, switchStatus, mappings,sampleDataModeled} = this.props;
         let slicedData = slice(uploadPopUpData.sheet_columns, 0, uploadPopUpData.fields.length)
         let count = slicedData.length < uploadPopUpData.fields.length ? uploadPopUpData.fields.length - slicedData.length : ''
-        let fillArrayData = fill(Array(count), {columnName: 'None', name: "None"})
+        let fillArrayData = fill(Array(count), {columnName: 'None', name: "None",data:"None"})
         let slicedDataFilled = count ? slicedData.concat(fillArrayData) : slicedData
         let _this = this
         return (
@@ -77,7 +89,7 @@ class ExcelFieldsList extends Component {
                                     style={{width: 300}}
                                     className={'dropDown'}
                                     optionFilterProp="children"
-                                    onChange={_this.onChange.bind(_this, index, ele, mappings)}
+                                    onChange={_this.onChange.bind(_this, index, ele, mappings, sampleDataModeled)}
                                     onSearch={_this.onSearch.bind(_this)}
                                     filterOption={(input, option) =>
                                         option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
@@ -86,7 +98,6 @@ class ExcelFieldsList extends Component {
                                     {map(uploadPopUpData.sheet_columns_original, function (inele, inde) {
                                         return <Option value={inele._id}
                                                        key={inele._id}>{switchStatus ? inele.name : `Column ${inele.columnName}`}</Option>
-
                                     })}
                                 </Select>
                             </div>
@@ -100,11 +111,11 @@ class ExcelFieldsList extends Component {
 
 class SampleDataList extends Component {
     render() {
-        const {uploadPopUpData, dropDownObj, switchStatus} = this.props;
+        const {uploadPopUpData, dropDownObj, switchStatus, sampleDataModeled} = this.props;
         let slicedData = slice(uploadPopUpData.sheet_columns, 0, uploadPopUpData.fields.length);
         let count = slicedData.length < uploadPopUpData.fields.length ? uploadPopUpData.fields.length - slicedData.length : ''
         let fillArrayData = fill(Array(count), {data: 'None', name: "None"})
-        let slicedDataFilled = count ? slicedData.concat(fillArrayData) : slicedData
+        let slicedDataFilled = /*count ? slicedData.concat(fillArrayData) : slicedData*/ sampleDataModeled ? sampleDataModeled : slicedData
         return (
             <ul className={'sample-data-list'}>
                 {
@@ -112,8 +123,8 @@ class SampleDataList extends Component {
                         return (<li className={'sample-data-list-item'} key={index}>
                             {dropDownObj.index === index ?
                                 <div
-                                    className={'field-holder'}>{switchStatus ? dropDownObj.patchData.data : dropDownObj.patchData.name} </div> :
-                                <div className={'field-holder'}>{switchStatus ? ele.data : ele.name} </div>}
+                                    className={'field-holder nush'}>{switchStatus ? dropDownObj.patchData.data : dropDownObj.patchData.name} </div> :
+                                <div className={'field-holder nush'}>{switchStatus ? ele.data : ele.name} </div>}
                         </li>)
                     })
                 }
@@ -132,11 +143,14 @@ class ImportUsersUploadPopUp extends Component {
         uploadOption: 'create',
         reqFieldIds: [],
         activateCancel: false,
+
     };
 
-    setDropValue = (dataObj) => {
+    setDropValue = (dataObj, dob, sampleDataModeled) => {
         this.setState({
-                dropDownObj: dataObj
+                dropDownObj: dataObj,
+                mappings: dob,
+                sampleDataModeled: sampleDataModeled
             }
         )
     }
@@ -149,12 +163,13 @@ class ImportUsersUploadPopUp extends Component {
 
     handleOk = e => {
         let _this = this
-        const {importUsersPopUpCloseHandler, uploadProps, sampleExcelFile, modalClose, isFileUploaded} = _this.props
+        const {importUsersPopUpCloseHandler, uploadProps, sampleExcelFile, modalClose, isFileUploaded, commonAction} = _this.props
         importUsersPopUpCloseHandler() //importUsersPopUpCloseHandler //uploadImportUsersPopUPVisibility
         uploadProps.onRemove(sampleExcelFile)
         if (_this.state.activateCancel || isFileUploaded) {
             modalClose()
         }
+        commonAction({isFileUploaded: false})
         this.setState({
             visible: false,
         });
@@ -213,11 +228,18 @@ class ImportUsersUploadPopUp extends Component {
             upload_type: this.state.uploadOption,
         }*/
         // patchImportUsersData(uploadPopUpData._id, patchData,)
-        patchImportUsersDataHandler(uploadPopUpData._id, omitIndexes,true,this.state.uploadOption)
+        patchImportUsersDataHandler(uploadPopUpData._id, omitIndexes, true, this.state.uploadOption)
     }
 
     componentDidMount() {
         let _this = this
+        const {uploadPopUpData} = this.props;
+        let slicedData = slice(uploadPopUpData.sheet_columns, 0, uploadPopUpData.fields.length)
+        let count = slicedData.length < uploadPopUpData.fields.length ? uploadPopUpData.fields.length - slicedData.length : ''
+        let fillArrayData = fill(Array(count), {columnName: 'None', name: "None",data:"None"})
+        let slicedDataFilled = count ? slicedData.concat(fillArrayData) : slicedData
+
+
         let mappingData = map(_this.props.uploadPopUpData.fields, function (ele, index) {
             return {
                 _id: ele._id,
@@ -234,6 +256,8 @@ class ImportUsersUploadPopUp extends Component {
         this.setState({
                 mappings: mappingData,
                 reqFields: compact(reqFields),
+                sampleDataModeled: slicedDataFilled
+
             }
         )
     }
@@ -287,7 +311,9 @@ class ImportUsersUploadPopUp extends Component {
     render() {
         const {importUsersUploadResponseData, uploadFileLoadingStatus, isFileUploaded} = this.props;
         const {importUsersUploadPopUpHeaderFirstButtonHandler, importUsersUploadPopUpFooterFirstButtonHandler, importUsersUploadPopUpFooterSecondButtonHandler} = this.props
-        const {importUsersUploadPopUpVisibility = false, importUsersUploadPopUpTitle = "IMPORT USERS", uploadPopUpData, fileName, importUsersUploadPopUpHeaderFirstButtonName = `Import Another File`, importUsersUploadPopUpFooterFirstButtonName = `Cancel`, importUsersUploadPopUpFooterSecondButtonName = `Process`, uploadingStatusText = 'Processing', footerSecondButtonPopUpTitle = `Import Status`, footerSecondButtonPopUpPrimaryButtonName = `Download Error Log`, footerSecondButtonPopUpSecondaryButtonName = `Done`, footerFirstButtonConfirmationPopUpTitle = `Cancel Excel Upload`, headerFirstButtonConfirmationPopUpTitle = `Import Another File`, confirmationPopUpPrimaryButtonName = `Cancel`, footerFirstButtonConfirmationPopUpSecondaryButtonName = `Ok`, headerFirstButtonConfirmationPopUpSecondaryButtonName = `Import`,headerFirstButtonConfirmationPopUpBodyText=`Are you sure you want to cancel the Excel Upload and Import another file ?` ,footerFirstButtonConfirmationPopUpBodyText =`Are you sure you want to cancel the Excel Upload?` } = this.props
+        const {
+            importUsersUploadPopUpVisibility = false, importUsersUploadPopUpTitle = "IMPORT USERS", uploadPopUpData, fileName, importUsersUploadPopUpHeaderFirstButtonName = `Import Another File`, importUsersUploadPopUpFooterFirstButtonName = `Cancel`, importUsersUploadPopUpFooterSecondButtonName = `Process`, uploadingStatusText = 'Processing', footerSecondButtonPopUpTitle = `Import Status`, footerSecondButtonPopUpPrimaryButtonName = `Download Error Log`, footerSecondButtonPopUpSecondaryButtonName = `Done`, footerFirstButtonConfirmationPopUpTitle = `Cancel Excel Upload`, headerFirstButtonConfirmationPopUpTitle = `Import Another File`, confirmationPopUpPrimaryButtonName = `Cancel`, footerFirstButtonConfirmationPopUpSecondaryButtonName = `Ok`, headerFirstButtonConfirmationPopUpSecondaryButtonName = `Import`, headerFirstButtonConfirmationPopUpBodyText = `Are you sure you want to cancel the Excel Upload and Import another file ?`, footerFirstButtonConfirmationPopUpBodyText = `Are you sure you want to cancel the Excel Upload?`
+        } = this.props
         let _this = this;
         return (
             <div>
@@ -335,14 +361,14 @@ class ImportUsersUploadPopUp extends Component {
                                 </Button>,
                             ]}
                         >
-                            {this.state.activateCancel ? footerFirstButtonConfirmationPopUpBodyText : headerFirstButtonConfirmationPopUpBodyText }
+                            {this.state.activateCancel ? footerFirstButtonConfirmationPopUpBodyText : headerFirstButtonConfirmationPopUpBodyText}
                             {/*{`Are you sure you want to cancel the ${this.state.activateCancel ? 'Excel Upload ' : 'Excel Upload and Import another file ?'}`}*/}
                         </Modal> : ''
                     }
                     {isFileUploaded ? <div>
                         {isEmpty(importUsersUploadResponseData.result) ? '' : <div>
                             <div>{`Success : ${importUsersUploadResponseData.result[0].created} ${importUsersUploadResponseData.result[0].lbl} Created`}</div>
-                            <div>{`Failure : ${importUsersUploadResponseData.result[0].invalid} ${importUsersUploadResponseData.result[0].lbl} Created`}</div>
+                            <div>{`Failure : ${importUsersUploadResponseData.result[0].invalid} ${importUsersUploadResponseData.result[0].lbl} Failed`}</div>
                         </div>}
 
                     </div> : <div>
@@ -374,7 +400,7 @@ class ImportUsersUploadPopUp extends Component {
                                         <Select onChange={_this.uploadUpdateOptionChange.bind(_this)}
                                                 mode="multiple"
                                                 placeholder={'Select'}
-                                                 className={'upload-update-select'}>
+                                                className={'upload-update-select'}>
                                             {map(this.state.reqFields, function (inele, inde) {
                                                 return <Option value={inele._id}
                                                                key={inele._id}>{inele.title}</Option>
@@ -396,7 +422,7 @@ class ImportUsersUploadPopUp extends Component {
                             <div className={'record-content-wrap'}>
                                 <SystemFieldsList {...this.props}/>
                                 <ExcelFieldsList {...this.props}
-                                                 setDropValue={(obj) => this.setDropValue(obj)}{...this.state}/>
+                                                 setDropValue={(obj, arr, sampleDataModeled) => this.setDropValue(obj, arr, sampleDataModeled)}{...this.state}/>
                                 <SampleDataList {...this.props} {...this.state}/>
                             </div>
                         </div>

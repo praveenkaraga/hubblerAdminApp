@@ -41,15 +41,6 @@ export const userConsoleMainReducer = (state = intialState, action) => {
                 customFieldsData: JSON.parse(JSON.stringify(customFieldsInitial))
             }
 
-        case actionTypes.GET_SINGLE_CIRCLE_DATA:
-            const singleCircleDataInitial = action.payload.data
-            return {
-                ...state,
-                singleCircleName: singleCircleDataInitial ? singleCircleDataInitial.name : "",
-                singleCircleCount: singleCircleDataInitial ? singleCircleDataInitial.total_count : 0,
-                singleCircleData: singleCircleDataInitial ? singleCircleDataInitial.result : []
-            }
-
 
         case actionTypes.GET_CIRCLE_SUGGESTION_DATA:
             const circleSuggestionDataInitial = action.payload.data.result
@@ -58,15 +49,6 @@ export const userConsoleMainReducer = (state = intialState, action) => {
                 circleSuggestionData: circleSuggestionDataInitial,
             }
 
-        case actionTypes.GET_SINGLE_FIELD_DATA:
-            const singleFieldDataInitial = action.payload.data
-            console.log(singleFieldDataInitial, "singleFieldDataInitial")
-            return {
-                ...state,
-                // singleFieldName: singleFieldDataInitial.name,
-                singleFieldCount: singleFieldDataInitial.total_count,
-                singleFieldData: singleFieldDataInitial ? singleCircleDataInitial.result : []
-            }
     }
 
 

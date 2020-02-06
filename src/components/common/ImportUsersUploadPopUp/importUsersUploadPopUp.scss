@@ -128,6 +128,7 @@
     overflow: hidden;
     white-space: nowrap;
     position: relative;
+    //height: 21px;
   }
 
   .field-holder em {
@@ -152,6 +153,10 @@
 
     }
 
+    .field-holder.nush{
+      min-height: 21px;
+    }
+
     .excel-field-list-item {
       .dropDown {
         .ant-select-arrow {
@@ -160,11 +165,13 @@
 
         .ant-select-selection.ant-select-selection--single {
           border: none;
+          box-shadow: none!important;
         }
 
         .ant-select-selection__placeholder {
           color: #444
         }
+
       }
     }
 

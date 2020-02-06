@@ -8,6 +8,8 @@ import Apps from './Apps'
 import map from "lodash/map";
 import AppsProfileTemplate from "./AppsProfileTemplate";
 import isArray from 'lodash/isArray'
+import moment from 'moment';
+
 
 const {TabPane} = Tabs;
 
@@ -38,6 +40,10 @@ class UserInfoSliderContent extends Component {
         const {teamUserData, userId, onCloseFunction, getTeamViewOrgData, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, clickedMemberData, contentLoader,changeLoaderStatus,sourceTeamView,clickedUserOrgData,url,clickedTeamUserData} = this.props
         let memberData = sourceTeamView ? clickedMemberData : teamUserData
         let teamUsersProAppData = sourceTeamView ? clickedTeamUserData : clickedTeamUserData
+
+        let deactivationDate = teamUserData.deactivation_details ? moment(teamUserData.deactivation_details.at, 'DDMMYYYY HH:mm').format('DD MMM YYYY, HH:mm A') : '';
+        let deactivator = teamUserData.deactivation_details ? teamUserData.deactivation_details.by.name : ''
+
         console.log(teamUserData)
 
         return (
@@ -61,8 +67,9 @@ class UserInfoSliderContent extends Component {
                             className={'user-designation'}>{memberData.designations ? this.checkType(memberData.designations) : ''}</div>
                         {/*<div className={'user-location'}>Location : Bangalore</div>*/}
                     </div> : ''}
-
                 </div>
+                {memberData.deactivate ? <div className={'user-deactivated-status'}>{`Deactivated on ${deactivationDate} by ${deactivator}`}</div> : ''}
+
                 <div className={'user-details-content'}>
                     <Tabs defaultActiveKey="personal"
                           onChange={(key) => this.callOnChange(key, this.props.getTeamViewOrgData, url ,changeLoaderStatus)}

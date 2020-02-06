@@ -37,6 +37,12 @@
             }
 
         }
+
+        .single_notDraggable:hover{
+            .cross_img{
+                visibility: unset;
+            }
+        }
         
     }
 
