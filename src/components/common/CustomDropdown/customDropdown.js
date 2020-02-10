@@ -126,9 +126,6 @@ class CustomDropdown extends Component {
 
     }
 
-    confirm = (event) => {
-        event.stopPropagation()
-    }
 
     onVisibleChange = (status, id) => {
         this.setState({
@@ -137,9 +134,19 @@ class CustomDropdown extends Component {
         })
     }
 
+
+    confirmOrCancel = (event, data, type) => {
+        event.stopPropagation()
+        if (type === "confirm") {
+            if (this.props.onDeleteConfirmClick) this.props.onDeleteConfirmClick(data)
+        } else {
+            if (this.props.onDeleteCancelClick) this.props.onDeleteCancelClick(data)
+        }
+    }
+
     render() {
         const { activeCollapse, panelDataActive, localPanelData, popConfirmActive, panelWithPopActive } = this.state
-        const { panelDataype, panelData, onDeleteConfirmClick = this.confirm, onDeleteCancelClick = this.confirm, popUpConfirmButtonName = "Confirm",
+        const { panelDataype, panelData, popUpConfirmButtonName = "Confirm",
             popUpCancelButtonName = "Cancel" } = this.props
         const finalMapData = localPanelData.length ? localPanelData : panelData
         return (
@@ -163,8 +170,8 @@ class CustomDropdown extends Component {
                                             <img className="setting_icon" src={require("../../../images/svg/settings_grey.svg")} onClick={(e) => this.actionButtonsClick(e, "settings", data)} alt="setting" />
                                             <Popconfirm
                                                 title={<p>Are you sure want to delete: <span className="name">{data.name}</span></p>}
-                                                onConfirm={onDeleteConfirmClick}
-                                                onCancel={onDeleteCancelClick}
+                                                onConfirm={(event) => this.confirmOrCancel(event, data, "confirm")}
+                                                onCancel={(event) => this.confirmOrCancel(event, data, "cancel")}
                                                 okText={popUpConfirmButtonName}
                                                 cancelText={popUpCancelButtonName}
                                                 onVisibleChange={(status) => this.onVisibleChange(status, data._id)}

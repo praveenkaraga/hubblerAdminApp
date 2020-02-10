@@ -3,7 +3,13 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import AllUserSelect from '../allUserSelect/allUserSelect'
 import './designations.scss'
-import { designationsData, postCommonCreateData, commonActionForCommonReducer, patchCommonCreateData } from '../../store/actions/actions'
+import {
+    designationsData,
+    postCommonCreateData,
+    commonActionForCommonReducer,
+    patchCommonCreateData,
+    postCommonDelete
+} from '../../store/actions/actions'
 import { withRouter } from "react-router-dom";
 import CreationPopUp from '../../components/common/CreationPopUp/CreationPopUp'
 import { message } from 'antd'
@@ -134,7 +140,7 @@ class Designations extends Component {
         const { patchDataCreatedSuccessfully, patchSuccessMessage, newDataCreatedSuccessfully, errorMsg } = this.props.commonReducer // will be true if success is true from above post api and pop up will be closed
         if (type === "edit" ? patchDataCreatedSuccessfully : newDataCreatedSuccessfully) {
             this.setState({ creationPopUpVisibility: false, checkedDataKeys: [] })
-            message.success(type === "edit" ? "Saved Successfully" : "Created Successfully ");
+            message.success(type === "edit" ? "Designation Saved Successfully" : "Designation Created Successfully ");
             this.props.commonActionForCommonReducer({ patchDataCreatedSuccessfully: false, newDataCreatedSuccessfully: false })
             this.props.designationsData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
         } else {
@@ -145,8 +151,23 @@ class Designations extends Component {
 
 
 
-    onClickDesignationActions = (actionType) => {
-        this.setState({ creationPopUpVisibility: true, creationPopUpMode: "edit" })
+    onClickDesignationActions = async (actionType) => {
+        const { checkedDataKeys, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType } = this.state
+        if (actionType === "edit") {
+            this.setState({ creationPopUpVisibility: true, creationPopUpMode: "edit" })
+        } else {
+            await this.props.postCommonDelete("designations", { designations: checkedDataKeys })
+            const { postDeletedDataSuccessfulMessage, postDeletedDataSuccessfully, errorMsg } = this.props.commonReducer
+            if (postDeletedDataSuccessfully) {
+                message.success(postDeletedDataSuccessfulMessage)
+                this.props.designationsData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
+                this.props.commonActionForCommonReducer({ postDeletedDataSuccessfully: false })
+            } else {
+                message.error(errorMsg)
+                this.props.designationsData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
+            }
+            this.setState({ checkedDataKeys: [] })
+        }
     }
 
 
@@ -226,7 +247,8 @@ const mapDispatchToProps = dispatch => {
             designationsData,
             postCommonCreateData,
             commonActionForCommonReducer,
-            patchCommonCreateData
+            patchCommonCreateData,
+            postCommonDelete
         },
         dispatch
     );

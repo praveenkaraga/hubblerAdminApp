@@ -197,8 +197,12 @@ export const postCommonRemovePeopleApi = (viewType, data) => {
 }
 
 
-export const postCommonActionOnUserApi = (typeOfAction, data, viewType) => { //actions on users
+export const postCommonActionOnUserApi = (typeOfAction, data) => { //actions on users for console view only
     return axios.post(`/${typeOfAction === "delete" ? "rest/users" : "users"}/${typeOfAction}/`, data, axiosConfig)
+}
+
+export const postCommonDeleteApi = (viewType, data) => {
+    return axios.post(`/rest/${viewType}/delete/`, data, axiosConfig)
 }
 
 export const postCommonAddSelectedUsersDataApi = (viewType, data) => {

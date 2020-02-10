@@ -14,7 +14,8 @@ import {
     patchCommonCreateData,
     commonActionForCommonReducer,
     getLoginSessionData,
-    postCommonCreateData
+    postCommonCreateData,
+    postCommonDelete
 } from '../../store/actions/actions'
 import Console from '../../components/console/Console'
 import TeamView from '../../components/teamView/TeamView'
@@ -139,7 +140,7 @@ class UserConsoleView extends Component {
 
     onSaveCreationPopUp = async (type) => {
         const { creationPopUpInputData, creationPopUpData, fieldPopUpSelectData, fieldPopUpSwitchData } = this.state
-        const popUpMode = creationPopUpData.mode // type of pop which is opening //popUpType
+        const popUpMode = creationPopUpData.mode // type of pop which is opening 
         const popUpDataType = creationPopUpData.type
         const finalDataCircle = { name: creationPopUpInputData }
         const finalDataField = {
@@ -160,11 +161,7 @@ class UserConsoleView extends Component {
             message.success(popUpMode === "setting" ? "Saved Successfully" : "Created Successfully")
             this.setState({ creationPopUpVisibility: false })
             this.props.commonActionForCommonReducer({ patchDataCreatedSuccessfully: false, newDataCreatedSuccessfully: false })
-            if (popUpDataType === "circles") {
-                this.props.getCirclesData()
-            } else {
-                this.props.getCustomFields()
-            }
+            popUpDataType === "circles" ? this.props.getCirclesData() : this.props.getCustomFields()
         } else {
             message.error(errorMsg);
         }
@@ -207,6 +204,27 @@ class UserConsoleView extends Component {
 
     }
 
+    onDeleteConfirmClick = async (panelData, panelType) => {
+        const changeType = panelType === "fields" ? "nodes" : "circles"
+        await this.props.postCommonDelete(changeType, { [changeType]: [panelData._id] })
+        const { postDeletedDataSuccessfulMessage, postDeletedDataSuccessfully, errorMsg } = this.props.commonReducer
+        if (postDeletedDataSuccessfully) {
+            message.success(postDeletedDataSuccessfulMessage)
+            panelType === "circles" ? this.props.getCirclesData() : this.props.getCustomFields()
+            this.props.commonActionForCommonReducer({ postDeletedDataSuccessfully: false })
+
+            //checking if the open view is of the deliting fields or circles...
+            //if it is then after deleting we are deriecting them to console page
+            const currentUrl = this.props.history.location
+            const currentUrlDataArray = currentUrl.pathname.split("/")
+            if (currentUrlDataArray.includes(panelData._id)) this.props.history.push("/people/console")
+
+        } else {
+            message.error(errorMsg)
+        }
+
+    }
+
     render() {
         const { activeLinkName } = this.props.firstReducer
         const { circlesData, customFieldsData } = this.props.userConsoleMainReducer
@@ -234,7 +252,7 @@ class UserConsoleView extends Component {
                         {this.customDropdownData.map(singleData => (
                             <CustomDropdown panelDataype={singleData.type} searchPlaceHolder={singleData.searchPlaceHolder} panelData={singleData.type === "circles" ? circlesData : customFieldsData}
                                 onSinglePanelClick={(data) => this.onSinglePanelClick(data, singleData.type)} headingName={singleData.headingName} onClickSetting={(data) => this.dropDownSettingAction(data, singleData.type)}
-                                onClickAdd={() => this.onClickAdd(singleData.type)}
+                                onClickAdd={() => this.onClickAdd(singleData.type)} onDeleteConfirmClick={(data) => this.onDeleteConfirmClick(data, singleData.type)}
                             />
                         ))
                         }
@@ -318,7 +336,8 @@ const mapDispatchToProps = dispatch => {
             patchCommonCreateData,
             commonActionForCommonReducer,
             getLoginSessionData,
-            postCommonCreateData
+            postCommonCreateData,
+            postCommonDelete
         },
         dispatch
     );

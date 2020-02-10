@@ -35,6 +35,7 @@ class Console extends Component {
             visibleColumnSetting: false
         }
         this.selectedUsers = []
+        this.ifSelectedAllData = []
     }
 
     componentDidMount() {
@@ -50,19 +51,27 @@ class Console extends Component {
         this.props.commonConsoleAction({ currentPageNumber: 1, searchData, searchLoader: true })
     }
 
-
-    onChangeCheckBox = (selectedRowsKeys, selectedRows) => {
-        const checkedDataKeys = selectedRowsKeys
+    whenSelectingUsers = (selectedRows) => {
         selectedRows.forEach(element => { // taking all the id and status of deactivate of selected data from any page
             if (!this.selectedUsers.find(data => data._id === element._id)) { // making the data unique
                 this.selectedUsers.push({ _id: element._id, deactivate: element.deactivate })
             }
         });
+    }
+
+    whenUnSelectingUsers = (toBeRemovedOne) => {
+        const indexOfRemovedData = this.selectedUsers.map(data => data._id).indexOf(toBeRemovedOne._id) //taking the index from the array of objects
+        this.selectedUsers.splice(indexOfRemovedData, 1)
+    }
+
+
+    onChangeCheckBox = (selectedRowsKeys, selectedRows) => {
+        const checkedDataKeys = selectedRowsKeys
+        this.whenSelectingUsers(selectedRows)
         this.setState({ checkedDataKeys })
     }
 
     changeStatusOfUserAction = (selectedDataOriginal) => { //handelling the case to enable and disable the activate and deactivate button on selection
-
         const selectedData = selectedDataOriginal.map(data => data.deactivate)
         let disableHeaderButtonNames = []
         if (selectedData.includes(true) && (selectedData.includes(false) || selectedData.includes(undefined))) {
@@ -78,8 +87,7 @@ class Console extends Component {
 
     onSelectRow = (record, selected) => {
         if (!selected) { // removing the unselected data from the array
-            const indexOfRemovedData = this.selectedUsers.map(data => data._id).indexOf(record._id) //taking the index from the array of objects
-            this.selectedUsers.splice(indexOfRemovedData, 1)
+            this.whenUnSelectingUsers(record)
         }
         this.changeStatusOfUserAction(this.selectedUsers)
     }
@@ -118,25 +126,6 @@ class Console extends Component {
 
 
     onClickUserActions = (typeOfAction) => {
-
-        //     switch (typeOfAction) {
-        //         case "activate":
-        //             this.actionOnUser("activate")
-        //             break;
-        //         case "deactivate":
-        //             this.actionOnUser("deactivate")
-        //             break;
-        //         case "delete":
-        //             this.actionOnUser("delete")
-        //             break;
-
-        //         case "edit":
-        //             console.log("edit")
-        //             break;
-
-        //         default:
-        //             alert("Some error occured")
-        //     }
         console.log(typeOfAction)
     }
 
@@ -178,7 +167,6 @@ class Console extends Component {
         this.setState({
             clickedMemberData: rowData
         })
-        // const { clickedTeamUserData } = this.props.teamViewReducer
         this.onCloseUserInfo(true, rowData._id)
     }
 
@@ -188,12 +176,6 @@ class Console extends Component {
             userId,
             userData
         })
-    }
-
-    showButtons = () => {
-        return [{ id: "activate", label: "Activate User" }, { id: "deactivate", label: "Deactivate User" },
-        { id: "edit", label: "Edit User" }, { id: "delete", label: "Delete User" }]
-
     }
 
 
@@ -229,6 +211,24 @@ class Console extends Component {
         }
     }
 
+
+    onClickSelectAllCheckBox = (selected, selectedRows) => {
+        if (selected) { // removing the unselected data from the array
+            this.ifSelectedAllData = selectedRows
+            this.whenSelectingUsers(selectedRows)
+        } else {
+            this.ifSelectedAllData.forEach(ifSelectedData => {
+                this.whenUnSelectingUsers(ifSelectedData)
+            })
+        }
+        this.changeStatusOfUserAction(this.selectedUsers)
+    }
+
+    showButtons = () => {
+        return [{ id: "activate", label: "Activate User" }, { id: "deactivate", label: "Deactivate User" },
+        { id: "edit", label: "Edit User" }, { id: "delete", label: "Delete User" }]
+
+    }
 
 
     render() {
@@ -292,6 +292,8 @@ class Console extends Component {
 
                     //to empty the selected Data
                     selectedDataCount={checkedDataKeys.length}
+
+                    onSelectAll={this.onClickSelectAllCheckBox}
 
 
                 />

@@ -5,7 +5,8 @@ import {
     getSingleViewData,
     getSingleViewSuggestionData,
     postCommonAddSelectedUsersData,
-    postCommonRemovePeople
+    postCommonRemovePeople,
+    commonActionForCommonReducer
 } from '../../store/actions/actions'
 import CommonCreationView from '../common/CommonCreationView/CommonCreationView'
 import { headingData } from './headingData'
@@ -219,7 +220,6 @@ class CommonSingleOpenView extends Component {
     }
 
     onSearchDropdownSelect = async (value) => {
-        console.log(value, "onSearchDropdownSelect")
         await this.addUsersPopUpOnChangeCheckBox([value])
         this.onClickAddSelectedButton()
         this.onChangeSearchDropdown("")
@@ -232,11 +232,11 @@ class CommonSingleOpenView extends Component {
             if (viewType === "nodes") finalData["node_item_id"] = subNodeId
             await this.props.postCommonRemovePeople(viewType, finalData)
             const { postRemovePeopleSuccessfully, postRemovePeopleSuccessMessage, errorMsg } = this.props.commonReducer
-            console.log(postRemovePeopleSuccessfully, "postRemovePeopleSuccessfully")
             if (postRemovePeopleSuccessfully) {
                 this.props.getSingleViewData(viewType, singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType, subNodeId)
                 this.setState({ currentPageNumber: 1, checkedDataKeys: [] })
                 message.success(postRemovePeopleSuccessMessage)
+                this.props.commonActionForCommonReducer({ postRemovePeopleSuccessfully: false })
             } else {
                 message.error(errorMsg)
             }
@@ -292,11 +292,7 @@ class CommonSingleOpenView extends Component {
             addUsersChangePage={this.addUsersChangePage}
             addUsersCurrentPageNumber={addUsersCurrentPageNumber}
             addUsersPopUpFirstButtonClick={this.onClickAddSelectedButton}
-        //addUsersPopUpFirstButtonClick
-        // addUsersPopUpOnChangeCheckBox
 
-        // addUsersCurrentPageNumber
-        // addUsersSearchLoader
         />)
     }
 }
@@ -314,7 +310,8 @@ const mapDispatchToProps = dispatch => {
             getSingleViewData,
             getSingleViewSuggestionData,
             postCommonAddSelectedUsersData,
-            postCommonRemovePeople
+            postCommonRemovePeople,
+            commonActionForCommonReducer
         },
         dispatch
     );

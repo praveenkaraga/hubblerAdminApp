@@ -16,7 +16,9 @@ const intialState = {
     postSelectedUsersSuccessMessage: "",
     postSelectedUsersSuccessfully: false,
     postRemovePeopleSuccessfully: false,
-    postRemovePeopleSuccessMessage: ""
+    postRemovePeopleSuccessMessage: "",
+    postDeletedDataSuccessfulMessage: "",
+    postDeletedDataSuccessfully: false
 }
 
 export const commonReducer = (state = intialState, action) => {
@@ -110,6 +112,15 @@ export const commonReducer = (state = intialState, action) => {
                 ...state,
                 postRemovePeopleSuccessMessage: intitialRemovePeopleData ? intitialRemovePeopleData.msg : "Users Removed",
                 postRemovePeopleSuccessfully: true
+            }
+
+
+        case actionTypes.POST_COMMON_DELETE:
+            const intialDeleteData = action.payload.data
+            return {
+                ...state,
+                postDeletedDataSuccessfulMessage: intialDeleteData?.result?.message || "Deleted Successfully",
+                postDeletedDataSuccessfully: true
             }
 
     }

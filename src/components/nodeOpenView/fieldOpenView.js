@@ -3,7 +3,14 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import AllUserSelect from '../allUserSelect/allUserSelect'
 import './nodeOpenView.scss'
-import { designationsData, postCommonCreateData, commonActionForCommonReducer, patchCommonCreateData, getSingleFieldData } from '../../store/actions/actions'
+import {
+    designationsData,
+    postCommonCreateData,
+    commonActionForCommonReducer,
+    patchCommonCreateData,
+    getSingleFieldData,
+    postCommonActionOnUser
+} from '../../store/actions/actions'
 import { withRouter } from "react-router-dom";
 import CreationPopUp from '../../components/common/CreationPopUp/CreationPopUp'
 import { message } from 'antd'
@@ -37,14 +44,29 @@ class FieldOpenView extends Component {
         this.updateNodeId(true)
     }
 
+    static getDerivedStateFromProps(nextProps, prevState) {
+
+        if (prevState.patchDataCreatedSuccessfully !== nextProps.commonReducer.patchDataCreatedSuccessfully) {
+            return {
+                patchDataCreatedSuccessfully: nextProps.commonReducer.patchDataCreatedSuccessfully
+            };
+        }
+
+
+        if (nextProps.viewType !== prevState.viewType) {
+            return { viewType: nextProps.viewType }
+        }
+        return null;
+    }
+
     componentDidUpdate(prevProps, prevState) {
         const currentNodeId = getNodeId(this.props.history)
 
-        // if (prevState.patchDataCreatedSuccessfully) {
-        //     if (this.props.commonReducer.patchDataCreatedSuccessfully !== prevState.patchDataCreatedSuccessfully) {
-        //         this.updateNodeId()
-        //     }
-        // }
+        if (prevState.patchDataCreatedSuccessfully) {
+            if (this.props.commonReducer.patchDataCreatedSuccessfully !== prevState.patchDataCreatedSuccessfully) {
+                this.updateNodeId()
+            }
+        }
 
         const { apiCallFlag } = this.state
         if (prevState.singleNodeId !== currentNodeId && !apiCallFlag) {
@@ -135,7 +157,9 @@ class FieldOpenView extends Component {
 
 
     onFieldItemActions = (actionType) => {
-        this.setState({ creationPopUpVisibility: true, creationPopUpMode: "edit" })
+        // const { singleNodeId, filterKeyId, checkedDataKeys } = this.state
+        actionType === "edit" ? this.setState({ creationPopUpVisibility: true, creationPopUpMode: "edit" }) : message.info("Delete Fields items has to be implemented. Please Try again later...")
+        // this.props.postCommonActionOnUser("delete", { _id: singleNodeId, users: checkedDataKeys })
     }
 
     onSaveEditOrCreateField = async (type) => {
@@ -261,7 +285,8 @@ const mapDispatchToProps = dispatch => {
             postCommonCreateData,
             commonActionForCommonReducer,
             patchCommonCreateData,
-            getSingleFieldData
+            getSingleFieldData,
+            postCommonActionOnUser
         },
         dispatch
     );

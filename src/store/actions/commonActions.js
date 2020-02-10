@@ -7,7 +7,8 @@ import {
     getLoginSessionDataApi,
     getSingleFieldDataApi,
     postCommonAddSelectedUsersDataApi,
-    postCommonRemovePeopleApi
+    postCommonRemovePeopleApi,
+    postCommonDeleteApi
 } from '../../apiCall'
 
 export const getSingleViewData = (viewType, id, perPageRows, currentPage, searchData, headingData, sortingType, id2) => {
@@ -91,4 +92,13 @@ export const postCommonRemovePeople = (viewType, data) => {
         payload
     }
 
+}
+
+
+export const postCommonDelete = (viewType, data) => {
+    const payload = postCommonDeleteApi(viewType, data)
+    return {
+        type: actionTypes.POST_COMMON_DELETE,
+        payload
+    }
 }
