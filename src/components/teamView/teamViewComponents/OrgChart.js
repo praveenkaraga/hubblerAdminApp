@@ -62,9 +62,6 @@ class OrgChart extends Component {
 
     render() {
         const {orgChartUsers, rootData, preservedData} = this.props.teamViewReducer
-        console.log(rootData)
-        console.log(orgChartUsers)
-        console.log(preservedData)
 
         return (
             <div className={'org-chart'}>

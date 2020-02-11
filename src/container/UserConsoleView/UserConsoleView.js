@@ -36,6 +36,7 @@ import {
 } from "react-router-dom";
 import {message} from 'antd'
 import './userConsoleView.scss'
+import isEmpty from 'lodash/isEmpty'
 
 const routes = [
     {
@@ -228,7 +229,9 @@ class UserConsoleView extends Component {
     }
 
     creationPopUpFourthFieldChangeHandler = (data) => {
-        if(data){
+        const {parentNodeOptions} = this.props.userConsoleMainReducer
+
+        if(data && isEmpty(parentNodeOptions)){
             this.props.commonUserConsoleAction({parentNodeSwitch : true})
             this.props.getParentNodeOptionsData()
         }
@@ -238,7 +241,6 @@ class UserConsoleView extends Component {
     render() {
         const {activeLinkName} = this.props.firstReducer
         const {circlesData, customFieldsData,parentNodeOptions,parentNodeSwitch} = this.props.userConsoleMainReducer
-        console.log(parentNodeOptions)
         const {creationPopUpVisibility, creationPopUpData, creationPopUpInputData} = this.state
         return (
             <div className={'user-console-view'}>
