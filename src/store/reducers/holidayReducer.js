@@ -53,7 +53,7 @@ export const holidayReducer = (state = initialState, action) => {
 
 
 
-        case actionTypes.POST_CREATE_DEPARTMENT_DATA:
+        /*case actionTypes.POST_CREATE_DEPARTMENT_DATA:
             const initialData = action.payload.data;
             const data = initialData ? initialData : {};
             return {
@@ -115,7 +115,7 @@ export const holidayReducer = (state = initialState, action) => {
                 ...state,
                 editUserDataFormMain: editUserDataFormInitial,
                 editUserDataForm: JSON.parse(JSON.stringify(editUserDataFormInitial))
-            }
+            }*/
 
 
     }

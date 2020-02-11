@@ -7,6 +7,7 @@ import {
     getLoginSessionDataApi,
     getSingleFieldDataApi
 } from '../../apiCall'
+import axios from "axios";
 
 export const getSingleViewData = (viewType, id, perPageRows, currentPage, searchData, headingData, sortingType) => {
     const payload = getSingleViewDataApi(viewType, id, perPageRows, currentPage, searchData, headingData, sortingType)
@@ -44,14 +45,12 @@ export const commonActionForCommonReducer = (payload) => {
 
 
 export const patchCommonCreateData = (createForType, id, data) => {
-    const payload = patchCommonCreateDataApi(createForType, id, data)
+    const payload = patchCommonCreateDataApi(createForType, id, data);
     return {
         type: actionTypes.PATCH_COMMON_CREATE_DATA,
         payload
     }
 }
-
-
 
 //Login Session Get Api
 export const getLoginSessionData = () => {
