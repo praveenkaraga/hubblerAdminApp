@@ -20,7 +20,7 @@ class AllTypes extends Component {
         this.state = {}
     }
 
-    filterRulesForDate = (normalRules) => {
+    filterRulesForDate = (normalRules) => { //removing max and min length wherever we don't them... {like in date}
         let filteredData = normalRules.filter(data => "required" in data)
         return filteredData
     }
@@ -28,6 +28,7 @@ class AllTypes extends Component {
     render() {
         const { type, required, label, minLength, maxLength } = this.props
         const customValidationRules = validationRules(required, label, minLength, maxLength)
+        console.error = () => { }
         console.warn = () => { }
 
         switch (type) {

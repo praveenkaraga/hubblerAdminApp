@@ -13,7 +13,7 @@ class CustomForm extends Component {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
+                console.log('Received values from form: ', values);
             }
         });
     }
@@ -29,7 +29,14 @@ class CustomForm extends Component {
 
                     <AllTypes key={data.id + data.tatabIndexb} fieldId={data.id}
                         type={data.type} minLength={data.minlength} maxLength={data.maxlength}
-                        required={data.required} label={data.label} options={data.options} placeholder={data.placeholder} getFieldDecorator={getFieldDecorator} />
+                        required={data.required}
+                        label={data.label}
+                        options={data.options}
+                        placeholder={data.placeholder}
+                        getFieldDecorator={getFieldDecorator}
+                        style={{ width: '60%', marginRight: 8, marginLeft: 20 }}
+                        form={this.props.form}
+                        repeating={data.repeating} />
                 ))
 
                 }

@@ -3,6 +3,7 @@ import { Tabs, Popover, Button, Form } from 'antd';
 import './addUser.scss'
 import ImageCropper from '../common/ImageCropper/imageCropper'
 import CustomForm from '../common/CustomForm/customForm'
+import ProfilesAddUser from './profilesAddUser'
 
 const { TabPane } = Tabs;
 
@@ -37,7 +38,7 @@ class AddUser extends Component {
 
         const { onClickClose, addUserDataForm } = this.props
         const { croppedImage } = this.state
-
+        console.log(addUserDataForm, "addUserDataForm")
         const profileImgcontent = (
             <div className="actionButtons">
                 <label for="uploadPhoto-ImageCropper"> <div>Upload</div></label>
@@ -96,7 +97,7 @@ class AddUser extends Component {
                                 Tab 3
                             </TabPane>
                             <TabPane key="4" tab="Profiles">
-                                Tab 4
+                                <ProfilesAddUser />
                             </TabPane>
                         </Tabs>
 

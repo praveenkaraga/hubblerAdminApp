@@ -13,7 +13,7 @@ class TextArea extends Component {
         console.warn = () => { }
         return (
             <Form.Item label={label}>
-                {getFieldDecorator(fieldId, config)(<Input.TextArea autoSize={{ minRows: 3, maxRows: 5 }} />)}
+                {getFieldDecorator(fieldId, config)(<Input.TextArea autoSize={{ minRows: 3, maxRows: 5 }} {...this.props} />)}
             </Form.Item>);
     }
 }
