@@ -78,10 +78,19 @@ class ColumnSetting extends Component {
         )
     }
 
-    onColumnSetingFinalAction = (status) => {
+    onColumnSetingFinalAction = async (status) => {
         const { columnDataDraggable, columnDataNotDraggable } = this.state
         if (status && this.props.onColumnSettingSave) {
             this.props.onColumnSettingSave([...columnDataNotDraggable, ...columnDataDraggable])
+        } else {
+            if (this.props.onColumnSettingCancel) this.props.onColumnSettingCancel()
+            this.setState({
+                columnData: this.props.columnData,
+                columnDataDraggable: this.props.columnData.filter(data => data.is_draggable),
+                columnDataNotDraggable: this.props.columnData.filter(data => !data.is_draggable),
+                checkedList: this.props.columnData.map(data => data._id),
+                columnSettingData: this.props.columnSettingData
+            })
         }
     }
 
@@ -133,7 +142,7 @@ class ColumnSetting extends Component {
                     </div>
 
                     <div className="save_and_cancel">
-                        <div className="cancel_button">Cancel</div>
+                        <div className="cancel_button" onClick={() => this.onColumnSetingFinalAction(false)}>Cancel</div>
                         <div className="save_button" onClick={() => this.onColumnSetingFinalAction(true)}>Save</div>
                     </div>
                 </div>

@@ -3,7 +3,14 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import AllUserSelect from '../allUserSelect/allUserSelect'
 import './nodeOpenView.scss'
-import { designationsData, postCommonCreateData, commonActionForCommonReducer, patchCommonCreateData, getSingleFieldData } from '../../store/actions/actions'
+import {
+    designationsData,
+    postCommonCreateData,
+    commonActionForCommonReducer,
+    patchCommonCreateData,
+    getSingleFieldData,
+    postCommonActionOnUser
+} from '../../store/actions/actions'
 import { withRouter } from "react-router-dom";
 import CreationPopUp from '../../components/common/CreationPopUp/CreationPopUp'
 import { message } from 'antd'
@@ -21,19 +28,168 @@ class FieldOpenView extends Component {
             sortingType: "",
             searchData: "",
             creationPopUpVisibility: false,
-            newDesignationName: "",
+            newFieldItemName: "",
             checkedDataKeys: [],
             creationPopUpMode: "add",
             editRowName: "",
-            editRowId: ""
+            editRowId: "",
+            singleNodeId: "",
+            filterKeyId: this.props.history.location.state.uniqueTableHeadingId,
+            apiCallFlag: false
         }
 
-        this.fieldsColumnData = [
+    }
+
+    componentDidMount() {
+        this.updateNodeId(true)
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+
+        if (prevState.patchDataCreatedSuccessfully !== nextProps.commonReducer.patchDataCreatedSuccessfully) {
+            return {
+                patchDataCreatedSuccessfully: nextProps.commonReducer.patchDataCreatedSuccessfully
+            };
+        }
+
+
+        if (nextProps.viewType !== prevState.viewType) {
+            return { viewType: nextProps.viewType }
+        }
+        return null;
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const currentNodeId = getNodeId(this.props.history)
+
+        if (prevState.patchDataCreatedSuccessfully) {
+            if (this.props.commonReducer.patchDataCreatedSuccessfully !== prevState.patchDataCreatedSuccessfully) {
+                this.updateNodeId()
+            }
+        }
+
+        const { apiCallFlag } = this.state
+        if (prevState.singleNodeId !== currentNodeId && !apiCallFlag) {
+            this.setState({ singleNodeId: currentNodeId, apiCallFlag: true, filterKeyId: this.props.history.location.state.uniqueTableHeadingId })
+            this.updateNodeId(false)
+        }
+        if (apiCallFlag) {
+            this.setState({ apiCallFlag: false })
+        }
+    }
+
+
+    updateNodeId = (status) => {
+        const nodeId = getNodeId(this.props.history)
+        if (status) this.setState({ singleNodeId: nodeId })
+        this.props.getSingleFieldData(nodeId, this.state.rowsPerPage)
+    }
+
+    fieldSearchData = (e) => {
+        const { singleNodeId, rowsPerPage, activeheading, sortingType, filterKeyId } = this.state
+        const searchData = e.target.value
+        this.props.getSingleFieldData(singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType, filterKeyId)
+        this.setState({
+            searchData,
+            currentPageNumber: 1
+        })
+    }
+
+
+    onClickHeadingColumn = (activeheading, sortingType) => {
+        const { rowsPerPage, searchData, currentPageNumber, singleNodeId, filterKeyId } = this.state
+        this.props.getSingleFieldData(singleNodeId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType, filterKeyId)
+        this.setState({
+            activeheading,
+            sortingType
+        })
+    }
+
+    onChangeCheckBox = (selectedRowsKeys, selectedRows) => {
+        const { filterKeyId } = this.state
+        let editRowName = ""
+        let editRowId = ""
+
+        if (selectedRows[0]) {
+            editRowName = selectedRows[0][filterKeyId]
+            editRowId = selectedRows[0]._id
+        }
+        this.setState({
+            checkedDataKeys: selectedRowsKeys,
+            editRowName,
+            editRowId,
+            newFieldItemName: editRowName
+        })
+    }
+
+
+    onChangeRowsPerPage = (rowsPerPage) => {
+        const { searchData, activeheading, sortingType, singleNodeId, filterKeyId } = this.state
+        this.props.getSingleFieldData(singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType, filterKeyId)
+        this.setState({
+            rowsPerPage,
+            currentPageNumber: 1
+        })
+    }
+
+
+    changePage = (calcData) => {
+        const { currentPageNumber, rowsPerPage, searchData, activeheading, sortingType, singleNodeId, filterKeyId } = this.state
+
+        const goToPage = currentPageNumber + calcData
+        this.props.getSingleFieldData(singleNodeId, rowsPerPage, goToPage, searchData, activeheading, sortingType, filterKeyId)
+        this.setState({
+            currentPageNumber: goToPage
+        })
+    }
+
+    onRowClick = (rowData) => {
+        const { singleNodeId, filterKeyId } = this.state
+        this.props.history.push(`/people/field/${singleNodeId}/${rowData._id}`, { uniqueTableHeadingId: filterKeyId })
+    }
+
+    creationPopUpInput = (e) => {
+        const { editRowName } = this.state
+        const inputData = e.target.value
+        this.setState({ newFieldItemName: inputData, editRowName: inputData ? editRowName : "" })
+    }
+
+
+
+    onFieldItemActions = (actionType) => {
+        // const { singleNodeId, filterKeyId, checkedDataKeys } = this.state
+        actionType === "edit" ? this.setState({ creationPopUpVisibility: true, creationPopUpMode: "edit" }) : message.info("Delete Fields items has to be implemented. Please Try again later...")
+        // this.props.postCommonActionOnUser("delete", { _id: singleNodeId, users: checkedDataKeys })
+    }
+
+    onSaveEditOrCreateField = async (type) => {
+        const { newFieldItemName, editRowId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType, filterKeyId, singleNodeId } = this.state
+        if (type === "edit") {
+            await this.props.patchCommonCreateData("node_items", singleNodeId, { [filterKeyId]: newFieldItemName }, editRowId) //waiting for the api to be patch
+        } else {
+            await this.props.postCommonCreateData("node_items", { [filterKeyId]: newFieldItemName }, singleNodeId) //waiting for the api to be posted
+        }
+        const { patchDataCreatedSuccessfully, patchSuccessMessage, newDataCreatedSuccessfully, errorMsg } = this.props.commonReducer // will be true if success is true from above post api and pop up will be closed
+        if (type === "edit" ? patchDataCreatedSuccessfully : newDataCreatedSuccessfully) {
+            this.setState({ creationPopUpVisibility: false, checkedDataKeys: [] })
+            message.success(type === "edit" ? "Saved Successfully" : "Created Successfully ");
+            this.props.commonActionForCommonReducer({ patchDataCreatedSuccessfully: false, newDataCreatedSuccessfully: false })
+            this.props.getSingleFieldData(singleNodeId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
+        } else {
+            message.error(errorMsg);
+        }
+    }
+
+    render() {
+        const { singleFieldData, singleFieldCount, singleFieldName } = this.props.commonReducer
+        const { currentPageNumber, creationPopUpVisibility, newFieldItemName, checkedDataKeys, creationPopUpMode, editRowName, filterKeyId } = this.state
+
+        const fieldsColumnData = [
 
             {
                 "title": "Name",
-                "dataIndex": this.props.history.location.state.uniqueTableHeadingId,
-                "_id": this.props.history.location.state.uniqueTableHeadingId,
+                "dataIndex": filterKeyId,
+                "_id": filterKeyId,
                 "lbl": "Name",
                 "type": "text",
                 "isDraggable": true,
@@ -43,8 +199,8 @@ class FieldOpenView extends Component {
             },
             {
                 "title": "#People",
-                "dataIndex": "people",
-                "_id": "people",
+                "dataIndex": "count",
+                "_id": "count",
                 "lbl": "#People",
                 "type": "number",
                 "isDraggable": true,
@@ -54,174 +210,61 @@ class FieldOpenView extends Component {
             }
         ]
 
-    }
-
-    componentDidMount() {
-        const nodeId = getNodeId(this.props.history)
-        this.props.getSingleFieldData(nodeId, this.state.rowsPerPage)
-    }
-
-    // designationSearchData = (e) => {
-    //     const { rowsPerPage, activeheading, sortingType } = this.state
-    //     const searchData = e.target.value
-    //     this.props.designationsData(rowsPerPage, 1, searchData, activeheading, sortingType)
-    //     this.setState({
-    //         searchData,
-    //         currentPageNumber: 1
-    //     })
-    // }
-
-
-    // onClickHeadingColumn = (activeheading, sortingType) => {
-    //     const { rowsPerPage, searchData, currentPageNumber } = this.state
-    //     const activeheadingModified = activeheading === "designations" ? "name" : "count"
-    //     this.props.designationsData(rowsPerPage, currentPageNumber, searchData, activeheadingModified, sortingType)
-    //     this.setState({
-    //         activeheading: activeheadingModified,
-    //         sortingType
-    //     })
-    // }
-
-    // onChangeCheckBox = (selectedRowsKeys, selectedRows) => {
-    //     let editRowName = ""
-    //     let editRowId = ""
-
-    //     if (selectedRows[0]) {
-    //         editRowName = selectedRows[0].designations
-    //         editRowId = selectedRows[0]._id
-    //     }
-    //     this.setState({
-    //         checkedDataKeys: selectedRowsKeys,
-    //         editRowName,
-    //         editRowId,
-    //         newDesignationName: editRowName
-    //     })
-    // }
-
-    // onSaveEditedDesignation = async () => {
-    //     const { newDesignationName, editRowId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType } = this.state
-    //     await this.props.patchCommonCreateData("designations", editRowId, { name: newDesignationName }) //waiting for the api to be posted
-    //     const { patchDataCreatedSuccessfully, patchSuccessMessage, errorMsg } = this.props.commonReducer // will be true if success is true from above post api and pop up will be closed
-    //     if (patchDataCreatedSuccessfully) {
-    //         this.setState({ creationPopUpVisibility: false, checkedDataKeys: [] })
-    //         message.success(patchSuccessMessage || "Saved Successfully");
-    //         this.props.commonActionForCommonReducer({ newDataCreatedSuccessfully: false })
-    //         this.props.designationsData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
-    //     } else {
-    //         message.error(errorMsg);
-    //     }
-
-    // }
-
-    // onChangeRowsPerPage = (rowsPerPage) => {
-    //     this.props.designationsData(rowsPerPage, 1)
-    //     this.setState({
-    //         rowsPerPage,
-    //         currentPageNumber: 1
-    //     })
-    // }
-
-    // changePage = (calcData) => {
-    //     const { currentPageNumber, rowsPerPage } = this.state
-
-    //     const goToPage = currentPageNumber + calcData
-    //     this.props.designationsData(rowsPerPage, goToPage)
-    //     this.setState({
-    //         currentPageNumber: goToPage
-    //     })
-    // }
-
-    // onRowClick = (rowData) => {
-    //     this.props.history.push(`/people/designation/${rowData._id}`)
-    // }
-
-    // creationPopUpInput = (e) => {
-    //     const { editRowName } = this.state
-    //     const inputData = e.target.value
-    //     this.setState({ newDesignationName: inputData, editRowName: inputData ? editRowName : "" })
-
-    // }
-
-    // onSaveNewDesignation = async () => {
-    //     const { newDesignationName } = this.state
-    //     await this.props.postCommonCreateData("designations", { name: newDesignationName }) //waiting for the api to be posted
-
-    //     const { newDataCreatedSuccessfully, newCreatedDataId, errorMsg } = this.props.commonReducer // will be true if success is true from above post api and pop up will be closed
-    //     if (newDataCreatedSuccessfully) {
-    //         this.setState({ creationPopUpVisibility: false })
-    //         message.success("Designation Created Successfully");
-    //         this.props.commonActionForCommonReducer({ newDataCreatedSuccessfully: false })
-    //         this.props.history.push(`/people/designation/${newCreatedDataId}`)
-
-    //     } else {
-    //         message.error(errorMsg);
-    //     }
-
-    // }
-
-
-    // onClickDesignationActions = (actionType) => {
-    //     this.setState({ creationPopUpVisibility: true, creationPopUpMode: "edit" })
-    // }
-
-
-
-    render() {
-        // const { designationData, totalDesignationsCount } = this.props.designationsReducer
-        // const { currentPageNumber, creationPopUpVisibility, newDesignationName, checkedDataKeys, creationPopUpMode, editRowName } = this.state
-
         return (
             <div className="fields_main">
-                <div className="fields_heading"><h3>Fields</h3></div>
+                <div className="fields_heading"><h3>{singleFieldName}</h3></div>
 
-                {/* <AllUserSelect userData={designationData}
+                <AllUserSelect userData={singleFieldData}
 
-                    searchFirstButtonName={"IMPORT RESOURCES"} searchSecondButtonName={"ADD DESIGNATION"}
-                    allHeadingsData={this.designationsColumnData}
-                    searchPlaceHolder={"Search Designation"} onSearch={this.designationSearchData}
-                    typeOfData="Designations"
+                    searchFirstButtonName={"IMPORT RESOURCES"}
+                    searchSecondButtonName={"ADD NEW ITEM"}
+                    allHeadingsData={fieldsColumnData}
+                    searchPlaceHolder={`Search ${singleFieldName}`}
+                    onSearch={this.fieldSearchData}
+                    typeOfData="Total Items"
 
                     headingClickData={this.onClickHeadingColumn}
                     onChangeCheckBox={this.onChangeCheckBox}
                     searchSecondButtonClick={() => this.setState({ creationPopUpVisibility: true, creationPopUpMode: "add" })}
 
 
-                    totalUsers={totalDesignationsCount} currentPageNumber={currentPageNumber}
+                    totalUsers={singleFieldCount}
+                    currentPageNumber={currentPageNumber}
                     onChangeRowsPerPage={this.onChangeRowsPerPage}
                     goPrevPage={() => this.changePage(-1)}
                     goNextPage={() => this.changePage(1)}
 
-                    //onClick Designation Header Action Buttons
-                    onClickUserDelete={() => this.onClickDesignationActions("delete")}
-                    onClickUserEdit={() => this.onClickDesignationActions("edit")}
+                    // //onClick Designation Header Action Buttons
+                    onClickUserDelete={() => this.onFieldItemActions("delete")}
+                    onClickUserEdit={() => this.onFieldItemActions("edit")}
 
                     isUserData={false}
 
                     onClickTableRow={this.onRowClick}
 
-                    //buttons to show and hide 
-                    showHeaderButtons={[{ id: "edit", label: "Edit Designation" }, { id: "delete", label: "Delete Designation" }]}
+                    // //buttons to show and hide 
+                    showHeaderButtons={[{ id: "edit", label: "Edit Item" }, { id: "delete", label: "Delete Items" }]}
                     disableButtonNames={[checkedDataKeys.length > 1 ? "edit" : ""]}
 
-                    //to empty the selected Data
+                    // //to empty the selected Data
                     selectedDataCount={checkedDataKeys.length}
-                /> */}
+                />
 
 
-                {/* <CreationPopUp creationPopUpVisibility={creationPopUpVisibility}
-                    creationPopUpTitle={creationPopUpMode === "add" ? "Add New Designation" : "Edit Designation"}
+                <CreationPopUp creationPopUpVisibility={creationPopUpVisibility}
+                    creationPopUpTitle={creationPopUpMode === "add" ? "Add New Item" : "Edit Item name"}
                     creationPopFirstButtonName={"Cancel"}
                     creationPopSecondButtonName={creationPopUpMode === "add" ? "Create" : "Save"}
-                    fieldHeader={"Designation Name"}
-                    fieldPlaceHolder={"Enter Designation Name"}
-                    inputValue={newDesignationName || editRowName}
+                    fieldHeader={"Item Name"}
+                    fieldPlaceHolder={"Enter Item Name"}
+                    inputValue={newFieldItemName || editRowName}
                     creationPopFirstButtonHandler={() => this.setState({ creationPopUpVisibility: false })}
-                    creationPopSecondButtonHandler={creationPopUpMode === "add" ? this.onSaveNewDesignation : this.onSaveEditedDesignation}
-                    secondButtonDisable={newDesignationName.length < 3 || newDesignationName === editRowName ? true : false}
-                    afterClose={() => this.setState({ newDesignationName: "" })}
+                    creationPopSecondButtonHandler={() => this.onSaveEditOrCreateField(creationPopUpMode)}
+                    secondButtonDisable={newFieldItemName.length < 3 || newFieldItemName === editRowName ? true : false}
+                    afterClose={() => this.setState({ newFieldItemName: "", editRowName: "" })}
                     creationPopUpFirstFieldChangeHandler={this.creationPopUpInput}
 
-                /> */}
+                />
             </div>
         );
     }
@@ -230,7 +273,7 @@ class FieldOpenView extends Component {
 
 const mapStateToProps = state => {
     return {
-        designationsReducer: state.designationsReducer,
+        //designationsReducer: state.designationsReducer,
         commonReducer: state.commonReducer
     };
 };
@@ -242,7 +285,8 @@ const mapDispatchToProps = dispatch => {
             postCommonCreateData,
             commonActionForCommonReducer,
             patchCommonCreateData,
-            getSingleFieldData
+            getSingleFieldData,
+            postCommonActionOnUser
         },
         dispatch
     );

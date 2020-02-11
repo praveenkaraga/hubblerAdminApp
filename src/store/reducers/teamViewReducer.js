@@ -1,4 +1,4 @@
-import {checkError} from '../../utils/helper'
+import { checkError } from '../../utils/helper'
 import * as actionTypes from '../actionTypes'
 import findIndex from "lodash/findIndex";
 import slice from 'lodash/slice'
@@ -26,9 +26,9 @@ const intialState = {
 }
 
 export const teamViewReducer = (state = intialState, action) => {
-    const {errorData, isError} = checkError(state, action);
+    const { errorData, isError } = checkError(state, action);
     if (isError) {
-        return {...errorData}
+        return { ...errorData }
     }
 
 
@@ -89,14 +89,14 @@ export const teamViewReducer = (state = intialState, action) => {
                 ...state, ...action.payload
             }
 
-        case actionTypes.GET_CLICKED_TEAM_USER_REPORTEE_DATA :
+        case actionTypes.GET_CLICKED_TEAM_USER_REPORTEE_DATA:
             const rootData = state.rootData;
             const id = state.clickedMemberData._id;
             const user = state.clickedMemberData;
             if (!user.userSelected) {
-                rootData.push({...user, userSelected: true})
+                rootData.push({ ...user, userSelected: true })
             }
-            let userIndex = findIndex(rootData, {_id: id});
+            let userIndex = findIndex(rootData, { _id: id });
             let newRootData = slice(rootData, 0, (userIndex + 1));
             return {
                 ...state,
@@ -109,22 +109,22 @@ export const teamViewReducer = (state = intialState, action) => {
 
             }
 
-        case actionTypes.GET_BACK_MANAGER_DATA :
+        case actionTypes.GET_BACK_MANAGER_DATA:
             return {
                 ...state, ...action.payload
             }
 
-        case actionTypes.IMPORT_USERS_POPUP_VISIBILITY :
+        case actionTypes.IMPORT_USERS_POPUP_VISIBILITY:
             return {
                 ...state, ...action.payload
             };
-        case actionTypes.DOWNLOAD_SAMPLE_EXCEL :
+        case actionTypes.DOWNLOAD_SAMPLE_EXCEL:
             return {
                 ...state,
-                sampleExcelFile: action.payload.data.result
+                sampleExcelFile: action.payload.data ? action.payload.data.result : ""
             };
 
-        case actionTypes.GET_UPLOAD_FIELDS_DETAILS :
+        case actionTypes.GET_UPLOAD_FIELDS_DETAILS:
             return {
                 ...state,
                 uploadPopUpData: action.payload.data ? action.payload.data.result ? action.payload.data.result.length ? first(action.payload.data.result) : [] : [] : {},
@@ -133,11 +133,11 @@ export const teamViewReducer = (state = intialState, action) => {
 
                 /*importUsersPopUpVisiblity:false*/
             };
-        case actionTypes.UPLOAD_IMPORT_USERS_POPUP_VISIBILITY :
+        case actionTypes.UPLOAD_IMPORT_USERS_POPUP_VISIBILITY:
             return {
                 ...state, ...action.payload
             };
-        case actionTypes.PATCH_IMPORT_USERS_DATA :
+        case actionTypes.PATCH_IMPORT_USERS_DATA:
             console.log(action.payload);
             return {
                 ...state,
@@ -146,12 +146,12 @@ export const teamViewReducer = (state = intialState, action) => {
                 isFileUploaded: true,
                 importUsersPopUpVisiblity: false
             };
-        case actionTypes.COMMON_ACTION :
+        case actionTypes.COMMON_ACTION:
             return {
                 ...state, ...action.payload
             };
 
     }
 
-    return {...state}
+    return { ...state }
 }

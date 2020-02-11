@@ -34,11 +34,15 @@ let axiosConfig = {
 };
 
 
+
 export const getUsers = (perPageRows, currentPage, searchData, headingData, sortingType) => {
     const startNumber = ((currentPage - 1) * perPageRows) + 1
     return axios.get(`/rest/users/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}&version=1`, axiosConfig);
 };
 
+
+
+//--------------------TEAM VIEW API'S------------------------------------------------------------------
 export const getTeamViewUsers = () => {
     return axios.get("/reportees/orgchart//?sortKey=name&sortOrder=asc&filterKey=id&filterQuery=", axiosConfig);
 };
@@ -50,6 +54,12 @@ export const getClickedTeamViewUser = (id) => {
 export const getClickedTeamViewOrgData = (url) => {
     return axios.get(url, axiosConfig);
 };
+
+
+//XXXXXXXXXXXXXXXXX---END OF TEAM VIEW API'S------XXXXXXXXXXXXXXXXXXXXXXXXX
+
+
+
 
 export const downloadExcelCall = (id) => {
     return axios.get(`/bulk-upload/sample-file/users/`, axiosConfig);
@@ -135,46 +145,57 @@ export const getCustomFieldsApi = () => { // to get all data of nodes{custom fie
     return axios.get(`/rest/nodes/?start=1&offset=100&sortKey=_id&sortOrder=asc&filterKey=_id&filterQuery=`)
 };
 
-// export const getSingleCircleDataApi = (id, perPageRows, currentPage, searchData, headingData, sortingType) => {
-//     const startNumber = ((currentPage - 1) * perPageRows) + 1
-//     return axios.get(`/users/circles/${id}/?start=${startNumber || 1}&offset=${perPageRows || 30}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}`)
-// };
-
 export const getHeaderName = (id) => {
     return axios.get(`/rest/departments/${id}/`);
 };
 
 
-export const getCircleSuggestionDataApi = (id, searchData) => {
+export const getCircleSuggestionDataApi = (id, searchData) => { // to remove
     return axios.get(`/choose-users/circles/${id}/?start=1&offset=20&sortKey=name&sortOrder=dsc&filterKey=name&filterQuery=${searchData || ""}`)
 }
 
-export const getSingleFieldDataApi = (id, perPageRows, currentPage, searchData, headingData, sortingType) => {
+export const getSingleFieldDataApi = (id, perPageRows, currentPage, searchData, headingData, sortingType, filterKeyId) => {
     const startNumber = ((currentPage - 1) * perPageRows) + 1
-    return axios.get(`/nodes/rest/${id}/?start=${startNumber || 1}&offset=${perPageRows || 30}&sortKey=${headingData || "_id"}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}`)
+    return axios.get(`/nodes/rest/${id}/?start=${startNumber || 1}&offset=${perPageRows || 30}&sortKey=${headingData || "_id"}&sortOrder=${sortingType || ""}&filterKey=${searchData ? filterKeyId : ""}&filterQuery=${searchData || ""}`)
 };
 
 
 //------ Common Apis for few common components -----
-export const getSingleViewDataApi = (viewType, id, perPageRows, currentPage, searchData, headingData, sortingType) => { //common api for every view that is being fetched using one id
+
+export const getSingleViewDataApi = (viewType, id, perPageRows, currentPage, searchData, headingData, sortingType, id2) => { //common api for every view that is being fetched using one id
     const startNumber = ((currentPage - 1) * perPageRows) + 1
-    return axios.get(`/users/${viewType}/${id}/?start=${startNumber || 1}&offset=${perPageRows || 30}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}`)
-    // return axios.get(`/${viewType === "nodes" ? "nodes/rest" : `users/${viewType}`}/${id}/?start=${startNumber || 1}&offset=${perPageRows || 30}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}`)
+    // return axios.get(`/users/${viewType}/${id}/?start=${startNumber || 1}&offset=${perPageRows || 30}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}&version=1`)
+    return axios.get(`/users/${viewType}/${viewType === "nodes" ? (id + "/" + id2) : id}/?start=${startNumber || 1}&offset=${perPageRows || 30}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}&version=1`)
 
 };
 
-export const getSingleViewSuggestionDataApi = (viewType, id, perPageRows, currentPage, searchData, headingData, sortingType) => { //common api for every user suggestion that is being fetched using one id
+export const getSingleViewSuggestionDataApi = (viewType, id, perPageRows, currentPage, searchData, headingData, sortingType, id2) => { //common api for every user suggestion that is being fetched using one id
     const startNumber = ((currentPage - 1) * perPageRows) + 1
-    return axios.get(`/choose-users/${viewType}/${id}/?start=${startNumber || 1}&offset=${perPageRows || 30}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}`)
+    return axios.get(`/choose-users/${viewType}/${viewType === "nodes" ? (id + "/" + id2) : id}/?start=${startNumber || 1}&offset=${perPageRows || 30}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}&version=1`)
 }
 
-export const postCommonCreateDataApi = (createForType, data) => {
-    return axios.post(`/rest/${createForType}/`, data, axiosConfig)
+
+export const postCommonCreateDataApi = (createForType, data, id) => {
+    if (createForType === "node_items") {
+        return axios.post(`/rest/nodes/${id}/`, data, axiosConfig)
+    } else {
+        return axios.post(`/rest/${createForType}/`, data, axiosConfig)
+
+    }
 }
 
-export const patchCommonCreateDataApi = (createForType, id, data) => {
-    return axios.patch(`/rest/${createForType}/${id}/`, data, axiosConfig)
+export const patchCommonCreateDataApi = (createForType, id, data, id2) => {
+    if (createForType === "node_items") {
+        return axios.patch(`/rest/nodes/${id}/${id2}/`, data, axiosConfig)
+    } else {
+        return axios.patch(`/rest/${createForType}/${id}/`, data, axiosConfig)
+    }
 }
+
+export const postCommonRemovePeopleApi = (viewType, data) => {
+    return axios.post(`/remove-people/${viewType}/`, data, axiosConfig)
+}
+
 
 export const postCommonActionOnUserApi = (typeOfAction, data) => { //actions on users
     return axios.post(`/${typeOfAction === "delete" ? "rest/users" : "users"}/${typeOfAction}/`, data, axiosConfig)
@@ -190,6 +211,13 @@ export const postHolidayCreatedDataApi = (data) => {
     return axios.post(`/holiday/holiday-profiles/`, data, axiosConfig)
 }
 
+export const postCommonDeleteApi = (viewType, data) => {
+    return axios.post(`/rest/${viewType}/delete/`, data, axiosConfig)
+}
+
+export const postCommonAddSelectedUsersDataApi = (viewType, data) => {
+    return axios.post(`/add-people/${viewType}/`, data, axiosConfig)
+}
 
 //-------------------xxxxx-------
 
@@ -204,16 +232,34 @@ export const getLoginSessionDataApi = () => {
 
 //-------- Holiday Profile Apis------------------
 
+
+
+
+
+
+
+//-----------------------------------------------------------------------------------------------------------------
+//------------------------------PROFILES---------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------
+
 export const getHolidayTableColumns = () => {
     return axios.get("https://demo4798197.mockable.io/holiday-profile-columns")
 };
 
+export const getHolidayProfilesData = (perPageRows, currentPage, searchData, headingData, sortingType) => {
+    const startNumber = ((currentPage - 1) * perPageRows) + 1
+    return axios.get(`/holiday/holiday-profiles/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "name" : ""}&filterQuery=${searchData || ""}`, axiosConfig);
 
 
-
+}
 
 /*
 /holiday/holiday-profiles/5e4238662b6f454b4c5da24c/
 */
 
 //-----------------------------------------------
+
+
+//-----------------------------------------------------------------------------------------------------------------
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX------END PROFILES------XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+//-----------------------------------------------------------------------------------------------------------------

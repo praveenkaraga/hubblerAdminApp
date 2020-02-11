@@ -3,7 +3,13 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import AllUserSelect from '../allUserSelect/allUserSelect'
 import './designations.scss'
-import { designationsData, postCommonCreateData, commonActionForCommonReducer, patchCommonCreateData } from '../../store/actions/actions'
+import {
+    designationsData,
+    postCommonCreateData,
+    commonActionForCommonReducer,
+    patchCommonCreateData,
+    postCommonDelete
+} from '../../store/actions/actions'
 import { withRouter } from "react-router-dom";
 import CreationPopUp from '../../components/common/CreationPopUp/CreationPopUp'
 import { message } from 'antd'
@@ -93,23 +99,10 @@ class Designations extends Component {
         })
     }
 
-    onSaveEditedDesignation = async () => {
-        const { newDesignationName, editRowId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType } = this.state
-        await this.props.patchCommonCreateData("designations", editRowId, { name: newDesignationName }) //waiting for the api to be posted
-        const { patchDataCreatedSuccessfully, patchSuccessMessage, errorMsg } = this.props.commonReducer // will be true if success is true from above post api and pop up will be closed
-        if (patchDataCreatedSuccessfully) {
-            this.setState({ creationPopUpVisibility: false, checkedDataKeys: [] })
-            message.success(patchSuccessMessage || "Saved Successfully");
-            this.props.commonActionForCommonReducer({ newDataCreatedSuccessfully: false })
-            this.props.designationsData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
-        } else {
-            message.error(errorMsg);
-        }
-
-    }
 
     onChangeRowsPerPage = (rowsPerPage) => {
-        this.props.designationsData(rowsPerPage, 1)
+        const { searchData, activeheading, sortingType } = this.state
+        this.props.designationsData(rowsPerPage, 1, searchData, activeheading, sortingType)
         this.setState({
             rowsPerPage,
             currentPageNumber: 1
@@ -117,10 +110,10 @@ class Designations extends Component {
     }
 
     changePage = (calcData) => {
-        const { currentPageNumber, rowsPerPage } = this.state
+        const { currentPageNumber, rowsPerPage, searchData, activeheading, sortingType } = this.state
 
         const goToPage = currentPageNumber + calcData
-        this.props.designationsData(rowsPerPage, goToPage)
+        this.props.designationsData(rowsPerPage, goToPage, searchData, activeheading, sortingType)
         this.setState({
             currentPageNumber: goToPage
         })
@@ -137,17 +130,19 @@ class Designations extends Component {
 
     }
 
-    onSaveNewDesignation = async () => {
-        const { newDesignationName } = this.state
-        await this.props.postCommonCreateData("designations", { name: newDesignationName }) //waiting for the api to be posted
-
-        const { newDataCreatedSuccessfully, newCreatedDataId, errorMsg } = this.props.commonReducer // will be true if success is true from above post api and pop up will be closed
-        if (newDataCreatedSuccessfully) {
-            this.setState({ creationPopUpVisibility: false })
-            message.success("Designation Created Successfully");
-            this.props.commonActionForCommonReducer({ newDataCreatedSuccessfully: false })
-            this.props.history.push(`/people/designation/${newCreatedDataId}`)
-
+    onSaveDesignation = async (type) => {
+        const { newDesignationName, editRowId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType } = this.state
+        if (type === "edit") {
+            await this.props.patchCommonCreateData("designations", editRowId, { name: newDesignationName }) //waiting for the api to be posted
+        } else {
+            await this.props.postCommonCreateData("designations", { name: newDesignationName }) //waiting for the api to be posted
+        }
+        const { patchDataCreatedSuccessfully, patchSuccessMessage, newDataCreatedSuccessfully, errorMsg } = this.props.commonReducer // will be true if success is true from above post api and pop up will be closed
+        if (type === "edit" ? patchDataCreatedSuccessfully : newDataCreatedSuccessfully) {
+            this.setState({ creationPopUpVisibility: false, checkedDataKeys: [] })
+            message.success(type === "edit" ? "Designation Saved Successfully" : "Designation Created Successfully ");
+            this.props.commonActionForCommonReducer({ patchDataCreatedSuccessfully: false, newDataCreatedSuccessfully: false })
+            this.props.designationsData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
         } else {
             message.error(errorMsg);
         }
@@ -155,8 +150,24 @@ class Designations extends Component {
     }
 
 
-    onClickDesignationActions = (actionType) => {
-        this.setState({ creationPopUpVisibility: true, creationPopUpMode: "edit" })
+
+    onClickDesignationActions = async (actionType) => {
+        const { checkedDataKeys, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType } = this.state
+        if (actionType === "edit") {
+            this.setState({ creationPopUpVisibility: true, creationPopUpMode: "edit" })
+        } else {
+            await this.props.postCommonDelete("designations", { designations: checkedDataKeys })
+            const { postDeletedDataSuccessfulMessage, postDeletedDataSuccessfully, errorMsg } = this.props.commonReducer
+            if (postDeletedDataSuccessfully) {
+                message.success(postDeletedDataSuccessfulMessage)
+                this.props.designationsData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
+                this.props.commonActionForCommonReducer({ postDeletedDataSuccessfully: false })
+            } else {
+                message.error(errorMsg)
+                this.props.designationsData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
+            }
+            this.setState({ checkedDataKeys: [] })
+        }
     }
 
 
@@ -211,9 +222,9 @@ class Designations extends Component {
                     fieldPlaceHolder={"Enter Designation Name"}
                     inputValue={newDesignationName || editRowName}
                     creationPopFirstButtonHandler={() => this.setState({ creationPopUpVisibility: false })}
-                    creationPopSecondButtonHandler={creationPopUpMode === "add" ? this.onSaveNewDesignation : this.onSaveEditedDesignation}
+                    creationPopSecondButtonHandler={() => this.onSaveDesignation(creationPopUpMode)}
                     secondButtonDisable={newDesignationName.length < 3 || newDesignationName === editRowName ? true : false}
-                    afterClose={() => this.setState({ newDesignationName: "" })}
+                    afterClose={() => this.setState({ newDesignationName: "", editRowName: "" })}
                     creationPopUpFirstFieldChangeHandler={this.creationPopUpInput}
 
                 />
@@ -236,7 +247,8 @@ const mapDispatchToProps = dispatch => {
             designationsData,
             postCommonCreateData,
             commonActionForCommonReducer,
-            patchCommonCreateData
+            patchCommonCreateData,
+            postCommonDelete
         },
         dispatch
     );
