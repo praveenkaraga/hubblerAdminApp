@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Input } from 'antd';
 import Text from '../AddUserFiledsType/Text'
 import Date from '../AddUserFiledsType/Date'
 import DateTime from '../AddUserFiledsType/DateTime'
@@ -11,7 +10,7 @@ import Phone from '../AddUserFiledsType/Phone'
 import Gender from '../AddUserFiledsType/Gender'
 import TextArea from '../AddUserFiledsType/TextArea'
 import { validationRules } from '../../../utils/helper'
-
+import './alltypes.scss'
 
 
 class AllTypes extends Component {
@@ -20,7 +19,7 @@ class AllTypes extends Component {
         this.state = {}
     }
 
-    filterRulesForDate = (normalRules) => {
+    filterRulesForDate = (normalRules) => { //removing max and min length wherever we don't them... {like in date}
         let filteredData = normalRules.filter(data => "required" in data)
         return filteredData
     }
@@ -28,6 +27,7 @@ class AllTypes extends Component {
     render() {
         const { type, required, label, minLength, maxLength } = this.props
         const customValidationRules = validationRules(required, label, minLength, maxLength)
+        console.error = () => { }
         console.warn = () => { }
 
         switch (type) {
@@ -56,7 +56,7 @@ class AllTypes extends Component {
                 return <DateTime validationRules={this.filterRulesForDate(customValidationRules)} {...this.props} />
 
             case "location":
-                return <div>location</div>
+                return <></>
 
             case "gender":
                 return <Gender validationRules={this.filterRulesForDate(customValidationRules)}  {...this.props} />
