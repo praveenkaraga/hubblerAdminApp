@@ -56,7 +56,7 @@ class AllTypes extends Component {
                 return <DateTime validationRules={this.filterRulesForDate(customValidationRules)} {...this.props} />
 
             case "location":
-                return <div>location</div>
+                return <></>
 
             case "gender":
                 return <Gender validationRules={this.filterRulesForDate(customValidationRules)}  {...this.props} />

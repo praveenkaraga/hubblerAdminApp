@@ -99,19 +99,19 @@ class UserSearch extends Component {
                         :
                         !allSelect ?
                             <>
-                                <Button className={`import_button ${onlySelectAndAdd && !userSelected ? "import_button_disable" : ""}`} type="primary" loading={firstButtonLoader} onClick={onClickFirst}>
+                                {onClickFirst ? <Button className={`import_button ${onlySelectAndAdd && !userSelected ? "import_button_disable" : ""}`} type="primary" loading={firstButtonLoader} onClick={onClickFirst}>
                                     {firstButtonName}
                                     {onlySelectAndAdd && userSelected ?
                                         <div>
                                             {userSelected}
                                         </div> : ""}
-                                </Button>
+                                </Button> : null}
 
-                                {!onlySelectAndAdd ?
+                                {onClickSecond ?
                                     <Button className="add_user_button" type="primary" loading={secondButtonLoader} onClick={onClickSecond}>
                                         {secondButtonName}
                                     </Button>
-                                    : ""}
+                                    : null}
 
                             </>
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import AllTypes from '../AddUserFiledsType/AllTypes'
 import { Form, Button } from 'antd';
-
+import './customForm.scss'
 
 class CustomForm extends Component {
     constructor(props) {
@@ -24,7 +24,7 @@ class CustomForm extends Component {
         const { getFieldDecorator } = this.props.form;
         console.warn = () => { }
         return (
-            <Form onSubmit={this.handleSubmit}>
+            <Form onSubmit={this.handleSubmit} className="add_users_form">
                 {formData.map(data => (
 
                     <AllTypes key={data.id + data.tatabIndexb} fieldId={data.id}
@@ -34,7 +34,7 @@ class CustomForm extends Component {
                         options={data.options}
                         placeholder={data.placeholder}
                         getFieldDecorator={getFieldDecorator}
-                        style={{ width: '60%', marginRight: 8, marginLeft: 20 }}
+                        style={{ width: '60%', marginRight: 8 }}
                         form={this.props.form}
                         repeating={data.repeating} />
                 ))
