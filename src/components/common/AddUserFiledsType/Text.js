@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Input, Icon } from 'antd';
 import { removeField, addField } from './formCommonFunctions'
-import './alltypes.scss'
 
 
 class Text extends Component {
@@ -24,28 +23,30 @@ class Text extends Component {
         console.warn = () => { }
         return (
             <>
-                {stateKeys.map((k, index) => (<Form.Item label={index === 0 ? label : ''}>
-                    {getFieldDecorator(`${fieldId}[${k}]`, config)(<Input {...this.props} />)}
+                {stateKeys.map((k, index) => (
+                    <Form.Item label={index === 0 ? label : ''}>
+                        {getFieldDecorator(`${fieldId}[${k}]`, config)(<Input {...this.props} />)}
 
-                    {stateKeys.length > 1 ? (
-                        <Icon
-                            className="dynamic-delete-button"
-                            type="minus-circle"
-                            onClick={() => removeField(k, this, stateKeys)}
-                        />
-                    ) : null}
-                    {
-                        repeating && stateKeys.length === index + 1 ? (
+                        {stateKeys.length > 1 ? (
                             <Icon
-                                className="dynamic-add-button"
-                                type="plus-circle"
-                                onClick={() => addField(this)}
+                                className="dynamic-delete-button"
+                                type="minus-circle"
+                                onClick={() => removeField(k, this, stateKeys)}
                             />
-                        ) : null
+                        ) : null}
+                        {
+                            repeating && stateKeys.length === index + 1 ? (
+                                <Icon
+                                    className="dynamic-add-button"
+                                    type="plus-circle"
+                                    onClick={() => addField(this)}
+                                />
+                            ) : null
 
-                    }
+                        }
 
-                </Form.Item>))}
+                    </Form.Item>))
+                }
 
             </>
         );

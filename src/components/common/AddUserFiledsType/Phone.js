@@ -1,34 +1,35 @@
 import React, { Component } from 'react';
-import { Form, Input, Select } from 'antd';
-
+import { Form, Input, Select, Icon } from 'antd';
+import { removeField, addField } from './formCommonFunctions'
 const { Option } = Select;
 
-class Phone extends Component {
-
-    constructor(props) {
-        super(props)
-        this.state = {
-            inputValue: ""
+class NumericInput extends Component {
+    onChange = e => {
+        const { value } = e.target;
+        const reg = /^-?(0|[1-9][0-9]*)(\.[0-9]*)?$/;
+        if ((!isNaN(value) && reg.test(value)) || value === '' || value === '-') {
+            this.props.onChange(value);
         }
-    }
-
-    handleNumberChange = e => {
-        const number = parseInt(e.target.value || 0, 10);
-        if (isNaN(number)) {
-            return;
-        }
-        this.setState({ inputValue: number })
-        // this.triggerChange({ number });
     };
 
+    // '.' at the end or only '-' in the input box.
+    onBlur = () => {
+        const { value, onBlur, onChange } = this.props;
+        if (value.charAt(value.length - 1) === '.' || value === '-') {
+            onChange(value.slice(0, -1));
+        }
+        if (onBlur) {
+            onBlur();
+        }
+    };
+
+
+
     render() {
-        const { label, validationRules, fieldId, getFieldDecorator } = this.props
 
-        const config = {
-            rules: validationRules,
-        };
+        const { getFieldDecorator, k } = this.props
 
-        const prefixSelector = getFieldDecorator('country-code', {
+        const prefixSelector = getFieldDecorator(`country-code[${k}]`, {
             initialValue: '91',
         })(
             <Select style={{ width: 70 }}>
@@ -37,13 +38,73 @@ class Phone extends Component {
                 <Option value="87">+87</Option>
             </Select>,
         );
+
+        return (
+
+            <Input
+                {...this.props}
+                addonBefore={prefixSelector}
+                onChange={this.onChange}
+                onBlur={this.onBlur}
+
+            />
+
+        );
+    }
+}
+
+
+class Phone extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: '',
+            stateKeys: [0],
+            count: 1
+        };
+    }
+
+    onChange = value => {
+        this.setState({ value });
+    };
+
+    render() {
+
+        const { label, validationRules, fieldId, getFieldDecorator, repeating } = this.props
+        const { stateKeys, value } = this.state
+        const config = {
+            rules: validationRules,
+        };
         console.warn = () => { }
         return (
-            <Form.Item label={label} >
-                {getFieldDecorator(fieldId, config)(
-                    <Input value={this.state.inputValue} addonBefore={prefixSelector} style={{ width: '100%' }} {...this.props} onChange={this.handleNumberChange} />
-                )}
-            </Form.Item>
+
+            <>
+                {stateKeys.map((k, index) => (
+                    <Form.Item label={index === 0 ? label : ''}>
+                        {getFieldDecorator(`${fieldId}[${k}]`, config)(<NumericInput value={value} onChange={this.onChange} {...this.props} k={k} />)}
+
+                        {stateKeys.length > 1 ? (
+                            <Icon
+                                className="dynamic-delete-button"
+                                type="minus-circle"
+                                onClick={() => removeField(k, this, stateKeys)}
+                            />
+                        ) : null}
+                        {
+                            repeating && stateKeys.length === index + 1 ? (
+                                <Icon
+                                    className="dynamic-add-button"
+                                    type="plus-circle"
+                                    onClick={() => addField(this)}
+                                />
+                            ) : null
+
+                        }
+
+                    </Form.Item>))
+                }
+
+            </>
         );
     }
 }

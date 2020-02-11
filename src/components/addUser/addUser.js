@@ -38,7 +38,6 @@ class AddUser extends Component {
 
         const { onClickClose, addUserDataForm } = this.props
         const { croppedImage } = this.state
-        console.log(addUserDataForm, "addUserDataForm")
         const profileImgcontent = (
             <div className="actionButtons">
                 <label for="uploadPhoto-ImageCropper"> <div>Upload</div></label>

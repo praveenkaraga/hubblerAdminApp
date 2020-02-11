@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Input } from 'antd';
 import Text from '../AddUserFiledsType/Text'
 import Date from '../AddUserFiledsType/Date'
 import DateTime from '../AddUserFiledsType/DateTime'
@@ -11,7 +10,7 @@ import Phone from '../AddUserFiledsType/Phone'
 import Gender from '../AddUserFiledsType/Gender'
 import TextArea from '../AddUserFiledsType/TextArea'
 import { validationRules } from '../../../utils/helper'
-
+import './alltypes.scss'
 
 
 class AllTypes extends Component {
