@@ -101,7 +101,7 @@ export const commonReducer = (state = intialState, action) => {
             const initialPostSelectedUsersData = action.payload.data
             return {
                 ...state,
-                postSelectedUsersSuccessMessage: initialPostSelectedUsersData?.msg || "Users Added",
+                postSelectedUsersSuccessMessage: initialPostSelectedUsersData ? initialPostSelectedUsersData.msg : "Users Added",
                 postSelectedUsersSuccessfully: true
             }
 
@@ -119,7 +119,7 @@ export const commonReducer = (state = intialState, action) => {
             const intialDeleteData = action.payload.data
             return {
                 ...state,
-                postDeletedDataSuccessfulMessage: intialDeleteData?.result?.message || "Deleted Successfully",
+                postDeletedDataSuccessfulMessage: intialDeleteData ? intialDeleteData.result ? intialDeleteData.result.message : "Deleted Successfully" :  "Deleted Successfully",
                 postDeletedDataSuccessfully: true
             }
 

@@ -197,8 +197,18 @@ export const postCommonRemovePeopleApi = (viewType, data) => {
 }
 
 
-export const postCommonActionOnUserApi = (typeOfAction, data) => { //actions on users for console view only
+export const postCommonActionOnUserApi = (typeOfAction, data) => { //actions on users
     return axios.post(`/${typeOfAction === "delete" ? "rest/users" : "users"}/${typeOfAction}/`, data, axiosConfig)
+}
+
+export const getCommonProfilesData = (type,subType,perPageRows, currentPage, searchData, headingData, sortingType) => {
+    const startNumber = ((currentPage - 1) * perPageRows) + 1
+    return axios.get(`/${type}/${subType}/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "name" : ""}&filterQuery=${searchData || ""}`, axiosConfig);
+
+};
+
+export const postHolidayCreatedDataApi = (data) => {
+    return axios.post(`/holiday/holiday-profiles/`, data, axiosConfig)
 }
 
 export const postCommonDeleteApi = (viewType, data) => {
@@ -220,6 +230,9 @@ export const getLoginSessionDataApi = () => {
 //-------------------
 
 
+//-------- Holiday Profile Apis------------------
+
+
 
 
 
@@ -231,14 +244,13 @@ export const getLoginSessionDataApi = () => {
 
 export const getHolidayTableColumns = () => {
     return axios.get("https://demo4798197.mockable.io/holiday-profile-columns")
-}
-
-export const getHolidayProfilesData = (perPageRows, currentPage, searchData, headingData, sortingType) => {
-    const startNumber = ((currentPage - 1) * perPageRows) + 1
-    return axios.get(`/holiday/holiday-profiles/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "name" : ""}&filterQuery=${searchData || ""}`, axiosConfig);
-
 };
 
+/*
+/holiday/holiday-profiles/5e4238662b6f454b4c5da24c/
+*/
+
+//-----------------------------------------------
 
 
 //-----------------------------------------------------------------------------------------------------------------

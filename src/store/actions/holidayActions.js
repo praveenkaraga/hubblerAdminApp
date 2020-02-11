@@ -1,7 +1,7 @@
 import * as actionTypes from '../actionTypes'
 import {
     getHolidayTableColumns,
-    getHolidayProfilesData,
+    getCommonProfilesData,
 
 
     postCreteDepartmentData,
@@ -27,7 +27,9 @@ export const getHolidayTableColumnData = () => {
 }
 
 export const getHolidayProfileData = (perPageRows, currentPage, searchData, headingData, sortingType) => {
-    const payload = getHolidayProfilesData(perPageRows, currentPage, searchData, headingData, sortingType)
+    let type = 'holiday';
+    let subType = 'holiday-profiles';
+    const payload = getCommonProfilesData(type,subType,perPageRows, currentPage, searchData, headingData, sortingType)
     return {
         type: actionTypes.GET_HOLIDAY_PROFILES_DATA,
         payload
@@ -37,7 +39,7 @@ export const getHolidayProfileData = (perPageRows, currentPage, searchData, head
 
 
 
-export const getAddableUsersData = (id, perPageRows, currentPage, searchData, headingData, sortingType) => {
+/*export const getAddableUsersData = (id, perPageRows, currentPage, searchData, headingData, sortingType) => {
     const payload = getAddableUserData(id, perPageRows, currentPage, searchData, headingData, sortingType)
     return {
         type: actionTypes.GET_ADDABLE_USERS_DATA,
@@ -102,7 +104,7 @@ export const editUserDataForm = () => {
         type: actionTypes.EDIT_USER_DATA_FORM,
         payload
     }
-}
+}*/
 
 
 
