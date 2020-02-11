@@ -1,13 +1,34 @@
-.second-field-wrap,.third-field-wrap{
+.second-field-wrap,.third-field-wrap,.fourth-field-wrap{
   margin: 20px 0;
 }
 .second-field-element{
   width: 100%;
   padding: 4px 0;
 }
+.fourth-field-element{
+  width: 100%;
+  padding: 4px 0 4px 55px;
+}
+
+.third-field-wrap{
+  display: flex;
+  align-items: center;
+}
 .third-field-element{
   margin: 4px 0;
+}
+.switch-header-wrap{
+  display: flex;
+  align-items: center;
+}
+.fourth-field-wrap{
+  display: flex;
+  flex-direction: column;
+}
+.field-header-name{
+  margin-left: 10px;
 }
 .preferred-field-class{
   margin: 5px 0;
 }
+

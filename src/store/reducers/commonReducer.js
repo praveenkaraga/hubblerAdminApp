@@ -1,4 +1,4 @@
-import { checkError } from '../../utils/helper'
+import {checkError} from '../../utils/helper'
 import * as actionTypes from '../actionTypes'
 
 const intialState = {
@@ -22,9 +22,9 @@ const intialState = {
 }
 
 export const commonReducer = (state = intialState, action) => {
-    const { errorData, isError } = checkError(state, action);
+    const {errorData, isError} = checkError(state, action);
     if (isError) {
-        return { ...errorData }
+        return {...errorData}
     }
 
     switch (action.type) {
@@ -119,13 +119,13 @@ export const commonReducer = (state = intialState, action) => {
             const intialDeleteData = action.payload.data
             return {
                 ...state,
-                postDeletedDataSuccessfulMessage: intialDeleteData ? intialDeleteData.result ? intialDeleteData.result.message : "Deleted Successfully" :  "Deleted Successfully",
+                postDeletedDataSuccessfulMessage: intialDeleteData ? intialDeleteData.result ? intialDeleteData.result.message : "Deleted Successfully" : "Deleted Successfully",
                 postDeletedDataSuccessfully: true
             }
 
     }
 
 
-    return { ...state }
+    return {...state}
 
 }

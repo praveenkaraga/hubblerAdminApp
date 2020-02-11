@@ -8,7 +8,7 @@ import {
     getSingleFieldDataApi,
     postCommonAddSelectedUsersDataApi,
     postCommonRemovePeopleApi,
-    postCommonDeleteApi
+    postCommonDeleteApi,getParentNodeOptions
 } from '../../apiCall'
 
 export const getSingleViewData = (viewType, id, perPageRows, currentPage, searchData, headingData, sortingType, id2) => {
@@ -102,3 +102,5 @@ export const postCommonDelete = (viewType, data) => {
         payload
     }
 }
+
+
