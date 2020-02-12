@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
+import React, { Component } from 'react';
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import {
     getUserData,
     createActiveLink,
@@ -15,7 +15,7 @@ import {
     commonActionForCommonReducer,
     getLoginSessionData,
     postCommonCreateData,
-    postCommonDelete,getParentNodeOptionsData,commonUserConsoleAction
+    postCommonDelete, getParentNodeOptionsData, commonUserConsoleAction
 } from '../../store/actions/actions'
 import Console from '../../components/console/Console'
 import TeamView from '../../components/teamView/TeamView'
@@ -33,7 +33,7 @@ import {
     Redirect,
     withRouter
 } from "react-router-dom";
-import {message} from 'antd'
+import { message } from 'antd'
 import './userConsoleView.scss'
 import isEmpty from 'lodash/isEmpty'
 import find from 'lodash/find'
@@ -42,28 +42,28 @@ const routes = [
     {
         path: "/console",
         exact: true,
-        main: () => <Console/>,
+        main: () => <Console />,
         name: 'Console',
         link_name: 'console',
         class_name: 'console'
     },
     {
         path: "/teamView",
-        main: () => <TeamView/>,
+        main: () => <TeamView />,
         name: 'Team View',
         link_name: 'teamView',
         class_name: 'team-view'
     },
     {
         path: "/departments",
-        main: () => <Departments/>,
+        main: () => <Departments />,
         name: 'Departments',
         link_name: 'departments',
         class_name: 'departments'
     },
     {
         path: "/designations",
-        main: () => <Designations/>,
+        main: () => <Designations />,
         name: 'Designations',
         link_name: 'designations',
         class_name: 'designations'

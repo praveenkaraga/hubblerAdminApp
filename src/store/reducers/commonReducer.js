@@ -1,4 +1,4 @@
-import {checkError} from '../../utils/helper'
+import { checkError } from '../../utils/helper'
 import * as actionTypes from '../actionTypes'
 
 const intialState = {
@@ -13,6 +13,7 @@ const intialState = {
     singleViewSuggestionDataCount: 0,
     singleFieldCount: 0,
     singleFieldData: [],
+    singleFieldFilterKeyId: "",
     postSelectedUsersSuccessMessage: "",
     postSelectedUsersSuccessfully: false,
     postRemovePeopleSuccessfully: false,
@@ -22,9 +23,9 @@ const intialState = {
 }
 
 export const commonReducer = (state = intialState, action) => {
-    const {errorData, isError} = checkError(state, action);
+    const { errorData, isError } = checkError(state, action);
     if (isError) {
-        return {...errorData}
+        return { ...errorData }
     }
 
     switch (action.type) {
@@ -48,7 +49,6 @@ export const commonReducer = (state = intialState, action) => {
 
         case actionTypes.POST_COMMON_CREATE_DATA:
             const newDataInitial = action.payload.data
-            // console.log(newDataInitial)
             return {
                 ...state,
                 newDataCreatedSuccessfully: true,
@@ -89,12 +89,12 @@ export const commonReducer = (state = intialState, action) => {
 
         case actionTypes.GET_SINGLE_FIELD_DATA:
             const singleFieldDataInitial = action.payload.data
-            // console.log(singleFieldDataInitial, "singleFieldDataInitial")
             return {
                 ...state,
                 singleFieldName: singleFieldDataInitial ? singleFieldDataInitial.name : "",
                 singleFieldCount: singleFieldDataInitial ? singleFieldDataInitial.total_count : 0,
-                singleFieldData: singleFieldDataInitial ? singleFieldDataInitial.result : []
+                singleFieldData: singleFieldDataInitial ? singleFieldDataInitial.result : [],
+                singleFieldFilterKeyId: singleFieldDataInitial ? singleFieldDataInitial.name_id : ""
             }
 
         case actionTypes.POST_COMMON_ADD_SELECTED_USERS_DATA:
@@ -119,13 +119,13 @@ export const commonReducer = (state = intialState, action) => {
             const intialDeleteData = action.payload.data
             return {
                 ...state,
-                postDeletedDataSuccessfulMessage: intialDeleteData ? intialDeleteData.result ? intialDeleteData.result.message : "Deleted Successfully" : "Deleted Successfully",
+                postDeletedDataSuccessfulMessage: intialDeleteData ? (typeof intialDeleteData.result === "string" ? intialDeleteData.result : intialDeleteData.result.message || "Deleted Successfully") : intialDeleteData.message || "Deleted Successfully",
                 postDeletedDataSuccessfully: true
             }
 
     }
 
 
-    return {...state}
+    return { ...state }
 
 }

@@ -202,18 +202,17 @@ export const postCommonActionOnUserApi = (typeOfAction, data) => { //actions on 
 }
 
 
-
-export const postCommonDeleteApi = (viewType, data) => {
-    return axios.post(`/rest/${viewType}/delete/`, data, axiosConfig)
+export const postCommonDeleteApi = (viewType, data, id) => {
+    return axios.post(`/rest/${id ? viewType + "/" + id : viewType}/delete/`, data, axiosConfig)
 }
 
 export const postCommonAddSelectedUsersDataApi = (viewType, data) => {
     return axios.post(`/add-people/${viewType}/`, data, axiosConfig)
 }
-
 export const getParentNodeOptions = () => {
     return axios.get(`/meta/choose-parent-nodes/`, axiosConfig)
 }
+
 
 
 //-------------------xxxxx-------
@@ -225,6 +224,18 @@ export const getLoginSessionDataApi = () => {
     return axios.get('/sessions/check/login/')
 }
 //-------------------
+
+
+
+
+//----------------Add Users Form Api---------
+
+export const getAddUsersProfileDataApi = (id) => {
+    return axios.get(`user-profiles/${id}/`)
+}
+
+//--xxxxxxxxxxxxxx--Add Users Form Api---xxxxxxx
+
 
 
 //-------- Holiday Profile Apis------------------

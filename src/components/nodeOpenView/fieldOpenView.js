@@ -9,7 +9,7 @@ import {
     commonActionForCommonReducer,
     patchCommonCreateData,
     getSingleFieldData,
-    postCommonActionOnUser
+    postCommonDelete
 } from '../../store/actions/actions'
 import { withRouter } from "react-router-dom";
 import CreationPopUp from '../../components/common/CreationPopUp/CreationPopUp'
@@ -34,7 +34,7 @@ class FieldOpenView extends Component {
             editRowName: "",
             editRowId: "",
             singleNodeId: "",
-            filterKeyId: this.props.history.location.state.uniqueTableHeadingId,
+            filterKeyId: "",
             apiCallFlag: false
         }
 
@@ -70,7 +70,7 @@ class FieldOpenView extends Component {
 
         const { apiCallFlag } = this.state
         if (prevState.singleNodeId !== currentNodeId && !apiCallFlag) {
-            this.setState({ singleNodeId: currentNodeId, apiCallFlag: true, filterKeyId: this.props.history.location.state.uniqueTableHeadingId })
+            this.setState({ singleNodeId: currentNodeId, apiCallFlag: true })
             this.updateNodeId(false)
         }
         if (apiCallFlag) {
@@ -156,10 +156,23 @@ class FieldOpenView extends Component {
 
 
 
-    onFieldItemActions = (actionType) => {
-        // const { singleNodeId, filterKeyId, checkedDataKeys } = this.state
-        actionType === "edit" ? this.setState({ creationPopUpVisibility: true, creationPopUpMode: "edit" }) : message.info("Delete Fields items has to be implemented. Please Try again later...")
-        // this.props.postCommonActionOnUser("delete", { _id: singleNodeId, users: checkedDataKeys })
+    onFieldItemActions = async (actionType) => {
+        const { singleNodeId, checkedDataKeys, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType } = this.state
+        if (actionType === "edit") {
+            this.setState({ creationPopUpVisibility: true, creationPopUpMode: "edit" })
+        } else {
+            await this.props.postCommonDelete("nodes", { data: checkedDataKeys }, singleNodeId)
+            const { postDeletedDataSuccessfulMessage, postDeletedDataSuccessfully, errorMsg } = this.props.commonReducer
+            if (postDeletedDataSuccessfully) {
+                message.success(postDeletedDataSuccessfulMessage)
+                this.props.getSingleFieldData(singleNodeId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
+                this.props.commonActionForCommonReducer({ postDeletedDataSuccessfully: false })
+            } else {
+                message.error(errorMsg)
+                this.props.getSingleFieldData(singleNodeId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
+            }
+            this.setState({ checkedDataKeys: [] })
+        }
     }
 
     onSaveEditOrCreateField = async (type) => {
@@ -181,15 +194,17 @@ class FieldOpenView extends Component {
     }
 
     render() {
-        const { singleFieldData, singleFieldCount, singleFieldName } = this.props.commonReducer
+        const { singleFieldData, singleFieldCount, singleFieldName, singleFieldFilterKeyId } = this.props.commonReducer
         const { currentPageNumber, creationPopUpVisibility, newFieldItemName, checkedDataKeys, creationPopUpMode, editRowName, filterKeyId } = this.state
-
+        if (!filterKeyId && singleFieldFilterKeyId) {
+            this.setState({ filterKeyId: singleFieldFilterKeyId })
+        }
         const fieldsColumnData = [
 
             {
                 "title": "Name",
-                "dataIndex": filterKeyId,
-                "_id": filterKeyId,
+                "dataIndex": singleFieldFilterKeyId,
+                "_id": singleFieldFilterKeyId,
                 "lbl": "Name",
                 "type": "text",
                 "isDraggable": true,
@@ -286,7 +301,7 @@ const mapDispatchToProps = dispatch => {
             commonActionForCommonReducer,
             patchCommonCreateData,
             getSingleFieldData,
-            postCommonActionOnUser
+            postCommonDelete
         },
         dispatch
     );
