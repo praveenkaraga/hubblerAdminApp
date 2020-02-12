@@ -15,7 +15,8 @@ import {
     patchImportUsersData,
     postCommonActionOnUser,
     patchTableColumnSetting,
-    getLoginSessionData
+    getLoginSessionData,
+    getAddUsersProfileData
 } from '../../store/actions/actions'
 import UserInfoSlider from '../common/UserInfoSlider/UserInfoSlider'
 import ImportUsersPopUp from '../common/ImportUsersPopUp/ImportUsersPopUp'
@@ -230,6 +231,12 @@ class Console extends Component {
 
     }
 
+    onChangeAddUsersTab = (activekey) => {
+        if (activekey === "profiles") {
+            // this.props.getAddUsersProfileData(this.state.userId)
+        }
+    }
+
 
     render() {
         const { consoleUserData, totalUsers, currentPageNumber, searchLoader, columnSettingData, addUserDataForm } = this.props.consoleReducer
@@ -295,6 +302,8 @@ class Console extends Component {
 
                     onSelectAll={this.onClickSelectAllCheckBox}
 
+                    onChangeAddUsersTab={this.onChangeAddUsersTab}
+
 
                 />
 
@@ -349,7 +358,8 @@ const mapDispatchToProps = dispatch => {
             patchImportUsersData,
             postCommonActionOnUser,
             patchTableColumnSetting,
-            getLoginSessionData
+            getLoginSessionData,
+            getAddUsersProfileData
         },
         dispatch
     );

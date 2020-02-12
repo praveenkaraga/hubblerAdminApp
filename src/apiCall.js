@@ -201,7 +201,7 @@ export const postCommonActionOnUserApi = (typeOfAction, data) => { //actions on 
     return axios.post(`/${typeOfAction === "delete" ? "rest/users" : "users"}/${typeOfAction}/`, data, axiosConfig)
 }
 
-export const getCommonProfilesData = (type,subType,perPageRows, currentPage, searchData, headingData, sortingType) => {
+export const getCommonProfilesData = (type, subType, perPageRows, currentPage, searchData, headingData, sortingType) => {
     const startNumber = ((currentPage - 1) * perPageRows) + 1
     return axios.get(`/${type}/${subType}/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "name" : ""}&filterQuery=${searchData || ""}`, axiosConfig);
 
@@ -228,6 +228,18 @@ export const getLoginSessionDataApi = () => {
     return axios.get('/sessions/check/login/')
 }
 //-------------------
+
+
+
+
+//----------------Add Users Form Api---------
+
+export const getAddUsersProfileDataApi = (id) => {
+    return axios.get(`user-profiles/${id}/`)
+}
+
+//--xxxxxxxxxxxxxx--Add Users Form Api---xxxxxxx
+
 
 
 //-------- Holiday Profile Apis------------------

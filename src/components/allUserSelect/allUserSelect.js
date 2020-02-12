@@ -5,7 +5,7 @@ import UserSearch from '../common/UserSearch/userSearch'
 import AddUser from '../addUser/addUser'
 import ColumnSetting from './columnSetting/columnSetting'
 import UserTable from '../userTable/userTable'
-import find from 'lodash/find';
+
 
 
 class AllUserSelect extends Component {
@@ -127,7 +127,7 @@ class AllUserSelect extends Component {
             searchSecondButtonLoader = false, searchFirstButtonClick, searchSecondButtonClick, searchLoader = false, onSearch, totalUsers, goPrevPage, goNextPage, currentPageNumber, columnSettingData,
             onClickUserActivate, onClickUserDeactivate, onClickUserDelete, onClickUserEdit, addUserPopUpActive, addUserCloseButton, addUserDataForm, isUserData = true, onlySelectAndAdd = false,
             typeOfData = "Total Data", onClickTableRow, columnConfigurable = false, allSelect, onSearchDropdownSelect, searchDropdownPlaceholder, searchDropdownData, onChangeSearchDropdown,
-            showHeaderButtons, disableButtonNames, selectedDataCount, onClickAddUserButton, onSelectAll, onColumnSettingSave, visibleColumnSetting, onColumnSettingCancel } = this.props
+            showHeaderButtons, disableButtonNames, selectedDataCount, onClickAddUserButton, onSelectAll, onColumnSettingSave, visibleColumnSetting, onColumnSettingCancel, onChangeAddUsersTab } = this.props
         const perPageOptions = [7, 10, 20, 30, 40, 50, 100]
         const { rowsPerPage } = this.state
         const totalPages = Math.ceil(totalUsers / rowsPerPage)
@@ -200,7 +200,7 @@ class AllUserSelect extends Component {
 
                 </div>
 
-                {addUserPopUpActive ? <AddUser onClickClose={addUserCloseButton} addUserDataForm={addUserDataForm} /> : ""}
+                {addUserPopUpActive ? <AddUser onClickClose={addUserCloseButton} addUserDataForm={addUserDataForm} onChangeAddUsersTab={onChangeAddUsersTab} /> : ""}
             </div>
         )
     }

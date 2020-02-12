@@ -6,6 +6,9 @@ import * as departmentActions from './departmentActions'
 import * as designationsActions from './designationsAction'
 import * as userConsoleMainActions from './userConsoleMainAction'
 import * as commonActions from './commonActions'
+import * as addUserFormActions from './addUsersFormAction'
+
+
 import * as holidayActions from './holidayActions'
 //------------------------------Create User Action---------------------------
 export const { getUserData } = createUserAction
@@ -94,6 +97,15 @@ export const { getCirclesData,
 } = userConsoleMainActions
 
 //-----------------------------xxxxxxxxxxxxxxxxxxxxxxxxxx----------------------------//
+
+
+
+//----------------------------Add User Form Actions---------------------------------//
+
+export const { getAddUsersProfileData } = addUserFormActions
+
+//----------------------------End of Add User Form Actions---------------------------------//
+
 
 
 

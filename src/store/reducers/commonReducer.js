@@ -48,7 +48,6 @@ export const commonReducer = (state = intialState, action) => {
 
         case actionTypes.POST_COMMON_CREATE_DATA:
             const newDataInitial = action.payload.data
-            // console.log(newDataInitial)
             return {
                 ...state,
                 newDataCreatedSuccessfully: true,
@@ -89,7 +88,6 @@ export const commonReducer = (state = intialState, action) => {
 
         case actionTypes.GET_SINGLE_FIELD_DATA:
             const singleFieldDataInitial = action.payload.data
-            // console.log(singleFieldDataInitial, "singleFieldDataInitial")
             return {
                 ...state,
                 singleFieldName: singleFieldDataInitial ? singleFieldDataInitial.name : "",
@@ -119,7 +117,7 @@ export const commonReducer = (state = intialState, action) => {
             const intialDeleteData = action.payload.data
             return {
                 ...state,
-                postDeletedDataSuccessfulMessage: intialDeleteData ? intialDeleteData.result ? intialDeleteData.result.message : "Deleted Successfully" :  "Deleted Successfully",
+                postDeletedDataSuccessfulMessage: intialDeleteData ? intialDeleteData.result ? intialDeleteData.result.message : "Deleted Successfully" : "Deleted Successfully",
                 postDeletedDataSuccessfully: true
             }
 

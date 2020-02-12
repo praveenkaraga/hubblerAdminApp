@@ -166,6 +166,10 @@
                 border-left: unset;
                 padding: 5px;
                 overflow: scroll;
+
+                .ant-tabs-tabpane-active{
+                    height: 100%;
+                }
             }
 
 
