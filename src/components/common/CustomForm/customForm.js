@@ -9,6 +9,7 @@ class CustomForm extends Component {
         this.state = {}
     }
 
+    //on Submit of the form it will validate all the validations
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
