@@ -3,6 +3,8 @@ import {Button, Input, Modal, Select, Switch} from "antd";
 import './creationPopUp.scss'
 import map from "lodash/map";
 import find from "lodash/find";
+import isEmpty from 'lodash/isEmpty'
+
 
 const {Option} = Select;
 
@@ -17,17 +19,11 @@ class CreationPopUp extends Component {
 
     }
 
-    onChange = (value) =>{
-        console.log(value)
-    }
-
-    onSearch = () =>{
-        console.log('searched')
-    }
 
 
     getCustomFieldsSkeleton = (type) => {
-        const {creationPopUpFirstFieldChangeHandler, fieldHeader, fieldPlaceHolder, creationPopUpSecondFieldChangeHandler, secondFieldHeader = `Type`, thirdFieldHeader = `Required`, fourthFieldHeader = `Enable Parent Node`, creationPopUpThirdFieldChangeHandler, creationPopSecondButtonHandler, inputValue, inputMaxLength, typeDropDownSelectedValue, requiredCheckValue = false, parentNodeCheckValue = false, creationPopUpFourthFieldChangeHandler,parentNodeOptions,parentNodeSwitch} = this.props
+        const {creationPopUpFirstFieldChangeHandler, fieldHeader, fieldPlaceHolder, creationPopUpSecondFieldChangeHandler, secondFieldHeader = `Type`, thirdFieldHeader = `Required`, fourthFieldHeader = `Enable Parent Node`, creationPopUpThirdFieldChangeHandler, creationPopSecondButtonHandler, inputValue, inputMaxLength, typeDropDownSelectedValue, requiredCheckValue = false, parentNodeCheckValue = false, creationPopUpFourthFieldChangeHandler, parentNodeOptions, parentNodeSwitch,parentNodeOnchange,
+            parentNodeOnSearch} = this.props
         const {
             secondFieldOptions = [{name: 'Single Select', key: 'single_select'}, {
                 name: 'Multi Select',
@@ -66,27 +62,29 @@ class CreationPopUp extends Component {
             </div>
             <div className={'fourth-field-wrap'}>
                 <div className={'switch-header-wrap'}>
-                    <Switch onChange={creationPopUpFourthFieldChangeHandler} className={'third-field-element'} loading={parentNodeSwitch}
+                    <Switch onChange={creationPopUpFourthFieldChangeHandler} className={'third-field-element'}
+                            loading={parentNodeSwitch}
                             checked={parentNodeCheckValue}/>
                     <div className={'field-header-name'}>{fourthFieldHeader}</div>
                 </div>
-                {parentNodeCheckValue ?
-                    <Select
-                        showSearch
-                        placeholder={'Select'}
-                        className={'dropDown'}
-                        optionFilterProp="children"
-                        onChange={this.onChange}
-                        onSearch={this.onSearch}
-                        filterOption={(input, option) =>
-                            option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                        }
-                    >
-                        {map(parentNodeOptions, function (inele, inde) {
-                            return <Option value={inele._id}
-                                           key={inele._id}>{inele.name}</Option>
-                        })}
-                    </Select> : ''}
+                {parentNodeCheckValue && !isEmpty(parentNodeOptions) ?
+                    <div className={'dropdown-wrap'}>
+                        <Select
+                            showSearch
+                            placeholder={'Select'}
+                            className={'dropDown'}
+                            optionFilterProp="children"
+                            onChange={parentNodeOnchange}
+                            onSearch={parentNodeOnSearch}
+                            filterOption={(input, option) =>
+                                option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                            }
+                        >
+                            {map(parentNodeOptions, function (inele, inde) {
+                                return <Option value={inele._id}
+                                               key={inele._id}>{inele.name}</Option>
+                            })}
+                        </Select></div> : ''}
             </div>
         </div>
     }
@@ -116,7 +114,7 @@ class CreationPopUp extends Component {
         const {
             creationPopUpVisibility = false, creationPopUpTitle = `Add New Department`, creationPopFirstButtonName = `Cancel`,
             creationPopSecondButtonName = `Create`, creationPopFirstButtonHandler, creationPopSecondButtonHandler,
-            customField = 'default', afterClose, secondButtonDisable, inputMaxLength = "50"
+            customField = 'default', afterClose, secondButtonDisable, inputMaxLength = "50",inputValue
         } = this.props
         return (
             <div className={'creation-pop-up'}>

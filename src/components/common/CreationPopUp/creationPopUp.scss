@@ -9,7 +9,12 @@
   width: 100%;
   padding: 4px 0 4px 55px;
 }
-
+.dropdown-wrap{
+  margin-left: 55px;
+  .dropDown{
+    width: 100%;
+  }
+}
 .third-field-wrap{
   display: flex;
   align-items: center;
