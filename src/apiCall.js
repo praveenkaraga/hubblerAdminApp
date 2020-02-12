@@ -211,8 +211,8 @@ export const postHolidayCreatedDataApi = (data) => {
     return axios.post(`/holiday/holiday-profiles/`, data, axiosConfig)
 }
 
-export const postCommonDeleteApi = (viewType, data) => {
-    return axios.post(`/rest/${viewType}/delete/`, data, axiosConfig)
+export const postCommonDeleteApi = (viewType, data, id) => {
+    return axios.post(`/rest/${id ? viewType + "/" + id : viewType}/delete/`, data, axiosConfig)
 }
 
 export const postCommonAddSelectedUsersDataApi = (viewType, data) => {
