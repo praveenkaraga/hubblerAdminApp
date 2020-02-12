@@ -33,7 +33,7 @@ class SystemFieldsList extends Component {
 }
 
 class ExcelFieldsList extends Component {
-    onChange(index, ele, mappings, slicedDataFilled, value) {
+    onChange = (index, ele, mappings, slicedDataFilled, value) => {
         let {switchStatus} = this.props
         let matchedObj = find(this.props.uploadPopUpData.sheet_columns, ['_id', value]);
         let dataObj = {
@@ -42,18 +42,14 @@ class ExcelFieldsList extends Component {
             ele: ele,
             patchData: matchedObj
         };
-        console.log(dataObj)
 
-        let sampleDataModeled = map(slicedDataFilled, item => {
-            if (item._id === dataObj.ele._id) {
-                return {...item, data: dataObj.patchData.data,name: dataObj.patchData.name}
-
+        let sampleDataModeled = map(slicedDataFilled, (item, index) => {
+            if ( item.type === 'none' ? index === dataObj.index :  item._id === dataObj.ele._id) {
+                return {...item, data: dataObj.patchData.data, name: dataObj.patchData.name}
             } else {
                 return item
             }
         })
-
-        console.log(sampleDataModeled)
 
         let dob = map(mappings, function (inEle, ind) {
             if (index === ind) {
@@ -66,16 +62,22 @@ class ExcelFieldsList extends Component {
     }
 
 
-    onSearch() {
+    onSearch = () => {
         console.log('searched')
     }
 
     render() {
-        const {uploadPopUpData, switchStatus, mappings,sampleDataModeled} = this.props;
+        const {uploadPopUpData, switchStatus, mappings, sampleDataModeled} = this.props;
         let slicedData = slice(uploadPopUpData.sheet_columns, 0, uploadPopUpData.fields.length)
         let count = slicedData.length < uploadPopUpData.fields.length ? uploadPopUpData.fields.length - slicedData.length : ''
-        let fillArrayData = fill(Array(count), {columnName: 'None', name: "None",data:"None"})
-        let slicedDataFilled = count ? slicedData.concat(fillArrayData) : slicedData
+        let fillArrayData = fill(Array(count), {columnName: 'None', name: "None", data: "None"})
+        // let slicedDataFilled = count ? slicedData.concat(fillArrayData) : slicedData
+        let slicedDataFilledInitial = /*count ? slicedData.concat(fillArrayData) : slicedData*/ sampleDataModeled ? sampleDataModeled : slicedData
+        let slicedDataFilled = map(slicedDataFilledInitial, function (ele, index) {
+            return {
+                ...ele, index: index
+            }
+        })
         let _this = this
         return (
             <ul className={'excel-fields-list'}>
@@ -89,8 +91,9 @@ class ExcelFieldsList extends Component {
                                     style={{width: 300}}
                                     className={'dropDown'}
                                     optionFilterProp="children"
-                                    onChange={_this.onChange.bind(_this, index, ele, mappings, sampleDataModeled)}
-                                    onSearch={_this.onSearch.bind(_this)}
+                                    onChange={(value) => _this.onChange(index, ele, mappings, sampleDataModeled, value)}
+                                    // onChange={_this.onChange.bind(_this, index, ele, mappings, sampleDataModeled)}
+                                    onSearch={_this.onSearch}
                                     filterOption={(input, option) =>
                                         option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                     }
@@ -115,16 +118,22 @@ class SampleDataList extends Component {
         let slicedData = slice(uploadPopUpData.sheet_columns, 0, uploadPopUpData.fields.length);
         let count = slicedData.length < uploadPopUpData.fields.length ? uploadPopUpData.fields.length - slicedData.length : ''
         let fillArrayData = fill(Array(count), {data: 'None', name: "None"})
-        let slicedDataFilled = /*count ? slicedData.concat(fillArrayData) : slicedData*/ sampleDataModeled ? sampleDataModeled : slicedData
+        let slicedDataFilledInitial = /*count ? slicedData.concat(fillArrayData) : slicedData*/ sampleDataModeled ? sampleDataModeled : slicedData
+        let slicedDataFilled = map(slicedDataFilledInitial, function (ele, index) {
+            return {
+                ...ele, index: index
+            }
+        })
+
         return (
             <ul className={'sample-data-list'}>
                 {
                     map(slicedDataFilled, function (ele, index) {
                         return (<li className={'sample-data-list-item'} key={index}>
                             {dropDownObj.index === index ?
-                                <div
-                                    className={'field-holder nush'}>{switchStatus ? dropDownObj.patchData.data : dropDownObj.patchData.name} </div> :
-                                <div className={'field-holder nush'}>{switchStatus ? ele.data : ele.name} </div>}
+                                    <div
+                                        className={'field-holder nush'}>{switchStatus ? dropDownObj.patchData.data : dropDownObj.patchData.name} </div> :
+                                    <div className={'field-holder nush'}>{switchStatus ? ele.data : ele.name} </div>}
                         </li>)
                     })
                 }
@@ -198,7 +207,6 @@ class ImportUsersUploadPopUp extends Component {
         this.setState({
             switchStatus: checked
         })
-        console.log(`switch to ${checked}`);
     }
 
     getMatchedFieldsId(data, index) {
@@ -236,9 +244,9 @@ class ImportUsersUploadPopUp extends Component {
         const {uploadPopUpData} = this.props;
         let slicedData = slice(uploadPopUpData.sheet_columns, 0, uploadPopUpData.fields.length)
         let count = slicedData.length < uploadPopUpData.fields.length ? uploadPopUpData.fields.length - slicedData.length : ''
-        let fillArrayData = fill(Array(count), {columnName: 'None', name: "None",data:"None"})
-        let slicedDataFilled = count ? slicedData.concat(fillArrayData) : slicedData
+        let fillArrayData = fill(Array(count), {columnName: 'None', name: "None", data: "None", type: 'none'})
 
+        let slicedDataFilled = count ? slicedData.concat(fillArrayData) : slicedData
 
         let mappingData = map(_this.props.uploadPopUpData.fields, function (ele, index) {
             return {
@@ -262,14 +270,14 @@ class ImportUsersUploadPopUp extends Component {
         )
     }
 
-    uploadOptionChange(value) {
+    uploadOptionChange = (value) => {
         let _this = this
         _this.setState({
             uploadOption: value
         })
     }
 
-    uploadUpdateOptionChange(value) {
+    uploadUpdateOptionChange = (value) => {
         this.setState({
             reqFieldIds: value
         })
@@ -386,7 +394,7 @@ class ImportUsersUploadPopUp extends Component {
                         <div className={'upload-option-wrap'}>
                             <div>
                                 <div>Upload Option</div>
-                                <Select defaultValue="create" onChange={_this.uploadOptionChange.bind(_this)}
+                                <Select defaultValue="create" onChange={_this.uploadOptionChange}
                                         className={'upload-option-select'}>
                                     <Option value="create">Create</Option>
                                     <Option value="update">Update</Option>
@@ -397,7 +405,7 @@ class ImportUsersUploadPopUp extends Component {
                                 <div className={'update-create'}>
                                     <div>Select reference fields to find reports</div>
                                     <div>
-                                        <Select onChange={_this.uploadUpdateOptionChange.bind(_this)}
+                                        <Select onChange={_this.uploadUpdateOptionChange}
                                                 mode="multiple"
                                                 placeholder={'Select'}
                                                 className={'upload-update-select'}>

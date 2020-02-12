@@ -26,7 +26,6 @@ import CreationPopUp from '../../components/common/CreationPopUp/CreationPopUp'
 // import CircleOpenView from '../../components/nodeOpenView/circleOpenView'
 import FieldOpenView from '../../components/nodeOpenView/fieldOpenView'
 import CommonSingleOpenView from '../../components/nodeOpenView/commonSingleOpenView'
-import ChangeViewRouting from '../../components/common/ChangeViewRouting/ChangeViewRouting'
 import {
     Switch,
     Route,
@@ -37,6 +36,7 @@ import {
 import {message} from 'antd'
 import './userConsoleView.scss'
 import isEmpty from 'lodash/isEmpty'
+import find from 'lodash/find'
 
 const routes = [
     {
@@ -88,7 +88,7 @@ class UserConsoleView extends Component {
             fieldPopUpSelectData: "drop down",
             fieldPopUpSwitchData: false,
             parentNodeSwitchData:false,
-
+            parentObject : {},
         }
 
         this.customDropdownData = [
@@ -149,7 +149,8 @@ class UserConsoleView extends Component {
             name: creationPopUpInputData,
             type: fieldPopUpSelectData,
             required: fieldPopUpSwitchData,
-            parent_enabled: false
+            parent_enabled: this.state.parentNodeSwitchData,
+            parent : this.state.parentObject,
         }
 
 
@@ -225,8 +226,7 @@ class UserConsoleView extends Component {
         } else {
             message.error(errorMsg)
         }
-
-    }
+    };
 
     creationPopUpFourthFieldChangeHandler = (data) => {
         const {parentNodeOptions} = this.props.userConsoleMainReducer
@@ -236,6 +236,31 @@ class UserConsoleView extends Component {
             this.props.getParentNodeOptionsData()
         }
         this.setState({parentNodeSwitchData: data})
+    };
+
+    afterClose = () =>{
+        this.setState({
+            creationPopUpInputData: "",
+            fieldPopUpSwitchData: false,
+            fieldPopUpSelectData: "drop down",
+            parentNodeSwitchData : false,
+        });
+        this.props.commonUserConsoleAction({parentNodeOptions : []})
+    };
+
+    parentNodeOnchange = (value)=>{
+        const {parentNodeOptions} = this.props.userConsoleMainReducer
+        let reqObj = find(parentNodeOptions, item => item._id === value)
+        this.setState( {
+            parentObject : {
+                _id : value,
+                name : reqObj.name
+            }
+        })
+    }
+
+    parentNodeOnSearch = () =>{
+        console.log('searched')
     }
 
     render() {
@@ -283,11 +308,7 @@ class UserConsoleView extends Component {
                                        creationPopFirstButtonHandler={() => this.setState({creationPopUpVisibility: false})}
                                        creationPopSecondButtonHandler={() => this.onSaveCreationPopUp(creationPopUpData.type)}
                                        secondButtonDisable={creationPopUpInputData.length < 3 || creationPopUpInputData === creationPopUpData.fixedName ? true : false}
-                                       afterClose={() => this.setState({
-                                           creationPopUpInputData: "",
-                                           fieldPopUpSwitchData: false,
-                                           fieldPopUpSelectData: "drop down"
-                                       })}
+                                       afterClose={this.afterClose}
                                        creationPopUpFirstFieldChangeHandler={this.creationPopUpInput}
                                        fieldHeader={`${creationPopUpData.typeName} Name`}
                                        fieldPlaceHolder={`Enter ${creationPopUpData.typeName} Name`}
@@ -300,8 +321,8 @@ class UserConsoleView extends Component {
                                        parentNodeCheckValue={this.state.parentNodeSwitchData}
                                        parentNodeSwitch={parentNodeSwitch}
                                        parentNodeOptions={parentNodeOptions}
-
-
+                                       parentNodeOnchange={this.parentNodeOnchange}
+                                       parentNodeOnSearch={this.parentNodeOnSearch}
                         />
 
 
