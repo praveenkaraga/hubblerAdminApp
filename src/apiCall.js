@@ -218,6 +218,11 @@ export const postCommonDeleteApi = (viewType, data) => {
 export const postCommonAddSelectedUsersDataApi = (viewType, data) => {
     return axios.post(`/add-people/${viewType}/`, data, axiosConfig)
 }
+export const getParentNodeOptions = () => {
+    return axios.get(`/meta/choose-parent-nodes/`, axiosConfig)
+}
+
+
 
 //-------------------xxxxx-------
 

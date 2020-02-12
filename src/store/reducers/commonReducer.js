@@ -1,4 +1,4 @@
-import { checkError } from '../../utils/helper'
+import {checkError} from '../../utils/helper'
 import * as actionTypes from '../actionTypes'
 
 const intialState = {
@@ -22,9 +22,9 @@ const intialState = {
 }
 
 export const commonReducer = (state = intialState, action) => {
-    const { errorData, isError } = checkError(state, action);
+    const {errorData, isError} = checkError(state, action);
     if (isError) {
-        return { ...errorData }
+        return {...errorData}
     }
 
     switch (action.type) {
@@ -124,6 +124,6 @@ export const commonReducer = (state = intialState, action) => {
     }
 
 
-    return { ...state }
+    return {...state}
 
 }
