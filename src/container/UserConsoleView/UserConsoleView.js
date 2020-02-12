@@ -209,8 +209,6 @@ class UserConsoleView extends Component {
 
     onDeleteConfirmClick = async (panelData, panelType) => {
         const changeType = panelType === "fields" ? "nodes" : "circles"
-        const finalData = { [changeType]: [panelData._id] }
-        // if (panelType === "fields") finalData["action"] = "DELETE_NODE"
         await this.props.postCommonDelete(changeType, { [changeType]: [panelData._id] })
         const { postDeletedDataSuccessfulMessage, postDeletedDataSuccessfully, errorMsg } = this.props.commonReducer
         if (postDeletedDataSuccessfully) {

@@ -10,16 +10,16 @@ class ColumnSetting extends Component {
         super(props);
         this.state = {
             columnData: this.props.columnData,
-            columnDataDraggable: this.props.columnData.filter(data => data.is_draggable),
-            columnDataNotDraggable: this.props.columnData.filter(data => !data.is_draggable),
-            checkedList: this.props.columnData.map(data => data._id),
+            columnDataDraggable: this.props.columnData.filter(data => data.is_draggable), //filtering draggable data 
+            columnDataNotDraggable: this.props.columnData.filter(data => !data.is_draggable),//filtering non draggable data 
+            checkedList: this.props.columnData.map(data => data._id), //colecting all the pre selected ids
             columnSettingData: this.props.columnSettingData
         }
         this.filterDraggablesData = []
     }
 
     //reordering the element inside the console column setting
-    onReorder = (event, previousIndex, nextIndex) => {
+    onReorder = (event, previousIndex, nextIndex) => { //on reordering setting the sata
         let updatedColumnData = reorder(
             this.state.columnDataDraggable,
             previousIndex,
@@ -29,28 +29,36 @@ class ColumnSetting extends Component {
     };
 
     onRemoveColumn = (id) => { //removing column when clicked remove
-        const updatedColumn = this.state.columnDataDraggable.filter(data => !(data._id === id))
+        const updatedColumn = this.state.columnDataDraggable.filter(data => !(data._id === id)) //filtering the removed column 
+
+        //updating this new removed data to checkedList because we have to remove it from below checkbox also
         const newCheckedList = [...this.state.columnDataNotDraggable.map(data => data._id), ...updatedColumn.map(data => data._id)]
         this.setState({ columnDataDraggable: updatedColumn, checkedList: newCheckedList })
     }
 
 
-    onCheckColumn = (checkedValue) => {
+    onCheckColumn = (checkedValue) => { //on checking and unchecking the checkbox
+        //filtering datas
         const filterDraggablesData = this.filterDraggables(this.props.columnSettingData.columnSettingFields, checkedValue)
         this.setState({ checkedList: checkedValue, columnDataDraggable: filterDraggablesData })
 
     }
 
 
+
+    //filtering all data to draggable part on selecting and unselecting
     filterDraggables = (columnSettingData, columnDataIds) => {
-        let filteredData = columnSettingData.filter(data => columnDataIds.includes(data._id))
-        let filteredDataDraggable = filteredData.filter(data => data.is_draggable)
+        let filteredData = columnSettingData.filter(data => columnDataIds.includes(data._id)) // filtering all the datas of the selected columns
+        let filteredDataDraggable = filteredData.filter(data => data.is_draggable) // checking if it is draggable
         return filteredDataDraggable
     }
 
 
 
-    checkBoxValidation = (checkedList, id) => {
+    checkBoxValidation = (checkedList, id) => { //validating all the scenarios for enabling and disablinf the checkboxes
+
+        //if checked length is 6 then user can not add more columns
+        //if checked length is 3 then user can not disable or remove more columns
         if ((checkedList.length === 6 && !checkedList.includes(id)) || (checkedList.length < 4 && checkedList.includes(id))) {
             return true
         } else {
@@ -58,8 +66,7 @@ class ColumnSetting extends Component {
         }
     }
 
-    dataSeparationForDom = (data) => {
-
+    dataSeparationForDom = (data) => { //creating dom nodes for draggable and non-drabble columns..
         const { columnDataDraggable, columnDataNotDraggable } = this.state
         return (
             data.map(singleColumnData => (
@@ -69,7 +76,7 @@ class ColumnSetting extends Component {
                         <p className="column_name"> {singleColumnData.lbl}</p>
                     </div>
                     {
-                        !singleColumnData.required && (columnDataNotDraggable.length + columnDataDraggable.length) > 3
+                        !singleColumnData.required && (columnDataNotDraggable.length + columnDataDraggable.length) > 3 //if selected column length less than 3, cross button will be disabled
                             ? <img className="cross_img" src={require("../../../images/close-app.svg")} onClick={() => this.onRemoveColumn(singleColumnData._id)} alt="croos-img" />
                             : ""
                     }
@@ -78,13 +85,13 @@ class ColumnSetting extends Component {
         )
     }
 
-    onColumnSetingFinalAction = async (status) => {
+    onColumnSetingFinalAction = async (status) => { //performing actions on save and cancel 
         const { columnDataDraggable, columnDataNotDraggable } = this.state
-        if (status && this.props.onColumnSettingSave) {
-            this.props.onColumnSettingSave([...columnDataNotDraggable, ...columnDataDraggable])
-        } else {
-            if (this.props.onColumnSettingCancel) this.props.onColumnSettingCancel()
-            this.setState({
+        if (status && this.props.onColumnSettingSave) { //if save is clicked and onColumnSettingSave props is available
+            this.props.onColumnSettingSave([...columnDataNotDraggable, ...columnDataDraggable]) //we will give all the required data as argument
+        } else { // if cancel is clicked 
+            if (this.props.onColumnSettingCancel) this.props.onColumnSettingCancel() //checking if onColumnSettingCancel props is available
+            this.setState({ //resetting all the datas on cancel
                 columnData: this.props.columnData,
                 columnDataDraggable: this.props.columnData.filter(data => data.is_draggable),
                 columnDataNotDraggable: this.props.columnData.filter(data => !data.is_draggable),

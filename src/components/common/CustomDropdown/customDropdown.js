@@ -12,6 +12,9 @@ const customPanelStyle = {
 }
 
 
+// this component is being used in below main parent component only
+
+//In this Component we have search and plus icon with animating search bar
 class AnimationSearch extends Component {
     constructor(props) {
         super(props);
@@ -20,27 +23,26 @@ class AnimationSearch extends Component {
         }
     }
 
+
+    // on Click of Search and cross icon on each collapse panel header
+    // triggering serch if "status" true and trggering cross button if false
     onClickSearch = (event, status) => {
         this.stopEvent(event)
-        if (!status) {
+        if (!status) { //on pressing cross button removing all the input data
             this.props.onLocalSearch({ target: { value: "" } })
             this.panelSearchInput.state.value = ""
         }
-        this.setState({ searchActive: status })
+        this.setState({ searchActive: status }) //according to status value we are handeling visibility of search bar
     }
 
 
     stopEvent = (event) => {
-        if (this.props.collapseStatus) {
-            event.stopPropagation()
-        }
+        if (this.props.collapseStatus) event.stopPropagation() //checking if collapse is open then applying  
     }
 
-    onClickPlusIcon = (event) => {
+    onClickPlusIcon = (event) => { // on Click of plus icon we are just checking if props id there
         event.stopPropagation()
-        if (this.props.onClickAdd) {
-            this.props.onClickAdd()
-        }
+        if (this.props.onClickAdd) this.props.onClickAdd()//checking if prop is being is passed or not
     }
 
 
@@ -58,7 +60,7 @@ class AnimationSearch extends Component {
                         <div className="plus_icon" onClick={this.onClickPlusIcon}></div>
                     </div>
                 </div>
-                <div className={`input_main ${searchActive ? "input_main_active" : "input_main_inactive"}`}>
+                <div className={`input_main ${searchActive ? "input_main_active" : "input_main_inactive"}`}> {/*if searchActive true then only show search bar */}
                     <div className="input_container" onClick={this.stopEvent}>
                         <Input ref={ele => this.panelSearchInput = ele} placeholder={searchPlaceHolder} onChange={onLocalSearch} />
                         <div className="cross_icon" onClick={(e) => this.onClickSearch(e, false)}></div>
@@ -86,48 +88,44 @@ class CustomDropdown extends Component {
         }
     }
 
-    collapseChange = (key) => {
-        const status = key.length ? true : false
+    collapseChange = (key) => { //checking if the current panel is close or open
+        const status = key.length ? true : false //it gives us as array so er are saving as boolean on our side...
         this.setState({ activeCollapse: status })
     }
 
 
-    onSelectingPanelData = (data) => {
-        this.props.onSinglePanelClick(data)
+    onSelectingPanelData = (data) => { //on selection of each panel data
+        if (this.props.onSinglePanelClick) this.props.onSinglePanelClick(data)
         this.setState({ panelDataActive: data._id })
     }
 
+
+    //this fn is being triggered on click of gear or delete icon
+    // in "type" we get "setting" for gear icon click and "delete" for delete icon
     actionButtonsClick = (event, type, data) => {
         event.stopPropagation()
-        if (type === "settings") {
-            if (this.props.onClickSetting) {
-                this.props.onClickSetting(data)
-            }
-        } else {
-            if (this.props.onClickDelete) {
-                this.props.onClickDelete(data)
-            }
-        }
+        const finalProp = type === "settings" ? this.props.onClickSetting : this.props.onClickDelete //assigning different prop according to type
+        if (finalProp) finalProp(data) //checking if prop is being is passed or not
     }
 
     onLocalSearch = (e) => {
         const searchData = e.target.value || ""
         const { panelData, onSearch } = this.props
-        const filteredData = panelData.filter(data => {
-            let str = data.name.toUpperCase()
-            let searchDataCap = searchData.toUpperCase()
-            return str.search(searchDataCap) !== -1
-        })
-        if (onSearch) {
-            onSearch(searchData)
-        }
 
-        this.setState({ localPanelData: filteredData.length ? filteredData : "noData" })
+        //performing a local search on the data
+        const filteredData = panelData.filter(data => {
+            let str = data.name.toUpperCase() //converting all incoming data  to capital
+            let searchDataCap = searchData.toUpperCase() //converting search data  to capital
+            return str.search(searchDataCap) !== -1 //returning all the matched data
+        })
+        if (onSearch) onSearch(searchData) //checking if prop is being is passed or not
+
+        this.setState({ localPanelData: filteredData.length ? filteredData : "noData" }) //savong "nodata" in case no data matched
 
     }
 
 
-    onVisibleChange = (status, id) => {
+    onVisibleChange = (status, id) => { //this fn is triggered on visibility change of Popover
         this.setState({
             popConfirmActive: status,
             panelWithPopActive: id
@@ -135,13 +133,13 @@ class CustomDropdown extends Component {
     }
 
 
+
+    //on Click of Confirm or Cancel
+    // type will have "confirm" or "cancel"
     confirmOrCancel = (event, data, type) => {
         event.stopPropagation()
-        if (type === "confirm") {
-            if (this.props.onDeleteConfirmClick) this.props.onDeleteConfirmClick(data)
-        } else {
-            if (this.props.onDeleteCancelClick) this.props.onDeleteCancelClick(data)
-        }
+        const finalProp = type === "confirm" ? this.props.onDeleteConfirmClick : this.props.onDeleteCancelClick //assigning different prop according to type
+        if (finalProp) finalProp(data) //checking if prop is being is passed or not
     }
 
     render() {
@@ -176,7 +174,6 @@ class CustomDropdown extends Component {
                                                 cancelText={popUpCancelButtonName}
                                                 onVisibleChange={(status) => this.onVisibleChange(status, data._id)}
                                                 overlayClassName="deletePopUp"
-                                            // onClick={event => event.stopPropagation()}
                                             >
                                                 <img className="delete_icon" src={require("../../../images/svg/delete_red.svg")} onClick={(e) => this.actionButtonsClick(e, "delete", data)} alt="delete" />
                                             </Popconfirm>
