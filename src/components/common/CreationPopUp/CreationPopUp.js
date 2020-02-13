@@ -22,7 +22,7 @@ class CreationPopUp extends Component {
 
 
     getCustomFieldsSkeleton = (type) => {
-        const {creationPopUpFirstFieldChangeHandler, fieldHeader, fieldPlaceHolder, creationPopUpSecondFieldChangeHandler, secondFieldHeader = `Type`, thirdFieldHeader = `Required`, fourthFieldHeader = `Enable Parent Node`, creationPopUpThirdFieldChangeHandler, creationPopSecondButtonHandler, inputValue, inputMaxLength, typeDropDownSelectedValue, requiredCheckValue = false, parentNodeCheckValue = false, creationPopUpFourthFieldChangeHandler, parentNodeOptions, parentNodeSwitch,parentNodeOnchange,
+        const {creationPopUpFirstFieldChangeHandler, fieldHeader, fieldPlaceHolder, creationPopUpSecondFieldChangeHandler, secondFieldHeader = `Type`, thirdFieldHeader = `Required`, fourthFieldHeader = `Enable Parent Node`, creationPopUpThirdFieldChangeHandler, creationPopSecondButtonHandler, inputValue, inputMaxLength, typeDropDownSelectedValue, requiredCheckValue = false, parentNodeCheckValue = false, creationPopUpFourthFieldChangeHandler, parentNodeOptions, parentNodeSwitchLoader,parentNodeOnchange,
             parentNodeOnSearch} = this.props
         const {
             secondFieldOptions = [{name: 'Single Select', key: 'single_select'}, {
@@ -63,7 +63,7 @@ class CreationPopUp extends Component {
             <div className={'fourth-field-wrap'}>
                 <div className={'switch-header-wrap'}>
                     <Switch onChange={creationPopUpFourthFieldChangeHandler} className={'third-field-element'}
-                            loading={parentNodeSwitch}
+                            loading={parentNodeSwitchLoader}
                             checked={parentNodeCheckValue}/>
                     <div className={'field-header-name'}>{fourthFieldHeader}</div>
                 </div>

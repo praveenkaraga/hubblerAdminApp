@@ -255,8 +255,7 @@ class CommonSingleOpenView extends Component {
             allSelectedUsersHeadingsData={tableColumnData} backButton={!(viewType === "circles") ? true : false}
             allSelectedUsersAllSelect={true}
             allSelectedUsersSearchData={this.onChangeSearch}
-            allSelectedUsersPlaceHolder={`Search ${singleViewName}`
-            }
+            allSelectedUsersPlaceHolder={`Search ${singleViewName}`}
             allSelectedUsersOnClickHeadingColumn={this.onClickHeading}
             allSelectedUsersTotalUsers={singleViewCount}
             allSelectedUsersCurrentPageNumber={currentPageNumber}
@@ -291,9 +290,7 @@ class CommonSingleOpenView extends Component {
             addUsersSelectedDataCount={addUsersCheckedDataKeys.length}
             addUsersChangePage={this.addUsersChangePage}
             addUsersCurrentPageNumber={addUsersCurrentPageNumber}
-            addUsersPopUpFirstButtonClick={this.onClickAddSelectedButton}
-
-        />)
+            addUsersPopUpFirstButtonClick={this.onClickAddSelectedButton}/>)
     }
 }
 
