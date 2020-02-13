@@ -307,9 +307,7 @@ class CommonSingleOpenView extends Component {
             addUsersSelectedDataCount={addUsersCheckedDataKeys.length}
             addUsersChangePage={this.addUsersChangePage}
             addUsersCurrentPageNumber={addUsersCurrentPageNumber}
-            addUsersPopUpFirstButtonClick={this.onClickAddSelectedButton}
-
-        />)
+            addUsersPopUpFirstButtonClick={this.onClickAddSelectedButton}/>)
     }
 }
 

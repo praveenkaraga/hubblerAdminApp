@@ -566,9 +566,7 @@ class Departments extends Component {
                                afterClose={this.afterClose}
                                inputMaxLength={50}
                                creationPopUpTitle={creationPopUpMode === "add" ? "Add New Designation" : "Edit Designation"}
-                               creationPopSecondButtonName={creationPopUpMode === "add" ? "Create" : "Save"}
-
-                />
+                               creationPopSecondButtonName={creationPopUpMode === "add" ? "Create" : "Save"}/>
 
 
 

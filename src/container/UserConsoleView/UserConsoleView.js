@@ -316,7 +316,7 @@ class UserConsoleView extends Component {
                             typeDropDownSelectedValue={this.state.fieldPopUpSelectData}
                             creationPopUpFourthFieldChangeHandler={this.creationPopUpFourthFieldChangeHandler}
                             parentNodeCheckValue={this.state.parentNodeSwitchData}
-                            parentNodeSwitch={parentNodeSwitch}
+                            parentNodeSwitchLoader={parentNodeSwitch}
                             parentNodeOptions={parentNodeOptions}
                             parentNodeOnchange={this.parentNodeOnchange}
                             parentNodeOnSearch={this.parentNodeOnSearch}

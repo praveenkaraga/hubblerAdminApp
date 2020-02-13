@@ -391,7 +391,7 @@ columnSettingData example :-
 
 * **onClickTableRow** {function(rowData)} : onClick of Each full row of table. You will get whole object of that particular clicked column as the first argument.
 
-* **selectedDataCount** {Number} : Number of Data selected. It is compulsory to pass this props if you wants to show header for different actions. And also can unselect all the selected data just by passing 0 in this props. 
+* **selectedDataCount** {Number} : Number of Data selected. It is **compulsory** to pass this props if you want to show header for different actions. And also can unselect all the selected data just by passing 0 in this props. 
 
 
 Below three props scenarios has been explaned above in UserSearch Comp. 
@@ -458,13 +458,31 @@ Below three props scenarios has been explaned above in UserSearch Comp.
 
 * **secondFieldHeader** : {"String"} : sets the name of the header of the Second field.
 
-* **thirdFieldHeader** : {"String"} : sets the name of the header of the Third field.
+* **thirdFieldHeader** : {"String"} {Default : "Required"} : sets the name of the header of the Third field.
 
 * **creationPopUpSecondFieldChangeHandler** {function(value)} : onChange of Second field of the popup you can get the data that's been chosen.
 
 * **creationPopUpThirdFieldChangeHandler** {function(checked)} : onChange of Third field of the popup you can get the data that's been chosen.
 
 * **inputMaxLength** {Number} {Default : 50} : maximum number of charecters a user can enter in the input field.
+
+* **fourthFieldHeader** : {"String"} {Default : "Enable Parent Node"} : sets the name of the header of the Fourth field.
+
+* **creationPopUpFourthFieldChangeHandler** {function(checked)} : if the field(switch) value is true a selection dropdown (parent node dropdown) appears. 
+
+* **requiredCheckValue** {Boolean}{default : false} : sets the value of the creationPopUpThirdField(*required switch*) of the popup.
+
+* **parentNodeCheckValue** {Boolean}{default : false} : sets the value of the creationPopUpFourthField(*parent node switch*) of the popup.
+
+* **typeDropDownSelectedValue** {String} : pass the value `drop down` for **Single Select** or `multi select` **Multi Select**, which sets the value of the creationPopUpSecondField when in **edit mode**.
+
+* **parentNodeSwitchLoader** {Boolean}{default : false} : sets the loader value to true or false. 
+
+* **parentNodeOptions** {Array of Objects} : sets the options for the dropdown of the creationPopUpFourthField(when the switch is true).
+
+* **parentNodeOnchange** {function} : onChange of the dropdown value of the creationPopUpFourthField(when the switch is true).
+
+* **parentNodeOnSearch** {function} : search inside the dropdown of the creationPopUpFourthField(when the switch is true).
 
 **XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
 
@@ -557,6 +575,42 @@ _This the view that opens when an user:_
 
 * **allSelectedUsersSearchLoader** {"boolean"} : Loader for search.
 
+* **allSelectedUsersShowHeaderButtons** {Array of Objects}: pass the Buttons you want from the given Options. 
+Options are(ids ) : "activate", "deactivate", "delete", "edit", "duplicate"
+
+Data example of `allSelectedUsersShowHeaderButtons`
+
+```javascript
+    [
+        { 
+            id: "activate", // to change this from the above given options
+            label: "Activate User" // Text you want to show on tooltip of the button
+         },
+
+        { 
+            id: "deactivate", 
+            label: "Deactivate User" 
+        }
+    ]
+
+```
+* **allSelectedUsersDisableButtonNames** {Array of texts} : array of buttons that you want to disable. Disable meaning, these buttons will be diplayed but will be in deactivated mode, User cant perform any action on it.
+Options are(ids ) : "activate", "deactivate", "delete", "edit", "duplicate"
+
+Example of `allSelectedUsersDisableButtonNames`
+```javascript
+//suppose you want to disable edit and delete button
+["edit", "delete"]
+```
+
+* **allSelectedUsersSelectedDataCount** : {Number}: Number of Data items selected. It is **compulsory** to pass this props if you want to show header for different actions. And also can unselect all the selected data just by passing 0 in this props.
+
+* **allSelectedUsersOnClickActions** {function (actionType)} : onClick of any one of the allSelectedUsersButtons, pass the type (ex : 'edit' or 'delete' or any of the other button types) 
+
+* **allSelectedUsersOnClickAddUserButton** {function}: On click of the Add User Icon which is on the right side of the searchDropdown.
+
+* **allSelectedUsersOnSelectAll** {function(selected, selectedRows)} : onClick of Select All CheckBox. First argument will give boolean(true if selected and false if unselected). Second argument will give data of all the selectd and unselected of that view page
+
 _Along with the above props add the props of Add Users Popup{AddUsersPopUp}_.
 
 * **_AddUsersPopUp_** : <a name="add-users-popup" href="#add-users-popup">Click Here to read about the props of add users popup.</a>
@@ -636,6 +690,8 @@ _Props :_
 
 * **addUsersSearchLoader** {"boolean"} : Loader for search.
 
+* **addUsersSelectedDataCount** : {Number}: Number of Data items selected. It is **compulsory** to pass this props if you want to show header for different actions. And also can unselect all the selected data just by passing 0 in this props.
+
 **XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
 
 <p>&nbsp;</p>
@@ -654,6 +710,8 @@ _Props :_
 * **buttonName** {"String"} {Default : "Add from Users List"} : Name of the button.
 
 * **addUsersCommonCardButtonClick** {function} : function that triggers on click of the button. 
+
+* **titleName** {"String"} {Default : "Users"} : Name of the header title.
  
 **XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
 
