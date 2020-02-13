@@ -126,6 +126,7 @@ class UserConsoleView extends Component {
         })
     }
 
+    // on change of input field inside creation of circle / field popup
     creationPopUpInput = (e) => {
         const { creationPopUpData } = this.state
         const inputData = e.target.value
@@ -135,12 +136,13 @@ class UserConsoleView extends Component {
         })
     }
 
+    //on click od save button of pop up
     onSaveCreationPopUp = async (type) => {
         const { creationPopUpInputData, creationPopUpData, fieldPopUpSelectData, fieldPopUpSwitchData } = this.state
         const popUpMode = creationPopUpData.mode // type of pop which is opening 
         const popUpDataType = creationPopUpData.type
         const finalDataCircle = { name: creationPopUpInputData }
-        const finalDataField = {
+        const finalDataField = { // creating data params for api
             name: creationPopUpInputData,
             type: fieldPopUpSelectData,
             required: fieldPopUpSwitchData,
@@ -149,20 +151,20 @@ class UserConsoleView extends Component {
         }
 
 
-        if (popUpMode === "setting") {
+        if (popUpMode === "setting") { // it is in edit mode we will call patch and if it is add mode we will call post
             await this.props.patchCommonCreateData(popUpDataType === "fields" ? "nodes" : popUpDataType, creationPopUpData.id, popUpDataType === "fields" ? finalDataField : finalDataCircle)
         } else {
             await this.props.postCommonCreateData(popUpDataType === "fields" ? "nodes" : popUpDataType, popUpDataType === "fields" ? finalDataField : finalDataCircle)
         }
         const { patchDataCreatedSuccessfully, patchSuccessMessage, errorMsg, newDataCreatedSuccessfully } = this.props.commonReducer
         if (popUpMode === "setting" ? patchDataCreatedSuccessfully : newDataCreatedSuccessfully) {// will be true if success is true from above patch / post api and pop up will be closed
-            message.success(popUpMode === "setting" ? "Saved Successfully" : "Created Successfully")
+            message.success(popUpMode === "setting" ? "Saved Successfully" : "Created Successfully") // changine in mesahe according to fn of pop up
             this.setState({ creationPopUpVisibility: false })
             this.props.commonActionForCommonReducer({
                 patchDataCreatedSuccessfully: false,
                 newDataCreatedSuccessfully: false
             })
-            popUpDataType === "circles" ? this.props.getCirclesData() : this.props.getCustomFields()
+            popUpDataType === "circles" ? this.props.getCirclesData() : this.props.getCustomFields() // after save and success of api we are calling this api to update the new data on screen 
         } else {
             message.error(errorMsg);
         }
