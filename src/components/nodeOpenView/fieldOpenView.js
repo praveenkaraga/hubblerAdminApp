@@ -4,7 +4,6 @@ import { bindActionCreators } from "redux";
 import AllUserSelect from '../allUserSelect/allUserSelect'
 import './nodeOpenView.scss'
 import {
-    designationsData,
     postCommonCreateData,
     commonActionForCommonReducer,
     patchCommonCreateData,
@@ -35,7 +34,7 @@ class FieldOpenView extends Component {
             editRowId: "",
             singleNodeId: "",
             filterKeyId: "",
-            apiCallFlag: false
+            apiCallFlag: true
         }
 
     }
@@ -44,47 +43,50 @@ class FieldOpenView extends Component {
         this.updateNodeId(true)
     }
 
-    static getDerivedStateFromProps(nextProps, prevState) {
+    static getDerivedStateFromProps(nextProps, prevState) {// have used this for updation of name.. when updating name in side..this will also render
 
-        if (prevState.patchDataCreatedSuccessfully !== nextProps.commonReducer.patchDataCreatedSuccessfully) {
+        if (prevState.patchDataCreatedSuccessfully !== nextProps.commonReducer.patchDataCreatedSuccessfully) {//checking if the name is being changed
             return {
                 patchDataCreatedSuccessfully: nextProps.commonReducer.patchDataCreatedSuccessfully
             };
         }
 
+        //updating viewType when changing from similar view of different modules{like from designaton to departments}
+        // if (nextProps.viewType !== prevState.viewType) return { viewType: nextProps.viewType }
 
-        if (nextProps.viewType !== prevState.viewType) {
-            return { viewType: nextProps.viewType }
-        }
+
+        // if filter id used for row is change then updating it
+        if (nextProps.commonReducer.singleFieldFilterKeyId !== prevState.filterKeyId) return { filterKeyId: nextProps.commonReducer.singleFieldFilterKeyId }
+
         return null;
     }
 
+
+    // will rerender the component when we are clicking on different circle when we are already in a circle
     componentDidUpdate(prevProps, prevState) {
-        const currentNodeId = getNodeId(this.props.history)
+        const currentNodeId = getNodeId(this.props.history)// getting new node id
 
-        if (prevState.patchDataCreatedSuccessfully) {
-            if (this.props.commonReducer.patchDataCreatedSuccessfully !== prevState.patchDataCreatedSuccessfully) {
-                this.updateNodeId()
-            }
-        }
-
-        const { apiCallFlag } = this.state
-        if (prevState.singleNodeId !== currentNodeId && !apiCallFlag) {
+        const { apiCallFlag } = this.state// this flag is only for not calling this api two times when we land on circles for the first time
+        if (prevState.singleNodeId !== currentNodeId && !apiCallFlag) {//if node id in url is different from the previous one this will call the api and rerender the component
             this.setState({ singleNodeId: currentNodeId, apiCallFlag: true })
             this.updateNodeId(false)
         }
-        if (apiCallFlag) {
-            this.setState({ apiCallFlag: false })
+        if (apiCallFlag) this.setState({ apiCallFlag: false }) // flag is true then make it false...will work on first time only
+
+        if (prevState.patchDataCreatedSuccessfully && this.props.commonReducer.patchDataCreatedSuccessfully !== prevState.patchDataCreatedSuccessfully) {// also renaming the circle in the side will re render the component
+            this.updateNodeId()
         }
     }
 
-
+    //update node id from url on change
     updateNodeId = (status) => {
-        const nodeId = getNodeId(this.props.history)
+        const nodeId = getNodeId(this.props.history)//a common fn to take out id from url
         if (status) this.setState({ singleNodeId: nodeId })
         this.props.getSingleFieldData(nodeId, this.state.rowsPerPage)
     }
 
+
+    // on search in table 
     fieldSearchData = (e) => {
         const { singleNodeId, rowsPerPage, activeheading, sortingType, filterKeyId } = this.state
         const searchData = e.target.value
@@ -95,7 +97,8 @@ class FieldOpenView extends Component {
         })
     }
 
-
+    //on click of heading of all the rows of the table
+    //will make ascend and descend that column
     onClickHeadingColumn = (activeheading, sortingType) => {
         const { rowsPerPage, searchData, currentPageNumber, singleNodeId, filterKeyId } = this.state
         this.props.getSingleFieldData(singleNodeId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType, filterKeyId)
@@ -105,15 +108,17 @@ class FieldOpenView extends Component {
         })
     }
 
+    //on select and unselect of checkbox
     onChangeCheckBox = (selectedRowsKeys, selectedRows) => {
         const { filterKeyId } = this.state
         let editRowName = ""
         let editRowId = ""
 
-        if (selectedRows[0]) {
-            editRowName = selectedRows[0][filterKeyId]
+        if (selectedRows[0]) {// saving data of latest selected one
+            editRowName = selectedRows[0][filterKeyId] // filterKeyId is the unique id for every fields name
             editRowId = selectedRows[0]._id
         }
+
         this.setState({
             checkedDataKeys: selectedRowsKeys,
             editRowName,
@@ -122,7 +127,7 @@ class FieldOpenView extends Component {
         })
     }
 
-
+    //on change of rows per page of the table
     onChangeRowsPerPage = (rowsPerPage) => {
         const { searchData, activeheading, sortingType, singleNodeId, filterKeyId } = this.state
         this.props.getSingleFieldData(singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType, filterKeyId)
@@ -132,7 +137,7 @@ class FieldOpenView extends Component {
         })
     }
 
-
+    //on change of pages of the table
     changePage = (calcData) => {
         const { currentPageNumber, rowsPerPage, searchData, activeheading, sortingType, singleNodeId, filterKeyId } = this.state
 
@@ -143,11 +148,13 @@ class FieldOpenView extends Component {
         })
     }
 
+    //on click of single row of designation table
     onRowClick = (rowData) => {
         const { singleNodeId, filterKeyId } = this.state
         this.props.history.push(`/people/field/${singleNodeId}/${rowData._id}`, { uniqueTableHeadingId: filterKeyId })
     }
 
+    // on change of input field inside creation of designation popup
     creationPopUpInput = (e) => {
         const { editRowName } = this.state
         const inputData = e.target.value
@@ -155,12 +162,12 @@ class FieldOpenView extends Component {
     }
 
 
-
+    // action being done on field node items{edit or delete}
     onFieldItemActions = async (actionType) => {
         const { singleNodeId, checkedDataKeys, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType } = this.state
-        if (actionType === "edit") {
+        if (actionType === "edit") { // if edit then pop up will open to edit
             this.setState({ creationPopUpVisibility: true, creationPopUpMode: "edit" })
-        } else {
+        } else { // if delete then api call will be done..and on success message will be shown
             await this.props.postCommonDelete("nodes", { data: checkedDataKeys }, singleNodeId)
             const { postDeletedDataSuccessfulMessage, postDeletedDataSuccessfully, errorMsg } = this.props.commonReducer
             if (postDeletedDataSuccessfully) {
@@ -175,17 +182,18 @@ class FieldOpenView extends Component {
         }
     }
 
+    // on save of edited name or new create
     onSaveEditOrCreateField = async (type) => {
         const { newFieldItemName, editRowId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType, filterKeyId, singleNodeId } = this.state
-        if (type === "edit") {
+        if (type === "edit") { // if it in edit mode then we will call patch
             await this.props.patchCommonCreateData("node_items", singleNodeId, { [filterKeyId]: newFieldItemName }, editRowId) //waiting for the api to be patch
-        } else {
+        } else { // if we are creating new then post will be called
             await this.props.postCommonCreateData("node_items", { [filterKeyId]: newFieldItemName }, singleNodeId) //waiting for the api to be posted
         }
         const { patchDataCreatedSuccessfully, patchSuccessMessage, newDataCreatedSuccessfully, errorMsg } = this.props.commonReducer // will be true if success is true from above post api and pop up will be closed
-        if (type === "edit" ? patchDataCreatedSuccessfully : newDataCreatedSuccessfully) {
+        if (type === "edit" ? patchDataCreatedSuccessfully : newDataCreatedSuccessfully) { // according to difference type we are deciding the success
             this.setState({ creationPopUpVisibility: false, checkedDataKeys: [] })
-            message.success(type === "edit" ? "Saved Successfully" : "Created Successfully ");
+            message.success(type === "edit" ? "Saved Successfully" : "Created Successfully "); // according to difference type we are deciding the success message
             this.props.commonActionForCommonReducer({ patchDataCreatedSuccessfully: false, newDataCreatedSuccessfully: false })
             this.props.getSingleFieldData(singleNodeId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
         } else {
@@ -196,14 +204,14 @@ class FieldOpenView extends Component {
     render() {
         const { singleFieldData, singleFieldCount, singleFieldName, singleFieldFilterKeyId } = this.props.commonReducer
         const { currentPageNumber, creationPopUpVisibility, newFieldItemName, checkedDataKeys, creationPopUpMode, editRowName, filterKeyId } = this.state
-        if (!filterKeyId && singleFieldFilterKeyId) {
+        if (!filterKeyId && singleFieldFilterKeyId) { // on first time load saving the id
             this.setState({ filterKeyId: singleFieldFilterKeyId })
         }
         const fieldsColumnData = [
 
             {
                 "title": "Name",
-                "dataIndex": singleFieldFilterKeyId,
+                "dataIndex": singleFieldFilterKeyId, // key of each field nodes items
                 "_id": singleFieldFilterKeyId,
                 "lbl": "Name",
                 "type": "text",
@@ -240,7 +248,7 @@ class FieldOpenView extends Component {
 
                     headingClickData={this.onClickHeadingColumn}
                     onChangeCheckBox={this.onChangeCheckBox}
-                    searchSecondButtonClick={() => this.setState({ creationPopUpVisibility: true, creationPopUpMode: "add" })}
+                    searchSecondButtonClick={() => this.setState({ creationPopUpVisibility: true, creationPopUpMode: "add" })} // opening the pop up and also type of pop up to open
 
 
                     totalUsers={singleFieldCount}
@@ -258,7 +266,7 @@ class FieldOpenView extends Component {
                     onClickTableRow={this.onRowClick}
 
                     // //buttons to show and hide 
-                    showHeaderButtons={[{ id: "edit", label: "Edit Item" }, { id: "delete", label: "Delete Items" }]}
+                    showHeaderButtons={[{ id: "edit", label: "Edit Item" }, { id: "delete", label: "Delete Items" }]} // buttons to show when selected row
                     disableButtonNames={[checkedDataKeys.length > 1 ? "edit" : ""]}
 
                     // //to empty the selected Data
@@ -288,7 +296,6 @@ class FieldOpenView extends Component {
 
 const mapStateToProps = state => {
     return {
-        //designationsReducer: state.designationsReducer,
         commonReducer: state.commonReducer
     };
 };
@@ -296,7 +303,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return bindActionCreators(
         {
-            designationsData,
             postCommonCreateData,
             commonActionForCommonReducer,
             patchCommonCreateData,

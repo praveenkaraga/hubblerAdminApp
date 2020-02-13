@@ -2,20 +2,16 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import {
-    getUserData,
     createActiveLink,
     getCirclesData,
     getCustomFields,
-    getDeptTableColumnData,
-    commonDepartmentAction,
-    getTableColumnsData,
-    getAddSelectedUsersPostedData,
-    getDepartmentData,
     patchCommonCreateData,
     commonActionForCommonReducer,
     getLoginSessionData,
     postCommonCreateData,
-    postCommonDelete, getParentNodeOptionsData, commonUserConsoleAction
+    postCommonDelete,
+    getParentNodeOptionsData,
+    commonUserConsoleAction
 } from '../../store/actions/actions'
 import Console from '../../components/console/Console'
 import TeamView from '../../components/teamView/TeamView'
@@ -23,7 +19,6 @@ import Departments from '../../components/departments/Departments'
 import Designations from '../../components/designations/designations'
 import CustomDropdown from '../../components/common/CustomDropdown/customDropdown'
 import CreationPopUp from '../../components/common/CreationPopUp/CreationPopUp'
-// import CircleOpenView from '../../components/nodeOpenView/circleOpenView'
 import FieldOpenView from '../../components/nodeOpenView/fieldOpenView'
 import CommonSingleOpenView from '../../components/nodeOpenView/commonSingleOpenView'
 import {
@@ -379,20 +374,16 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return bindActionCreators(
         {
-            getUserData,
             createActiveLink,
             getCirclesData,
             getCustomFields,
-            getDeptTableColumnData,
-            commonDepartmentAction,
-            getTableColumnsData,
-            getAddSelectedUsersPostedData,
-            getDepartmentData,
             patchCommonCreateData,
             commonActionForCommonReducer,
             getLoginSessionData,
             postCommonCreateData,
-            postCommonDelete, getParentNodeOptionsData, commonUserConsoleAction
+            postCommonDelete,
+            getParentNodeOptionsData,
+            commonUserConsoleAction
         },
         dispatch
     );
