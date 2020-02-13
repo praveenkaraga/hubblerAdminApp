@@ -36,6 +36,8 @@ class CommonSingleOpenView extends Component {
             addUsersSearchData: "",
             addUsersCheckedDataKeys: [],
 
+            suggestionSearchData: ""
+
         }
 
     }
@@ -88,8 +90,9 @@ class CommonSingleOpenView extends Component {
 
     // on serach in the drop down searh comp
     onChangeSearchDropdown = (searchData) => {
-        const { singleNodeId, viewType } = this.state
-        this.props.getSingleViewSuggestionData(viewType, singleNodeId, 30, 1, searchData)
+        const { singleNodeId, viewType, subNodeId } = this.state
+        this.props.getSingleViewSuggestionData(viewType, singleNodeId, 30, 1, searchData, "", "", subNodeId)
+        this.setState({ suggestionSearchData: searchData })
     }
 
 
@@ -260,7 +263,7 @@ class CommonSingleOpenView extends Component {
 
     render() {
         const { singleViewName, singleViewCount, singleViewData, singleViewSuggestionData, singleViewSuggestionDataCount, tableColumnData } = this.props.commonReducer
-        const { searchData, currentPageNumber, addUsersPopUpStatus, checkedDataKeys, addUsersCheckedDataKeys, addUsersCurrentPageNumber, viewType } = this.state
+        const { searchData, currentPageNumber, addUsersPopUpStatus, checkedDataKeys, addUsersCheckedDataKeys, addUsersCurrentPageNumber, viewType, suggestionSearchData } = this.state
 
         return (<CommonCreationView commonCreationViewHeaderName={singleViewName}
             viewDecider={searchData || singleViewCount ? 1 : 0}
@@ -276,7 +279,7 @@ class CommonSingleOpenView extends Component {
             allSelectedUsersOnChangeCheckBox={this.onChangeCheckBox}
             allSelectedUsersOnChangeRowsPerPage={this.onChangeRowsPerPage}
             commonCreationViewBackButtonClick={this.backButtonClick}
-            allSelectedUsersShowHeaderButtons={[{ id: "delete", label: "Delete User" }]}
+            allSelectedUsersShowHeaderButtons={[{ id: "delete", label: "Remove" }]} //BUttons to show when row selected
             allSelectedUsersSelectedDataCount={checkedDataKeys.length}
             allSelectedUsersOnClickAddUserButton={() => this.onClickOfAddUsers(true)}
             allSelectedUsersChangePage={this.onChangePage}
@@ -286,7 +289,7 @@ class CommonSingleOpenView extends Component {
             allSelectedUsersSearchDropdownPlaceholder={"Enter Name and Add"}
             allSelectedUsersOnChangeSearchDropdown={this.onChangeSearchDropdown}
             allSelectedUsersOnSearchDropdownSelect={this.onSearchDropdownSelect}
-            allSelectedUsersSearchDropdownData={singleViewSuggestionData}
+            allSelectedUsersSearchDropdownData={suggestionSearchData ? singleViewSuggestionData : []}
 
 
 
