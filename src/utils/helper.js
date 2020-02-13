@@ -1,4 +1,4 @@
-//checking error and updatinf the errorMsg
+//checking error and update the errorMsg
 export function checkError(state, { payload }) {
     const errorPayload = {
         errorData: null,
@@ -16,7 +16,7 @@ export function checkError(state, { payload }) {
 }
 
 
-export function validationRules(required, label, minLength, maxLength) {
+export function validationRules(required, label, minLength, maxLength) { //pre defined rules for validations...using for all fields
     return [{ required: required, message: `Please input ${label}` },
     { min: minLength, message: `Minimum ${minLength} Letters` },
     { max: maxLength, message: `Maximum ${maxLength} Letters` }]

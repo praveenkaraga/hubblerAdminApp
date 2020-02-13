@@ -30,7 +30,7 @@ class AllTypes extends Component {
         console.error = () => { }
         console.warn = () => { }
 
-        switch (type) {
+        switch (type) { //returning different form fields according to data
             case "text":
                 return <Text validationRules={customValidationRules} {...this.props} />
 

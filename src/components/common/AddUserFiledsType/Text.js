@@ -27,14 +27,15 @@ class Text extends Component {
                     <Form.Item label={index === 0 ? label : ''}>
                         {getFieldDecorator(`${fieldId}[${k}]`, config)(<Input {...this.props} />)}
 
-                        {stateKeys.length > 1 ? (
+                        {stateKeys.length > 1 ? (//checking if copy of this component is greater than 1 .. then will enable remove button 
                             <Icon
                                 className="dynamic-delete-button"
                                 type="minus-circle"
                                 onClick={() => removeField(k, this, stateKeys)}
                             />
                         ) : null}
-                        {
+                        {//if repeatation of this component is true plus icon will be enabled
+                            //and also checking the no. of copies made for this field..because plus icon will come in side of last copy only
                             repeating && stateKeys.length === index + 1 ? (
                                 <Icon
                                     className="dynamic-add-button"

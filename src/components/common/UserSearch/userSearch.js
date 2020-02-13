@@ -69,12 +69,12 @@ class UserSearch extends Component {
         const alluserActions = this.createUserActionButtons(showButtonNames)
 
         return (
-            <div className={`search_and_buttons ${userSelected ? "user_selected" : "no_user_selected"}`}>
+            <div className={`search_and_buttons ${userSelected ? "user_selected" : "no_user_selected"}`}> {/*if userSelected id true the background color will change...and different class will be implemented */}
                 <div className="search_users">
                     <Input.Search placeholder={searchPlaceHolder} loading={searchLoader} onChange={onSearch} />
                 </div>
                 <div className="all_buttons">
-                    {userSelected && !onlySelectAndAdd ?
+                    {userSelected && !onlySelectAndAdd ? //if userSelected true and onlySelectAndAdd is false then buttons to do action on table data will be visible 
                         <div className="user_action_buttons">
                             <Tooltip key={`totalUserstooltip`} placement="top" title={"Total Users Selected"}>
                                 <div className="user_count">{userSelected}</div>
@@ -96,8 +96,8 @@ class UserSearch extends Component {
                             }
                             )}
                         </div>
-                        :
-                        !allSelect ?
+                        : // else the normal button will be visible
+                        !allSelect ? // if "allSelect" true then one more search with dropDown will be visible or else normal buttons will be there 
                             <>
                                 {onClickFirst ? <Button className={`import_button ${onlySelectAndAdd && !userSelected ? "import_button_disable" : ""}`} type="primary" loading={firstButtonLoader} onClick={onClickFirst}>
                                     {firstButtonName}
