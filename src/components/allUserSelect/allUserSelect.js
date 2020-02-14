@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Select, Popover } from 'antd';
+import { Select } from 'antd';
 import './allUserSelect.scss'
 import UserSearch from '../common/UserSearch/userSearch'
 import AddUser from '../addUser/addUser'
-import ColumnSetting from './columnSetting/columnSetting'
 import UserTable from '../userTable/userTable'
-
+import ColumnSettingWithPopOver from './columnSetting/columnSettingWithPopOver/columnSettingWithPopOver'
 
 
 class AllUserSelect extends Component {
@@ -147,25 +146,18 @@ class AllUserSelect extends Component {
 
 
                     <div className="setting_table_combine">
-                        {columnConfigurable ? <div className="column_settings"> {/* checking if columnConfigurable true then show gear icon */}
-                            <Popover
-                                content={<ColumnSetting columnData={allHeadingsData} //opening content of gear icon on popover
-                                    columnSettingData={columnSettingData}
-                                    onColumnSettingSave={onColumnSettingSave}
-                                    onColumnSettingCancel={onColumnSettingCancel}
-                                    onSearchColumnSetting={onSearchColumnSetting} />}
-                                title="Column Setting"
-                                trigger="click"
-                                visible={visibleColumnSetting}
-                                placement="bottomRight"
-                                autoAdjustOverflow
-                                overlayClassName="allUserSelect_popover"
-                            >
-                                <img src={require(`../../images/svg/${!visibleColumnSetting ? "settings_grey" : "close-app"}.svg`)} //if visibleColumnSetting false then whow gear icon otherwise will show cross icon
-                                    onClick={this.onClickColumnSetting} alt="Column Setting" />
+                        {columnConfigurable ? //checking if columnConfigurable true then show gear icon
+                            <ColumnSettingWithPopOver
+                                visibleColumnSetting={visibleColumnSetting}
+                                onClickColumnSetting={this.onClickColumnSetting}
+                                tableColumnHeadingData={allHeadingsData}
+                                columnSettingData={columnSettingData}
+                                onColumnSettingSave={onColumnSettingSave}
+                                onColumnSettingCancel={onColumnSettingCancel}
+                                onSearchColumnSetting={onSearchColumnSetting}
+                            />
+                            : null}
 
-                            </Popover>
-                        </div> : null}
 
                         <UserTable ref={table => this.wholeTable = table} modifiedUserData={modifiedUserData} allHeadingsData={allHeadingsData}
                             sortingData={this.onheadingClick} onChangeCheckBox={this.onChangeCheckBox} loading={!modifiedUserData.length ? true : false}

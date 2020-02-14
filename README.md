@@ -202,9 +202,9 @@ All Props of searchDropdown Component (<a name="search-with-dropdown" href="#sea
 
 * **popUpCancelButtonName** {Default : "Cancel"} : Confirm Button Name of Delete Pop Up
 
-* **onDeleteConfirmClick** {function} : onClick confirm Button of Delete Pop Up 
+* **onDeleteConfirmClick** {function(data)} : onClick confirm Button of Delete Pop Up. You will get data of the element you are trying to delete as the first arfument of the function
 
-* **onDeleteCancelClick** {function} : onClick cancel Button of Delete Pop Up <br/>
+* **onDeleteCancelClick** {function(data)} : onClick Cancel Button of Delete Pop Up. You will get data of the element you are trying to delete as the first arfument of the function<br/>
 
 **XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
 
@@ -242,15 +242,15 @@ All Props of searchDropdown Component (<a name="search-with-dropdown" href="#sea
 
 ##### ** When No Table Data has been selected **
 
-* **searchFirstButtonName** {"String"}{default : "IMPORT"} : Name of first Button
+* **searchFirstButtonName** {"String"}{default : "IMPORT"} : Name of first Button . Will become visible when you will use " searchFirstButtonClick" prop
 
-* **searchSecondButtonName** {"String"}{default : "ADD"} : Name of Second Button
+* **searchSecondButtonName** {"String"}{default : "ADD"} : Name of Second Button. Will become visible when you will use " searchSecondButtonClick" prop
 
 * **searchFirstButtonLoader** {"boolean"}{default : false} : loader inside search
 
 * **searchSecondButtonLoader** {"boolean"}{default : false} : loader inside search
 
-* **searchFirstButtonClick** {function} : onClick of first Button
+* **searchFirstButtonClick** {function} : onClick of first Button 
 
 * **searchSecondButtonClick** {function} : onClick of second Button
 
@@ -334,49 +334,61 @@ According to above configurations only you will be able to use below props:
 
 
 ##### ** Column Settings/Configuration **
-* **columnConfigurable** {Boolean}{default: false} : If `true` column settings button will display and below two props can be used 
+* **columnConfigurable** {Boolean}{default: false} : If `true` column settings gear icon will display and below two props can be used 
 
 * **onClickColumnSetting** {function} : onClick of column setting icon
 
-* **columnSettingData** {Object} : pass data of column settings... Should be Object
+* **visibleColumnSetting** {boolean} : Will decide to show setting pop over..if true will be visible and vice versa
+
+* **onColumnSettingSave** {function(data)} : onClick of Save button inside the column setting pop over. You will get all the changed data as argument of the function
+
+* **onColumnSettingCancel** {function} : onClick of Cancel button inside the column setting pop over.
+
+* **onSearchColumnSetting** {function(data)} : onChange of Search input inside the column setting pop over. Will get search data as argument.
+
+
+* **columnSettingData** {Array of Object} : pass data of column settings... Should be Object
 
 columnSettingData example :-
 
 ```javascript
-//all keys in Capital will be shown as type of Data like heading
-
-{
-         "basic fields": [
-        {
-            "_id": "name",          //compulsory
-            "lbl": "Name",          //compulsory
-            "type" : "text",        //optional
-            "isDraggable" : false   //if true it will be draggable
-        },
-        {
-            "_id": "email",
-            "lbl": "Email",
-            "type" : "text",
-            "isDraggable" : true
-        }
-    ],
-
-    "category" : [
-        {
-            "_id": "location",
-            "lbl": "Location",
-            "type" : "string",
-            "isDraggable" : true
-        },
-        {
-            "_id": "mobile",
-            "lbl": "Mobile",
-            "type" : "number",
-            "isDraggable" : true
-        }
-    ]
-
-}
+//all fields are compulsory
+"categories": [
+                {
+                    "_id": "system",
+                    "lbl": "Basic Fields"
+                },
+                {
+                    "_id": "nodes",
+                    "lbl": "Custom Fields"
+                }
+            ],
+"fields": [
+                {
+                    "_id": "mobile",
+                    "lbl": "Primary Mobile",
+                    "type": "text",
+                    "is_draggable": true,
+                    "required": false,
+                    "category_type": "system"
+                },
+                {
+                    "_id": "dob",
+                    "lbl": "Date of Birth",
+                    "type": "text",
+                    "is_draggable": true,
+                    "required": false,
+                    "category_type": "system"
+                },{
+                    "_id": "5c5d7b2e322d3a503c24e610",
+                    "name": "Anniversary date",
+                    "type": "text",
+                    "required": false,
+                    "lbl": "Anniversary date",
+                    "is_draggable": true,
+                    "category_type": "nodes"
+                }
+            ]
 ```
 
 ##### ** Main other Props of Table **
@@ -394,7 +406,7 @@ columnSettingData example :-
 * **selectedDataCount** {Number} : Number of Data selected. It is **compulsory** to pass this props if you want to show header for different actions. And also can unselect all the selected data just by passing 0 in this props. 
 
 
-Below three props scenarios has been explaned above in UserSearch Comp. 
+Below three props scenarios has been explained above in UserSearch Comp. 
 <a name="all-scenarios-of-table" href="#all-scenarios-of-table">Click Here to read about them.</a>
 
 * **isUserData** {Boolean}{default : true} 
@@ -422,6 +434,135 @@ Below three props scenarios has been explaned above in UserSearch Comp.
 
 
 **XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
+
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+## `Column Setting With PopOver{columnSettingWithPopOver}`
+This is being used to configure the table heading column.
+We can simply drag and drop and select unselect the required heading columns for table.
+
+#### PopOver props
+
+* **title** {String}{default : "Column Setting"} :  Title of the popover 
+
+* **trigger** {String}{default : "click"} :  On what action you want to do on gear icon to trigger
+(enable) this setting pop up {Options are : "hover"/"click"/"focus"}
+
+* **visibleColumnSetting** {boolean} : Will decide to show setting pop over..if true will be visible and vice versa
+
+* **placement** {String}{default : "bottom"} :  The position of the tooltip relative to the target(here gear icon), Options are:  "top"/ "left"/ "right" /"bottom" /"topLeft" /"topRight"/ "bottomLeft"/ "bottomRight"/ "leftTop"/ "leftBottom"/ "rightTop" /"rightBottom"
+
+* **onClickColumnSetting** {function} : onClick of column setting gear icon
+
+###### Below Props can also be used for ColumnSetting Component 
+
+* **tableColumnHeadingData** {Array of objects} : Array of objects will be passed...This the original table column heading data {below is sample example}
+
+```javascript
+[
+
+    {
+       
+        "_id": "name",                              //compulsory
+        "lbl": "Name",                              //cumposlsory
+        "type": "text",                             //compulsory
+        "is_draggable": false,                      //cumpolsory
+        "required": true,                           //cumpolsory
+        "category_type": "system",                  //cumpolsory
+        "default": true                             
+    },
+    {
+        "_id": "employee_id",
+        "lbl": "Emp ID",
+        "type": "text",
+        "is_draggable": false,                      
+        "required": true,                           
+        "category_type": "system",                  
+        "default": true                             
+    }
+]   
+```
+
+
+* **visibleColumnSetting** {boolean} : Will decide to show setting pop over..if true will be visible and vice versa
+
+* **onColumnSettingSave** {function(data)} : onClick of Save button inside the column setting pop over. You will get all the changed data as argument of the function
+
+* **onColumnSettingCancel** {function} : onClick of Cancel button inside the column setting pop over.
+
+* **onSearchColumnSetting** {function(data)} : onChange of Search input inside the column setting pop over. Will get search data as argument.
+
+
+* **columnSettingData** {Array of Object} : pass data of column settings... Should be Object
+
+columnSettingData example :-
+
+```javascript
+//all fields are compulsory
+"categories": [
+                {
+                    "_id": "system",
+                    "lbl": "Basic Fields"
+                },
+                {
+                    "_id": "nodes",
+                    "lbl": "Custom Fields"
+                }
+            ],
+"fields": [
+                {
+                    "_id": "mobile",
+                    "lbl": "Primary Mobile",
+                    "type": "text",
+                    "is_draggable": true,
+                    "required": false,
+                    "category_type": "system"
+                },
+                {
+                    "_id": "dob",
+                    "lbl": "Date of Birth",
+                    "type": "text",
+                    "is_draggable": true,
+                    "required": false,
+                    "category_type": "system"
+                },{
+                    "_id": "5c5d7b2e322d3a503c24e610",
+                    "name": "Anniversary date",
+                    "type": "text",
+                    "required": false,
+                    "lbl": "Anniversary date",
+                    "is_draggable": true,
+                    "category_type": "nodes"
+                }
+            ]
+```
+
+
+**Note** : PopOver also have a prop called `content`. In this case we have already used a component `ColumnSetting` in it so it can't be changed Props of Column
+
+
+**XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
+
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+## `ColumnSetting {columnSetting}`
+All props of this component has been explained above in columnSettingWithPopOver Comp.
+
+Only One prop name will change if you use this component alone.
+
+Instead of `tableColumnHeadingData` you will use `columnData`. All others are same
+
+<a name="below-Props-can-also-be-used-for-columnSetting-component" href="#below-Props-can-also-be-used-for-columnSetting-component">Click Here to read about them.</a>
+
+We have used this prop in `columnSettingWithPopOver` Component inside PopOver. But It can also be used sepearately inside any Component.
+
+
+**XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
+
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
