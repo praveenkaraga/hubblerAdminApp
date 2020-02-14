@@ -158,7 +158,7 @@ class HolidayProfile extends Component {
                                currentPageNumber={this.state.currentPageNumber}
                                onClickTableRow={this.onRowThisClick}
                                searchLoader={searchLoader}
-                               showHeaderButtons={[{ id: "edit", label: "Edit Holiday" }, { id: "delete", label: "Delete Holiday" }, /*{ id: "duplicate", label: "Duplicate Holiday" }*/]}
+                               showHeaderButtons={[{ id: "edit", label: "Edit Holiday" }, { id: "delete", label: "Delete Holiday" }, { id: "duplicate", label: "Duplicate Holiday" }]}
                                disableButtonNames={[checkedDataKeys.length > 1 ? "edit" : ""]}
                                selectedDataCount={checkedDataKeys.length}
                                onClickUserDelete={() => this.onClickDepartmentActions("delete")}
