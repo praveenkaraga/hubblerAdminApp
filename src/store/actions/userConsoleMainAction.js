@@ -16,8 +16,8 @@ export const getCirclesData = searchData => {
 }
 
 
-export const getCustomFields = () => {
-    const payload = getCustomFieldsApi()
+export const getCustomFields = searchData => {
+    const payload = getCustomFieldsApi(searchData)
     return {
         type: actionTypes.GET_CUSTOM_FIELDS_DATA,
         payload
@@ -42,7 +42,7 @@ export const getParentNodeOptionsData = () => {
     }
 }
 
-export const commonUserConsoleAction = (payload) =>{
+export const commonUserConsoleAction = (payload) => {
     return {
         type: actionTypes.COMMON_USER_CONSOLE_ACTION,
         payload
