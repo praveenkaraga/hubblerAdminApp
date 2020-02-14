@@ -311,7 +311,7 @@ According to above configurations only you will be able to use below props:
         "title": "Name",                            //compulsory
         "dataIndex": "name",                        //compulsory(will be same as _id)
         "_id": "name",                              //compulsory
-        "lbl": "Name",
+        "lbl": "Name",                              //cumpolsory
         "type": "text",                             //compulsory
         "sorter": true,                             //true if you want sorting in table
         "sortDirections": ["descend", "ascend"],    //type of sorting you want
@@ -448,11 +448,11 @@ We can simply drag and drop and select unselect the required heading columns for
 * **title** {String}{default : "Column Setting"} :  Title of the popover 
 
 * **trigger** {String}{default : "click"} :  On what action you want to do on gear icon to trigger
-(enable) this setting pop up {Options are : "hover"/"click"/"focus"}
+(enable) this setting pop up {Options are : "hover" / "click" / "focus"}
 
 * **visibleColumnSetting** {boolean} : Will decide to show setting pop over..if true will be visible and vice versa
 
-* **placement** {String}{default : "bottom"} :  The position of the tooltip relative to the target(here gear icon), Options are:  "top"/ "left"/ "right" /"bottom" /"topLeft" /"topRight"/ "bottomLeft"/ "bottomRight"/ "leftTop"/ "leftBottom"/ "rightTop" /"rightBottom"
+* **placement** {String}{default : "bottom"} :  The position of the tooltip relative to the target(here gear icon), Options are:  "top" / "left" / "right" / "bottom" / "topLeft" / "topRight" / "bottomLeft" / "bottomRight" / "leftTop" / "leftBottom" / "rightTop" / "rightBottom"
 
 * **onClickColumnSetting** {function} : onClick of column setting gear icon
 
