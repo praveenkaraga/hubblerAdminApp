@@ -258,6 +258,11 @@ class Console extends Component {
     }
 
 
+    onSearchColumnSetting = (searchData) => { // on search inside column setting pop over
+        this.props.tableColumnSetting(searchData)
+    }
+
+
     render() {
         const { consoleUserData, totalUsers, currentPageNumber, searchLoader, columnSettingData, addUserDataForm } = this.props.consoleReducer
         const { importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpData, uploadPopUpVisibility, startUploadStatus, uploadFileStatus,
@@ -296,6 +301,7 @@ class Console extends Component {
                     onColumnSettingSave={this.onColumnSettingSave}
                     visibleColumnSetting={visibleColumnSetting}
                     onColumnSettingCancel={() => this.setState({ visibleColumnSetting: false })}
+                    onSearchColumnSetting={this.onSearchColumnSetting}
 
                     //props for all the actions to be done on user
                     onClickUserActivate={() => this.actionOnUser("activate")}

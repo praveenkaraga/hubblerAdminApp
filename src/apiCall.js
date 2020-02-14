@@ -81,8 +81,8 @@ export const patchUploadData = (id, data) => {
 
 //---------- Apis for table column Settings
 
-export const getTableColumnSetting = () => { //to get all column setting data
-    return axios.get("/table/fields/rest/users/")
+export const getTableColumnSetting = (searchData) => { //to get all column setting data
+    return axios.get(`/table/fields/rest/users/?filterKey=lbl&search_key=${searchData || ""}`)
 }
 
 export const patchTableColumnSettingApi = (data) => { //to patch column setting data

@@ -121,7 +121,7 @@ class CustomDropdown extends Component {
         // })
         if (onSearch) onSearch(searchData) //checking if prop is being is passed or not
 
-        this.setState({ localSearchData: searchData || "nodata" })
+        this.setState({ localSearchData: searchData || "nodata" }) // saving no data when search is empty to handle empty data from api when search is done
 
     }
 
@@ -143,7 +143,7 @@ class CustomDropdown extends Component {
         if (finalProp) finalProp(data) //checking if prop is being is passed or not
     }
 
-    changeState = () => {
+    changeState = () => { // making empty string when clicked cross icon
         this.setState({ localSearchData: "" })
     }
 
