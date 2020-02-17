@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './commonCreationView.scss'
 import AddUsersCommonCard from '../../common/AddUsersCommonCard/AddUsersCommonCard'
-import AllUserSelect from "../../allUserSelect/allUserSelect";
+import AllUserSelect from "../allUserSelect/allUserSelect";
 import AddUsersPopUp from '../../common/AddUsersPopUp/AddUsersPopUp'
 import isEmpty from 'lodash/isEmpty'
 import UserSearch from "../UserSearch/userSearch";

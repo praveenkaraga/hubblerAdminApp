@@ -13,14 +13,14 @@ import {
     getParentNodeOptionsData,
     commonUserConsoleAction
 } from '../../store/actions/PeopleActions/peopleActions'
-import Console from '../../components/console/Console'
-import TeamView from '../../components/teamView/TeamView'
-import Departments from '../../components/departments/Departments'
-import Designations from '../../components/designations/designations'
+import Console from '../../components/People/console/Console'
+import TeamView from '../../components/People/teamView/TeamView'
+import Departments from '../../components/People/departments/Departments'
+import Designations from '../../components/People/designations/designations'
 import CustomDropdown from '../../components/common/CustomDropdown/customDropdown'
 import CreationPopUp from '../../components/common/CreationPopUp/CreationPopUp'
-import FieldOpenView from '../../components/nodeOpenView/fieldOpenView'
-import CommonSingleOpenView from '../../components/nodeOpenView/commonSingleOpenView'
+import FieldOpenView from '../../components/People/nodeOpenView/fieldOpenView'
+import CommonSingleOpenView from '../../components/People/nodeOpenView/commonSingleOpenView'
 import {
     Switch,
     Route,

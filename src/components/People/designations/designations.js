@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import AllUserSelect from '../allUserSelect/allUserSelect'
+import AllUserSelect from '../../common/allUserSelect/allUserSelect'
 import './designations.scss'
 import {
     designationsData,
@@ -9,9 +9,9 @@ import {
     commonActionForCommonReducer,
     patchCommonCreateData,
     postCommonDelete
-} from '../../store/actions/PeopleActions/peopleActions'
+} from '../../../store/actions/PeopleActions/peopleActions'
 import { withRouter } from "react-router-dom";
-import CreationPopUp from '../../components/common/CreationPopUp/CreationPopUp'
+import CreationPopUp from '../../../components/common/CreationPopUp/CreationPopUp'
 import { message, Modal } from 'antd'
 class Designations extends Component {
 

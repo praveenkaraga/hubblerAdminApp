@@ -3,7 +3,6 @@ import {connect} from "react-redux";
 import './teamView.scss'
 import {Button} from 'antd';
 import 'antd/dist/antd.css';
-import SearchTransition from '../common/Search/SearchTransition'
 import OrgChart from './teamViewComponents/OrgChart'
 import {bindActionCreators} from "redux";
 import {
@@ -15,11 +14,10 @@ import {
     onClickOfDownloadExcel,
     getImportUserUploadDetails,
     uploadImportUsersPopUPVisibility, patchImportUsersData, commonTeamReducerAction
-} from "../../store/actions/PeopleActions/peopleActions";
-import {teamViewReducer} from "../../store/reducers/PeopleReducer/teamViewReducer";
-import UserInfoSlider from '../../components/common/UserInfoSlider/UserInfoSlider'
-import ImportUsersPopUp from '../../components/common/ImportUsersPopUp/ImportUsersPopUp'
-import SearchDropdown from '../common/searchDropDown/searchDropDown'
+} from "../../../store/actions/PeopleActions/peopleActions";
+import UserInfoSlider from '../../../components/common/UserInfoSlider/UserInfoSlider'
+import ImportUsersPopUp from '../../../components/common/ImportUsersPopUp/ImportUsersPopUp'
+import SearchDropdown from '../../common/searchDropDown/searchDropDown'
 
 
 class TeamView extends Component {

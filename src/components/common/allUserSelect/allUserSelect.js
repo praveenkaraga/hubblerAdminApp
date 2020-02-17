@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Select } from 'antd';
 import './allUserSelect.scss'
-import UserSearch from '../common/UserSearch/userSearch'
-import AddUser from '../addUser/addUser'
-import UserTable from '../common/userTable/userTable'
+import UserSearch from '../../common/UserSearch/userSearch'
+import AddUser from '../../common/addUser/addUser'
+import UserTable from '../../common/userTable/userTable'
 import ColumnSettingWithPopOver from './columnSetting/columnSettingWithPopOver/columnSettingWithPopOver'
 
 
@@ -80,7 +80,7 @@ class AllUserSelect extends Component {
                                             <img src={singleUserData["profile_image"]["thumbnail"]} alt="Profile Pic" /> //profile pic
                                             :
                                             <div className="no_profile_pic"><p>{singleUserData.firstname.substring(0, 2)}</p></div> //if no profile pic then we are showing first two intials of their first name
-                                        : <div className="no_profile_pic"><img className="deactivated_user_pic" src={require('../../images/svg/deactivate-user-pic.svg')} /></div>
+                                        : <div className="no_profile_pic"><img className="deactivated_user_pic" src={require('../../../images/svg/deactivate-user-pic.svg')} /></div>
                                     : ""}
                                 <div className="only_name">{singleUserData.firstname || ""}  {singleUserData.lastname || ""}</div>
                             </div>
@@ -182,10 +182,10 @@ class AllUserSelect extends Component {
                                     <div className="current_page">{currentPageNumber || 0} of {totalPages || 0}</div>
                                     <div className="change_page">
                                         <span className={`prev_page ${currentPageNumber === 1 ? "prev_page_blocked" : ""}`}>
-                                            <img src={require("../../images/svg/left-arrow.svg")} onClick={goPrevPage} alt="Left Arrow" />
+                                            <img src={require("../../../images/svg/left-arrow.svg")} onClick={goPrevPage} alt="Left Arrow" />
                                         </span>
                                         <span className={`next_page ${currentPageNumber === totalPages ? "next_page_blocked" : ""}`} alt="Right Arrow">
-                                            <img src={require("../../images/svg/right-arrow.svg")} onClick={goNextPage} />
+                                            <img src={require("../../../images/svg/right-arrow.svg")} onClick={goNextPage} />
                                         </span>
                                     </div>
                                 </div>

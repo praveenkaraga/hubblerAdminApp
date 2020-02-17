@@ -2,12 +2,12 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import '../teamView.scss'
 import {bindActionCreators} from "redux";
-import {getClickedTeamUserReporteeData, storeClickedUserId, updateRollBackData} from "../../../store/actions/PeopleActions/peopleActions";
+import {getClickedTeamUserReporteeData, storeClickedUserId, updateRollBackData} from "../../../../store/actions/PeopleActions/peopleActions";
 import TeamViewUserCard from './TeamViewUserCard'
 import map from 'lodash/map'
 import last from 'lodash/last'
 import find from 'lodash/find'
-import UpArrow from '../../../images/svg/triangle.svg'
+import UpArrow from '../../../../images/svg/triangle.svg'
 import findIndex from "lodash/findIndex";
 import slice from "lodash/slice";
 import isEmpty from "lodash/isEmpty";

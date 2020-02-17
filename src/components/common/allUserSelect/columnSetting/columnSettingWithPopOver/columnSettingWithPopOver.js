@@ -26,7 +26,7 @@ class ColumnSettingWithPopOver extends Component {
                     autoAdjustOverflow
                     overlayClassName={`allUserSelect_popover`}
                 >
-                    <img src={require(`../../../../images/svg/${!visibleColumnSetting ? "settings_grey" : "close-app"}.svg`)} //if visibleColumnSetting false then whow gear icon otherwise will show cross icon
+                    <img src={require(`../../../../../images/svg/${!visibleColumnSetting ? "settings_grey" : "close-app"}.svg`)} //if visibleColumnSetting false then whow gear icon otherwise will show cross icon
                         onClick={onClickColumnSetting} alt="Column Setting" />
 
                 </Popover>

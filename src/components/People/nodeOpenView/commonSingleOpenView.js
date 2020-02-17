@@ -7,10 +7,10 @@ import {
     postCommonAddSelectedUsersData,
     postCommonRemovePeople,
     commonActionForCommonReducer
-} from '../../store/actions/PeopleActions/peopleActions'
-import CommonCreationView from '../common/CommonCreationView/CommonCreationView'
+} from '../../../store/actions/PeopleActions/peopleActions'
+import CommonCreationView from '../../common/CommonCreationView/CommonCreationView'
 import { withRouter } from "react-router-dom";
-import { getNodeId, getSubNodeId } from '../../utils/helper'
+import { getNodeId, getSubNodeId } from '../../../utils/helper'
 import { message, Modal } from 'antd'
 class CommonSingleOpenView extends Component {
     constructor(props) {

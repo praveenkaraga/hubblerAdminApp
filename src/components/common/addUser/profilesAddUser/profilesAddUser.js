@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import CustomSearch from '../../common/CustomSearch/customSearch'
+import CustomSearch from '../../CustomSearch/customSearch'
 import './profilesAddUser.scss'
 import { Table, Select } from 'antd';
 const { Option } = Select;

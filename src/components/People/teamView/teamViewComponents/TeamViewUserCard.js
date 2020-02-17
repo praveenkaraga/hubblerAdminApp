@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import '../teamView.scss'
 import {bindActionCreators} from "redux";
-import DefaultImageMale from '../../../images/profile-male.svg'
-import DefaultImageFemale from '../../../images/profile-female.svg'
-import {teamViewUserClick,getClickedTeamUserData,storeClickedUserId,commonTeamReducerAction} from "../../../store/actions/PeopleActions/peopleActions";
+import DefaultImageMale from '../../../../images/profile-male.svg'
+import DefaultImageFemale from '../../../../images/profile-female.svg'
+import {teamViewUserClick,getClickedTeamUserData,storeClickedUserId,commonTeamReducerAction} from "../../../../store/actions/PeopleActions/peopleActions";
 
 
 

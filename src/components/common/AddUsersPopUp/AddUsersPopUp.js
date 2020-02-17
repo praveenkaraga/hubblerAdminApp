@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import AllUserSelect from "../../allUserSelect/allUserSelect";
+import AllUserSelect from "../allUserSelect/allUserSelect";
 import {Modal} from "antd";
 import './addUsersPopUP.scss'
 

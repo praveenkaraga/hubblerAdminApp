@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Tabs, Popover, Button, Form } from 'antd';
 import './addUser.scss'
-import ImageCropper from '../common/ImageCropper/imageCropper'
-import CustomForm from '../common/CustomForm/customForm'
+import ImageCropper from '../../common/ImageCropper/imageCropper'
+import CustomForm from '../../common/CustomForm/customForm'
 import ProfilesAddUser from './profilesAddUser/profilesAddUser'
 
 const { TabPane } = Tabs;
@@ -58,7 +58,7 @@ class AddUser extends Component {
                         <div className="heading-with-close">
                             <h2 className="heading">Add New User</h2>
                             <span className="close-popup">
-                                <img src={require("../../images/close-app.svg")} onClick={onClickClose} />
+                                <img src={require("../../../images/close-app.svg")} onClick={onClickClose} />
                             </span>
                         </div>
                         <div className="profile_pic_with_details ">
@@ -75,7 +75,7 @@ class AddUser extends Component {
                                     </Popover>}
 
 
-                                <img className="camera" src={require("../../images/svg/camera-profile.svg")} />
+                                <img className="camera" src={require("../../../images/svg/camera-profile.svg")} />
                             </div>
                             <div className="user_details">
                                 <h3 className="name">User Details</h3>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './columnSetting.scss'
-import CustomSearch from '../../common/CustomSearch/customSearch'
+import CustomSearch from '../../../common/CustomSearch/customSearch'
 import { Checkbox } from 'antd'
 import Reorder, { reorder } from "react-reorder";
 
@@ -72,12 +72,12 @@ class ColumnSetting extends Component {
             data.map(singleColumnData => (
                 <div key={singleColumnData._id} className={singleColumnData.is_draggable ? "single_draggable" : "single_notDraggable"} draggable={false}>
                     <div className="column_and_dots">
-                        <img className="draggable_dots" src={require("../../../images/svg/braille-six-dots.svg")} alt="draggable" />
+                        <img className="draggable_dots" src={require("../../../../images/svg/braille-six-dots.svg")} alt="draggable" />
                         <p className="column_name"> {singleColumnData.lbl}</p>
                     </div>
                     {
                         !singleColumnData.required && (columnDataNotDraggable.length + columnDataDraggable.length) > 3 //if selected column length less than 3, cross button will be disabled
-                            ? <img className="cross_img" src={require("../../../images/close-app.svg")} onClick={() => this.onRemoveColumn(singleColumnData._id)} alt="croos-img" />
+                            ? <img className="cross_img" src={require("../../../../images/close-app.svg")} onClick={() => this.onRemoveColumn(singleColumnData._id)} alt="croos-img" />
                             : ""
                     }
                 </div>

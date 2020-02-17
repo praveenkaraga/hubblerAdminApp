@@ -2,7 +2,6 @@ import {checkError} from "../../../utils/helper";
 import * as actionTypes from "../../actionTypes";
 import filter from 'lodash/filter'
 import map from 'lodash/map'
-import isEmpty from 'lodash/isEmpty'
 
 const initialState = {
     count: 1,
@@ -58,13 +57,6 @@ export const departmentReducer = (state = initialState, action) => {
                 ...state,
                 departmentColumnData: columnData
             }
-        case actionTypes.GET_TABLE_COLUMN:
-            const tableColumnDataInitial = action.payload.data;
-            const tableColumnData = tableColumnDataInitial ? action.payload.data.result : [];
-            return {
-                ...state,
-                tableColumnsData: tableColumnData
-            }
 
         case actionTypes.POST_CREATE_DEPARTMENT_DATA:
             const initialData = action.payload.data;
@@ -76,27 +68,6 @@ export const departmentReducer = (state = initialState, action) => {
                 newDataCreatedSuccessfully : true,
                 viewDecider: 0
             }
-        case actionTypes.POST_ADD_SELECTED_USERS_DATA:
-            const dataInitial = action.payload.data;
-            return {
-                ...state,
-                dataInitial
-            };
-        case actionTypes.GET_ADD_SELECTED_USERS_POSTED_DATA:
-            const addedUsersInitialData = action.payload.data;
-            const allSelectedUserData = addedUsersInitialData ? addedUsersInitialData.result : []
-            const allSelectedUserDataCopy = JSON.parse(JSON.stringify(allSelectedUserData))
-            const totalAllSelectedUsers = addedUsersInitialData ? addedUsersInitialData.total_count : 0
-            let decideView = isEmpty(allSelectedUserData) ? false : true
-            return {
-                ...state,
-                addedUsersData: addedUsersInitialData ? addedUsersInitialData : [],
-                viewDecider: decideView,
-                commonViewLoader: false,
-                allSelectedUsersSearchLoader: false,
-                totalAllSelectedUsers
-            };
-
         case actionTypes.GET_ADDABLE_USERS_DATA:
             const userDataIntital = action.payload.data
             const userData = userDataIntital ? userDataIntital.result : []
@@ -107,14 +78,6 @@ export const departmentReducer = (state = initialState, action) => {
                 addableUsersData: userDataCopy,
                 totalAddableUsers,
                 addUsersSearchLoader: false,
-            }
-
-        case actionTypes.GET_COMMON_VIEW_HEADER_NAME:
-            let headerInitial = action.payload.data ? action.payload.data.result : {};
-            let commonViewHeader = headerInitial.name ? headerInitial.name : '';
-            console.log(action.payload.data);
-            return {
-                headerNameWhenRouted: commonViewHeader
             }
 
         case actionTypes.GET_DEPARTMENTS_SUGGESTION_DATA:

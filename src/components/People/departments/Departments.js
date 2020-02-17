@@ -10,24 +10,19 @@ import {
     commonDepartmentAction,
     getDeptTableColumnData,
     postCreateDeptData,
-    postAddSelectedUsers,
-    getAddSelectedUsersPostedData,
     getAddableUsersData,
-    getTableColumnsData,
-    getCommonViewHeaderName,
     onClickOfDownloadExcel,
     getImportUserUploadDetails,
     commonTeamReducerAction,
     patchImportUsersData, editUserDataForm, commonActionForCommonReducer, patchCommonCreateData, postCommonCreateData,postCommonDelete
-} from "../../store/actions/PeopleActions/peopleActions";
-import AllUserSelect from '../allUserSelect/allUserSelect'
+} from "../../../store/actions/PeopleActions/peopleActions";
+import AllUserSelect from '../../common/allUserSelect/allUserSelect'
 import filter from "lodash/filter";
-import CreationPopViewCombined from '../common/CreationPopViewCombined/CreationPopViewCombined'
 import {withRouter} from "react-router-dom";
-import ImportUsersPopUp from '../../components/common/ImportUsersPopUp/ImportUsersPopUp'
+import ImportUsersPopUp from '../../../components/common/ImportUsersPopUp/ImportUsersPopUp'
 import {message} from 'antd'
 
-import CreationPopUp from "../common/CreationPopUp/CreationPopUp";
+import CreationPopUp from "../../common/CreationPopUp/CreationPopUp";
 
 
 class Departments extends Component {
@@ -127,7 +122,6 @@ class Departments extends Component {
         this.setState({
             showUsersList: true,
         });
-        this.props.getTableColumnsData();
         this.props.getAddableUsersData(createdDepartmentData ? createdDepartmentData.id : '')
         this.props.commonDepartmentAction({populateSelectedUsersView: false})
     };
@@ -144,9 +138,6 @@ class Departments extends Component {
             users: this.state.usersIdArray,
             _id: createdDepartmentData.id
         };
-        this.props.postAddSelectedUsers(data);
-
-        this.props.getAddSelectedUsersPostedData(createdDepartmentData.id)
     };
 
     onChangeAddUsersCheckBox = (value) => {
@@ -219,7 +210,6 @@ class Departments extends Component {
         this.setState({
             showAddUsersPopUp: true,
         });
-        this.props.getTableColumnsData();
 
         this.props.getAddableUsersData(createdDepartmentData ? createdDepartmentData.id : '')
         this.props.commonDepartmentAction({viewDecider: false})
@@ -263,9 +253,7 @@ class Departments extends Component {
         this.setState({
             showAddUsersPopUp: false
         })
-        this.props.postAddSelectedUsers(data);
         this.props.commonDepartmentAction({commonViewLoader: true})
-        this.props.getAddSelectedUsersPostedData(createdDepartmentData.id)
     };
 
     addUsersPopUpOnChangeCheckBox = (value) => { //onChangeAddUsersCheckBox
@@ -323,10 +311,7 @@ class Departments extends Component {
     /*allSelected*/
 
     allSelectedUsersOnClickHeadingColumn = (activeHeading, sortingType) => {
-        const {createdDepartmentData} = this.props.departmentReducer;
 
-        const {allSelectedUsersRowsPerPage, allSelectedUsersSearchData, allSelectedUsersCurrentPageNumber} = this.state
-        this.props.getAddSelectedUsersPostedData(createdDepartmentData.id, allSelectedUsersRowsPerPage, allSelectedUsersCurrentPageNumber, allSelectedUsersSearchData, activeHeading, sortingType)
         this.setState({
             allSelectedUsersActiveHeading: activeHeading,
             sortingType
@@ -334,9 +319,6 @@ class Departments extends Component {
     }
 
     allSelectedUsersOnChangeRowsPerPage = (rowsPerPage) => {
-        const {createdDepartmentData} = this.props.departmentReducer;
-
-        this.props.getAddSelectedUsersPostedData(createdDepartmentData.id, rowsPerPage, 1)
         this.setState({
             rowsPerPage,
             allSelectedUsersCurrentPageNumber: 1
@@ -344,22 +326,16 @@ class Departments extends Component {
     }
 
     allSelectedUsersChangePage = (calcData) => {
-        const {createdDepartmentData} = this.props.departmentReducer;
 
-        const {allSelectedUsersCurrentPageNumber, allSelectedUsersRowsPerPage} = this.state
+        const {allSelectedUsersCurrentPageNumber} = this.state
         const goToPage = allSelectedUsersCurrentPageNumber + calcData
-        this.props.getAddSelectedUsersPostedData(createdDepartmentData.id, allSelectedUsersRowsPerPage, goToPage)
         this.setState({
             allSelectedUsersCurrentPageNumber: goToPage
         })
     }
 
     allSelectedUsersDepartmentSearchData = (e) => {
-        const {createdDepartmentData} = this.props.departmentReducer;
-
-        const {allSelectedUsersRowsPerPage, allSelectedUsersActiveHeading, allSelectedUsersSortingType} = this.state
         const searchData = e.target.value
-        this.props.getAddSelectedUsersPostedData(createdDepartmentData.id, allSelectedUsersRowsPerPage, 1, searchData, allSelectedUsersActiveHeading, allSelectedUsersSortingType)
         this.props.commonDepartmentAction({
             allSelectedUsersCurrentPageNumber: 1,
             allSelectedUsersSearchData: searchData,
@@ -432,10 +408,6 @@ class Departments extends Component {
         this.props.history.push(`/people/department/${rowData._id}`, {headerName: rowData.departments})
 
         this.props.commonDepartmentAction({commonViewLoader: true, headerNameWhenRouted: rowData.departments})
-
-        // await this.props.getCommonViewHeaderName(rowData._id)
-        this.props.getTableColumnsData();
-        this.props.getAddSelectedUsersPostedData(rowData._id)
     }
 
     onSearchDropdownSelect = () => {
@@ -701,11 +673,7 @@ const mapDispatchToProps = dispatch => {
             commonDepartmentAction,
             getDeptTableColumnData,
             postCreateDeptData,
-            postAddSelectedUsers,
-            getAddSelectedUsersPostedData,
             getAddableUsersData,
-            getTableColumnsData,
-            getCommonViewHeaderName,
             onClickOfDownloadExcel,
             getImportUserUploadDetails,
             commonTeamReducerAction,

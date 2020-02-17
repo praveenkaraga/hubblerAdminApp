@@ -11,7 +11,7 @@ import {
 import {createActiveLink, hamburgerIconClick} from "../../store/actions/PeopleActions/peopleActions";
 
 import './profileView.scss'
-import HolidayProfile from "../../components/HolidayProfile/HolidayProfile";
+import HolidayProfile from "../../components/Profile/HolidayProfile/HolidayProfile";
 import CommonRouting from '../../components/common/CommonRouting/CommonRouting'
 
 const routes = [

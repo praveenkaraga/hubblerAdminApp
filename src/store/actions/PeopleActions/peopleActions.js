@@ -64,11 +64,7 @@ export const { getDepartmentData,
     commonDepartmentAction,
     getDeptTableColumnData,
     postCreateDeptData,
-    postAddSelectedUsers,
-    getAddSelectedUsersPostedData,
     getAddableUsersData,
-    getTableColumnsData,
-    getCommonViewHeaderName,
     getDepartmentSuggestionData,
     editUserDataForm } = departmentActions
 

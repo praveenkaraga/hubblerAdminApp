@@ -1,26 +1,20 @@
 import React, {Component} from "react";
 import './holidayProfile.scss'
-import AllUserSelect from '../allUserSelect/allUserSelect'
+import AllUserSelect from '../../common/allUserSelect/allUserSelect'
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {
     commonHolidayAction,
     getHolidayTableColumnData,
     getHolidayProfileData,
-
-
     postCreateDeptData,
-    postAddSelectedUsers,
-    getAddSelectedUsersPostedData,
     getAddableUsersData,
-    getTableColumnsData,
-    getCommonViewHeaderName,
     onClickOfDownloadExcel,
     getImportUserUploadDetails,
     patchImportUsersData, editUserDataForm
-} from "../../store/actions/PeopleActions/peopleActions";
+} from "../../../store/actions/PeopleActions/peopleActions";
 import {withRouter} from "react-router-dom";
-import CreationPopUp from '../common/CreationPopUp/CreationPopUp'
+import CreationPopUp from '../../common/CreationPopUp/CreationPopUp'
 import {message} from "antd";
 
 
@@ -195,14 +189,7 @@ const mapDispatchToProps = dispatch => {
             commonHolidayAction,
             getHolidayTableColumnData,
             getHolidayProfileData,
-
-
-            postCreateDeptData,
-            postAddSelectedUsers,
-            getAddSelectedUsersPostedData,
-            getAddableUsersData,
-            getTableColumnsData,
-            getCommonViewHeaderName,
+            postCreateDeptData, getAddableUsersData,
             onClickOfDownloadExcel,
             getImportUserUploadDetails,
             patchImportUsersData, editUserDataForm

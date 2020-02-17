@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './console.scss'
-import AllUserSelect from '../allUserSelect/allUserSelect'
+import AllUserSelect from '../../common/allUserSelect/allUserSelect'
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import {
@@ -17,11 +17,11 @@ import {
     patchTableColumnSetting,
     getLoginSessionData,
     getAddUsersProfileData
-} from '../../store/actions/PeopleActions/peopleActions'
-import UserInfoSlider from '../common/UserInfoSlider/UserInfoSlider'
-import ImportUsersPopUp from '../common/ImportUsersPopUp/ImportUsersPopUp'
+} from '../../../store/actions/PeopleActions/peopleActions'
+import UserInfoSlider from '../../common/UserInfoSlider/UserInfoSlider'
+import ImportUsersPopUp from '../../common/ImportUsersPopUp/ImportUsersPopUp'
 import { message, Modal } from 'antd'
-import { capitalFirstLetter } from '../../utils/helper'
+import { capitalFirstLetter } from '../../../utils/helper'
 
 class Console extends Component {
 
