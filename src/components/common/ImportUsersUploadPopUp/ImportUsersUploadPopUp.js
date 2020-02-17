@@ -132,8 +132,8 @@ class SampleDataList extends Component {
                         return (<li className={'sample-data-list-item'} key={index}>
                             {dropDownObj.index === index ?
                                     <div
-                                        className={'field-holder nush'}>{switchStatus ? dropDownObj.patchData.data : dropDownObj.patchData.name} </div> :
-                                    <div className={'field-holder nush'}>{switchStatus ? ele.data : ele.name} </div>}
+                                        className={'field-holder field-holder-variant'}>{switchStatus ? dropDownObj.patchData.data : dropDownObj.patchData.name} </div> :
+                                    <div className={'field-holder field-holder-variant'}>{switchStatus ? ele.data : ele.name} </div>}
                         </li>)
                     })
                 }
