@@ -19,13 +19,14 @@ class UserList extends Component {
     };
 
     getConnection = (type,member) =>{
-        const {rootData} = this.props.teamViewReducer
+        const {rootData,total_count} = this.props.teamViewReducer
         let lastUser = last(rootData)
         if(type === 'manager'){
             if(lastUser._id === member._id){
                 return <div className={'manager-connection-wrap'}>
                     <div className={'connection'}></div>
                     <div className={'horizontal-line'}></div>
+                    <div className={'reportees-count-wrap'}><span className={'total-count'}>Reportees: <span className={'total-count-number'}>{total_count}</span></span></div>
                 </div>
             }
             else{
@@ -50,8 +51,8 @@ class UserList extends Component {
         const {member, index,type} = this.props;
         const {rootData} = this.props.teamViewReducer
         return (
-            <li className={'user-list-item'} onClick={() => this.generateTree(member)}>
-                <div className={'card-wrap'}><TeamViewUserCard member={member} index={index}/></div>
+            <li className={type === 'reportee' ? 'user-list-item' : 'user-list-item-variant'} onClick={() => this.generateTree(member)}>
+                <div className={type === 'manager' ? 'card-wrap' : ''}><TeamViewUserCard member={member} index={index}/></div>
                 {/*{this.test(type,rootData)}*/}
                 {isEmpty(rootData) && type === 'reportee' ? '' : this.getConnection(type,member)}
             </li>
@@ -64,7 +65,6 @@ class OrgChart extends Component {
     constructor(props) {
         super(props);
         this.state ={
-            myClickUser : '',
         }
     }
 
@@ -103,8 +103,7 @@ class OrgChart extends Component {
 
 
     render() {
-        const {orgChartUsers, rootData, preservedData,clickedMemberData} = this.props.teamViewReducer
-        console.log(rootData)
+        const {orgChartUsers, rootData, preservedData,clickedMemberData,total_Count} = this.props.teamViewReducer
         return (
             <div className={'org-chart'}>
                 {/*<div className={'manager-hold'}>
@@ -133,7 +132,7 @@ class OrgChart extends Component {
                             {rootData.length ? <div className={'manager-list-wrap'}>
                                 <ul>
                                     {map(rootData, (member, index) => (
-                                            <UserList member={member} index={index} setReportee={this.setReportee} type={'manager'} {...this.props} myClickUser={this.state.myClickUser }/>
+                                            <UserList member={member} index={index} setReportee={this.setReportee} type={'manager'} {...this.props} />
                                         )
                                     )}
                                 </ul>
@@ -141,7 +140,7 @@ class OrgChart extends Component {
                             {<div className={'reportee-list-wrap'}>
                                 <ul>
                                     {map(orgChartUsers, (member, index) => (
-                                            <UserList member={member} index={index} setReportee={this.setReportee} type={'reportee'} {...this.props} myClickUser={this.state.myClickUser}/>
+                                            <UserList member={member} index={index} setReportee={this.setReportee} type={'reportee'} {...this.props}/>
                                         )
                                     )}
                                 </ul>

@@ -53,6 +53,20 @@
       height: 20px;
     }
 
+    .reportees-count-wrap{
+      position: relative;
+      top : -32px;
+      display: flex;
+      .total-count{
+        margin-left: auto;
+        font-size: 13px;
+        color: #4a4a4a;
+      }
+      .total-count-number{
+        font-family: robotoBold;
+      }
+    }
+
 
     .manager-connection-wrap{
       position: relative;
@@ -355,10 +369,13 @@
           }
         }
 
-        .user-list-item {
+        .user-list-item-variant {
           cursor: pointer;
           height: 100px;
           width: 100%;
+        }
+        .user-list-item {
+          cursor: pointer;
         }
         .card-wrap{
           display: flex;

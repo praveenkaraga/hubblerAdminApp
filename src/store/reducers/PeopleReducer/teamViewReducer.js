@@ -78,6 +78,7 @@ export const teamViewReducer = (state = intialState, action) => {
             return {
                 ...state,
                 clickedUserOrgData: action.payload.data,
+                total_Count: action.payload.data.total_count || '',
                 /* clickedUserOrgManagerData: [action.payload.data.manager] || [],
                  clickedUserOrgReporteesData: action.payload.data.reportees || [],
                  total_Count: action.payload.data.total_count || '',*/
@@ -105,6 +106,7 @@ export const teamViewReducer = (state = intialState, action) => {
                     id: id,
                     reportees: action.payload.data ? action.payload.data.reportees : []
                 }],
+                total_count : action.payload.data.total_count || '',
                 rootData: uniqBy(newRootData, '_id')
 
             }
