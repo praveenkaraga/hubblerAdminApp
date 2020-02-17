@@ -12,7 +12,7 @@ import {
 } from '../../store/actions/actions'
 import { withRouter } from "react-router-dom";
 import CreationPopUp from '../../components/common/CreationPopUp/CreationPopUp'
-import { message } from 'antd'
+import { message, Modal } from 'antd'
 class Designations extends Component {
 
     constructor(props) {
@@ -28,7 +28,10 @@ class Designations extends Component {
             checkedDataKeys: [],
             creationPopUpMode: "add",
             editRowName: "",
-            editRowId: ""
+            editRowId: "",
+            visibilityOfDeletePopUp: false,
+            loaderOfDeletePopUp: false
+
         }
 
         this.designationsColumnData = [
@@ -169,6 +172,7 @@ class Designations extends Component {
         if (actionType === "edit") { // on click of edit..enabling the edit designation popup
             this.setState({ creationPopUpVisibility: true, creationPopUpMode: "edit" })
         } else { // onclick of delete designation
+            this.setState({ loaderOfDeletePopUp: true })
             await this.props.postCommonDelete("designations", { designations: checkedDataKeys }) //waiting for the delete api 
             const { postDeletedDataSuccessfulMessage, postDeletedDataSuccessfully, errorMsg } = this.props.commonReducer
             if (postDeletedDataSuccessfully) { // if delete api gives success true
@@ -179,7 +183,7 @@ class Designations extends Component {
                 message.error(errorMsg)
                 this.props.designationsData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
             }
-            this.setState({ checkedDataKeys: [] })
+            this.setState({ checkedDataKeys: [], loaderOfDeletePopUp: false, visibilityOfDeletePopUp: false })
         }
     }
 
@@ -187,7 +191,7 @@ class Designations extends Component {
 
     render() {
         const { designationData, totalDesignationsCount } = this.props.designationsReducer
-        const { currentPageNumber, creationPopUpVisibility, newDesignationName, checkedDataKeys, creationPopUpMode, editRowName } = this.state
+        const { currentPageNumber, creationPopUpVisibility, newDesignationName, checkedDataKeys, creationPopUpMode, editRowName, visibilityOfDeletePopUp, loaderOfDeletePopUp } = this.state
 
         return (
             <div className="designations_main">
@@ -211,7 +215,7 @@ class Designations extends Component {
                     goNextPage={() => this.changePage(1)}
 
                     //onClick Designation Header Action Buttons
-                    onClickUserDelete={() => this.onClickDesignationActions("delete")}
+                    onClickUserDelete={() => this.setState({ visibilityOfDeletePopUp: true })}
                     onClickUserEdit={() => this.onClickDesignationActions("edit")}
 
                     isUserData={false}
@@ -245,6 +249,25 @@ class Designations extends Component {
                     creationPopUpFirstFieldChangeHandler={this.creationPopUpInput}
 
                 />
+
+                <Modal //used this modal for confirmation before deleting node items
+                    title={`Delete Designation(s)`}
+                    visible={visibilityOfDeletePopUp}
+                    onOk={() => this.onClickDesignationActions("delete")}
+                    confirmLoading={loaderOfDeletePopUp}
+                    onCancel={() => this.setState({ visibilityOfDeletePopUp: false })}
+                    centered
+                    closable
+                    okText={"Delete"}
+                    maskClosable={false}
+                    okType={"danger"}
+                    wrapClassName={"designation_delete_popup"}
+                    destroyOnClose={true}
+                >
+                    <p>{`Are you sure you want to delete the selected ${checkedDataKeys.length} Designation(s)`}</p>
+                </Modal>
+
+
             </div>
         );
     }

@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Select, Popover } from 'antd';
+import { Select } from 'antd';
 import './allUserSelect.scss'
 import UserSearch from '../common/UserSearch/userSearch'
 import AddUser from '../addUser/addUser'
-import ColumnSetting from './columnSetting/columnSetting'
 import UserTable from '../userTable/userTable'
-
+import ColumnSettingWithPopOver from './columnSetting/columnSettingWithPopOver/columnSettingWithPopOver'
 
 
 class AllUserSelect extends Component {
@@ -121,15 +120,13 @@ class AllUserSelect extends Component {
     };
 
 
-
-
-
     render() {
         const { allHeadingsData = [], userData = [], searchFirstButtonName, searchSecondButtonName, searchPlaceHolder, searchFirstButtonLoader = false, onChangeCheckBox,
             searchSecondButtonLoader = false, searchFirstButtonClick, searchSecondButtonClick, searchLoader = false, onSearch, totalUsers, goPrevPage, goNextPage, currentPageNumber, columnSettingData,
             onClickUserActivate, onClickUserDeactivate, onClickUserDelete, onClickUserEdit, addUserPopUpActive, addUserCloseButton, addUserDataForm, isUserData = true, onlySelectAndAdd = false,
             typeOfData = "Total Data", onClickTableRow, columnConfigurable = false, allSelect, onSearchDropdownSelect, searchDropdownPlaceholder, searchDropdownData, onChangeSearchDropdown,
-            showHeaderButtons, disableButtonNames, selectedDataCount, onClickAddUserButton, onSelectAll, onColumnSettingSave, visibleColumnSetting, onColumnSettingCancel, onChangeAddUsersTab } = this.props
+            showHeaderButtons, disableButtonNames, selectedDataCount, onClickAddUserButton, onSelectAll, onColumnSettingSave, visibleColumnSetting, onColumnSettingCancel, onChangeAddUsersTab,
+            onSearchColumnSetting } = this.props
         const perPageOptions = [7, 10, 20, 30, 40, 50, 100]
         const { rowsPerPage } = this.state
         const totalPages = Math.ceil(totalUsers / rowsPerPage)
@@ -149,24 +146,18 @@ class AllUserSelect extends Component {
 
 
                     <div className="setting_table_combine">
-                        {columnConfigurable ? <div className="column_settings"> {/* checking if columnConfigurable true then show gear icon */}
-                            <Popover
-                                content={<ColumnSetting columnData={allHeadingsData} //opening content of gear icon on popover
-                                    columnSettingData={columnSettingData}
-                                    onColumnSettingSave={onColumnSettingSave}
-                                    onColumnSettingCancel={onColumnSettingCancel} />}
-                                title="Column Setting"
-                                trigger="click"
-                                visible={visibleColumnSetting}
-                                placement="bottomRight"
-                                autoAdjustOverflow
-                                overlayClassName="allUserSelect_popover"
-                            >
-                                <img src={require(`../../images/svg/${!visibleColumnSetting ? "settings_grey" : "close-app"}.svg`)} //if visibleColumnSetting false then whow gear icon otherwise will show cross icon
-                                    onClick={this.onClickColumnSetting} alt="Column Setting" />
+                        {columnConfigurable ? //checking if columnConfigurable true then show gear icon
+                            <ColumnSettingWithPopOver
+                                visibleColumnSetting={visibleColumnSetting}
+                                onClickColumnSetting={this.onClickColumnSetting}
+                                tableColumnHeadingData={allHeadingsData}
+                                columnSettingData={columnSettingData}
+                                onColumnSettingSave={onColumnSettingSave}
+                                onColumnSettingCancel={onColumnSettingCancel}
+                                onSearchColumnSetting={onSearchColumnSetting}
+                            />
+                            : null}
 
-                            </Popover>
-                        </div> : null}
 
                         <UserTable ref={table => this.wholeTable = table} modifiedUserData={modifiedUserData} allHeadingsData={allHeadingsData}
                             sortingData={this.onheadingClick} onChangeCheckBox={this.onChangeCheckBox} loading={!modifiedUserData.length ? true : false}

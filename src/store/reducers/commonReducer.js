@@ -94,7 +94,7 @@ export const commonReducer = (state = intialState, action) => {
                 singleFieldName: singleFieldDataInitial ? singleFieldDataInitial.name : "",
                 singleFieldCount: singleFieldDataInitial ? singleFieldDataInitial.total_count : 0,
                 singleFieldData: singleFieldDataInitial ? singleFieldDataInitial.result : [],
-                singleFieldFilterKeyId: singleFieldDataInitial ? singleFieldDataInitial.name_id : ""
+                singleFieldFilterKeyId: singleFieldDataInitial ? singleFieldDataInitial.node_field_id : ""
             }
 
         case actionTypes.POST_COMMON_ADD_SELECTED_USERS_DATA:

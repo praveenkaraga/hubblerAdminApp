@@ -81,8 +81,8 @@ export const patchUploadData = (id, data) => {
 
 //---------- Apis for table column Settings
 
-export const getTableColumnSetting = () => { //to get all column setting data
-    return axios.get("/table/fields/rest/users/")
+export const getTableColumnSetting = (searchData) => { //to get all column setting data
+    return axios.get(`/table/fields/rest/users/?filterKey=lbl&search_key=${searchData || ""}`)
 }
 
 export const patchTableColumnSettingApi = (data) => { //to patch column setting data
@@ -138,11 +138,11 @@ export const getDeptAddUsersTableColumns = () => {
 };
 
 export const getCirclesDataApi = (searchData) => { // to get all data of circles
-    return axios.get(`/rest/circles/?start=1&offset=100&sortKey=name&sortOrder=dsc&filterKey=_id&filterQuery=${searchData || ""}`)
+    return axios.get(`/rest/circles/?start=1&offset=100&sortKey=name&sortOrder=dsc&filterKey=name&filterQuery=${searchData || ""}`)
 }
 
-export const getCustomFieldsApi = () => { // to get all data of nodes{custom fields}
-    return axios.get(`/rest/nodes/?start=1&offset=100&sortKey=_id&sortOrder=asc&filterKey=_id&filterQuery=`)
+export const getCustomFieldsApi = (searchData) => { // to get all data of nodes{custom fields}
+    return axios.get(`/rest/nodes/?start=1&offset=100&sortKey=_id&sortOrder=asc&filterKey=name&filterQuery=${searchData || ""}`)
 };
 
 export const getHeaderName = (id) => {
@@ -156,7 +156,7 @@ export const getCircleSuggestionDataApi = (id, searchData) => { // to remove
 
 export const getSingleFieldDataApi = (id, perPageRows, currentPage, searchData, headingData, sortingType, filterKeyId) => {
     const startNumber = ((currentPage - 1) * perPageRows) + 1
-    return axios.get(`/nodes/rest/${id}/?start=${startNumber || 1}&offset=${perPageRows || 30}&sortKey=${headingData || "_id"}&sortOrder=${sortingType || ""}&filterKey=${searchData ? filterKeyId : ""}&filterQuery=${searchData || ""}`)
+    return axios.get(`/rest/nodes/${id}/?start=${startNumber || 1}&offset=${perPageRows || 30}&sortKey=${headingData || "_id"}&sortOrder=${sortingType || ""}&filterKey=${searchData ? filterKeyId : ""}&filterQuery=${searchData || ""}`)
 };
 
 
@@ -254,7 +254,7 @@ export const getHolidayTableColumns = () => {
     return axios.get("https://demo4798197.mockable.io/holiday-profile-columns")
 };
 
-export const getCommonProfilesData = (type,subType,perPageRows, currentPage, searchData, headingData, sortingType) => {
+export const getCommonProfilesData = (type, subType, perPageRows, currentPage, searchData, headingData, sortingType) => {
     const startNumber = ((currentPage - 1) * perPageRows) + 1
     return axios.get(`/${type}/${subType}/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "name" : ""}&filterQuery=${searchData || ""}`, axiosConfig);
 

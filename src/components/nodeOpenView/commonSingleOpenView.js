@@ -11,7 +11,7 @@ import {
 import CommonCreationView from '../common/CommonCreationView/CommonCreationView'
 import { withRouter } from "react-router-dom";
 import { getNodeId, getSubNodeId } from '../../utils/helper'
-import { message } from 'antd'
+import { message, Modal } from 'antd'
 class CommonSingleOpenView extends Component {
     constructor(props) {
         super(props);
@@ -36,7 +36,10 @@ class CommonSingleOpenView extends Component {
             addUsersSearchData: "",
             addUsersCheckedDataKeys: [],
 
-            suggestionSearchData: ""
+            suggestionSearchData: "",
+
+            visibilityOfDeletePopUp: false,
+            loaderOfDeletePopUp: false
 
         }
 
@@ -246,6 +249,7 @@ class CommonSingleOpenView extends Component {
             const { checkedDataKeys, singleNodeId, viewType, rowsPerPage, searchData, activeheading, sortingType, subNodeId } = this.state
             const finalData = { users: checkedDataKeys, _id: singleNodeId }
             if (viewType === "nodes") finalData["node_item_id"] = subNodeId
+            this.setState({ loaderOfDeletePopUp: true })
             await this.props.postCommonRemovePeople(viewType, finalData)
             const { postRemovePeopleSuccessfully, postRemovePeopleSuccessMessage, errorMsg } = this.props.commonReducer
             if (postRemovePeopleSuccessfully) {
@@ -253,9 +257,11 @@ class CommonSingleOpenView extends Component {
                 this.setState({ currentPageNumber: 1, checkedDataKeys: [] })
                 message.success(postRemovePeopleSuccessMessage)
                 this.props.commonActionForCommonReducer({ postRemovePeopleSuccessfully: false })
+
             } else {
                 message.error(errorMsg)
             }
+            this.setState({ loaderOfDeletePopUp: false, visibilityOfDeletePopUp: false })
         }
     }
 
@@ -263,51 +269,76 @@ class CommonSingleOpenView extends Component {
 
     render() {
         const { singleViewName, singleViewCount, singleViewData, singleViewSuggestionData, singleViewSuggestionDataCount, tableColumnData } = this.props.commonReducer
-        const { searchData, currentPageNumber, addUsersPopUpStatus, checkedDataKeys, addUsersCheckedDataKeys, addUsersCurrentPageNumber, viewType, suggestionSearchData } = this.state
+        const { searchData, currentPageNumber, addUsersPopUpStatus, checkedDataKeys, addUsersCheckedDataKeys, addUsersCurrentPageNumber, viewType, suggestionSearchData,
+            visibilityOfDeletePopUp, loaderOfDeletePopUp } = this.state
 
-        return (<CommonCreationView commonCreationViewHeaderName={singleViewName}
-            viewDecider={searchData || singleViewCount ? 1 : 0}
-            allSelectedUsersUsersData={singleViewData}
-            allSelectedUsersHeadingsData={tableColumnData}
-            backButton={!(viewType === "circles") ? true : false} // if viewtype is not circle then back button will be visible
-            allSelectedUsersAllSelect={true}
-            allSelectedUsersSearchData={this.onChangeSearch}
-            allSelectedUsersPlaceHolder={`Search ${singleViewName}`}
-            allSelectedUsersOnClickHeadingColumn={this.onClickHeading}
-            allSelectedUsersTotalUsers={singleViewCount}
-            allSelectedUsersCurrentPageNumber={currentPageNumber}
-            allSelectedUsersOnChangeCheckBox={this.onChangeCheckBox}
-            allSelectedUsersOnChangeRowsPerPage={this.onChangeRowsPerPage}
-            commonCreationViewBackButtonClick={this.backButtonClick}
-            allSelectedUsersShowHeaderButtons={[{ id: "delete", label: "Remove" }]} //BUttons to show when row selected
-            allSelectedUsersSelectedDataCount={checkedDataKeys.length}
-            allSelectedUsersOnClickAddUserButton={() => this.onClickOfAddUsers(true)}
-            allSelectedUsersChangePage={this.onChangePage}
-            allSelectedUsersOnClickUserActions={this.onDeleteUser}
+        return (
+            <>
+                <CommonCreationView commonCreationViewHeaderName={singleViewName}
+                    viewDecider={searchData || singleViewCount ? 1 : 0}
+                    allSelectedUsersUsersData={singleViewData}
+                    allSelectedUsersHeadingsData={tableColumnData}
+                    backButton={!(viewType === "circles") ? true : false} // if viewtype is not circle then back button will be visible
+                    allSelectedUsersAllSelect={true}
+                    allSelectedUsersSearchData={this.onChangeSearch}
+                    allSelectedUsersPlaceHolder={`Search ${singleViewName}`}
+                    allSelectedUsersOnClickHeadingColumn={this.onClickHeading}
+                    allSelectedUsersTotalUsers={singleViewCount}
+                    allSelectedUsersCurrentPageNumber={currentPageNumber}
+                    allSelectedUsersOnChangeCheckBox={this.onChangeCheckBox}
+                    allSelectedUsersOnChangeRowsPerPage={this.onChangeRowsPerPage}
+                    commonCreationViewBackButtonClick={this.backButtonClick}
+                    allSelectedUsersShowHeaderButtons={[{ id: "delete", label: "Remove" }]} //BUttons to show when row selected
+                    allSelectedUsersSelectedDataCount={checkedDataKeys.length}
+                    allSelectedUsersOnClickAddUserButton={() => this.onClickOfAddUsers(true)}
+                    allSelectedUsersChangePage={this.onChangePage}
+                    allSelectedUsersOnClickUserActions={() => this.setState({ visibilityOfDeletePopUp: true })}
 
-            //search with suggestion comp props
-            allSelectedUsersSearchDropdownPlaceholder={"Enter Name and Add"}
-            allSelectedUsersOnChangeSearchDropdown={this.onChangeSearchDropdown}
-            allSelectedUsersOnSearchDropdownSelect={this.onSearchDropdownSelect}
-            allSelectedUsersSearchDropdownData={suggestionSearchData ? singleViewSuggestionData : []}
+                    //search with suggestion comp props
+                    allSelectedUsersSearchDropdownPlaceholder={"Enter Name and Add"}
+                    allSelectedUsersOnChangeSearchDropdown={this.onChangeSearchDropdown}
+                    allSelectedUsersOnSearchDropdownSelect={this.onSearchDropdownSelect}
+                    allSelectedUsersSearchDropdownData={suggestionSearchData ? singleViewSuggestionData : []}
 
 
 
-            //all below prop is for add Selected users popup
-            addUsersCommonCardButtonClick={() => this.onClickOfAddUsers(true)}
-            showAddUsersPopUp={addUsersPopUpStatus}
-            addUsersPopUpClose={() => this.onClickOfAddUsers(false)}
-            addUsersPopUpTableColumnsData={tableColumnData}
-            addUsersPopUpUsersData={singleViewSuggestionData}
-            addUsersPopUpTotalUsers={singleViewSuggestionDataCount}
-            addUsersOnClickHeadingColumn={this.addUsersOnClickHeadingColumn}
-            addUsersOnChangeRowsPerPage={this.addUsersOnChangeRowsPerPage}
-            addUsersSearchData={this.onSearchInAddUsers}
-            addUsersPopUpOnChangeCheckBox={this.addUsersPopUpOnChangeCheckBox}
-            addUsersSelectedDataCount={addUsersCheckedDataKeys.length}
-            addUsersChangePage={this.addUsersChangePage}
-            addUsersCurrentPageNumber={addUsersCurrentPageNumber}
-            addUsersPopUpFirstButtonClick={this.onClickAddSelectedButton}/>)
+                    //all below prop is for add Selected users popup
+                    addUsersCommonCardButtonClick={() => this.onClickOfAddUsers(true)}
+                    showAddUsersPopUp={addUsersPopUpStatus}
+                    addUsersPopUpClose={() => this.onClickOfAddUsers(false)}
+                    addUsersPopUpTableColumnsData={tableColumnData}
+                    addUsersPopUpUsersData={singleViewSuggestionData}
+                    addUsersPopUpTotalUsers={singleViewSuggestionDataCount}
+                    addUsersOnClickHeadingColumn={this.addUsersOnClickHeadingColumn}
+                    addUsersOnChangeRowsPerPage={this.addUsersOnChangeRowsPerPage}
+                    addUsersSearchData={this.onSearchInAddUsers}
+                    addUsersPopUpOnChangeCheckBox={this.addUsersPopUpOnChangeCheckBox}
+                    addUsersSelectedDataCount={addUsersCheckedDataKeys.length}
+                    addUsersChangePage={this.addUsersChangePage}
+                    addUsersCurrentPageNumber={addUsersCurrentPageNumber}
+                    addUsersPopUpFirstButtonClick={this.onClickAddSelectedButton} />
+
+
+                <Modal //used this modal for confirmation before deleting node items
+                    title={`Remove User(s)`}
+                    visible={visibilityOfDeletePopUp}
+                    onOk={() => this.onDeleteUser("delete")}
+                    confirmLoading={loaderOfDeletePopUp}
+                    onCancel={() => this.setState({ visibilityOfDeletePopUp: false })}
+                    centered
+                    closable
+                    okText={"Delete"}
+                    maskClosable={false}
+                    okType={"danger"}
+                    wrapClassName={"commonSingle_open_view_popup"}
+                    destroyOnClose={true}
+                >
+                    <p>{`Are you sure you want to remove the selected ${checkedDataKeys.length} users(s) from ${singleViewName}.`}</p>
+                </Modal>
+
+            </>
+
+        )
     }
 }
 

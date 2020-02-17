@@ -101,10 +101,14 @@ class ColumnSetting extends Component {
         }
     }
 
+    onSearch = (e) => { // on search of this custom search comp
+        const searchData = e.target.value
+        if (this.props.onSearchColumnSetting) this.props.onSearchColumnSetting(searchData) // checking for prop
+    }
 
     render() {
 
-        const { columnDataDraggable, columnDataNotDraggable, checkedList } = this.state
+        const { columnDataDraggable, columnDataNotDraggable, checkedList, onSearchColumnSetting } = this.state
         const { columnSettingData } = this.props
 
         const allCategories = columnSettingData.columnSettingCategories || []
@@ -131,7 +135,7 @@ class ColumnSetting extends Component {
                 <div className="selection_part_and_search">
                     <h4 className="selection_heading">Select Fields</h4>
                     <div className="column_search">
-                        <CustomSearch searchPlaceHolder={"Search Fields"} />
+                        <CustomSearch searchPlaceHolder={"Search Fields"} onSearch={this.onSearch} />
                     </div>
                     <div className="selection_part_main">
                         <Checkbox.Group value={checkedList} style={{ width: '100%' }} onChange={this.onCheckColumn}>

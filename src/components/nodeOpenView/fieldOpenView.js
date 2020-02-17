@@ -12,9 +12,9 @@ import {
 } from '../../store/actions/actions'
 import { withRouter } from "react-router-dom";
 import CreationPopUp from '../../components/common/CreationPopUp/CreationPopUp'
-import { message } from 'antd'
+import { message, Modal } from 'antd'
 import { getNodeId } from '../../utils/helper'
-
+import AddUsersCommonCard from '../common/AddUsersCommonCard/AddUsersCommonCard'
 
 class FieldOpenView extends Component {
 
@@ -34,7 +34,10 @@ class FieldOpenView extends Component {
             editRowId: "",
             singleNodeId: "",
             filterKeyId: "",
-            apiCallFlag: true
+            apiCallFlag: true,
+
+            visibilityOfDeletePopUp: false,
+            loaderOfDeletePopUp: false
         }
 
     }
@@ -168,15 +171,18 @@ class FieldOpenView extends Component {
         if (actionType === "edit") { // if edit then pop up will open to edit
             this.setState({ creationPopUpVisibility: true, creationPopUpMode: "edit" })
         } else { // if delete then api call will be done..and on success message will be shown
+            this.setState({ loaderOfDeletePopUp: true })
             await this.props.postCommonDelete("nodes", { data: checkedDataKeys }, singleNodeId)
             const { postDeletedDataSuccessfulMessage, postDeletedDataSuccessfully, errorMsg } = this.props.commonReducer
             if (postDeletedDataSuccessfully) {
+                this.setState({ loaderOfDeletePopUp: false, visibilityOfDeletePopUp: false })
                 message.success(postDeletedDataSuccessfulMessage)
                 this.props.getSingleFieldData(singleNodeId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
                 this.props.commonActionForCommonReducer({ postDeletedDataSuccessfully: false })
             } else {
                 message.error(errorMsg)
                 this.props.getSingleFieldData(singleNodeId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
+                this.setState({ loaderOfDeletePopUp: false, visibilityOfDeletePopUp: false })
             }
             this.setState({ checkedDataKeys: [] })
         }
@@ -203,7 +209,7 @@ class FieldOpenView extends Component {
 
     render() {
         const { singleFieldData, singleFieldCount, singleFieldName, singleFieldFilterKeyId } = this.props.commonReducer
-        const { currentPageNumber, creationPopUpVisibility, newFieldItemName, checkedDataKeys, creationPopUpMode, editRowName, filterKeyId } = this.state
+        const { currentPageNumber, creationPopUpVisibility, newFieldItemName, checkedDataKeys, creationPopUpMode, editRowName, filterKeyId, visibilityOfDeletePopUp, loaderOfDeletePopUp } = this.state
         if (!filterKeyId && singleFieldFilterKeyId) { // on first time load saving the id
             this.setState({ filterKeyId: singleFieldFilterKeyId })
         }
@@ -236,44 +242,52 @@ class FieldOpenView extends Component {
         return (
             <div className="fields_main">
                 <div className="fields_heading"><h3>{singleFieldName}</h3></div>
+                {singleFieldCount //checking if count of field item is empty or not
+                    ?
+                    <AllUserSelect userData={singleFieldData}
 
-                <AllUserSelect userData={singleFieldData}
+                        searchFirstButtonName={"IMPORT RESOURCES"}
+                        searchSecondButtonName={"ADD NEW ITEM"}
+                        allHeadingsData={fieldsColumnData}
+                        searchPlaceHolder={`Search ${singleFieldName}`}
+                        onSearch={this.fieldSearchData}
+                        typeOfData="Total Items"
 
-                    searchFirstButtonName={"IMPORT RESOURCES"}
-                    searchSecondButtonName={"ADD NEW ITEM"}
-                    allHeadingsData={fieldsColumnData}
-                    searchPlaceHolder={`Search ${singleFieldName}`}
-                    onSearch={this.fieldSearchData}
-                    typeOfData="Total Items"
-
-                    headingClickData={this.onClickHeadingColumn}
-                    onChangeCheckBox={this.onChangeCheckBox}
-                    searchSecondButtonClick={() => this.setState({ creationPopUpVisibility: true, creationPopUpMode: "add" })} // opening the pop up and also type of pop up to open
-
-
-                    totalUsers={singleFieldCount}
-                    currentPageNumber={currentPageNumber}
-                    onChangeRowsPerPage={this.onChangeRowsPerPage}
-                    goPrevPage={() => this.changePage(-1)}
-                    goNextPage={() => this.changePage(1)}
-
-                    // //onClick Designation Header Action Buttons
-                    onClickUserDelete={() => this.onFieldItemActions("delete")}
-                    onClickUserEdit={() => this.onFieldItemActions("edit")}
-
-                    isUserData={false}
-
-                    onClickTableRow={this.onRowClick}
-
-                    // //buttons to show and hide 
-                    showHeaderButtons={[{ id: "edit", label: "Edit Item" }, { id: "delete", label: "Delete Items" }]} // buttons to show when selected row
-                    disableButtonNames={[checkedDataKeys.length > 1 ? "edit" : ""]}
-
-                    // //to empty the selected Data
-                    selectedDataCount={checkedDataKeys.length}
-                />
+                        headingClickData={this.onClickHeadingColumn}
+                        onChangeCheckBox={this.onChangeCheckBox}
+                        searchSecondButtonClick={() => this.setState({ creationPopUpVisibility: true, creationPopUpMode: "add" })} // opening the pop up and also type of pop up to open
 
 
+                        totalUsers={singleFieldCount}
+                        currentPageNumber={currentPageNumber}
+                        onChangeRowsPerPage={this.onChangeRowsPerPage}
+                        goPrevPage={() => this.changePage(-1)}
+                        goNextPage={() => this.changePage(1)}
+
+                        // //onClick Designation Header Action Buttons
+                        onClickUserDelete={() => this.setState({ visibilityOfDeletePopUp: true })} //{() => this.onFieldItemActions("delete")}
+                        onClickUserEdit={() => this.onFieldItemActions("edit")}
+
+                        isUserData={false}
+
+                        onClickTableRow={this.onRowClick}
+
+                        // //buttons to show and hide 
+                        showHeaderButtons={[{ id: "edit", label: "Edit Item" }, { id: "delete", label: "Delete Items" }]} // buttons to show when selected row
+                        disableButtonNames={[checkedDataKeys.length > 1 ? "edit" : ""]}
+
+                        // //to empty the selected Data
+                        selectedDataCount={checkedDataKeys.length}
+                    />
+                    :
+                    <AddUsersCommonCard
+                        titleName={singleFieldName}
+                        addUsersCardSubText={`You don't have any ${singleFieldName} here. Please add new ${singleFieldName}.`}
+                        addUsersCommonCardButtonClick={() => this.setState({ creationPopUpVisibility: true, creationPopUpMode: "add" })}// opening the pop up and also type of pop up to open
+                        buttonName={`Add New ${singleFieldName}`}
+                    />
+
+                }
                 <CreationPopUp creationPopUpVisibility={creationPopUpVisibility}
                     creationPopUpTitle={creationPopUpMode === "add" ? "Add New Item" : "Edit Item name"}
                     creationPopFirstButtonName={"Cancel"}
@@ -286,8 +300,25 @@ class FieldOpenView extends Component {
                     secondButtonDisable={newFieldItemName.length < 3 || newFieldItemName === editRowName ? true : false}
                     afterClose={() => this.setState({ newFieldItemName: "", editRowName: "" })}
                     creationPopUpFirstFieldChangeHandler={this.creationPopUpInput}
-
                 />
+
+
+                <Modal //used this modal for confirmation before deleting node items
+                    title={`Delete ${singleFieldName}`}
+                    visible={visibilityOfDeletePopUp}
+                    onOk={() => this.onFieldItemActions("delete")}
+                    confirmLoading={loaderOfDeletePopUp}
+                    onCancel={() => this.setState({ visibilityOfDeletePopUp: false })}
+                    centered
+                    closable
+                    okText={"Delete"}
+                    maskClosable={false}
+                    okType={"danger"}
+                    wrapClassName={"field_open_view_popup"}
+                    destroyOnClose={true}
+                >
+                    <p>{`Are you sure you want to delete selected ${checkedDataKeys.length} ${singleFieldName} `}</p>
+                </Modal>
             </div>
         );
     }

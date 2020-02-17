@@ -172,12 +172,8 @@ class UserConsoleView extends Component {
 
 
     onSinglePanelClick = (data, type) => { //Onclick of items of dropdown panel
-        if (type === "circles") { //making url change acording to type of dropdown
-            this.props.history.push(`/people/circle/${data._id}`)
-        } else {
-            const initialUniqueTableHeadingId = data.fields[0]._id
-            this.props.history.push(`/people/field/${data._id}`, { uniqueTableHeadingId: initialUniqueTableHeadingId })
-        }
+        //removing the last letter from type and pushing it to url
+        this.props.history.push(`/people/${type.slice(0, -1)}/${data._id}`)
     }
 
     createActiveLink = (route) => {
@@ -195,7 +191,8 @@ class UserConsoleView extends Component {
     }
 
 
-    customFieldPopUpSelectAndSwitchData = (data, type) => {
+    customFieldPopUpSelectAndSwitchData = (data, type) => { // when editing name or adding in fields
+        //saving data of select and switch from the pop up
         if (type === "select") {
             const fieldPopUpSelectData = data === "single_select" ? "drop down" : "multi select"
             this.setState({ fieldPopUpSelectData })
@@ -205,6 +202,7 @@ class UserConsoleView extends Component {
 
     }
 
+    // onclick of confirm from the small delete popver 
     onDeleteConfirmClick = async (panelData, panelType) => {
         const changeType = panelType === "fields" ? "nodes" : "circles"
         await this.props.postCommonDelete(changeType, { [changeType]: [panelData._id] })
@@ -214,7 +212,7 @@ class UserConsoleView extends Component {
             panelType === "circles" ? this.props.getCirclesData() : this.props.getCustomFields()
             this.props.commonActionForCommonReducer({ postDeletedDataSuccessfully: false })
 
-            //checking if the open view is of the deliting fields or circles...
+            //checking if the open view is of the deleting fields or circles...
             //if it is then after deleting we are deriecting them to console page
             const currentUrl = this.props.history.location
             const currentUrlDataArray = currentUrl.pathname.split("/")
@@ -225,7 +223,7 @@ class UserConsoleView extends Component {
         }
     };
 
-    creationPopUpFourthFieldChangeHandler = (data) => {
+    creationPopUpFourthFieldChangeHandler = (data) => { //calling parent node data api and also validating repeatation of calls
         const { parentNodeOptions } = this.props.userConsoleMainReducer
 
         if (data && isEmpty(parentNodeOptions)) {
@@ -235,7 +233,7 @@ class UserConsoleView extends Component {
         this.setState({ parentNodeSwitchData: data })
     };
 
-    afterClose = () => {
+    afterClose = () => { // after closing of pop up.. resetting the data 
         this.setState({
             creationPopUpInputData: "",
             fieldPopUpSwitchData: false,
@@ -245,7 +243,7 @@ class UserConsoleView extends Component {
         this.props.commonUserConsoleAction({ parentNodeOptions: [] })
     };
 
-    parentNodeOnchange = (value) => {
+    parentNodeOnchange = (value) => { // on change of parent node of the pop up
         const { parentNodeOptions } = this.props.userConsoleMainReducer
         let reqObj = find(parentNodeOptions, item => item._id === value)
         this.setState({
@@ -260,6 +258,11 @@ class UserConsoleView extends Component {
         console.log('searched')
     }
 
+
+    onDropdownSearch = (searchData, panelType) => {
+        //console.log(searchData, type, "onDropdownSearch")
+        panelType === "circles" ? this.props.getCirclesData(searchData) : this.props.getCustomFields(searchData)
+    }
     render() {
         const { activeLinkName } = this.props.firstReducer
         const { circlesData, customFieldsData, parentNodeOptions, parentNodeSwitch } = this.props.userConsoleMainReducer
@@ -293,6 +296,7 @@ class UserConsoleView extends Component {
                                 onClickSetting={(data) => this.dropDownSettingAction(data, singleData.type)}
                                 onClickAdd={() => this.onClickAdd(singleData.type)}
                                 onDeleteConfirmClick={(data) => this.onDeleteConfirmClick(data, singleData.type)}
+                                onSearch={(searchData) => this.onDropdownSearch(searchData, singleData.type)}
                             />
                         ))
                         }

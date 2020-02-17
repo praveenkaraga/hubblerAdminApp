@@ -20,7 +20,8 @@ import {
 } from '../../store/actions/actions'
 import UserInfoSlider from '../common/UserInfoSlider/UserInfoSlider'
 import ImportUsersPopUp from '../common/ImportUsersPopUp/ImportUsersPopUp'
-import { message } from 'antd'
+import { message, Modal } from 'antd'
+import { capitalFirstLetter } from '../../utils/helper'
 
 class Console extends Component {
 
@@ -33,7 +34,10 @@ class Console extends Component {
             userData: {},
             checkedDataKeys: [],
             disableHeaderButtonNames: [],
-            visibleColumnSetting: false
+            visibleColumnSetting: false,
+            typeOfActionOnUser: "",
+            visibilityOfDeletePopUp: false,
+            loaderOfDeletePopUp: false
         }
         this.selectedUsers = []
         this.ifSelectedAllData = []
@@ -150,6 +154,7 @@ class Console extends Component {
     // "actiontype" is type of action we are taking from the above three
     actionOnUser = async (actionType) => { // on click of activate 
         const { checkedDataKeys } = this.state
+        this.setState({ loaderOfDeletePopUp: true })
         await this.props.postCommonActionOnUser(actionType, { users: checkedDataKeys })
         const { actionSuccessMessage, errorMsg, actionOnUserSuccess, rowsPerPage, activeheading, sortingType, searchData, currentPageNumber } = this.props.consoleReducer
         if (actionOnUserSuccess) { // if api call gives success
@@ -161,6 +166,7 @@ class Console extends Component {
         } else {
             message.error(errorMsg)
         }
+        this.setState({ loaderOfDeletePopUp: false, visibilityOfDeletePopUp: false })
 
     }
 
@@ -258,13 +264,19 @@ class Console extends Component {
     }
 
 
+    onSearchColumnSetting = (searchData) => { // on search inside column setting pop over
+        this.props.tableColumnSetting(searchData)
+    }
+
+
     render() {
         const { consoleUserData, totalUsers, currentPageNumber, searchLoader, columnSettingData, addUserDataForm } = this.props.consoleReducer
         const { importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpData, uploadPopUpVisibility, startUploadStatus, uploadFileStatus,
             importUsersUploadResponseData, isFileUploaded, clickedTeamUserData, contentLoader } = this.props.teamViewReducer;
         const { tableColumnData } = this.props.commonReducer
 
-        const { popUpActive, UserInfoVisible, userId, checkedDataKeys, disableHeaderButtonNames, visibleColumnSetting } = this.state;
+        const { popUpActive, UserInfoVisible, userId, checkedDataKeys, disableHeaderButtonNames, visibleColumnSetting, typeOfActionOnUser,
+            visibilityOfDeletePopUp, loaderOfDeletePopUp } = this.state;
         return (
             <div className="console_main">
                 <div className="console_heading"><h3>Console</h3></div>
@@ -296,11 +308,12 @@ class Console extends Component {
                     onColumnSettingSave={this.onColumnSettingSave}
                     visibleColumnSetting={visibleColumnSetting}
                     onColumnSettingCancel={() => this.setState({ visibleColumnSetting: false })}
+                    onSearchColumnSetting={this.onSearchColumnSetting}
 
                     //props for all the actions to be done on user
-                    onClickUserActivate={() => this.actionOnUser("activate")}
-                    onClickUserDeactivate={() => this.actionOnUser("deactivate")}
-                    onClickUserDelete={() => this.actionOnUser("delete")}
+                    onClickUserActivate={() => this.setState({ visibilityOfDeletePopUp: true, typeOfActionOnUser: "activate" })} //{() => this.actionOnUser("activate")} 
+                    onClickUserDeactivate={() => this.setState({ visibilityOfDeletePopUp: true, typeOfActionOnUser: "deactivate" })} //{() => this.actionOnUser("deactivate")}
+                    onClickUserDelete={() => this.setState({ visibilityOfDeletePopUp: true, typeOfActionOnUser: "delete" })} //{() => this.actionOnUser("delete")}
                     onClickUserEdit={() => this.onClickUserActions("edit")}
 
                     //props for add user component
@@ -350,6 +363,24 @@ class Console extends Component {
                     uploadFileLoadingStatus={uploadFileStatus}
                     isFileUploaded={isFileUploaded}
                 />
+
+
+                <Modal //used this modal for confirmation before deleting node items
+                    title={`${capitalFirstLetter(typeOfActionOnUser)} User(s)`}
+                    visible={visibilityOfDeletePopUp}
+                    onOk={() => this.actionOnUser(typeOfActionOnUser)}
+                    confirmLoading={loaderOfDeletePopUp}
+                    onCancel={() => this.setState({ visibilityOfDeletePopUp: false })}
+                    centered
+                    closable
+                    okText={typeOfActionOnUser.toUpperCase()}
+                    maskClosable={false}
+                    okType={typeOfActionOnUser === "delete" ? "danger" : "primary"}
+                    wrapClassName={"console_delete_popup"}
+                    destroyOnClose={true}
+                >
+                    <p>{`Are you sure you want to ${typeOfActionOnUser} selected ${checkedDataKeys.length} User(s)`}</p>
+                </Modal>
             </div>
         )
     }
