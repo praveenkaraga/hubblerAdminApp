@@ -2,7 +2,7 @@ import * as actionTypes from '../actionTypes'
 import {
     getCirclesDataApi,
     getCustomFieldsApi,
-    getCircleSuggestionDataApi
+    getCircleSuggestionDataApi, getParentNodeOptions
 } from '../../apiCall'
 
 
@@ -16,8 +16,8 @@ export const getCirclesData = searchData => {
 }
 
 
-export const getCustomFields = () => {
-    const payload = getCustomFieldsApi()
+export const getCustomFields = searchData => {
+    const payload = getCustomFieldsApi(searchData)
     return {
         type: actionTypes.GET_CUSTOM_FIELDS_DATA,
         payload
@@ -30,6 +30,21 @@ export const getCircleSuggestionData = (id, searchData) => {
     const payload = getCircleSuggestionDataApi(id, searchData)
     return {
         type: actionTypes.GET_CIRCLE_SUGGESTION_DATA,
+        payload
+    }
+}
+
+export const getParentNodeOptionsData = () => {
+    const payload = getParentNodeOptions()
+    return {
+        type: actionTypes.GET_PARENT_NODE_OPTIONS,
+        payload
+    }
+}
+
+export const commonUserConsoleAction = (payload) => {
+    return {
+        type: actionTypes.COMMON_USER_CONSOLE_ACTION,
         payload
     }
 }

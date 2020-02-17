@@ -45,8 +45,6 @@ class TeamViewUserCard extends Component {
                     </div>
                     <div className={'show-slider-icon'} onClick={(event) => this.onUserClick(member._id,member,event)}></div>
                 </div>
-
-
             </div>
         )
     }

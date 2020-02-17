@@ -202,9 +202,9 @@ All Props of searchDropdown Component (<a name="search-with-dropdown" href="#sea
 
 * **popUpCancelButtonName** {Default : "Cancel"} : Confirm Button Name of Delete Pop Up
 
-* **onDeleteConfirmClick** {function} : onClick confirm Button of Delete Pop Up 
+* **onDeleteConfirmClick** {function(data)} : onClick confirm Button of Delete Pop Up. You will get data of the element you are trying to delete as the first arfument of the function
 
-* **onDeleteCancelClick** {function} : onClick cancel Button of Delete Pop Up <br/>
+* **onDeleteCancelClick** {function(data)} : onClick Cancel Button of Delete Pop Up. You will get data of the element you are trying to delete as the first arfument of the function<br/>
 
 **XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
 
@@ -242,15 +242,15 @@ All Props of searchDropdown Component (<a name="search-with-dropdown" href="#sea
 
 ##### ** When No Table Data has been selected **
 
-* **searchFirstButtonName** {"String"}{default : "IMPORT"} : Name of first Button
+* **searchFirstButtonName** {"String"}{default : "IMPORT"} : Name of first Button . Will become visible when you will use " searchFirstButtonClick" prop
 
-* **searchSecondButtonName** {"String"}{default : "ADD"} : Name of Second Button
+* **searchSecondButtonName** {"String"}{default : "ADD"} : Name of Second Button. Will become visible when you will use " searchSecondButtonClick" prop
 
 * **searchFirstButtonLoader** {"boolean"}{default : false} : loader inside search
 
 * **searchSecondButtonLoader** {"boolean"}{default : false} : loader inside search
 
-* **searchFirstButtonClick** {function} : onClick of first Button
+* **searchFirstButtonClick** {function} : onClick of first Button 
 
 * **searchSecondButtonClick** {function} : onClick of second Button
 
@@ -311,7 +311,7 @@ According to above configurations only you will be able to use below props:
         "title": "Name",                            //compulsory
         "dataIndex": "name",                        //compulsory(will be same as _id)
         "_id": "name",                              //compulsory
-        "lbl": "Name",
+        "lbl": "Name",                              //cumpolsory
         "type": "text",                             //compulsory
         "sorter": true,                             //true if you want sorting in table
         "sortDirections": ["descend", "ascend"],    //type of sorting you want
@@ -334,49 +334,61 @@ According to above configurations only you will be able to use below props:
 
 
 ##### ** Column Settings/Configuration **
-* **columnConfigurable** {Boolean}{default: false} : If `true` column settings button will display and below two props can be used 
+* **columnConfigurable** {Boolean}{default: false} : If `true` column settings gear icon will display and below two props can be used 
 
 * **onClickColumnSetting** {function} : onClick of column setting icon
 
-* **columnSettingData** {Object} : pass data of column settings... Should be Object
+* **visibleColumnSetting** {boolean} : Will decide to show setting pop over..if true will be visible and vice versa
+
+* **onColumnSettingSave** {function(data)} : onClick of Save button inside the column setting pop over. You will get all the changed data as argument of the function
+
+* **onColumnSettingCancel** {function} : onClick of Cancel button inside the column setting pop over.
+
+* **onSearchColumnSetting** {function(data)} : onChange of Search input inside the column setting pop over. Will get search data as argument.
+
+
+* **columnSettingData** {Array of Object} : pass data of column settings... Should be Object
 
 columnSettingData example :-
 
 ```javascript
-//all keys in Capital will be shown as type of Data like heading
-
-{
-         "basic fields": [
-        {
-            "_id": "name",          //compulsory
-            "lbl": "Name",          //compulsory
-            "type" : "text",        //optional
-            "isDraggable" : false   //if true it will be draggable
-        },
-        {
-            "_id": "email",
-            "lbl": "Email",
-            "type" : "text",
-            "isDraggable" : true
-        }
-    ],
-
-    "category" : [
-        {
-            "_id": "location",
-            "lbl": "Location",
-            "type" : "string",
-            "isDraggable" : true
-        },
-        {
-            "_id": "mobile",
-            "lbl": "Mobile",
-            "type" : "number",
-            "isDraggable" : true
-        }
-    ]
-
-}
+//all keys are compulsory
+"categories": [
+                {
+                    "_id": "system",
+                    "lbl": "Basic Fields"
+                },
+                {
+                    "_id": "nodes",
+                    "lbl": "Custom Fields"
+                }
+            ],
+"fields": [
+                {
+                    "_id": "mobile",
+                    "lbl": "Primary Mobile",
+                    "type": "text",
+                    "is_draggable": true,
+                    "required": false,
+                    "category_type": "system"
+                },
+                {
+                    "_id": "dob",
+                    "lbl": "Date of Birth",
+                    "type": "text",
+                    "is_draggable": true,
+                    "required": false,
+                    "category_type": "system"
+                },{
+                    "_id": "5c5d7b2e322d3a503c24e610",
+                    "name": "Anniversary date",
+                    "type": "text",
+                    "required": false,
+                    "lbl": "Anniversary date",
+                    "is_draggable": true,
+                    "category_type": "nodes"
+                }
+            ]
 ```
 
 ##### ** Main other Props of Table **
@@ -391,10 +403,10 @@ columnSettingData example :-
 
 * **onClickTableRow** {function(rowData)} : onClick of Each full row of table. You will get whole object of that particular clicked column as the first argument.
 
-* **selectedDataCount** {Number} : Number of Data selected. It is compulsory to pass this props if you wants to show header for different actions. And also can unselect all the selected data just by passing 0 in this props. 
+* **selectedDataCount** {Number} : Number of Data selected. It is **compulsory** to pass this props if you want to show header for different actions. And also can unselect all the selected data just by passing 0 in this props. 
 
 
-Below three props scenarios has been explaned above in UserSearch Comp. 
+Below three props scenarios has been explained above in UserSearch Comp. 
 <a name="all-scenarios-of-table" href="#all-scenarios-of-table">Click Here to read about them.</a>
 
 * **isUserData** {Boolean}{default : true} 
@@ -422,6 +434,135 @@ Below three props scenarios has been explaned above in UserSearch Comp.
 
 
 **XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
+
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+## `Column Setting With PopOver{columnSettingWithPopOver}`
+This is being used to configure the table heading column.
+We can simply drag and drop and select unselect the required heading columns for table.
+
+#### PopOver props
+
+* **title** {String}{default : "Column Setting"} :  Title of the popover 
+
+* **trigger** {String}{default : "click"} :  On what action you want to do on gear icon to trigger
+(enable) this setting pop up {Options are : "hover" / "click" / "focus"}
+
+* **visibleColumnSetting** {boolean} : Will decide to show setting pop over..if true will be visible and vice versa
+
+* **placement** {String}{default : "bottom"} :  The position of the tooltip relative to the target(here gear icon), Options are:  "top" / "left" / "right" / "bottom" / "topLeft" / "topRight" / "bottomLeft" / "bottomRight" / "leftTop" / "leftBottom" / "rightTop" / "rightBottom"
+
+* **onClickColumnSetting** {function} : onClick of column setting gear icon
+
+###### Below Props can also be used for ColumnSetting Component 
+
+* **tableColumnHeadingData** {Array of objects} : Array of objects will be passed...This the original table column heading data {below is sample example}
+
+```javascript
+[
+
+    {
+       
+        "_id": "name",                              //compulsory
+        "lbl": "Name",                              //cumposlsory
+        "type": "text",                             //compulsory
+        "is_draggable": false,                      //cumpolsory
+        "required": true,                           //cumpolsory
+        "category_type": "system",                  //cumpolsory
+        "default": true                             
+    },
+    {
+        "_id": "employee_id",
+        "lbl": "Emp ID",
+        "type": "text",
+        "is_draggable": false,                      
+        "required": true,                           
+        "category_type": "system",                  
+        "default": true                             
+    }
+]   
+```
+
+
+* **visibleColumnSetting** {boolean} : Will decide to show setting pop over..if true will be visible and vice versa
+
+* **onColumnSettingSave** {function(data)} : onClick of Save button inside the column setting pop over. You will get all the changed data as argument of the function
+
+* **onColumnSettingCancel** {function} : onClick of Cancel button inside the column setting pop over.
+
+* **onSearchColumnSetting** {function(data)} : onChange of Search input inside the column setting pop over. Will get search data as argument.
+
+
+* **columnSettingData** {Array of Object} : pass data of column settings... Should be Object
+
+columnSettingData example :-
+
+```javascript
+//all fields are compulsory
+"categories": [
+                {
+                    "_id": "system",
+                    "lbl": "Basic Fields"
+                },
+                {
+                    "_id": "nodes",
+                    "lbl": "Custom Fields"
+                }
+            ],
+"fields": [
+                {
+                    "_id": "mobile",
+                    "lbl": "Primary Mobile",
+                    "type": "text",
+                    "is_draggable": true,
+                    "required": false,
+                    "category_type": "system"
+                },
+                {
+                    "_id": "dob",
+                    "lbl": "Date of Birth",
+                    "type": "text",
+                    "is_draggable": true,
+                    "required": false,
+                    "category_type": "system"
+                },{
+                    "_id": "5c5d7b2e322d3a503c24e610",
+                    "name": "Anniversary date",
+                    "type": "text",
+                    "required": false,
+                    "lbl": "Anniversary date",
+                    "is_draggable": true,
+                    "category_type": "nodes"
+                }
+            ]
+```
+
+
+**Note** : PopOver also have a prop called `content`. In this case we have already used a component `ColumnSetting` in it so it can't be changed Props of Column
+
+
+**XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
+
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+## `ColumnSetting {columnSetting}`
+All props of this component has been explained above in columnSettingWithPopOver Comp.
+
+Only One prop name will change if you use this component alone.
+
+Instead of `tableColumnHeadingData` you will use `columnData`. All others are same
+
+<a name="below-Props-can-also-be-used-for-columnSetting-component" href="#below-Props-can-also-be-used-for-columnSetting-component">Click Here to read about them.</a>
+
+We have used this prop in `columnSettingWithPopOver` Component inside PopOver. But It can also be used sepearately inside any Component.
+
+
+**XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
+
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
@@ -458,13 +599,31 @@ Below three props scenarios has been explaned above in UserSearch Comp.
 
 * **secondFieldHeader** : {"String"} : sets the name of the header of the Second field.
 
-* **thirdFieldHeader** : {"String"} : sets the name of the header of the Third field.
+* **thirdFieldHeader** : {"String"} {Default : "Required"} : sets the name of the header of the Third field.
 
 * **creationPopUpSecondFieldChangeHandler** {function(value)} : onChange of Second field of the popup you can get the data that's been chosen.
 
 * **creationPopUpThirdFieldChangeHandler** {function(checked)} : onChange of Third field of the popup you can get the data that's been chosen.
 
 * **inputMaxLength** {Number} {Default : 50} : maximum number of charecters a user can enter in the input field.
+
+* **fourthFieldHeader** : {"String"} {Default : "Enable Parent Node"} : sets the name of the header of the Fourth field.
+
+* **creationPopUpFourthFieldChangeHandler** {function(checked)} : if the field(switch) value is true a selection dropdown (parent node dropdown) appears. 
+
+* **requiredCheckValue** {Boolean}{default : false} : sets the value of the creationPopUpThirdField(*required switch*) of the popup.
+
+* **parentNodeCheckValue** {Boolean}{default : false} : sets the value of the creationPopUpFourthField(*parent node switch*) of the popup.
+
+* **typeDropDownSelectedValue** {String} : pass the value `drop down` for **Single Select** or `multi select` **Multi Select**, which sets the value of the creationPopUpSecondField when in **edit mode**.
+
+* **parentNodeSwitchLoader** {Boolean}{default : false} : sets the loader value to true or false. 
+
+* **parentNodeOptions** {Array of Objects} : sets the options for the dropdown of the creationPopUpFourthField(when the switch is true).
+
+* **parentNodeOnchange** {function} : onChange of the dropdown value of the creationPopUpFourthField(when the switch is true).
+
+* **parentNodeOnSearch** {function} : search inside the dropdown of the creationPopUpFourthField(when the switch is true).
 
 **XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
 
@@ -557,6 +716,42 @@ _This the view that opens when an user:_
 
 * **allSelectedUsersSearchLoader** {"boolean"} : Loader for search.
 
+* **allSelectedUsersShowHeaderButtons** {Array of Objects}: pass the Buttons you want from the given Options. 
+Options are(ids ) : "activate", "deactivate", "delete", "edit", "duplicate"
+
+Data example of `allSelectedUsersShowHeaderButtons`
+
+```javascript
+    [
+        { 
+            id: "activate", // to change this from the above given options
+            label: "Activate User" // Text you want to show on tooltip of the button
+         },
+
+        { 
+            id: "deactivate", 
+            label: "Deactivate User" 
+        }
+    ]
+
+```
+* **allSelectedUsersDisableButtonNames** {Array of texts} : array of buttons that you want to disable. Disable meaning, these buttons will be diplayed but will be in deactivated mode, User cant perform any action on it.
+Options are(ids ) : "activate", "deactivate", "delete", "edit", "duplicate"
+
+Example of `allSelectedUsersDisableButtonNames`
+```javascript
+//suppose you want to disable edit and delete button
+["edit", "delete"]
+```
+
+* **allSelectedUsersSelectedDataCount** : {Number}: Number of Data items selected. It is **compulsory** to pass this props if you want to show header for different actions. And also can unselect all the selected data just by passing 0 in this props.
+
+* **allSelectedUsersOnClickActions** {function (actionType)} : onClick of any one of the allSelectedUsersButtons, pass the type (ex : 'edit' or 'delete' or any of the other button types) 
+
+* **allSelectedUsersOnClickAddUserButton** {function}: On click of the Add User Icon which is on the right side of the searchDropdown.
+
+* **allSelectedUsersOnSelectAll** {function(selected, selectedRows)} : onClick of Select All CheckBox. First argument will give boolean(true if selected and false if unselected). Second argument will give data of all the selectd and unselected of that view page
+
 _Along with the above props add the props of Add Users Popup{AddUsersPopUp}_.
 
 * **_AddUsersPopUp_** : <a name="add-users-popup" href="#add-users-popup">Click Here to read about the props of add users popup.</a>
@@ -636,6 +831,8 @@ _Props :_
 
 * **addUsersSearchLoader** {"boolean"} : Loader for search.
 
+* **addUsersSelectedDataCount** : {Number}: Number of Data items selected. It is **compulsory** to pass this props if you want to show header for different actions. And also can unselect all the selected data just by passing 0 in this props.
+
 **XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
 
 <p>&nbsp;</p>
@@ -654,6 +851,8 @@ _Props :_
 * **buttonName** {"String"} {Default : "Add from Users List"} : Name of the button.
 
 * **addUsersCommonCardButtonClick** {function} : function that triggers on click of the button. 
+
+* **titleName** {"String"} {Default : "Users"} : Name of the header title.
  
 **XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX**
 

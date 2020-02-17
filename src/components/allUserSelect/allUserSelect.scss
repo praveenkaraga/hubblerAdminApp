@@ -135,28 +135,6 @@
         position: relative;
         overflow:hidden;
 
-        .column_settings{
-            position: absolute;
-            right: 0.2%;
-            z-index: 2;
-            width: 2%;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            height: 32px;
-    
-           
-            img{
-                height: 10px;
-                cursor : pointer;
-            }
-
-            img:hover{
-                transform: rotate(180deg);
-                transition: all ease 500ms;
-
-            }
-        }
     }
 
     
@@ -224,23 +202,7 @@
     
 }
 
-.allUserSelect_popover{
-    .ant-popover-title{
-        font-size: 12px;
-        color: #323232;
-        padding: 5px 10px 4px;
-    }
 
-    .ant-popover-inner-content{
-        padding: 2px 0px 0px 0px;
-    }
-
-    .ant-popover-content  .ant-popover-arrow{
-        right: 3px !important;
-    }
-
-    
-}
 
 
 

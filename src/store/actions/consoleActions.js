@@ -19,8 +19,8 @@ export const commonConsoleAction = (payload) => {
 }
 
 
-export const tableColumnSetting = () => {
-    const payload = getTableColumnSetting()
+export const tableColumnSetting = (searchData) => {
+    const payload = getTableColumnSetting(searchData)
     return {
         type: actionTypes.TABLE_COLUMN_SETTING_DATA,
         payload

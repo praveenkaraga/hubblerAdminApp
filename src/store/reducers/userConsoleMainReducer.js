@@ -13,7 +13,9 @@ const intialState = {
     circleSuggestionData: [],
     singleFieldName: "",
     singleFieldCount: 0,
-    singleFieldData: []
+    singleFieldData: [],
+    parentNodeOptions :[],
+    parentNodeSwitch: false,
 }
 
 export const userConsoleMainReducer = (state = intialState, action) => {
@@ -48,6 +50,20 @@ export const userConsoleMainReducer = (state = intialState, action) => {
                 ...state,
                 circleSuggestionData: circleSuggestionDataInitial,
             }
+        case actionTypes.GET_PARENT_NODE_OPTIONS:
+            const intialOptionsData = action.payload.data ? action.payload.data.result : []
+            return {
+                ...state,
+                parentNodeOptions: intialOptionsData,
+                parentNodeSwitch: false,
+            }
+
+        case actionTypes.COMMON_USER_CONSOLE_ACTION:
+            return {
+                ...state,
+                ...action.payload
+            }
+
 
     }
 

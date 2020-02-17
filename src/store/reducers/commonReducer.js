@@ -13,10 +13,13 @@ const intialState = {
     singleViewSuggestionDataCount: 0,
     singleFieldCount: 0,
     singleFieldData: [],
+    singleFieldFilterKeyId: "",
     postSelectedUsersSuccessMessage: "",
     postSelectedUsersSuccessfully: false,
     postRemovePeopleSuccessfully: false,
-    postRemovePeopleSuccessMessage: ""
+    postRemovePeopleSuccessMessage: "",
+    postDeletedDataSuccessfulMessage: "",
+    postDeletedDataSuccessfully: false
 }
 
 export const commonReducer = (state = intialState, action) => {
@@ -46,7 +49,6 @@ export const commonReducer = (state = intialState, action) => {
 
         case actionTypes.POST_COMMON_CREATE_DATA:
             const newDataInitial = action.payload.data
-            // console.log(newDataInitial)
             return {
                 ...state,
                 newDataCreatedSuccessfully: true,
@@ -70,8 +72,8 @@ export const commonReducer = (state = intialState, action) => {
 
         case actionTypes.GET_LOGIN_SESSION_DATA:
             const intitalSessionData = action.payload.data ? action.payload.data.session_user : []
-            const intitalTableConf = Object.keys(intitalSessionData).length ? intitalSessionData.table_configuration.users : []
-            const finalTableConf = Object.keys(intitalSessionData).length ? intitalTableConf.fields : []
+            const intitalTableConf =intitalSessionData && intitalSessionData.table_configuration ? intitalSessionData.table_configuration.users : []
+            const finalTableConf = intitalSessionData ? intitalTableConf.fields : []
             finalTableConf.forEach((data, i) => {
                 finalTableConf[i]["title"] = data.lbl
                 finalTableConf[i]["dataIndex"] = data._id
@@ -87,19 +89,19 @@ export const commonReducer = (state = intialState, action) => {
 
         case actionTypes.GET_SINGLE_FIELD_DATA:
             const singleFieldDataInitial = action.payload.data
-            // console.log(singleFieldDataInitial, "singleFieldDataInitial")
             return {
                 ...state,
                 singleFieldName: singleFieldDataInitial ? singleFieldDataInitial.name : "",
                 singleFieldCount: singleFieldDataInitial ? singleFieldDataInitial.total_count : 0,
-                singleFieldData: singleFieldDataInitial ? singleFieldDataInitial.result : []
+                singleFieldData: singleFieldDataInitial ? singleFieldDataInitial.result : [],
+                singleFieldFilterKeyId: singleFieldDataInitial ? singleFieldDataInitial.node_field_id : ""
             }
 
         case actionTypes.POST_COMMON_ADD_SELECTED_USERS_DATA:
             const initialPostSelectedUsersData = action.payload.data
             return {
                 ...state,
-                postSelectedUsersSuccessMessage: initialPostSelectedUsersData?.msg || "Users Added",
+                postSelectedUsersSuccessMessage: initialPostSelectedUsersData ? initialPostSelectedUsersData.msg : "Users Added",
                 postSelectedUsersSuccessfully: true
             }
 
@@ -110,6 +112,15 @@ export const commonReducer = (state = intialState, action) => {
                 ...state,
                 postRemovePeopleSuccessMessage: intitialRemovePeopleData ? intitialRemovePeopleData.msg : "Users Removed",
                 postRemovePeopleSuccessfully: true
+            }
+
+
+        case actionTypes.POST_COMMON_DELETE:
+            const intialDeleteData = action.payload.data
+            return {
+                ...state,
+                postDeletedDataSuccessfulMessage: intialDeleteData ? (typeof intialDeleteData.result === "string" ? intialDeleteData.result : intialDeleteData.result.message || "Deleted Successfully") : intialDeleteData.message || "Deleted Successfully",
+                postDeletedDataSuccessfully: true
             }
 
     }

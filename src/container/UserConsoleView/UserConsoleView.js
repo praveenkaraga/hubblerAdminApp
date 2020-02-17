@@ -2,19 +2,16 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import {
-    getUserData,
     createActiveLink,
     getCirclesData,
     getCustomFields,
-    getDeptTableColumnData,
-    commonDepartmentAction,
-    getTableColumnsData,
-    getAddSelectedUsersPostedData,
-    getDepartmentData,
     patchCommonCreateData,
     commonActionForCommonReducer,
     getLoginSessionData,
-    postCommonCreateData
+    postCommonCreateData,
+    postCommonDelete,
+    getParentNodeOptionsData,
+    commonUserConsoleAction
 } from '../../store/actions/actions'
 import Console from '../../components/console/Console'
 import TeamView from '../../components/teamView/TeamView'
@@ -22,10 +19,8 @@ import Departments from '../../components/departments/Departments'
 import Designations from '../../components/designations/designations'
 import CustomDropdown from '../../components/common/CustomDropdown/customDropdown'
 import CreationPopUp from '../../components/common/CreationPopUp/CreationPopUp'
-// import CircleOpenView from '../../components/nodeOpenView/circleOpenView'
 import FieldOpenView from '../../components/nodeOpenView/fieldOpenView'
 import CommonSingleOpenView from '../../components/nodeOpenView/commonSingleOpenView'
-import ChangeViewRouting from '../../components/common/ChangeViewRouting/ChangeViewRouting'
 import {
     Switch,
     Route,
@@ -35,6 +30,8 @@ import {
 } from "react-router-dom";
 import { message } from 'antd'
 import './userConsoleView.scss'
+import isEmpty from 'lodash/isEmpty'
+import find from 'lodash/find'
 
 const routes = [
     {
@@ -85,7 +82,8 @@ class UserConsoleView extends Component {
             creationPopUpInputData: "",
             fieldPopUpSelectData: "drop down",
             fieldPopUpSwitchData: false,
-
+            parentNodeSwitchData: false,
+            parentObject: {},
         }
 
         this.customDropdownData = [
@@ -128,6 +126,7 @@ class UserConsoleView extends Component {
         })
     }
 
+    // on change of input field inside creation of circle / field popup
     creationPopUpInput = (e) => {
         const { creationPopUpData } = this.state
         const inputData = e.target.value
@@ -137,49 +136,44 @@ class UserConsoleView extends Component {
         })
     }
 
+    //on click od save button of pop up
     onSaveCreationPopUp = async (type) => {
         const { creationPopUpInputData, creationPopUpData, fieldPopUpSelectData, fieldPopUpSwitchData } = this.state
-        const popUpMode = creationPopUpData.mode // type of pop which is opening //popUpType
+        const popUpMode = creationPopUpData.mode // type of pop which is opening 
         const popUpDataType = creationPopUpData.type
         const finalDataCircle = { name: creationPopUpInputData }
-        const finalDataField = {
+        const finalDataField = { // creating data params for api
             name: creationPopUpInputData,
             type: fieldPopUpSelectData,
             required: fieldPopUpSwitchData,
-            parent_enabled: false
+            parent_enabled: this.state.parentNodeSwitchData,
+            parent: this.state.parentObject,
         }
 
 
-        if (popUpMode === "setting") {
+        if (popUpMode === "setting") { // it is in edit mode we will call patch and if it is add mode we will call post
             await this.props.patchCommonCreateData(popUpDataType === "fields" ? "nodes" : popUpDataType, creationPopUpData.id, popUpDataType === "fields" ? finalDataField : finalDataCircle)
         } else {
             await this.props.postCommonCreateData(popUpDataType === "fields" ? "nodes" : popUpDataType, popUpDataType === "fields" ? finalDataField : finalDataCircle)
         }
         const { patchDataCreatedSuccessfully, patchSuccessMessage, errorMsg, newDataCreatedSuccessfully } = this.props.commonReducer
         if (popUpMode === "setting" ? patchDataCreatedSuccessfully : newDataCreatedSuccessfully) {// will be true if success is true from above patch / post api and pop up will be closed
-            message.success(popUpMode === "setting" ? "Saved Successfully" : "Created Successfully")
+            message.success(popUpMode === "setting" ? "Saved Successfully" : "Created Successfully") // changine in mesahe according to fn of pop up
             this.setState({ creationPopUpVisibility: false })
-            this.props.commonActionForCommonReducer({ patchDataCreatedSuccessfully: false, newDataCreatedSuccessfully: false })
-            if (popUpDataType === "circles") {
-                this.props.getCirclesData()
-            } else {
-                this.props.getCustomFields()
-            }
+            this.props.commonActionForCommonReducer({
+                patchDataCreatedSuccessfully: false,
+                newDataCreatedSuccessfully: false
+            })
+            popUpDataType === "circles" ? this.props.getCirclesData() : this.props.getCustomFields() // after save and success of api we are calling this api to update the new data on screen 
         } else {
             message.error(errorMsg);
         }
     }
 
 
-
-
     onSinglePanelClick = (data, type) => { //Onclick of items of dropdown panel
-        if (type === "circles") { //making url change acording to type of dropdown
-            this.props.history.push(`/people/circle/${data._id}`)
-        } else {
-            const initialUniqueTableHeadingId = data.fields[0]._id
-            this.props.history.push(`/people/field/${data._id}`, { uniqueTableHeadingId: initialUniqueTableHeadingId })
-        }
+        //removing the last letter from type and pushing it to url
+        this.props.history.push(`/people/${type.slice(0, -1)}/${data._id}`)
     }
 
     createActiveLink = (route) => {
@@ -197,7 +191,8 @@ class UserConsoleView extends Component {
     }
 
 
-    customFieldPopUpSelectAndSwitchData = (data, type) => {
+    customFieldPopUpSelectAndSwitchData = (data, type) => { // when editing name or adding in fields
+        //saving data of select and switch from the pop up
         if (type === "select") {
             const fieldPopUpSelectData = data === "single_select" ? "drop down" : "multi select"
             this.setState({ fieldPopUpSelectData })
@@ -207,9 +202,70 @@ class UserConsoleView extends Component {
 
     }
 
+    // onclick of confirm from the small delete popver 
+    onDeleteConfirmClick = async (panelData, panelType) => {
+        const changeType = panelType === "fields" ? "nodes" : "circles"
+        await this.props.postCommonDelete(changeType, { [changeType]: [panelData._id] })
+        const { postDeletedDataSuccessfulMessage, postDeletedDataSuccessfully, errorMsg } = this.props.commonReducer
+        if (postDeletedDataSuccessfully) {
+            message.success(postDeletedDataSuccessfulMessage)
+            panelType === "circles" ? this.props.getCirclesData() : this.props.getCustomFields()
+            this.props.commonActionForCommonReducer({ postDeletedDataSuccessfully: false })
+
+            //checking if the open view is of the deleting fields or circles...
+            //if it is then after deleting we are deriecting them to console page
+            const currentUrl = this.props.history.location
+            const currentUrlDataArray = currentUrl.pathname.split("/")
+            if (currentUrlDataArray.includes(panelData._id)) this.props.history.push("/people/console")
+
+        } else {
+            message.error(errorMsg)
+        }
+    };
+
+    creationPopUpFourthFieldChangeHandler = (data) => { //calling parent node data api and also validating repeatation of calls
+        const { parentNodeOptions } = this.props.userConsoleMainReducer
+
+        if (data && isEmpty(parentNodeOptions)) {
+            this.props.commonUserConsoleAction({ parentNodeSwitch: true })
+            this.props.getParentNodeOptionsData()
+        }
+        this.setState({ parentNodeSwitchData: data })
+    };
+
+    afterClose = () => { // after closing of pop up.. resetting the data 
+        this.setState({
+            creationPopUpInputData: "",
+            fieldPopUpSwitchData: false,
+            fieldPopUpSelectData: "drop down",
+            parentNodeSwitchData: false,
+        });
+        this.props.commonUserConsoleAction({ parentNodeOptions: [] })
+    };
+
+    parentNodeOnchange = (value) => { // on change of parent node of the pop up
+        const { parentNodeOptions } = this.props.userConsoleMainReducer
+        let reqObj = find(parentNodeOptions, item => item._id === value)
+        this.setState({
+            parentObject: {
+                _id: value,
+                name: reqObj.name
+            }
+        })
+    }
+
+    parentNodeOnSearch = () => {
+        console.log('searched')
+    }
+
+
+    onDropdownSearch = (searchData, panelType) => {
+        //console.log(searchData, type, "onDropdownSearch")
+        panelType === "circles" ? this.props.getCirclesData(searchData) : this.props.getCustomFields(searchData)
+    }
     render() {
         const { activeLinkName } = this.props.firstReducer
-        const { circlesData, customFieldsData } = this.props.userConsoleMainReducer
+        const { circlesData, customFieldsData, parentNodeOptions, parentNodeSwitch } = this.props.userConsoleMainReducer
         const { creationPopUpVisibility, creationPopUpData, creationPopUpInputData } = this.state
         return (
             <div className={'user-console-view'}>
@@ -232,9 +288,15 @@ class UserConsoleView extends Component {
 
                         </div>
                         {this.customDropdownData.map(singleData => (
-                            <CustomDropdown panelDataype={singleData.type} searchPlaceHolder={singleData.searchPlaceHolder} panelData={singleData.type === "circles" ? circlesData : customFieldsData}
-                                onSinglePanelClick={(data) => this.onSinglePanelClick(data, singleData.type)} headingName={singleData.headingName} onClickSetting={(data) => this.dropDownSettingAction(data, singleData.type)}
+                            <CustomDropdown panelDataype={singleData.type}
+                                searchPlaceHolder={singleData.searchPlaceHolder}
+                                panelData={singleData.type === "circles" ? circlesData : customFieldsData}
+                                onSinglePanelClick={(data) => this.onSinglePanelClick(data, singleData.type)}
+                                headingName={singleData.headingName}
+                                onClickSetting={(data) => this.dropDownSettingAction(data, singleData.type)}
                                 onClickAdd={() => this.onClickAdd(singleData.type)}
+                                onDeleteConfirmClick={(data) => this.onDeleteConfirmClick(data, singleData.type)}
+                                onSearch={(searchData) => this.onDropdownSearch(searchData, singleData.type)}
                             />
                         ))
                         }
@@ -247,13 +309,21 @@ class UserConsoleView extends Component {
                             creationPopFirstButtonHandler={() => this.setState({ creationPopUpVisibility: false })}
                             creationPopSecondButtonHandler={() => this.onSaveCreationPopUp(creationPopUpData.type)}
                             secondButtonDisable={creationPopUpInputData.length < 3 || creationPopUpInputData === creationPopUpData.fixedName ? true : false}
-                            afterClose={() => this.setState({ creationPopUpInputData: "" })}
+                            afterClose={this.afterClose}
                             creationPopUpFirstFieldChangeHandler={this.creationPopUpInput}
                             fieldHeader={`${creationPopUpData.typeName} Name`}
                             fieldPlaceHolder={`Enter ${creationPopUpData.typeName} Name`}
                             customField={creationPopUpData.popUpType}
                             creationPopUpSecondFieldChangeHandler={(data) => this.customFieldPopUpSelectAndSwitchData(data, "select")}
                             creationPopUpThirdFieldChangeHandler={(data) => this.customFieldPopUpSelectAndSwitchData(data, "switch")}
+                            requiredCheckValue={this.state.fieldPopUpSwitchData}
+                            typeDropDownSelectedValue={this.state.fieldPopUpSelectData}
+                            creationPopUpFourthFieldChangeHandler={this.creationPopUpFourthFieldChangeHandler}
+                            parentNodeCheckValue={this.state.parentNodeSwitchData}
+                            parentNodeSwitchLoader={parentNodeSwitch}
+                            parentNodeOptions={parentNodeOptions}
+                            parentNodeOnchange={this.parentNodeOnchange}
+                            parentNodeOnSearch={this.parentNodeOnSearch}
                         />
 
 
@@ -280,11 +350,15 @@ class UserConsoleView extends Component {
                             <Route exact path={"/people/console"} component={Console} />
                             <Route exact path={"/people/departments"} component={Departments} />
                             <Route exact path={"/people/designations"} component={Designations} />
-                            <Route exact path={"/people/circle/:id"} children={<CommonSingleOpenView viewType="circles" />} />
-                            <Route exact path={"/people/field/:id/:id"} children={<CommonSingleOpenView viewType="nodes" />} />
+                            <Route exact path={"/people/circle/:id"}
+                                children={<CommonSingleOpenView viewType="circles" />} />
+                            <Route exact path={"/people/field/:id/:id"}
+                                children={<CommonSingleOpenView viewType="nodes" />} />
                             <Route exact path={"/people/field/:id/"} component={FieldOpenView} />
-                            <Route exact path={"/people/department/:id"} children={<CommonSingleOpenView viewType="departments" />} />
-                            <Route exact path={"/people/designation/:id"} children={<CommonSingleOpenView viewType="designations" />} />
+                            <Route exact path={"/people/department/:id"}
+                                children={<CommonSingleOpenView viewType="departments" />} />
+                            <Route exact path={"/people/designation/:id"}
+                                children={<CommonSingleOpenView viewType="designations" />} />
                         </Switch>
                     </div>
                 </div>
@@ -306,19 +380,16 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return bindActionCreators(
         {
-            getUserData,
             createActiveLink,
             getCirclesData,
             getCustomFields,
-            getDeptTableColumnData,
-            commonDepartmentAction,
-            getTableColumnsData,
-            getAddSelectedUsersPostedData,
-            getDepartmentData,
             patchCommonCreateData,
             commonActionForCommonReducer,
             getLoginSessionData,
-            postCommonCreateData
+            postCommonCreateData,
+            postCommonDelete,
+            getParentNodeOptionsData,
+            commonUserConsoleAction
         },
         dispatch
     );

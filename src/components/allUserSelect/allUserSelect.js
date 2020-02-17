@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Select, Popover } from 'antd';
+import { Select } from 'antd';
 import './allUserSelect.scss'
 import UserSearch from '../common/UserSearch/userSearch'
 import AddUser from '../addUser/addUser'
-import ColumnSetting from './columnSetting/columnSetting'
 import UserTable from '../userTable/userTable'
-import find from 'lodash/find';
+import ColumnSettingWithPopOver from './columnSetting/columnSettingWithPopOver/columnSettingWithPopOver'
 
 
 class AllUserSelect extends Component {
@@ -33,43 +32,45 @@ class AllUserSelect extends Component {
 
     onheadingClick = (data) => { //when clicking all the top heading labels... changing arrow signs 
         let sortingtype = ""
-
-        if (data.order === "descend") {
+        if (data.order === "descend") { //converting the output from the component to needed for backend
             sortingtype = "dsc"
         } else if (data.order === "ascend") {
             sortingtype = "asc"
         } else {
             sortingtype = ""
         }
-        if (this.props.headingClickData) {
-            this.props.headingClickData(sortingtype ? data.field : "", sortingtype || "")
-        }
+        if (this.props.headingClickData) this.props.headingClickData(sortingtype ? data.field : "", sortingtype || "") //checking for headingClickData prop..
 
     }
 
+
+
+    // on change of Checkbox we get two arguments...selectedRowsKeys will give all the keys selected in the table on any page
+    //selectedRows will be all the rowsdata that we have selected on that page of the table
     onChangeCheckBox = (selectedRowsKeys, selectedRows) => {
-        if (this.props.onChangeCheckBox) {
-            this.props.onChangeCheckBox(selectedRowsKeys, selectedRows)
-        }
+        if (this.props.onChangeCheckBox) this.props.onChangeCheckBox(selectedRowsKeys, selectedRows) //checking for onChangeCheckBox prop
     }
 
+
+
+    //this be triggered when a row checkbox is selected or unselected
+    //it gives us three arguments "record" is the data of current selected or unselected checkbox row
+    //"selected" is a boolean value if row checkbox selected then it gives true and vice versa
+    //"selectedRows" data of all the rows selected on that current page of table
     onSelectRow = (record, selected, selectedRows) => {
-        if (this.props.onSelectRow) { //if this prop is used then enable this prop
-            this.props.onSelectRow(record, selected, selectedRows)
-        }
-
+        if (this.props.onSelectRow) this.props.onSelectRow(record, selected, selectedRows) //if this prop is used then enable this prop
     }
 
 
-    modellingData = (userData, allHeadingsData) => { //handelling datas and modifying accordingly
+    modellingData = (userData, allHeadingsData) => { //handelling api datas and modifying accordingly to fit in table properly 
         const { isUserData = true } = this.props
-        let modifiedUserData = JSON.parse(JSON.stringify(userData))
-        if (modifiedUserData.length) {
+        let modifiedUserData = JSON.parse(JSON.stringify(userData)) //making a deep clone of incoming data
+        if (modifiedUserData.length) { //checking if there is data or not 
             modifiedUserData.forEach(singleUserData => {
                 allHeadingsData.forEach(data => {
                     const dataType = data.type
-                    switch (dataType) {
-                        case "text":
+                    switch (dataType) { //checking for all types of data type
+                        case "text": //if it is string 
                             singleUserData["name"] = <div className="name_with_image">
                                 {isUserData ? // if prop isUserData true then we will show profile pic/ initial names as profiles pic(if pic is not there)
 
@@ -85,11 +86,11 @@ class AllUserSelect extends Component {
                             </div>
                             singleUserData["key"] = singleUserData._id
                             break;
-                        case "number":
+                        case "number": //if type number display as it is
                             break;
-                        case "object":
-                            if (singleUserData[data._id]) {
-                                if (Array.isArray(singleUserData[data._id])) {
+                        case "object": // if type is object 
+                            if (singleUserData[data._id]) { //checking value is there or not for that object
+                                if (Array.isArray(singleUserData[data._id])) {  //checking if the object is array or proper object
                                     let tempData = []
                                     singleUserData[data._id].forEach(arrayData => {
                                         tempData.push(arrayData.name)
@@ -114,12 +115,9 @@ class AllUserSelect extends Component {
         return modifiedUserData
     }
 
-    onClickColumnSetting = () => {
-        if (this.props.onClickColumnSetting) this.props.onClickColumnSetting()
+    onClickColumnSetting = () => { //on click of the column setting gear icon
+        if (this.props.onClickColumnSetting) this.props.onClickColumnSetting() //checking if the prop is being passed or not
     };
-
-
-
 
 
     render() {
@@ -127,7 +125,8 @@ class AllUserSelect extends Component {
             searchSecondButtonLoader = false, searchFirstButtonClick, searchSecondButtonClick, searchLoader = false, onSearch, totalUsers, goPrevPage, goNextPage, currentPageNumber, columnSettingData,
             onClickUserActivate, onClickUserDeactivate, onClickUserDelete, onClickUserEdit, addUserPopUpActive, addUserCloseButton, addUserDataForm, isUserData = true, onlySelectAndAdd = false,
             typeOfData = "Total Data", onClickTableRow, columnConfigurable = false, allSelect, onSearchDropdownSelect, searchDropdownPlaceholder, searchDropdownData, onChangeSearchDropdown,
-            showHeaderButtons, disableButtonNames, selectedDataCount, onClickAddUserButton, onSelectAll, onColumnSettingSave, visibleColumnSetting, onColumnSettingCancel } = this.props
+            showHeaderButtons, disableButtonNames, selectedDataCount, onClickAddUserButton, onSelectAll, onColumnSettingSave, visibleColumnSetting, onColumnSettingCancel, onChangeAddUsersTab,
+            onSearchColumnSetting } = this.props
         const perPageOptions = [7, 10, 20, 30, 40, 50, 100]
         const { rowsPerPage } = this.state
         const totalPages = Math.ceil(totalUsers / rowsPerPage)
@@ -147,22 +146,18 @@ class AllUserSelect extends Component {
 
 
                     <div className="setting_table_combine">
-                        {columnConfigurable ? <div className="column_settings">
-                            <Popover
-                                content={<ColumnSetting columnData={allHeadingsData} columnSettingData={columnSettingData} onColumnSettingSave={onColumnSettingSave} onColumnSettingCancel={onColumnSettingCancel} />}
-                                title="Column Setting"
-                                trigger="click"
-                                visible={visibleColumnSetting}
-                                placement="bottomRight"
-                                autoAdjustOverflow
-                                overlayClassName="allUserSelect_popover"
-                            //mouseLeaveDelay={5000}
-                            >
-                                <img src={require(`../../images/svg/${!visibleColumnSetting ? "settings_grey" : "close-app"}.svg`)}
-                                    onClick={this.onClickColumnSetting} alt="Column Setting" />
+                        {columnConfigurable ? //checking if columnConfigurable true then show gear icon
+                            <ColumnSettingWithPopOver
+                                visibleColumnSetting={visibleColumnSetting}
+                                onClickColumnSetting={this.onClickColumnSetting}
+                                tableColumnHeadingData={allHeadingsData}
+                                columnSettingData={columnSettingData}
+                                onColumnSettingSave={onColumnSettingSave}
+                                onColumnSettingCancel={onColumnSettingCancel}
+                                onSearchColumnSetting={onSearchColumnSetting}
+                            />
+                            : null}
 
-                            </Popover>
-                        </div> : ""}
 
                         <UserTable ref={table => this.wholeTable = table} modifiedUserData={modifiedUserData} allHeadingsData={allHeadingsData}
                             sortingData={this.onheadingClick} onChangeCheckBox={this.onChangeCheckBox} loading={!modifiedUserData.length ? true : false}
@@ -200,7 +195,7 @@ class AllUserSelect extends Component {
 
                 </div>
 
-                {addUserPopUpActive ? <AddUser onClickClose={addUserCloseButton} addUserDataForm={addUserDataForm} /> : ""}
+                {addUserPopUpActive ? <AddUser onClickClose={addUserCloseButton} addUserDataForm={addUserDataForm} onChangeAddUsersTab={onChangeAddUsersTab} /> : null}
             </div>
         )
     }

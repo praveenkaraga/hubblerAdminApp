@@ -19,6 +19,7 @@ import {
 import {teamViewReducer} from "../../store/reducers/teamViewReducer";
 import UserInfoSlider from '../../components/common/UserInfoSlider/UserInfoSlider'
 import ImportUsersPopUp from '../../components/common/ImportUsersPopUp/ImportUsersPopUp'
+import SearchDropdown from '../common/searchDropDown/searchDropDown'
 
 
 class TeamView extends Component {
@@ -74,16 +75,16 @@ class TeamView extends Component {
 
     render() {
         const {orgChartUsers, teamViewUserDrawerVisible, clickedTeamUserData, teamViewClickedUserId, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, loader, clickedMemberData, contentLoader, importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpVisibility, uploadPopUpData, importUsersUploadResponseData, uploadFileStatus, isFileUploaded, startUploadStatus, clickedUserOrgData} = this.props.teamViewReducer
-        console.log(clickedTeamUserData)
-        console.log(clickedMemberData)
         return (
             <div className={'team-view'}>
                 {loader ? <div className={'loader'}></div> : <div>
-                    <div className={'component-header'}>Team View</div>
-                    <div className={'team-view-buttons-wrap'}>
-                        <SearchTransition/>
-                        <Button type="primary" className={'import-users'} onClick={this.showModal}>Import Users</Button>
-                        <Button type="primary">Create New User</Button>
+                    <div className={'component-header-buttons-wrap'}>
+                        <div className={'component-header'}>Team View</div>
+                        <div className={'team-view-buttons-wrap'}>
+                            <div className={'search-dropdown-wrap'}><SearchDropdown placeholder={'Search User'}/></div>
+                            <Button type="primary" className={'import-users'} onClick={this.showModal}>Import Users</Button>
+                            <Button type="primary">Add User</Button>
+                        </div>
                     </div>
                     <OrgChart/>
 

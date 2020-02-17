@@ -11,34 +11,32 @@ class SearchDropdown extends Component {
         }
     }
 
-    handleSearch = value => {
-        const { onChange } = this.props
-        if (onChange) {
-            this.props.onChange(value)
-        }
+    handleSearch = value => { //passing search value to prop on search
+        if (this.props.onChange) this.props.onChange(value) //checking if prop is being passed or not
     };
 
-    onOptionSelect = (value) => {
-        const { onSelect } = this.props
-        if (onSelect) {
-            this.props.onSelect(value)
-        }
+    onOptionSelect = (value) => { //on Select of a data from dropdown
+        if (this.props.onSelect) this.props.onSelect(value) //checking if prop is being passed or not
     }
 
 
     render() {
         const { placeholder = "Search and Add", searchData = [] } = this.props
+
+        // modelling all the options for below autocomplete component
         const children = searchData.map(data => <Option key={data._id} name={data.name}>
             <div className="name_with_profile">
                 {data ?
                     data["profile_image"] ?
                         <img src={data["profile_image"]["thumbnail"]} alt="Profile Pic" /> :
-                        <div className="no_profile_pic"><p>{data.firstname.substring(0, 2)}</p></div>
+                        <div className="no_profile_pic"><p>{data.firstname.substring(0, 2)}</p></div> // if no profile pic is there , first two initials of there name will come
                     : ""}
                 <div className="name_with_designation">
                     <div className="only_name">{data.name}</div>
                     {
-                        data["designations"] ? data["designations"].length ? <div className="only_designation">{data["designations"] ? data["designations"][0]["name"] : ""}</div> : "" : ""
+                        <div className="only_designation">
+                            {data["designations"] && data["designations"].length ? data["designations"][0]["name"] : null} {/*checking if designation is available then will show there designation*/}
+                        </div>
                     }
                 </div>
             </div>

@@ -3,6 +3,7 @@ import { Tabs, Popover, Button, Form } from 'antd';
 import './addUser.scss'
 import ImageCropper from '../common/ImageCropper/imageCropper'
 import CustomForm from '../common/CustomForm/customForm'
+import ProfilesAddUser from './profilesAddUser/profilesAddUser'
 
 const { TabPane } = Tabs;
 
@@ -35,9 +36,8 @@ class AddUser extends Component {
 
     render() {
 
-        const { onClickClose, addUserDataForm } = this.props
+        const { onClickClose, addUserDataForm, addUserProfileData, onChangeAddUsersTab } = this.props
         const { croppedImage } = this.state
-
         const profileImgcontent = (
             <div className="actionButtons">
                 <label for="uploadPhoto-ImageCropper"> <div>Upload</div></label>
@@ -85,18 +85,18 @@ class AddUser extends Component {
                             </div>
                         </div>
 
-                        <Tabs defaultActiveKey="1" tabPosition="left" className="add_user_tab_container" >
-                            <TabPane key="1" tab="Personal">
+                        <Tabs defaultActiveKey="1" tabPosition="left" className="add_user_tab_container" onChange={onChangeAddUsersTab}>
+                            <TabPane key="personal" tab="Personal">
                                 <CustomForm formData={addUserDataForm} />
                             </TabPane>
-                            <TabPane key="2" tab="Organisation">
+                            <TabPane key="organisation" tab="Organisation">
                                 Tab 2
                             </TabPane>
-                            <TabPane key="3" tab="Apps">
+                            <TabPane key="apps" tab="Apps">
                                 Tab 3
                             </TabPane>
-                            <TabPane key="4" tab="Profiles">
-                                Tab 4
+                            <TabPane key="profiles" tab="Profiles">
+                                <ProfilesAddUser addUserProfileData={addUserProfileData} />
                             </TabPane>
                         </Tabs>
 

@@ -51,7 +51,7 @@ class Designations extends Component {
         }
     }
 
-    getCroppedImg(image, crop, fileName) {
+    getCroppedImg(image, crop, fileName) { //converting image to string readable by img tag format
         const canvas = document.createElement('canvas');
         const scaleX = image.naturalWidth / image.width;
         const scaleY = image.naturalHeight / image.height;
@@ -86,7 +86,8 @@ class Designations extends Component {
         });
     }
 
-    cropeerButtonActions = (action) => {
+    //giving image to prop on click of apply and then making value of img tag null
+    cropperButtonActions = (action) => {
         if (action === "Apply") {
             this.props.onClickApply(this.state.croppedImageUrl)
         }
@@ -129,7 +130,7 @@ class Designations extends Component {
                         </div>
 
                         <div className="bottom_buttons">
-                            {allButtons.map(buttonType => (<Button type="primary" onClick={() => this.cropeerButtonActions(buttonType)}>{buttonType}</Button>))}
+                            {allButtons.map(buttonType => (<Button type="primary" onClick={() => this.cropperButtonActions(buttonType)}>{buttonType}</Button>))}
                         </div>
                     </div>
 

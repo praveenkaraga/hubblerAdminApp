@@ -6,7 +6,7 @@ import 'antd/dist/antd.css';
 
 class AddUsersCommonCard extends Component {
     render() {
-        const {addUsersCardTitle = 'Add Users', addUsersCardSubText = `You don't have any Users here. Please add from the Users list.`, buttonName = 'Add from Users List', addUsersCommonCardButtonClick} = this.props;
+        const {titleName = 'Users', addUsersCardTitle = `Add ${titleName}`, addUsersCardSubText = `You don't have any ${titleName} here. Please add from the ${titleName} list.`, buttonName = `Add from ${titleName} List`, addUsersCommonCardButtonClick} = this.props;
         return (
             <div className={'add-users-common-card'}>
                 <div className={'header'}>{addUsersCardTitle}</div>

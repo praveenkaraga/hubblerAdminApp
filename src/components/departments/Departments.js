@@ -18,7 +18,7 @@ import {
     onClickOfDownloadExcel,
     getImportUserUploadDetails,
     commonTeamReducerAction,
-    patchImportUsersData, editUserDataForm, commonActionForCommonReducer, patchCommonCreateData, postCommonCreateData
+    patchImportUsersData, editUserDataForm, commonActionForCommonReducer, patchCommonCreateData, postCommonCreateData,postCommonDelete
 } from "../../store/actions/actions";
 import AllUserSelect from '../allUserSelect/allUserSelect'
 import filter from "lodash/filter";
@@ -159,7 +159,8 @@ class Departments extends Component {
     searchSecondButtonClick = (status) => {
         this.setState({
             creationPopUpVisibility: true,
-            creationPopUpMode: "add"
+            creationPopUpMode: "add",
+            commonCreationViewHeaderName : ''
         })
     }
 
@@ -173,31 +174,17 @@ class Departments extends Component {
 
 
     creationPopSecondButtonHandler = async (e) => {
-        /*let data = {name: this.state.commonCreationViewHeaderName};
-        await this.props.postCreateDeptData(data);
-        if (!isEmpty(this.props.departmentReducer.createdDepartmentData)) {
-            this.props.history.push(`/people/department/${this.props.departmentReducer.createdDepartmentData.id}`, {headerName: this.props.departmentReducer.createdDepartmentData.result.name})
-        }
-        this.setState({
-            changeToCreatedView: true,
-            creationPopUpVisibility: false,
-        })*/
-
-
         let data = {name: this.state.commonCreationViewHeaderName};
         await this.props.postCreateDeptData(data);
         const {errorMsg} = this.props.commonReducer // will be true if success is true from above post api and pop up will be closed
         if (!isEmpty(this.props.departmentReducer.createdDepartmentData)) {
-            this.setState({creationPopUpVisibility: false})
+            this.setState({creationPopUpVisibility: false,commonCreationViewHeaderName : ''})
             message.success("Department Created Successfully");
             this.props.commonDepartmentAction({newDataCreatedSuccessfully: false})
             this.props.history.push(`/people/department/${this.props.departmentReducer.createdDepartmentData.id}`, {headerName: this.props.departmentReducer.createdDepartmentData.result.name})
-
         } else {
             message.error(errorMsg);
         }
-
-
     }
 
     onSaveEditedDepartment = async () => {
@@ -434,7 +421,7 @@ class Departments extends Component {
     }
 
     afterClose = () => {
-        console.log("nn")
+        console.log("afterClose Triggered")
     }
 
     onRowThisClick = (rowData) => {
@@ -491,33 +478,24 @@ class Departments extends Component {
         })
     }
 
-    onClickDepartmentActions = (actionType) => {
-        this.setState({ creationPopUpVisibility: true, creationPopUpMode: "edit" })
-    }
-
-    /*changeStatusOfUserAction = (selectedDataOriginal) => { //handelling the case to enable and disable the activate and deactivate button on selection
-
-        const selectedData = selectedDataOriginal.map(data => data.deactivate)
-        let disableHeaderButtonNames = []
-        if (selectedData.includes(true) && (selectedData.includes(false) || selectedData.includes(undefined))) {
-            disableHeaderButtonNames = ["edit", "activate", "deactivate"]
-        } else if ((selectedData.includes(false) || selectedData.includes(undefined))) {
-            disableHeaderButtonNames = selectedDataOriginal.length > 1 ? ["edit", "activate"] : ["activate"]
+    onClickDepartmentActions = async (actionType) => {
+        const { checkedDataKeys, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType } = this.state
+        if (actionType === "edit") {
+            this.setState({ creationPopUpVisibility: true, creationPopUpMode: "edit", commonCreationViewHeaderName : this.state.editRowName   })
         } else {
-            disableHeaderButtonNames = selectedDataOriginal.length > 1 ? ["edit", "deactivate"] : ["deactivate"]
+            await this.props.postCommonDelete("departments", { departments: checkedDataKeys })
+            const { postDeletedDataSuccessfulMessage, postDeletedDataSuccessfully, errorMsg } = this.props.commonReducer
+            if (postDeletedDataSuccessfully) {
+                message.success(postDeletedDataSuccessfulMessage)
+                this.props.getDepartmentData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
+                this.props.commonActionForCommonReducer({ postDeletedDataSuccessfully: false })
+            } else {
+                message.error(errorMsg)
+                this.props.getDepartmentData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
+            }
+            this.setState({ checkedDataKeys: [] })
         }
-
-        this.setState({ disableHeaderButtonNames })
     }
-
-
-    onSelectRow = (record, selected) => {
-        if (!selected) { // removing the unselected data from the array
-            const indexOfRemovedData = this.selectedUsers.map(data => data._id).indexOf(record._id) //taking the index from the array of objects
-            this.selectedUsers.splice(indexOfRemovedData, 1)
-        }
-        this.changeStatusOfUserAction(this.selectedUsers)
-    }*/
 
 
     render() {
@@ -528,8 +506,6 @@ class Departments extends Component {
         const {importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpData, uploadPopUpVisibility, startUploadStatus, uploadFileStatus, importUsersUploadResponseData, isFileUploaded} = this.props.teamViewReducer;
 
         const {creationPopUpVisibility, showAddUsersPopUp, commonCreationViewHeaderName, changeToCreatedView, formPopUpActive, creationPopUpMode,checkedDataKeys} = this.state;
-
-        console.log(importUsersUploadResponseData)
         return (
             <div className="departments-main">
                 {!changeToCreatedView ? <div className={'departments-main-view'}>
@@ -575,7 +551,26 @@ class Departments extends Component {
                     />
                 </div> : ""}
 
-                <CreationPopViewCombined creationPopUpVisibility={creationPopUpVisibility}
+
+                <CreationPopUp creationPopUpVisibility={creationPopUpVisibility}
+                               creationPopFirstButtonHandler={this.creationPopFirstButtonHandler}
+                               creationPopSecondButtonHandler={creationPopUpMode === "add" ? this.creationPopSecondButtonHandler : this.onSaveEditedDepartment}
+                               creationPopUpFirstFieldChangeHandler={this.creationPopUpFirstFieldChangeHandler}
+                               customField={'default'} fieldHeader={"Department Name"} fieldPlaceHolder={'Enter Department'}
+                               secondFieldHeader={`Type`}
+                               creationPopUpSecondFieldChangeHandler={this.creationPopUpSecondFieldChangeHandler}
+                               thirdFieldHeader={'Required'}
+                               creationPopUpThirdFieldChangeHandler={this.creationPopUpThirdFieldChangeHandler}
+                               inputValue={commonCreationViewHeaderName}
+                               secondButtonDisable={!commonCreationViewHeaderName ? true : false}
+                               afterClose={this.afterClose}
+                               inputMaxLength={50}
+                               creationPopUpTitle={creationPopUpMode === "add" ? "Add New Designation" : "Edit Designation"}
+                               creationPopSecondButtonName={creationPopUpMode === "add" ? "Create" : "Save"}/>
+
+
+
+                {/*<CreationPopViewCombined creationPopUpVisibility={creationPopUpVisibility}
                     //implies the visibility status of creation PopUP = boolean
                                          creationPopFirstButtonHandler={this.creationPopFirstButtonHandler}
                     //function that gets invoked on click of the the first button of create pop
@@ -684,7 +679,7 @@ class Departments extends Component {
                                          allSelectedUsersOnChangeSearchDropdown={this.onChangeSearchDropdown}
 
                     // *end of CommonCreationView props*
-                />
+                />*/}
             </div>
         );
     }
@@ -718,7 +713,7 @@ const mapDispatchToProps = dispatch => {
             editUserDataForm,
             patchCommonCreateData,
             postCommonCreateData,
-            commonActionForCommonReducer
+            commonActionForCommonReducer,postCommonDelete
         },
         dispatch
     );
