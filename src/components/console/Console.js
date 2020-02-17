@@ -17,7 +17,7 @@ import {
     patchTableColumnSetting,
     getLoginSessionData,
     getAddUsersProfileData
-} from '../../store/actions/actions'
+} from '../../store/actions/PeopleActions/peopleActions'
 import UserInfoSlider from '../common/UserInfoSlider/UserInfoSlider'
 import ImportUsersPopUp from '../common/ImportUsersPopUp/ImportUsersPopUp'
 import { message, Modal } from 'antd'

@@ -1,9 +1,9 @@
-import * as actionTypes from '../actionTypes'
+import * as actionTypes from '../../actionTypes'
 import {
     getCirclesDataApi,
     getCustomFieldsApi,
     getCircleSuggestionDataApi, getParentNodeOptions
-} from '../../apiCall'
+} from '../../../utils/Apis/peopleApi'
 
 
 

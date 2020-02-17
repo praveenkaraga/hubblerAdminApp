@@ -1,5 +1,5 @@
-import * as actionTypes from '../actionTypes'
-import { getUsers, getTableColumnSetting, getAddUserDataForm, postCommonActionOnUserApi, patchTableColumnSettingApi } from '../../apiCall'
+import * as actionTypes from '../../actionTypes'
+import { getUsers, getTableColumnSetting, getAddUserDataForm, postCommonActionOnUserApi, patchTableColumnSettingApi } from '../../../utils/Apis/peopleApi'
 
 
 export const getConsoleUserData = (perPageRows, currentPage, searchData, headingData, sortingType) => {

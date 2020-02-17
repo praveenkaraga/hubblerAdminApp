@@ -7,7 +7,7 @@ import {
     postCommonAddSelectedUsersData,
     postCommonRemovePeople,
     commonActionForCommonReducer
-} from '../../store/actions/actions'
+} from '../../store/actions/PeopleActions/peopleActions'
 import CommonCreationView from '../common/CommonCreationView/CommonCreationView'
 import { withRouter } from "react-router-dom";
 import { getNodeId, getSubNodeId } from '../../utils/helper'

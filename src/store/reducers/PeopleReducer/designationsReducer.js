@@ -1,5 +1,5 @@
-import { checkError } from '../../utils/helper'
-import * as actionTypes from '../actionTypes'
+import { checkError } from '../../../utils/helper'
+import * as actionTypes from '../../actionTypes'
 
 const intialState = {
     designationData: [],

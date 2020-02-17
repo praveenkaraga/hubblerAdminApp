@@ -1,7 +1,7 @@
-import * as actionTypes from '../actionTypes'
+import * as actionTypes from '../../actionTypes'
 import {
     getAddUsersProfileDataApi
-} from '../../apiCall'
+} from '../../../utils/Apis/peopleApi'
 
 
 

@@ -1,5 +1,5 @@
-import * as actionTypes from '../actionTypes'
-import { getUsers } from '../../apiCall'
+import * as actionTypes from '../../actionTypes'
+import { getUsers } from '../../../utils/Apis/peopleApi'
 
 export const getUserData = (data) => {
     const payload = getUsers()

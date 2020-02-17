@@ -6,7 +6,7 @@ import {
     Redirect,
 } from "react-router-dom";
 import './commonRouting.scss'
-import HolidayProfile from '../../../components/HolidayProfile/HolidayProfile'
+import HolidayProfile from '../../HolidayProfile/HolidayProfile'
 
 class CommonRouting extends Component {
 

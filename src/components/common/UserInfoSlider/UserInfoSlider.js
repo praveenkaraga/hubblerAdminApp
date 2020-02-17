@@ -5,7 +5,7 @@ import {Drawer} from "antd";
 import 'antd/dist/antd.css';
 import './userInfoSlider.scss'
 import UserInfoSliderContent from '../UserInfoSlider/UserInfoSliderContent'
-import {getTeamViewOrgData, changeLoaderStatus, getClickedTeamUserData} from "../../../store/actions/actions";
+import {getTeamViewOrgData, changeLoaderStatus, getClickedTeamUserData} from "../../../store/actions/PeopleActions/peopleActions";
 
 
 class UserInfoSlider extends Component {

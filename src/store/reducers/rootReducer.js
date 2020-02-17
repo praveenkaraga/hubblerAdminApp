@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux'
-import { firstReducer } from './firstReducer'
-import { teamViewReducer } from './teamViewReducer'
-import { consoleReducer } from './consoleReducer'
-import { departmentReducer } from './departmentReducer'
-import { designationsReducer } from './designationsReducer'
-import { userConsoleMainReducer } from './userConsoleMainReducer'
-import { commonReducer } from './commonReducer'
-import { addUsersFormReducer } from './addUsersFormReducer'
-import { holidayReducer } from './holidayReducer'
+import { firstReducer } from './PeopleReducer/firstReducer'
+import { teamViewReducer } from './PeopleReducer/teamViewReducer'
+import { consoleReducer } from './PeopleReducer/consoleReducer'
+import { departmentReducer } from './PeopleReducer/departmentReducer'
+import { designationsReducer } from './PeopleReducer/designationsReducer'
+import { userConsoleMainReducer } from './PeopleReducer/userConsoleMainReducer'
+import { commonPeopleReducer } from './PeopleReducer/commonPeopleReducer'
+import { addUsersFormReducer } from './PeopleReducer/addUsersFormReducer'
+import { holidayReducer } from './PeopleReducer/holidayReducer'
 
 const rootReducer = combineReducers({
     firstReducer,
@@ -16,7 +16,7 @@ const rootReducer = combineReducers({
     departmentReducer,
     designationsReducer,
     userConsoleMainReducer,
-    commonReducer,
+    commonReducer: commonPeopleReducer,
     addUsersFormReducer,
     holidayReducer
 

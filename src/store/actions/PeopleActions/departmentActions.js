@@ -1,4 +1,4 @@
-import * as actionTypes from '../actionTypes'
+import * as actionTypes from '../../actionTypes'
 import {
     getDepartmentsData,
     getDeptTableColumns,
@@ -7,7 +7,7 @@ import {
     getAddSelectedUsersData,
     getAddableUserData,
     getDeptAddUsersTableColumns, getHeaderName, getCircleSuggestionDataApi, getAddUserDataForm,getSingleViewSuggestionDataApi
-} from '../../apiCall'
+} from '../../../utils/Apis/peopleApi'
 
 export const getDepartmentData = (perPageRows, currentPage, searchData, headingData, sortingType) => {
     const payload = getDepartmentsData(perPageRows, currentPage, searchData, headingData, sortingType)

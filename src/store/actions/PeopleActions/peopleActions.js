@@ -5,7 +5,7 @@ import * as consoleActions from './consoleActions'
 import * as departmentActions from './departmentActions'
 import * as designationsActions from './designationsAction'
 import * as userConsoleMainActions from './userConsoleMainAction'
-import * as commonActions from './commonActions'
+import * as commonActions from './commonPeopleActions'
 import * as addUserFormActions from './addUsersFormAction'
 
 

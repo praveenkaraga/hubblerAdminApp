@@ -8,7 +8,7 @@ import {
     Redirect,
     withRouter
 } from "react-router-dom";
-import {createActiveLink, hamburgerIconClick} from "../../store/actions/actions";
+import {createActiveLink, hamburgerIconClick} from "../../store/actions/PeopleActions/peopleActions";
 
 import './profileView.scss'
 import HolidayProfile from "../../components/HolidayProfile/HolidayProfile";

@@ -1,4 +1,4 @@
-import * as actionTypes from '../actionTypes'
+import * as actionTypes from '../../actionTypes'
 import {
     getSingleViewDataApi,
     getSingleViewSuggestionDataApi,
@@ -9,7 +9,7 @@ import {
     postCommonAddSelectedUsersDataApi,
     postCommonRemovePeopleApi,
     postCommonDeleteApi, getParentNodeOptions
-} from '../../apiCall'
+} from '../../../utils/Apis/peopleApi'
 
 export const getSingleViewData = (viewType, id, perPageRows, currentPage, searchData, headingData, sortingType, id2) => {
     const payload = getSingleViewDataApi(viewType, id, perPageRows, currentPage, searchData, headingData, sortingType, id2)

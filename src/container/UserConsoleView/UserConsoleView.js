@@ -12,7 +12,7 @@ import {
     postCommonDelete,
     getParentNodeOptionsData,
     commonUserConsoleAction
-} from '../../store/actions/actions'
+} from '../../store/actions/PeopleActions/peopleActions'
 import Console from '../../components/console/Console'
 import TeamView from '../../components/teamView/TeamView'
 import Departments from '../../components/departments/Departments'

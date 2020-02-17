@@ -18,7 +18,7 @@ import {
     onClickOfDownloadExcel,
     getImportUserUploadDetails,
     patchImportUsersData, editUserDataForm
-} from "../../store/actions/actions";
+} from "../../store/actions/PeopleActions/peopleActions";
 import {withRouter} from "react-router-dom";
 import CreationPopUp from '../common/CreationPopUp/CreationPopUp'
 import {message} from "antd";

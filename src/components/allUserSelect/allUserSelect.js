@@ -3,7 +3,7 @@ import { Select } from 'antd';
 import './allUserSelect.scss'
 import UserSearch from '../common/UserSearch/userSearch'
 import AddUser from '../addUser/addUser'
-import UserTable from '../userTable/userTable'
+import UserTable from '../common/userTable/userTable'
 import ColumnSettingWithPopOver from './columnSetting/columnSettingWithPopOver/columnSettingWithPopOver'
 
 

@@ -1,5 +1,5 @@
-import { checkError } from '../../utils/helper'
-import * as actionTypes from '../actionTypes'
+import { checkError } from '../../../utils/helper'
+import * as actionTypes from '../../actionTypes'
 
 const intialState = {
     singleViewName: "",
@@ -22,7 +22,7 @@ const intialState = {
     postDeletedDataSuccessfully: false
 }
 
-export const commonReducer = (state = intialState, action) => {
+export const commonPeopleReducer = (state = intialState, action) => {
     const { errorData, isError } = checkError(state, action);
     if (isError) {
         return { ...errorData }

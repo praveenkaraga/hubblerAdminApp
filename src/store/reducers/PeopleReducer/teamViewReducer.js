@@ -1,5 +1,5 @@
-import { checkError } from '../../utils/helper'
-import * as actionTypes from '../actionTypes'
+import { checkError } from '../../../utils/helper'
+import * as actionTypes from '../../actionTypes'
 import findIndex from "lodash/findIndex";
 import slice from 'lodash/slice'
 import uniqBy from "lodash/uniqBy";

@@ -15,8 +15,8 @@ import {
     onClickOfDownloadExcel,
     getImportUserUploadDetails,
     uploadImportUsersPopUPVisibility, patchImportUsersData, commonTeamReducerAction
-} from "../../store/actions/actions";
-import {teamViewReducer} from "../../store/reducers/teamViewReducer";
+} from "../../store/actions/PeopleActions/peopleActions";
+import {teamViewReducer} from "../../store/reducers/PeopleReducer/teamViewReducer";
 import UserInfoSlider from '../../components/common/UserInfoSlider/UserInfoSlider'
 import ImportUsersPopUp from '../../components/common/ImportUsersPopUp/ImportUsersPopUp'
 import SearchDropdown from '../common/searchDropDown/searchDropDown'

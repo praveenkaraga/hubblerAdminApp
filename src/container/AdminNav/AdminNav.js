@@ -6,7 +6,7 @@ import {Drawer} from 'antd';
 import 'antd/dist/antd.css';
 import './adminNav.scss'
 import {bindActionCreators} from "redux";
-import {hamburgerIconClick, createActiveLink} from "../../store/actions/actions";
+import {hamburgerIconClick, createActiveLink} from "../../store/actions/PeopleActions/peopleActions";
 import {
     BrowserRouter as Router,
     Switch,

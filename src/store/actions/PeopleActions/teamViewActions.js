@@ -1,4 +1,4 @@
-import * as actionTypes from '../actionTypes'
+import * as actionTypes from '../../actionTypes'
 import {
     getTeamViewUsers,
     getClickedTeamViewUser,
@@ -7,7 +7,7 @@ import {
     downloadExcelCall,
     getUploadFieldData,
     patchUploadData
-} from '../../apiCall'
+} from '../../../utils/Apis/peopleApi'
 import uniqBy from "lodash/uniqBy";
 
 export const getTeamViewUsersData = (data) => {

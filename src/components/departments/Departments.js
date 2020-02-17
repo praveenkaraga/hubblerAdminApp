@@ -19,7 +19,7 @@ import {
     getImportUserUploadDetails,
     commonTeamReducerAction,
     patchImportUsersData, editUserDataForm, commonActionForCommonReducer, patchCommonCreateData, postCommonCreateData,postCommonDelete
-} from "../../store/actions/actions";
+} from "../../store/actions/PeopleActions/peopleActions";
 import AllUserSelect from '../allUserSelect/allUserSelect'
 import filter from "lodash/filter";
 import CreationPopViewCombined from '../common/CreationPopViewCombined/CreationPopViewCombined'

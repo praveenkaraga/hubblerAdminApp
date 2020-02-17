@@ -9,7 +9,7 @@ import {
     patchCommonCreateData,
     getSingleFieldData,
     postCommonDelete
-} from '../../store/actions/actions'
+} from '../../store/actions/PeopleActions/peopleActions'
 import { withRouter } from "react-router-dom";
 import CreationPopUp from '../../components/common/CreationPopUp/CreationPopUp'
 import { message, Modal } from 'antd'

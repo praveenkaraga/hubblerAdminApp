@@ -1,4 +1,4 @@
-import * as actionTypes from '../actionTypes'
+import * as actionTypes from '../../actionTypes'
 import {
     getHolidayTableColumns,
     getCommonProfilesData,
@@ -9,7 +9,7 @@ import {
     getAddSelectedUsersData,
     getAddableUserData,
     getDeptAddUsersTableColumns, getHeaderName, getCircleSuggestionDataApi, getAddUserDataForm
-} from '../../apiCall'
+} from '../../../utils/Apis/peopleApi'
 
 export const commonHolidayAction = (payload) =>{
     return {

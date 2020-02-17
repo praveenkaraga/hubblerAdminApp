@@ -1,65 +1,79 @@
-import {checkError} from "../../utils/helper";
-import * as actionTypes from "../actionTypes";
+import {checkError} from "../../../utils/helper";
+import * as actionTypes from "../../actionTypes";
 import filter from 'lodash/filter'
 import map from 'lodash/map'
 import isEmpty from 'lodash/isEmpty'
 
 const initialState = {
     count: 1,
-    holidayColumnData: [],
-    holidayProfilesData:[],
+    departmentColumnData: [],
+    departmentsData: [],
+    addableUsersData: [],
+    tableColumnsData: [],
+    viewDecider: false, //populateSelectedUsersView
+    commonViewLoader: false,
+    headerNameWhenRouted: '',
+    addedUsersData: [],
+    createdDepartmentData: {},
+    departmentImportUsersVisibility: false,
+    startUploadStatus: false,
     searchLoader: false,
-
+    allSelectedUsersSearchLoader: false,
+    addUsersSearchLoader: false,
+    departmentSuggestionData: [],
+    editUserDataForm: [],
+    editUserDataFormMain: [],
 }
 
-export const holidayReducer = (state = initialState, action) => {
+export const departmentReducer = (state = initialState, action) => {
     const {errorData, isError} = checkError(state, action);
     if (isError) {
         return {...errorData}
     }
 
+
     switch (action.type) {
-
-        case actionTypes.COMMON_HOLIDAY_ACTION :
-            return {
-                ...state, ...action.payload
-            };
-
-
-        case actionTypes.GET_HOLIDAY_TABLE_COLUMN_DATA:
-            const columnDataInitial = action.payload.data;
-            const columnData = columnDataInitial ? action.payload.data.result: [];
+        case actionTypes.GET_DEPARTMENTS_DATA:
+            const departmentsDataDataInitial = action.payload.data
+            const departmentsData = departmentsDataDataInitial ? departmentsDataDataInitial.result : []
+            const departmentsDataCopy = JSON.parse(JSON.stringify(departmentsData))
+            const d = map(departmentsDataCopy, ele => ({...ele, departments: ele.name, people: ele.count}))
+            const totalUsers = departmentsDataDataInitial ? departmentsDataDataInitial.total_count : 0
             return {
                 ...state,
-                holidayColumnData: columnData
-            };
-
-
-        case actionTypes.GET_HOLIDAY_PROFILES_DATA:
-            const holidayDataDataInitial = action.payload.data
-            const holidayData = holidayDataDataInitial ? holidayDataDataInitial.result : []
-            const holidayDataCopy = JSON.parse(JSON.stringify(holidayData))
-            const d = map(holidayDataCopy, ele => ({...ele, holiday_profile: ele.name, people: ele.user_count,holidays: ele.holiday_count }))
-            const totalUsers = holidayDataDataInitial ? holidayDataDataInitial.total_count : 0
-            return {
-                ...state,
-                holidayProfilesData: d,
+                departmentsData: d,
                 totalUsers,
                 searchLoader: false,
             };
 
+        case actionTypes.COMMON_DEPARTMENT_ACTION :
+            return {
+                ...state, ...action.payload
+            };
 
+        case actionTypes.GET_DEPT_TABLE_COLUMN_DATA:
+            const columnDataInitial = action.payload.data;
+            const columnData = columnDataInitial ? filter(action.payload.data.result, ele => ele._id !== 'designations') : [];
+            return {
+                ...state,
+                departmentColumnData: columnData
+            }
+        case actionTypes.GET_TABLE_COLUMN:
+            const tableColumnDataInitial = action.payload.data;
+            const tableColumnData = tableColumnDataInitial ? action.payload.data.result : [];
+            return {
+                ...state,
+                tableColumnsData: tableColumnData
+            }
 
-
-
-
-        /*case actionTypes.POST_CREATE_DEPARTMENT_DATA:
+        case actionTypes.POST_CREATE_DEPARTMENT_DATA:
             const initialData = action.payload.data;
             const data = initialData ? initialData : {};
             return {
                 ...state,
                 createdDepartmentData: data,
                 commonViewLoader: false,
+                newDataCreatedSuccessfully : true,
                 viewDecider: 0
             }
         case actionTypes.POST_ADD_SELECTED_USERS_DATA:
@@ -115,7 +129,7 @@ export const holidayReducer = (state = initialState, action) => {
                 ...state,
                 editUserDataFormMain: editUserDataFormInitial,
                 editUserDataForm: JSON.parse(JSON.stringify(editUserDataFormInitial))
-            }*/
+            }
 
 
     }

@@ -1,5 +1,5 @@
-import * as actionTypes from '../actionTypes'
-import { getDesignationsData } from '../../apiCall'
+import * as actionTypes from '../../actionTypes'
+import { getDesignationsData } from '../../../utils/Apis/peopleApi'
 
 export const designationsData = (perPageRows, currentPage, searchData, headingData, sortingType) => {
     const payload = getDesignationsData(perPageRows, currentPage, searchData, headingData, sortingType)
