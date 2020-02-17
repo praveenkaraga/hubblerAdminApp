@@ -352,7 +352,7 @@ According to above configurations only you will be able to use below props:
 columnSettingData example :-
 
 ```javascript
-//all fields are compulsory
+//all keys are compulsory
 "categories": [
                 {
                     "_id": "system",
