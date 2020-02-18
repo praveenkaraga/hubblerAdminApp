@@ -2,7 +2,12 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import '../teamView.scss'
 import {bindActionCreators} from "redux";
-import {getClickedTeamUserReporteeData, storeClickedUserId, updateRollBackData} from "../../../../store/actions/PeopleActions/peopleActions";
+import {
+    getClickedTeamUserReporteeData,
+    storeClickedUserId,
+    updateRollBackData,
+    getTeamViewUsersData
+} from "../../../../store/actions/PeopleActions/peopleActions";
 import TeamViewUserCard from './TeamViewUserCard'
 import map from 'lodash/map'
 import last from 'lodash/last'
@@ -18,42 +23,50 @@ class UserList extends Component {
         this.props.setReportee(member)
     };
 
-    getConnection = (type,member) =>{
-        const {rootData} = this.props.teamViewReducer
+    getConnection = (type, member) => {
+        const {rootData, total_count,orgChartUsers} = this.props.teamViewReducer
         let lastUser = last(rootData)
-        if(type === 'manager'){
-            if(lastUser._id === member._id){
+        if (type === 'manager') {
+            if (lastUser._id === member._id && !isEmpty(orgChartUsers)) {
                 return <div className={'manager-connection-wrap'}>
                     <div className={'connection'}></div>
                     <div className={'horizontal-line'}></div>
+                    <div className={'reportees-count-wrap'}><span className={'total-count'}>Reportees: <span
+                        className={'total-count-number'}>{total_count}</span></span></div>
                 </div>
+            } else {
+                if(lastUser._id === member._id && isEmpty(orgChartUsers)){
+                    return ''
+                }
+                else{
+                    return <div className={'connector'}></div>
+                }
+
             }
-            else{
-                return <div className={'connector'}></div>
-            }
-        }
-        else {
-            return  ''
+        } else {
+            return ''
         }
 
     }
 
-    test = (type,rootData) =>{
-        if(isEmpty(rootData) && type !== 'manager'){
+    test = (type, rootData) => {
+        if (isEmpty(rootData) && type !== 'manager') {
             return ''
-        }else{
+        } else {
             this.getConnection(type)
         }
     }
 
     render() {
-        const {member, index,type} = this.props;
-        const {rootData} = this.props.teamViewReducer
+        const {member, index, type} = this.props;
+        const {rootData,orgChartUsers} = this.props.teamViewReducer
         return (
-            <li className={'user-list-item'} onClick={() => this.generateTree(member)}>
-                <div className={'card-wrap'}><TeamViewUserCard member={member} index={index}/></div>
+            <li className={type === 'reportee' ? 'user-list-item' : 'user-list-item-variant'}
+                onClick={() => this.generateTree(member)}>
+                <div className={type === 'manager' ? 'card-wrap' : ''}><TeamViewUserCard member={member} index={index}/>
+                </div>
                 {/*{this.test(type,rootData)}*/}
-                {isEmpty(rootData) && type === 'reportee' ? '' : this.getConnection(type,member)}
+                {isEmpty(rootData) && type === 'reportee' ? '' :  this.getConnection(type, member) }
             </li>
         )
     }
@@ -63,25 +76,22 @@ class UserList extends Component {
 class OrgChart extends Component {
     constructor(props) {
         super(props);
-        this.state ={
-            myClickUser : '',
-        }
+        this.state = {}
     }
 
     componentDidMount() {
     }
 
     setReportee = (member) => {
-        this.setState({
-            myClickUser : member._id
-        })
+        const {rootData} = this.props.teamViewReducer
+        console.log(rootData)
         this.props.storeClickedUserId(member._id, member);
         this.props.getClickedTeamUserReporteeData(member._id)
     };
 
     getBackManagerData = () => {
         const {rootData, preservedData, clickedMemberData, mainData} = this.props.teamViewReducer
-        let lastUser = last(rootData)
+        let lastUser = rootData[rootData.length - 1]  /*last(rootData)*/
         if (lastUser.manager) {
             lastUser = find(rootData, item => item._id === lastUser.manager._id);
             this.props.storeClickedUserId(lastUser._id, lastUser);
@@ -95,28 +105,35 @@ class OrgChart extends Component {
             let newPreservedData = slice(preservedData, 0, (userIndex));
             let newRootData = slice(rootData, 0, (userIndex));
             this.props.updateRollBackData(requiredReportessData.reportees, newPreservedData, newRootData)
-
         } else {
             this.props.updateRollBackData(mainData, [], [])
         }
     };
 
+    backToRootUser = () => {
+        const {orgChartUsers, rootData} = this.props.teamViewReducer
+        if (!isEmpty(rootData)) {
+            this.props.getTeamViewUsersData();
+
+        }
+        console.log('backToRootUser')
+    }
 
     render() {
-        const {orgChartUsers, rootData, preservedData,clickedMemberData} = this.props.teamViewReducer
-        console.log(rootData)
+        const {orgChartUsers, rootData, preservedData, clickedMemberData, total_Count} = this.props.teamViewReducer
+        console.log(orgChartUsers)
         return (
             <div className={'org-chart'}>
                 {/*<div className={'manager-hold'}>
                     <div className={'user-hold'}>Root User</div>
                 </div>*/}
 
-                <div className={'back-to-root-wrap'}>
-                    <span className={'back-to-root-icon'}></span>
+                {isEmpty(rootData) ? '' : <div className={'back-to-root-wrap'}>
+                    <span className={'back-to-root-icon'} onClick={this.backToRootUser}></span>
                     <span className={'back-to-root-text'}>Back to root user</span>
-                </div>
-                <div className={'up-arrow'} style={{backgroundImage: `url(${UpArrow})`}}
-                     onClick={() => this.getBackManagerData()}></div>
+                </div>}
+                {isEmpty(rootData) ? '' : <div className={'up-arrow'} style={{backgroundImage: `url(${UpArrow})`}}
+                                               onClick={() => this.getBackManagerData()}></div>}
                 <div className={'users-section'}>
                     {/*<div className={'left-area'}>
                         <div className={'icon-search'}></div>
@@ -133,7 +150,8 @@ class OrgChart extends Component {
                             {rootData.length ? <div className={'manager-list-wrap'}>
                                 <ul>
                                     {map(rootData, (member, index) => (
-                                            <UserList member={member} index={index} setReportee={this.setReportee} type={'manager'} {...this.props} myClickUser={this.state.myClickUser }/>
+                                            <UserList member={member} index={index} setReportee={this.setReportee}
+                                                      type={'manager'} {...this.props} />
                                         )
                                     )}
                                 </ul>
@@ -141,7 +159,8 @@ class OrgChart extends Component {
                             {<div className={'reportee-list-wrap'}>
                                 <ul>
                                     {map(orgChartUsers, (member, index) => (
-                                            <UserList member={member} index={index} setReportee={this.setReportee} type={'reportee'} {...this.props} myClickUser={this.state.myClickUser}/>
+                                            <UserList member={member} index={index} setReportee={this.setReportee}
+                                                      type={'reportee'} {...this.props}/>
                                         )
                                     )}
                                 </ul>
@@ -166,7 +185,7 @@ const mapDispatchToProps = dispatch => {
         {
             getClickedTeamUserReporteeData,
             storeClickedUserId,
-            updateRollBackData
+            updateRollBackData, getTeamViewUsersData
         },
         dispatch
     );

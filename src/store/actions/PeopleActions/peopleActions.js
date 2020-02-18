@@ -52,7 +52,7 @@ export const { getTeamViewUsersData,
     getImportUserUploadDetails,
     uploadImportUsersPopUPVisibility,
     patchImportUsersData,
-    commonTeamReducerAction } = teamViewActions
+    commonTeamReducerAction,searchDropDownData } = teamViewActions
 
 
 //------------------------------xxxxxxxxxxxxxxxxx--------------------------------
@@ -71,18 +71,12 @@ export const { getDepartmentData,
 //------------------------------xxxxxxxxxxxxxx-------------------------------//
 
 
-
-
-
 //------------------------------ Designations Action -------------------------------//
 
 export const { designationsData,
     commonDesignationAction } = designationsActions
 
 //------------------------------xxxxxxxxxxxxxxxxxxx-------------------------------//
-
-
-
 
 
 //----------------------------- User Console Main Action ----------------------------//
@@ -105,12 +99,7 @@ export const { getAddUsersProfileData } = addUserFormActions
 //----------------------------End of Add User Form Actions---------------------------------//
 
 
-
-
-
 //--------------------------------- Common Actions ----------------------------------
-
-
 export const { getSingleViewData,
     getSingleViewSuggestionData,
     postCommonCreateData,

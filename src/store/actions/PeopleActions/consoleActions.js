@@ -10,14 +10,12 @@ export const getConsoleUserData = (perPageRows, currentPage, searchData, heading
     }
 }
 
-
 export const commonConsoleAction = (payload) => {
     return {
         type: actionTypes.COMMON_CONSOLE_ACTION,
         payload
     }
 }
-
 
 export const tableColumnSetting = (searchData) => {
     const payload = getTableColumnSetting(searchData)
@@ -35,7 +33,6 @@ export const patchTableColumnSetting = (settingData) => { //patching the saved t
     }
 }
 
-
 export const addUserDataForm = () => {
     const payload = getAddUserDataForm()
     return {
@@ -43,7 +40,6 @@ export const addUserDataForm = () => {
         payload
     }
 }
-
 
 export const postCommonActionOnUser = (typeOfAction, data) => {
     const payload = postCommonActionOnUserApi(typeOfAction, data)

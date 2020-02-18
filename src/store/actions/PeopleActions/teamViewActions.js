@@ -6,7 +6,7 @@ import {
     getClickedUserReporteeData,
     downloadExcelCall,
     getUploadFieldData,
-    patchUploadData
+    patchUploadData,getUsers
 } from '../../../utils/Apis/peopleApi'
 import uniqBy from "lodash/uniqBy";
 
@@ -126,6 +126,15 @@ export const commonTeamReducerAction = (payload) =>{
         type: actionTypes.COMMON_ACTION,
         payload
     }
+}
+
+export const searchDropDownData = (perPageRows, currentPage, searchData, headingData, sortingType) =>{
+    const payload = getUsers(perPageRows, currentPage, searchData, headingData, sortingType)
+    return {
+        type: actionTypes.GET_SEARCH_DROPDOWN_DATA,
+        payload
+    }
+
 }
 
 
