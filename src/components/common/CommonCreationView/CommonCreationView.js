@@ -11,10 +11,11 @@ class CommonCreationView extends Component {
 
     render() {
         const { commonCreationViewHeaderName, commonCreationViewBackButtonClick, backButton = true, viewDecider = 0, commonViewLoader = false } = this.props;
-        const { addUsersCommonCardButtonClick } = this.props
+        const { addUsersCommonCardButtonClick, addUsersCommonCardCommonName, addUsersCommonCardTitle, addUsersCommonCardSubText, addUsersCommonCardButtonName } = this.props
         const {
             allSelectedUsersHeadingsData, allSelectedUsersUsersData, allSelectedUsersTotalUsers, allSelectedUsersPlaceHolder, allSelectedUsersFirstButtonName, allSelectedUsersIsUserData, allSelectedUsersOnChangeCheckBox, allSelectedUsersOnlySelectAndAdd, allSelectedUsersFirstButtonClick,
-            allSelectedUsersOnClickHeadingColumn, allSelectedUsersOnChangeRowsPerPage, allSelectedUsersChangePage, allSelectedUsersSearchData, allSelectedUsersCurrentPageNumber, allSelectedUsersAllSelect, allSelectedUsersOnSearchDropdownSelect, allSelectedUsersSearchDropdownPlaceholder, allSelectedUsersSearchDropdownData, allSelectedUsersOnChangeSearchDropdown, allSelectedUsersShowHeaderButtons, allSelectedUsersDisableButtonNames, allSelectedUsersSelectedDataCount, allSelectedUsersOnClickUserActions, allSelectedUsersOnClickAddUserButton, allSelectedUsersOnSelectRow, allSelectedUsersOnSelectAll
+            allSelectedUsersOnClickHeadingColumn, allSelectedUsersOnChangeRowsPerPage, allSelectedUsersChangePage, allSelectedUsersSearchData, allSelectedUsersCurrentPageNumber, allSelectedUsersAllSelect, allSelectedUsersOnSearchDropdownSelect, allSelectedUsersSearchDropdownPlaceholder,
+            allSelectedUsersSearchDropdownData, allSelectedUsersOnChangeSearchDropdown, allSelectedUsersShowHeaderButtons, allSelectedUsersDisableButtonNames, allSelectedUsersSelectedDataCount, allSelectedUsersOnClickUserActions, allSelectedUsersOnClickAddUserButton, allSelectedUsersOnSelectRow, allSelectedUsersOnSelectAll
         } = this.props;
         const {
             showAddUsersPopUp, addUsersPopUpTitle, addUsersPopUpClose, addUsersPopUpPlaceHolder, addUsersPopUpFirstButtonName, addUsersPopUpFirstButtonClick, addUsersPopUpOnChangeCheckBox, addUsersPopUpTableColumnsData, addUsersPopUpUsersData, addUsersPopUpTotalUsers, addUsersPopUpIsUserData, addUsersPopUpOnlySelectAndAdd, allSelectedUsersSearchLoader, addUsersSearchLoader
@@ -35,7 +36,11 @@ class CommonCreationView extends Component {
 
                 {viewDecider < 1 ?
                     !commonViewLoader ?
-                        <AddUsersCommonCard addUsersCommonCardButtonClick={addUsersCommonCardButtonClick} /> : '' :
+                        <AddUsersCommonCard addUsersCommonCardButtonClick={addUsersCommonCardButtonClick}
+                            titleName={addUsersCommonCardCommonName}
+                            addUsersCardTitle={addUsersCommonCardTitle}
+                            addUsersCardSubText={addUsersCommonCardSubText}
+                            buttonName={addUsersCommonCardButtonName} /> : '' :
 
                     !commonViewLoader ? <div className={'all-selected-users-wrap'}>
                         <AllUserSelect allHeadingsData={allSelectedUsersHeadingsData}

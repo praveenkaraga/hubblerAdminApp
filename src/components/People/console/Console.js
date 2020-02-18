@@ -311,9 +311,9 @@ class Console extends Component {
                     onSearchColumnSetting={this.onSearchColumnSetting}
 
                     //props for all the actions to be done on user
-                    onClickUserActivate={() => this.setState({ visibilityOfDeletePopUp: true, typeOfActionOnUser: "activate" })} //{() => this.actionOnUser("activate")} 
-                    onClickUserDeactivate={() => this.setState({ visibilityOfDeletePopUp: true, typeOfActionOnUser: "deactivate" })} //{() => this.actionOnUser("deactivate")}
-                    onClickUserDelete={() => this.setState({ visibilityOfDeletePopUp: true, typeOfActionOnUser: "delete" })} //{() => this.actionOnUser("delete")}
+                    onClickUserActivate={() => this.setState({ visibilityOfDeletePopUp: true, typeOfActionOnUser: "activate" })}
+                    onClickUserDeactivate={() => this.setState({ visibilityOfDeletePopUp: true, typeOfActionOnUser: "deactivate" })}
+                    onClickUserDelete={() => this.setState({ visibilityOfDeletePopUp: true, typeOfActionOnUser: "delete" })}
                     onClickUserEdit={() => this.onClickUserActions("edit")}
 
                     //props for add user component
@@ -375,7 +375,7 @@ class Console extends Component {
                     closable
                     okText={typeOfActionOnUser.toUpperCase()}
                     maskClosable={false}
-                    okType={typeOfActionOnUser === "delete" ? "danger" : "primary"}
+                    okType={typeOfActionOnUser === "activate" ? "primary" : "danger"}
                     wrapClassName={"console_delete_popup"}
                     destroyOnClose={true}
                 >

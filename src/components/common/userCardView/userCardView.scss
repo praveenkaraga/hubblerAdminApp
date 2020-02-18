@@ -1,0 +1,75 @@
+.user_details_main{
+
+    .user_details_container{
+        display: flex;
+        width: fit-content;
+        padding: 10px;
+        border-radius: 3px;
+        border: solid 1px #d7d7d7;
+        background-color: #fafafb;
+
+        .main_details{
+            margin-left: 12px;
+            .user_name{
+                p{
+                    color: #323232;
+                    font-size: 14px;
+                    margin-bottom: 0;
+                    font-family: robotoSemiBold;
+                }
+                
+            }
+
+            .user_designation_with_empId{
+                display: flex;
+                .designation, .empId_with_dot .empId{
+                    margin: 0;
+                    font-size: 13px;
+                }
+
+                .designation{
+                    color: #323232;
+                }
+                .empId_with_dot{
+                    display: flex;
+                    align-items: center;
+                    margin-left: 12px;
+                    .dot{
+                        height:5px;
+                        width:5px;
+                        background-color: #50e3c2;
+                        border-radius:50%;
+                    }
+
+                    .empId{
+                        margin-left: 3px;
+                    }
+                }
+            }
+        }
+
+        .profile_img{
+            img{
+                height: 40px;
+            }
+        }
+
+        .cross_img{
+            margin-left: 40px;
+            align-self: center;
+
+            .anticon-close-circle{
+                svg{
+                    fill: #b0bec5;
+                    width: 17px;
+                    height: 17px;
+                }
+
+                svg:hover{
+                    fill:rgba(0, 0, 0, 0.65);
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
