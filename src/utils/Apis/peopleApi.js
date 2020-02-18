@@ -6,8 +6,6 @@ import {axiosConfig} from '../helper'
 axios.defaults.proxy = true;
 
 
-
-
 //--------------------Console API'S------------------------------------------------------------------
 export const getUsers = (perPageRows, currentPage, searchData, headingData, sortingType) => {
     const startNumber = ((currentPage - 1) * perPageRows) + 1
@@ -17,23 +15,22 @@ export const getUsers = (perPageRows, currentPage, searchData, headingData, sort
 
 
 
-
-
-
 //--------------------TEAM VIEW API'S------------------------------------------------------------------
-export const getTeamViewUsers = () => {
+export const getTeamViewUsers = () => { //to get the team views users data
     return axios.get("/reportees/orgchart//?sortKey=name&sortOrder=asc&filterKey=id&filterQuery=", axiosConfig);
 };
 
-export const getClickedTeamViewUser = (id) => {
+export const getClickedTeamViewUser = (id) => { //to get the clicked team-view users's data
     return axios.get(`/rest/users/${id}/?page=`, axiosConfig);
 };
 
-export const getClickedTeamViewOrgData = (url) => {
+export const getClickedTeamViewOrgData = (url) => { //to get the clicked team-view users's oraganization data
     return axios.get(url, axiosConfig);
 };
 
-
+export const getClickedUserReporteeData = (id) => { //to get the clicked team-view users's reportees data
+    return axios.get(`/reportees/orgchart/${id}/?sortKey=name&sortOrder=asc&filterKey=id&filterQuery=`, axiosConfig);
+};
 //XXXXXXXXXXXXXXXXX---END OF TEAM VIEW API'S------XXXXXXXXXXXXXXXXXXXXXXXXX
 
 
@@ -42,22 +39,18 @@ export const getClickedTeamViewOrgData = (url) => {
 
 
 //-----------------------------Import Users Api------------------------------
-export const downloadExcelCall = (id) => {
+export const downloadExcelCall = (id) => { //to get sample bulk-upload structure file : which can be filled in later and be uploaded
     return axios.get(`/bulk-upload/sample-file/users/`, axiosConfig);
 };
 
-export const getClickedUserReporteeData = (id) => {
-    return axios.get(`/reportees/orgchart/${id}/?sortKey=name&sortOrder=asc&filterKey=id&filterQuery=`, axiosConfig);
-};
-
-export const getUploadFieldData = () => {
+export const getUploadFieldData = () => { // to get the bulk-upload's fields data
     return axios.get(`/bulk-upload/users/`, axiosConfig);
 };
 
 
-export const patchUploadData = (id, data) => {
+export const patchUploadData = (id, data) => { // to patch the bulk-upload fields data
     return axios.patch(`/bulk-upload/users/${id}/`, data, axiosConfig)
-}
+};
 //XXXXXXXXXXXXXXXXX---End of Import Users Api------XXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 
@@ -69,11 +62,11 @@ export const patchUploadData = (id, data) => {
 
 export const getTableColumnSetting = (searchData) => { //to get all column setting data
     return axios.get(`/table/fields/rest/users/?filterKey=lbl&search_key=${searchData || ""}`)
-}
+};
 
 export const patchTableColumnSettingApi = (data) => { //to patch column setting data
     return axios.patch("/table/fields/rest/users/", data, axiosConfig)
-}
+};
 
 //XXXXXXXXXXXXXXXXX---End of table column Settings------XXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -81,18 +74,18 @@ export const patchTableColumnSettingApi = (data) => { //to patch column setting 
 
 export const getAddUserDataForm = () => { // to remove
     return axios.get("https://demo1025512.mockable.io/add-users-form-types")
-}
+};
 
 
 
-//-----------------------------Departments Api------------------------------
-export const getDepartmentsData = (perPageRows, currentPage, searchData, headingData, sortingType) => {
+//-------------------------------Departments Api------------------------------------------
+export const getDepartmentsData = (perPageRows, currentPage, searchData, headingData, sortingType) => { // to get the departments data
     const startNumber = ((currentPage - 1) * perPageRows) + 1
     return axios.get(`/rest/departments/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "name" : ""}&filterQuery=${searchData || ""}`, axiosConfig);
 
 };
 
-export const getAddableUserData = (id, perPageRows, currentPage, searchData, headingData, sortingType) => {
+export const getAddableUserData = (id, perPageRows, currentPage, searchData, headingData, sortingType) => { //to get the users data for addUsers Popup
     const startNumber = ((currentPage - 1) * perPageRows) + 1
     return axios.get(`/choose-users/departments/${id}/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}`, axiosConfig)
 };
@@ -102,10 +95,10 @@ export const getDeptTableColumns = () => { // to remove
 };
 
 
-export const postCreteDepartmentData = (data) => {
+export const postCreteDepartmentData = (data) => { //to patch the newly created department data
     return axios.post("/rest/departments/", data, axiosConfig)
 }
-//XXXXXXXXXXXXXXXXX---End of Departments Api------XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX---End of Departments Api------XXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 
 
@@ -114,31 +107,6 @@ export const getDesignationsData = (perPageRows, currentPage, searchData, headin
     const startNumber = ((currentPage - 1) * perPageRows) + 1
     return axios.get(`/rest/designations/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "name" : ""}&filterQuery=${searchData || ""}`, axiosConfig);
 };
-
-
-
-
-
-// export const postAddSelectedUsersData = (data) => {
-//     return axios.post("/add-people/departments/", data, axiosConfig)
-// }
-
-// export const getAddSelectedUsersData = (id, perPageRows, currentPage, searchData, headingData, sortingType) => {
-//     const startNumber = ((currentPage - 1) * perPageRows) + 1
-//     return axios.get(`/users/departments/${id}/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}`)
-//     /*
-//         start=1&offset=20&sortKey=_id&sortOrder=dsc&filterKey=&filterQuery=\`
-//     */
-// }
-
-// export const getDeptAddUsersTableColumns = () => {
-//     return axios.get("https://demo4798197.mockable.io/dept-user-columns")
-// };
-
-
-// export const getHeaderName = (id) => {
-//     return axios.get(`/rest/departments/${id}/`);
-// };
 
 
 //-----------------------------Circle and Custom Field Api------------------------------
@@ -178,7 +146,6 @@ export const getSingleViewSuggestionDataApi = (viewType, id, perPageRows, curren
     const startNumber = ((currentPage - 1) * perPageRows) + 1
     return axios.get(`/choose-users/${viewType}/${viewType === "nodes" ? (id + "/" + id2) : id}/?start=${startNumber || 1}&offset=${perPageRows || 30}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}&version=1`)
 }
-
 
 export const postCommonCreateDataApi = (createForType, data, id) => {
     if (createForType === "node_items") {
@@ -255,23 +222,19 @@ export const getAddUsersProfileDataApi = (id) => {
 //------------------------------PROFILES---------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------------
 
-export const getHolidayTableColumns = () => {
+export const getHolidayTableColumns = () => { // to remove
     return axios.get("https://demo4798197.mockable.io/holiday-profile-columns")
 };
 
-export const getCommonProfilesData = (type, subType, perPageRows, currentPage, searchData, headingData, sortingType) => {
+export const getCommonProfilesData = (type, subType, perPageRows, currentPage, searchData, headingData, sortingType) => { //to get a type of profile data based on the type and subtype
     const startNumber = ((currentPage - 1) * perPageRows) + 1
     return axios.get(`/${type}/${subType}/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "name" : ""}&filterQuery=${searchData || ""}`, axiosConfig);
 
 };
 
-export const postHolidayCreatedDataApi = (data) => {
+export const postHolidayCreatedDataApi = (data) => { //to post a type to profile that's newly created
     return axios.post(`/holiday/holiday-profiles/`, data, axiosConfig)
-}
-
-
-//-----------------------------------------------
-
+};
 
 //-----------------------------------------------------------------------------------------------------------------
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX------END PROFILES------XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

@@ -13,17 +13,19 @@ import {
     importUsersPopUPVisibility,
     onClickOfDownloadExcel,
     getImportUserUploadDetails,
-    uploadImportUsersPopUPVisibility, patchImportUsersData, commonTeamReducerAction
+    uploadImportUsersPopUPVisibility, patchImportUsersData, commonTeamReducerAction, searchDropDownData,getClickedTeamUserReporteeData
 } from "../../../store/actions/PeopleActions/peopleActions";
 import UserInfoSlider from '../../../components/common/UserInfoSlider/UserInfoSlider'
 import ImportUsersPopUp from '../../../components/common/ImportUsersPopUp/ImportUsersPopUp'
 import SearchDropdown from '../../common/searchDropDown/searchDropDown'
+import find from 'lodash/find'
 
 
 class TeamView extends Component {
-
     componentDidMount() {
         this.props.getTeamViewUsersData();
+        // this.props.getClickedTeamUserReporteeData()
+
         this.downloadExcel()
     }
 
@@ -44,7 +46,7 @@ class TeamView extends Component {
         this.props.getImportUserUploadDetails()
     };
 
-    patchImportUserData = (id, mappings,skipFirstRow,uploadType) => {
+    patchImportUserData = (id, mappings, skipFirstRow, uploadType) => {
         let patchData = {
             mappings: mappings,
             skip_first_row: skipFirstRow,
@@ -58,29 +60,51 @@ class TeamView extends Component {
         this.props.importUsersPopUPVisibility(false)
     }
 
-    startUploadHandler = () =>{
+    startUploadHandler = () => {
         this.props.commonTeamReducerAction({startUploadStatus: 'true'});
         this.props.getImportUserUploadDetails()
     }
 
-    test = () =>{
+    test = () => {
         console.log('test called')
     }
 
-    importUsersUploadPopUpFirstButtonHandler = () =>{
-       console.log('whatever')
+    importUsersUploadPopUpFirstButtonHandler = () => {
+        console.log('whatever')
+    };
+
+    onChangeSearchDropdown = (searchData) => {
+        this.props.searchDropDownData('', '', searchData, '', '')
+        this.setState({suggestionSearchData: searchData})
+    };
+
+    onSearchDropdownSelect = async (value) => { // on select user from drop down search
+        const {orgChartUsers,rootData,searchDropDownData} = this.props.teamViewReducer
+        console.log({
+            rootData :rootData,
+            orgChartUsers :orgChartUsers,
+            searchDropDownData
+        });
+        let dropDownRootData =  find(searchDropDownData, item => item._id === value)
+        this.props.commonTeamReducerAction({rootData: [dropDownRootData],clickedMemberData:dropDownRootData,preservedData:[]});
+        this.props.getClickedTeamUserReporteeData(value)
     };
 
     render() {
-        const {orgChartUsers, teamViewUserDrawerVisible, clickedTeamUserData, teamViewClickedUserId, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, loader, clickedMemberData, contentLoader, importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpVisibility, uploadPopUpData, importUsersUploadResponseData, uploadFileStatus, isFileUploaded, startUploadStatus, clickedUserOrgData} = this.props.teamViewReducer
+        const {orgChartUsers, teamViewUserDrawerVisible, clickedTeamUserData, teamViewClickedUserId, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, loader, clickedMemberData, contentLoader, importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpVisibility, uploadPopUpData, importUsersUploadResponseData, uploadFileStatus, isFileUploaded, startUploadStatus, clickedUserOrgData, searchDropDownData} = this.props.teamViewReducer
         return (
             <div className={'team-view'}>
                 {loader ? <div className={'loader'}></div> : <div>
                     <div className={'component-header-buttons-wrap'}>
                         <div className={'component-header'}>Team View</div>
                         <div className={'team-view-buttons-wrap'}>
-                            <div className={'search-dropdown-wrap'}><SearchDropdown placeholder={'Search User'}/></div>
-                            <Button type="primary" className={'import-users'} onClick={this.showModal}>Import Users</Button>
+                            <div className={'search-dropdown-wrap'}>
+                                <SearchDropdown placeholder={'Search User'} searchIcon={true}
+                                                searchData={searchDropDownData} onChange={this.onChangeSearchDropdown}
+                                                onSelect={this.onSearchDropdownSelect}/>
+                            </div>
+                            <Button type="primary" className={'import-users'} onClick={this.showModal}>Import
+                                Users</Button>
                             <Button type="primary">Add User</Button>
                         </div>
                     </div>
@@ -93,50 +117,50 @@ class TeamView extends Component {
                                     userId={teamViewClickedUserId}
                                     url={`/reportees/organization/${teamViewClickedUserId}/?start=1&offset=100&sortKey=name&sortOrder=dsc&filterKey=_id&filterQuery=`}
 
-                                     // getTeamViewOrgData={(id) => this.props.getTeamViewOrgData(id)}
-                                     // clickedUserOrgData={clickedUserOrgData}
+                        // getTeamViewOrgData={(id) => this.props.getTeamViewOrgData(id)}
+                        // clickedUserOrgData={clickedUserOrgData}
                                     clickedMemberData={clickedMemberData}
                                     contentLoader={contentLoader}
 
                         /* changeLoaderStatus={(flag) => this.props.changeLoaderStatus(flag)}*//>
 
                     <ImportUsersPopUp visible={importUsersPopUpVisiblity}
-                                        //boolean value to handle the visiblity of the importUsersPopup
+                        //boolean value to handle the visiblity of the importUsersPopup
                                       firstButtonName={'Select File'}
-                                      //name of the first button of the importUsersPopup
+                        //name of the first button of the importUsersPopup
                                       secondButtonName={'Download Sample Excel'}
-                                      //name of the second button of the importUsersPopup
+                        //name of the second button of the importUsersPopup
                                       secondButtonClickHandler={this.props.onClickOfDownloadExcel}
-                                      //function that gets invoked on click of the the second button(Downloads a sample excel) of importUsersPopup
+                        //function that gets invoked on click of the the second button(Downloads a sample excel) of importUsersPopup
                                       sampleExcelFile={sampleExcelFile}
-                                      //sample file that has been downloaded on click of secondButton
+                        //sample file that has been downloaded on click of secondButton
                                       thirdButtonName={'Cancel'}
-                                      //name of the third button of the importUsersPopup
+                        //name of the third button of the importUsersPopup
                                       thirdButtonClickHandler={this.importUsersModalCloseHandler}
-                                      //function that gets invoked on click of the the third button of importUsersPopup
+                        //function that gets invoked on click of the the third button of importUsersPopup
                                       fourthButtonName={'Start Upload'}
-                                      //name of the fourth button of the importUsersPopup
+                        //name of the fourth button of the importUsersPopup
                                       fourthButtonClickHandler={this.startUploadHandler}
-                                      //function that gets invoked on click of the the fourth button
+                        //function that gets invoked on click of the the fourth button
                                       fourthButtonLoaderStatus={startUploadStatus}
-                                      //boolean value to check the loader status
+                        //boolean value to check the loader status
                                       fourthButtonOnLoadingText={'Uploading'}
-                                      //text that you wish to be displayed when uploading is in process
+                        //text that you wish to be displayed when uploading is in process
                         //end of 1st
                                       importUsersUploadPopUpVisibility={uploadPopUpVisibility}
-                                      //boolean value to handle the visiblity of the importUsersUploadPopUp
+                        //boolean value to handle the visiblity of the importUsersUploadPopUp
                                       uploadPopUpData={uploadPopUpData}
-                                      //data to be fed in form of an object
+                        //data to be fed in form of an object
                                       importUsersPopUpCloseHandler={this.props.uploadImportUsersPopUPVisibility}
-                                      //function to close the importUsersUploadPopUp
+                        //function to close the importUsersUploadPopUp
                                       patchImportUsersData={this.patchImportUserData}
-                                      //function that gets invoked on click of the the third button(footer second button) of importUsersPopup
+                        //function that gets invoked on click of the the third button(footer second button) of importUsersPopup
                                       importUsersUploadResponseData={importUsersUploadResponseData}
-                                      //data (object) obatined after the execution of patchImportUsersData function
+                        //data (object) obatined after the execution of patchImportUsersData function
                                       uploadFileLoadingStatus={uploadFileStatus}
-                                      //loader status of footerSecondButton(Process) button - boolean
+                        //loader status of footerSecondButton(Process) button - boolean
                                       isFileUploaded={isFileUploaded}
-                                      //boolean value for if file is uploaded
+                        //boolean value for if file is uploaded
                     />
                 </div>}
             </div>
@@ -160,7 +184,7 @@ const mapDispatchToProps = dispatch => {
             importUsersPopUPVisibility,
             onClickOfDownloadExcel,
             getImportUserUploadDetails,
-            uploadImportUsersPopUPVisibility, patchImportUsersData, commonTeamReducerAction
+            uploadImportUsersPopUPVisibility, patchImportUsersData, commonTeamReducerAction, searchDropDownData,getClickedTeamUserReporteeData
         },
         dispatch
     );

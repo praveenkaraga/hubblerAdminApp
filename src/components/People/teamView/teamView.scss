@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
 
-  .component-header-buttons-wrap{
+  .component-header-buttons-wrap {
     display: flex;
     justify-content: space-between;
   }
@@ -11,7 +11,8 @@
   .component-header {
     font-size: 20px;
   }
-  .search-dropdown-wrap{
+
+  .search-dropdown-wrap {
     margin-right: 20px;
   }
 
@@ -34,6 +35,7 @@
     border-color: #e0e0e0; /*cccccc*/
     color: #323232;
   }
+
   .import-users:focus {
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
     background: #e0e0e0;
@@ -43,7 +45,8 @@
 
   .org-chart {
     margin-top: 20px;
-    .connector{
+
+    .connector {
       //height: 30px;
       background-image: url(../../../images/svg/connection-line.svg);
       background-position: center;
@@ -53,25 +56,28 @@
       height: 20px;
     }
 
-    .reportees-count-wrap{
+    .reportees-count-wrap {
       position: relative;
-      top : -32px;
+      top: -32px;
       display: flex;
-      .total-count{
+
+      .total-count {
         margin-left: auto;
         font-size: 13px;
         color: #4a4a4a;
       }
-      .total-count-number{
+
+      .total-count-number {
         font-family: robotoBold;
       }
     }
 
 
-    .manager-connection-wrap{
+    .manager-connection-wrap {
       position: relative;
       top: -42px;
-      .connection{
+
+      .connection {
         background-image: url(../../../images/svg/connection.svg);
         background-position: center;
         background-repeat: no-repeat;
@@ -80,7 +86,7 @@
         bottom: -23px;
       }
 
-      .horizontal-line{
+      .horizontal-line {
         height: 2px;
         background-color: #dcdcdc;
         width: 100%;
@@ -89,7 +95,7 @@
 
     }
 
-    .back-to-root-wrap{
+    .back-to-root-wrap {
       display: flex;
       margin: auto;
       border-radius: 12.5px;
@@ -97,7 +103,8 @@
       width: 14%;
       background-color: #ffffff;
       padding: 5px;
-      .back-to-root-icon{
+
+      .back-to-root-icon {
         width: 9px;
         cursor: pointer;
         background-image: url(../../../images/svg/path-2.svg);
@@ -106,7 +113,8 @@
         background-repeat: no-repeat;
         margin-left: 7px;
       }
-      .back-to-root-text{
+
+      .back-to-root-text {
         font-size: 12px;
         font-family: robotoBold;
         margin: 0 8px;
@@ -122,7 +130,10 @@
       cursor: pointer;
       margin: auto;
     }
-
+    .not-allowed.up-arrow {
+      pointer-events: none;
+      cursor: not-allowed;
+    }
     .manager-hold {
       width: 100%;
       margin: 0 0 5px 0;
@@ -358,9 +369,11 @@
         .reportee-list-wrap {
           display: flex;
           margin-top: 8px;
+
           ul {
             display: flex;
             flex-direction: row;
+            justify-content: center;
             //max-width: 1700px;
             max-height: 350px;
             overflow: scroll;
@@ -374,10 +387,12 @@
           height: 100px;
           width: 100%;
         }
+
         .user-list-item {
           cursor: pointer;
         }
-        .card-wrap{
+
+        .card-wrap {
           display: flex;
         }
 

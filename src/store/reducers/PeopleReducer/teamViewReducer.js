@@ -1,4 +1,4 @@
-import { checkError } from '../../../utils/helper'
+import {checkError} from '../../../utils/helper'
 import * as actionTypes from '../../actionTypes'
 import findIndex from "lodash/findIndex";
 import slice from 'lodash/slice'
@@ -22,13 +22,14 @@ const intialState = {
     startUploadStatus: false,
     importStatus: false,
     clickedUserOrgData: {},
-    clickedTeamUserData: {}
+    clickedTeamUserData: {},
+    searchDropdownData :[],
 }
 
 export const teamViewReducer = (state = intialState, action) => {
-    const { errorData, isError } = checkError(state, action);
+    const {errorData, isError} = checkError(state, action);
     if (isError) {
-        return { ...errorData }
+        return {...errorData}
     }
 
 
@@ -54,6 +55,7 @@ export const teamViewReducer = (state = intialState, action) => {
         case actionTypes.GET_TEAM_VIEW_USER_DATA:
             return {
                 ...state,
+                rootData : [],
                 orgChartUsers: action.payload.data ? action.payload.data.reportees : [] || state.orgChartUsers,
                 mainData: action.payload.data ? action.payload.data.reportees : state.mainData,
                 loader: false,
@@ -95,9 +97,9 @@ export const teamViewReducer = (state = intialState, action) => {
             const id = state.clickedMemberData._id;
             const user = state.clickedMemberData;
             if (!user.userSelected) {
-                rootData.push({ ...user, userSelected: true })
+                rootData.push({...user, userSelected: true})
             }
-            let userIndex = findIndex(rootData, { _id: id });
+            let userIndex = findIndex(rootData, {_id: id});
             let newRootData = slice(rootData, 0, (userIndex + 1));
             return {
                 ...state,
@@ -106,7 +108,7 @@ export const teamViewReducer = (state = intialState, action) => {
                     id: id,
                     reportees: action.payload.data ? action.payload.data.reportees : []
                 }],
-                total_count : action.payload.data.total_count || '',
+                total_count: action.payload.data.total_count || '',
                 rootData: uniqBy(newRootData, '_id')
 
             }
@@ -140,7 +142,6 @@ export const teamViewReducer = (state = intialState, action) => {
                 ...state, ...action.payload
             };
         case actionTypes.PATCH_IMPORT_USERS_DATA:
-            console.log(action.payload);
             return {
                 ...state,
                 importUsersUploadResponseData: action.payload.data || {},
@@ -152,8 +153,14 @@ export const teamViewReducer = (state = intialState, action) => {
             return {
                 ...state, ...action.payload
             };
+        case actionTypes.GET_SEARCH_DROPDOWN_DATA:
+            console.log(action.payload);
+            return {
+                ...state,
+                searchDropDownData : action.payload.data ? action.payload.data.result : []
+            };
 
     }
 
-    return { ...state }
+    return {...state}
 }

@@ -29,14 +29,21 @@
     .name_with_designation{
         margin-left : 12px ;
         text-transform: capitalize;
+        width: 90%;
     
 
         .only_name{
             font-weight: 600;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
         }
 
         .only_designation{
             font-size: 12px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
         }
     }
 }
