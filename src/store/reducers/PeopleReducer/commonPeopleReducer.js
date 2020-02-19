@@ -72,15 +72,18 @@ export const commonPeopleReducer = (state = intialState, action) => {
 
         case actionTypes.GET_LOGIN_SESSION_DATA:
             const intitalSessionData = action.payload.data ? action.payload.data.session_user : []
-            const intitalTableConf =intitalSessionData && intitalSessionData.table_configuration ? intitalSessionData.table_configuration.users : []
-            const finalTableConf = intitalSessionData ? intitalTableConf.fields : []
-            finalTableConf.forEach((data, i) => {
-                finalTableConf[i]["title"] = data.lbl
-                finalTableConf[i]["dataIndex"] = data._id
-                finalTableConf[i]["sorter"] = true
-                finalTableConf[i]["sortDirections"] = ["descend", "ascend"]
-                finalTableConf[i]["ellipsis"] = true
-            });
+            const intitalTableConf = Object.keys(intitalSessionData).length && intitalSessionData.table_configuration ? intitalSessionData.table_configuration.users : {}
+            const finalTableConf = Object.keys(intitalSessionData).length ? intitalTableConf.fields : []
+            if (finalTableConf.length) {
+                finalTableConf.forEach((data, i) => {
+                    finalTableConf[i]["title"] = data.lbl
+                    finalTableConf[i]["dataIndex"] = data._id
+                    finalTableConf[i]["sorter"] = true
+                    finalTableConf[i]["sortDirections"] = ["descend", "ascend"]
+                    finalTableConf[i]["ellipsis"] = true
+                });
+            }
+
             return {
                 ...state,
                 tableColumnData: finalTableConf

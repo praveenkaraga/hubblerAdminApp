@@ -4,9 +4,7 @@ import ColumnSetting from '../columnSetting'
 import './columnSettingWithPopOver.scss'
 
 class ColumnSettingWithPopOver extends Component {
-    constructor(props) {
-        super(props);
-    }
+
     render() {
 
         const { columnSettingData, onColumnSettingSave, onColumnSettingCancel, onSearchColumnSetting, tableColumnHeadingData,

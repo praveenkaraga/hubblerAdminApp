@@ -6,8 +6,8 @@ import { departmentReducer } from './PeopleReducer/departmentReducer'
 import { designationsReducer } from './PeopleReducer/designationsReducer'
 import { userConsoleMainReducer } from './PeopleReducer/userConsoleMainReducer'
 import { commonPeopleReducer } from './PeopleReducer/commonPeopleReducer'
-import { addUsersFormReducer } from './PeopleReducer/addUsersFormReducer'
 import { holidayReducer } from './PeopleReducer/holidayReducer'
+import { consoleAddUserReducer } from './PeopleReducer/consoleAddUserReducer'
 
 const rootReducer = combineReducers({
     firstReducer,
@@ -17,7 +17,8 @@ const rootReducer = combineReducers({
     designationsReducer,
     userConsoleMainReducer,
     commonReducer: commonPeopleReducer,
-    addUsersFormReducer,
+    consoleAddUserReducer,
+
     holidayReducer
 
 });

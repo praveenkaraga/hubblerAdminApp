@@ -14,8 +14,6 @@ const intialState = {
     sortingType: "",
     columnSettingData: {},
     columnSettingDataOriginal: {},
-    addUserDataForm: [],
-    addUserDataFormMain: [],
     actionSuccessMessage: "",
     actionOnUserSuccess: false,
     patchColumnSettingStatus: false
@@ -62,13 +60,7 @@ export const consoleReducer = (state = intialState, action) => {
                 columnSettingData: JSON.parse(JSON.stringify(finalColumnSettingData)),
             }
 
-        case actionTypes.ADD_USER_DATA_FORM:
-            const addUserDataFormInitial = action.payload.data ? action.payload.data.result : []
-            return {
-                ...state,
-                addUserDataFormMain: addUserDataFormInitial,
-                addUserDataForm: JSON.parse(JSON.stringify(addUserDataFormInitial))
-            }
+
 
         case actionTypes.POST_COMMON_ACTION_ON_USER:
             const actionOnUserDataInitial = action.payload.data.result

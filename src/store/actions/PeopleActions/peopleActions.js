@@ -23,7 +23,6 @@ export const {
     getConsoleUserData,
     commonConsoleAction,
     tableColumnSetting,
-    addUserDataForm,
     postCommonActionOnUser,
     patchTableColumnSetting
 } = consoleActions
@@ -84,7 +83,7 @@ export const { designationsData,
 export const { getCirclesData,
     getCustomFields,
     getCircleSuggestionData,
-    getParentNodeOptionsData,commonUserConsoleAction
+    getParentNodeOptionsData, commonUserConsoleAction
 
 } = userConsoleMainActions
 
@@ -94,7 +93,7 @@ export const { getCirclesData,
 
 //----------------------------Add User Form Actions---------------------------------//
 
-export const { getAddUsersProfileData } = addUserFormActions
+export const { addUserDataForm, getAddUsersProfileData } = addUserFormActions
 
 //----------------------------End of Add User Form Actions---------------------------------//
 

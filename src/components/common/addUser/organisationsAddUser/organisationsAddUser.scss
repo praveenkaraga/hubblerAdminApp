@@ -1,0 +1,75 @@
+@font-face {
+    font-family: robotoSemiBold;
+    src: url(../../../../utils/fonts/robotoSemiBold.ttf)
+  }
+
+.organisationAdduser_main{
+    .organisationAdduser_container{
+      
+        
+        .main_heading{
+            color: #323232;
+            font-size: 17px;
+            font-family: robotoSemiBold;
+            margin-top: 20px;
+            margin-left: 20px
+        }
+        
+        //css for upper manager part 
+        .manager_main{
+            padding: 20px;
+            padding-top: 15px;
+            
+            .manager_heading{
+                color: #52646a;
+                font-size: 14px;
+            }
+
+            .search_with_add_img{
+                display: flex;
+                align-items: center;
+                width: fit-content;
+                border-radius: 4px;
+                background-color: #f3f3f3;
+                border: 1px solid #d9d9d9;
+                margin-bottom: 30px;
+        
+                .ant-select-selection__rendered{
+        
+                    .ant-input{
+                        border : none;
+                    }
+                    .ant-input-affix-wrapper .ant-input-prefix{
+                        left: 9px;
+                    }
+                }
+        
+                .add_manager__img_container{
+                    padding: 5px ;
+        
+                    .add_manager{
+                        height: 20px;
+                    }
+                }
+                
+            }
+
+
+            .splitter{
+                border: 1px solid #f1f1f1;
+            }
+        }
+
+
+
+//css for below reportees part 
+        .reportees_main{
+            padding: 20px;
+            padding-top: 15px;
+            .reportees_heading{
+                color: #52646a;
+                font-size: 14px;
+            }
+        }
+    }
+}

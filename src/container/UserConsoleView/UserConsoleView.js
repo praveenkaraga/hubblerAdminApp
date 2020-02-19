@@ -101,9 +101,9 @@ class UserConsoleView extends Component {
 
     componentDidMount() {
         this.props.createActiveLink(window.location.pathname.substr(1))
+        this.props.getLoginSessionData()
         this.props.getCirclesData()
         this.props.getCustomFields()
-        this.props.getLoginSessionData()
     }
 
     dropDownSettingAction = (data, type) => { //onCLick of setting icon of header in dropdown
@@ -340,7 +340,7 @@ class UserConsoleView extends Component {
                                 />
 
                             ))}
-                            <Route exact path={["/people", "/people/circle", "/people/field"]}>
+                            <Route exact path={["/people", "/people/circle", "/people/field", "/people/designation", "/people/department"]}>
                                 <Redirect to={"/people/console"} />
                             </Route>
                             <Route exact path={"/people/designation"}>
