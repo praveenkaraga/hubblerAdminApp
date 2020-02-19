@@ -6,7 +6,7 @@ import {
     getClickedTeamUserReporteeData,
     storeClickedUserId,
     updateRollBackData,
-    getTeamViewUsersData
+    getTeamViewUsersData,commonTeamReducerAction
 } from "../../../../store/actions/PeopleActions/peopleActions";
 import TeamViewUserCard from './TeamViewUserCard'
 import map from 'lodash/map'
@@ -25,6 +25,7 @@ class UserList extends Component {
 
     getConnection = (type, member) => {
         const {rootData, total_count,orgChartUsers} = this.props.teamViewReducer
+
         let lastUser = last(rootData)
         if (type === 'manager') {
             if (lastUser._id === member._id && !isEmpty(orgChartUsers)) {
@@ -32,7 +33,7 @@ class UserList extends Component {
                     <div className={'connection'}></div>
                     <div className={'horizontal-line'}></div>
                     <div className={'reportees-count-wrap'}><span className={'total-count'}>Reportees: <span
-                        className={'total-count-number'}>{total_count}</span></span></div>
+                        className={'total-count-number'}>{total_count === '' ?  orgChartUsers.length : total_count}</span></span></div>
                 </div>
             } else {
                 if(lastUser._id === member._id && isEmpty(orgChartUsers)){
@@ -82,19 +83,22 @@ class OrgChart extends Component {
     componentDidMount() {
     }
 
-    setReportee = (member) => {
+    setReportee = (member,managerId) => {
         const {rootData} = this.props.teamViewReducer
-        console.log(rootData)
         this.props.storeClickedUserId(member._id, member);
-        this.props.getClickedTeamUserReporteeData(member._id)
+        this.props.commonTeamReducerAction({reporteeLoader: true});
+        this.props.getClickedTeamUserReporteeData(managerId || member._id)
     };
 
     getBackManagerData = () => {
-        const {rootData, preservedData, clickedMemberData, mainData} = this.props.teamViewReducer
+        const {rootData, preservedData, clickedMemberData, mainData,allUsers} = this.props.teamViewReducer
         let lastUser = rootData[rootData.length - 1]  /*last(rootData)*/
+        this.props.commonTeamReducerAction({total_count: ''});
         if (lastUser.manager) {
             lastUser = find(rootData, item => item._id === lastUser.manager._id);
-            this.props.storeClickedUserId(lastUser._id, lastUser);
+            /*if(newRootData.length === 1 && newRootData[0].manager){
+                this.setReportee(newRootData[0])
+            }*/
             const id = clickedMemberData._id;
             let userIndex = findIndex(preservedData, {id: id});
             let requiredReportessData = find(preservedData, (ele, index) => {
@@ -104,7 +108,14 @@ class OrgChart extends Component {
             })
             let newPreservedData = slice(preservedData, 0, (userIndex));
             let newRootData = slice(rootData, 0, (userIndex));
-            this.props.updateRollBackData(requiredReportessData.reportees, newPreservedData, newRootData)
+            if(lastUser === undefined){
+                let managerData = find(allUsers, item => item._id === rootData[0].manager._id)
+                this.props.commonTeamReducerAction({rootData: [managerData],clickedMemberData:managerData,preservedData:[]});
+                this.props.getClickedTeamUserReporteeData(rootData[0].manager._id)
+            }else{
+                this.props.storeClickedUserId(lastUser._id, lastUser);
+                this.props.updateRollBackData(requiredReportessData.reportees, newPreservedData, newRootData)
+            }
         } else {
             this.props.updateRollBackData(mainData, [], [])
         }
@@ -120,8 +131,7 @@ class OrgChart extends Component {
     }
 
     render() {
-        const {orgChartUsers, rootData, preservedData, clickedMemberData, total_Count} = this.props.teamViewReducer
-        console.log(orgChartUsers)
+        const {orgChartUsers, rootData, preservedData, clickedMemberData, total_Count,reporteeLoader} = this.props.teamViewReducer
         return (
             <div className={'org-chart'}>
                 {/*<div className={'manager-hold'}>
@@ -157,13 +167,14 @@ class OrgChart extends Component {
                                 </ul>
                             </div> : ''}
                             {<div className={'reportee-list-wrap'}>
-                                <ul>
+                                {reporteeLoader ? <div className={'reportee-loader loader'}></div> : '' }
+                                {reporteeLoader ? '' : <ul>
                                     {map(orgChartUsers, (member, index) => (
                                             <UserList member={member} index={index} setReportee={this.setReportee}
                                                       type={'reportee'} {...this.props}/>
                                         )
                                     )}
-                                </ul>
+                                </ul>}
                             </div>}
                         </div>
 
@@ -185,7 +196,7 @@ const mapDispatchToProps = dispatch => {
         {
             getClickedTeamUserReporteeData,
             storeClickedUserId,
-            updateRollBackData, getTeamViewUsersData
+            updateRollBackData, getTeamViewUsersData,commonTeamReducerAction
         },
         dispatch
     );

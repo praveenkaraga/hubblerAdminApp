@@ -13,7 +13,7 @@ import {
     importUsersPopUPVisibility,
     onClickOfDownloadExcel,
     getImportUserUploadDetails,
-    uploadImportUsersPopUPVisibility, patchImportUsersData, commonTeamReducerAction, searchDropDownData,getClickedTeamUserReporteeData
+    uploadImportUsersPopUPVisibility, patchImportUsersData, commonTeamReducerAction, searchDropDownData,getClickedTeamUserReporteeData,getAllUsers
 } from "../../../store/actions/PeopleActions/peopleActions";
 import UserInfoSlider from '../../../components/common/UserInfoSlider/UserInfoSlider'
 import ImportUsersPopUp from '../../../components/common/ImportUsersPopUp/ImportUsersPopUp'
@@ -24,7 +24,7 @@ import find from 'lodash/find'
 class TeamView extends Component {
     componentDidMount() {
         this.props.getTeamViewUsersData();
-        // this.props.getClickedTeamUserReporteeData()
+        this.props.getAllUsers()
 
         this.downloadExcel()
     }
@@ -91,7 +91,7 @@ class TeamView extends Component {
     };
 
     render() {
-        const {orgChartUsers, teamViewUserDrawerVisible, clickedTeamUserData, teamViewClickedUserId, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, loader, clickedMemberData, contentLoader, importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpVisibility, uploadPopUpData, importUsersUploadResponseData, uploadFileStatus, isFileUploaded, startUploadStatus, clickedUserOrgData, searchDropDownData} = this.props.teamViewReducer
+        const {orgChartUsers, teamViewUserDrawerVisible, clickedTeamUserData, teamViewClickedUserId, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, loader, clickedMemberData, contentLoader, importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpVisibility, uploadPopUpData, importUsersUploadResponseData, uploadFileStatus, isFileUploaded, startUploadStatus, clickedUserOrgData, searchDropDownData,reporteeLoader} = this.props.teamViewReducer
         return (
             <div className={'team-view'}>
                 {loader ? <div className={'loader'}></div> : <div>
@@ -108,6 +108,7 @@ class TeamView extends Component {
                             <Button type="primary">Add User</Button>
                         </div>
                     </div>
+                    {reporteeLoader ? <div className={'cover'}></div> : ''}
                     <OrgChart/>
 
                     <UserInfoSlider visible={teamViewUserDrawerVisible}
@@ -184,7 +185,7 @@ const mapDispatchToProps = dispatch => {
             importUsersPopUPVisibility,
             onClickOfDownloadExcel,
             getImportUserUploadDetails,
-            uploadImportUsersPopUPVisibility, patchImportUsersData, commonTeamReducerAction, searchDropDownData,getClickedTeamUserReporteeData
+            uploadImportUsersPopUPVisibility, patchImportUsersData, commonTeamReducerAction, searchDropDownData,getClickedTeamUserReporteeData,getAllUsers
         },
         dispatch
     );
