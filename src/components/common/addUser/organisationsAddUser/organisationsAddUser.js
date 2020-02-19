@@ -21,8 +21,8 @@ class OrganisationsAddUser extends Component {
 
         } = this.props
         return (
-            <div className="organisation_adduser_main">
-                <div className="organisation_adduser_container">
+            <div className="organisationAdduser_main">
+                <div className="organisationAdduser_container">
                     <h3 className="main_heading">Organisation Details</h3>
                     <div className="manager_main">
                         <h3 className="manager_heading">MANAGER</h3>

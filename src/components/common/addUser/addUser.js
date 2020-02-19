@@ -5,6 +5,7 @@ import ImageCropper from '../../common/ImageCropper/imageCropper'
 import CustomForm from '../../common/CustomForm/customForm'
 import ProfilesAddUser from './profilesAddUser/profilesAddUser'
 import OrganisationsAddUser from './organisationsAddUser/organisationsAddUser'
+import AppsAddUser from './appsAddUser/appsAddUser'
 
 const { TabPane } = Tabs;
 
@@ -91,10 +92,10 @@ class AddUser extends Component {
                                 <CustomForm formData={addUserDataForm} />
                             </TabPane>
                             <TabPane key="organisation" tab="Organisation">
-                                < OrganisationsAddUser />
+                                <OrganisationsAddUser />
                             </TabPane>
                             <TabPane key="apps" tab="Apps">
-                                Tab 3
+                                <AppsAddUser />
                             </TabPane>
                             <TabPane key="profiles" tab="Profiles">
                                 <ProfilesAddUser addUserProfileData={addUserProfileData} />

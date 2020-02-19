@@ -1,7 +1,24 @@
-.profileAddUsers_main{
+@font-face {
+    font-family: robotoSemiBold;
+    src: url(../../../../utils/fonts/robotoSemiBold.ttf)
+  }
+
+.profileAddUser_main{
     height: 100%;
     display: flex;
     flex-direction: column;
+    .profileAddUser_container{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    }
+    .main_heading{
+        color: #323232;
+        font-size: 17px;
+        font-family: robotoSemiBold;
+        margin-top: 20px;
+        margin-left: 20px
+    }
     .custom_search_main{
         .ant-input{
             background-color: #f5f5f5;

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './console.scss'
+import { message, Modal } from 'antd'
 import AllUserSelect from '../../common/allUserSelect/allUserSelect'
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -20,15 +21,15 @@ import {
 } from '../../../store/actions/PeopleActions/peopleActions'
 import UserInfoSlider from '../../common/UserInfoSlider/UserInfoSlider'
 import ImportUsersPopUp from '../../common/ImportUsersPopUp/ImportUsersPopUp'
-import { message, Modal } from 'antd'
 import { capitalFirstLetter } from '../../../utils/helper'
+import ConsoleAddUser from '../consoleAddUser/consoleAddUser'
 
 class Console extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            popUpActive: false,
+            addUserspopUpStatus: false,
             UserInfoVisible: false,
             userId: "",
             userData: {},
@@ -171,17 +172,6 @@ class Console extends Component {
     }
 
 
-    //on click of add user button and close add user cross icon
-    //status is bollean value which will decide when to close and when to open add user pop up
-    searchSecondButtonClick = (status) => {
-        if (status && !this.props.consoleReducer.addUserDataFormMain.length) { //checking if api data is available or not
-            this.props.addUserDataForm()
-        }
-        this.setState({
-            popUpActive: status //showing and hiding pop up
-        })
-    }
-
 
     //on click of each row of table
     // calling user data api and enabling user info slider
@@ -257,12 +247,6 @@ class Console extends Component {
 
     }
 
-    onChangeAddUsersTab = (activekey) => {
-        if (activekey === "profiles") {
-            // this.props.getAddUsersProfileData(this.state.userId)
-        }
-    }
-
 
     onSearchColumnSetting = (searchData) => { // on search inside column setting pop over
         this.props.tableColumnSetting(searchData)
@@ -275,7 +259,7 @@ class Console extends Component {
             importUsersUploadResponseData, isFileUploaded, clickedTeamUserData, contentLoader } = this.props.teamViewReducer;
         const { tableColumnData } = this.props.commonReducer
 
-        const { popUpActive, UserInfoVisible, userId, checkedDataKeys, disableHeaderButtonNames, visibleColumnSetting, typeOfActionOnUser,
+        const { addUserspopUpStatus, UserInfoVisible, userId, checkedDataKeys, disableHeaderButtonNames, visibleColumnSetting, typeOfActionOnUser,
             visibilityOfDeletePopUp, loaderOfDeletePopUp } = this.state;
         return (
             <div className="console_main">
@@ -286,7 +270,7 @@ class Console extends Component {
                     searchFirstButtonName={"IMPORT USERS"}
                     searchSecondButtonName={"ADD USER"}
                     searchFirstButtonClick={() => this.props.commonTeamReducerAction({ importUsersPopUpVisiblity: true })} //enabling the user info slider
-                    searchSecondButtonClick={() => this.searchSecondButtonClick(true)}
+                    searchSecondButtonClick={() => this.setState({ addUserspopUpStatus: true })}
                     onSearch={this.userSearchData} searchPlaceHolder={"Search Users / Managers / Designation"}
                     searchFirstButtonLoader={false}
                     searchSecondButtonLoader={false} searchLoader={searchLoader} typeOfData="Total Users"
@@ -316,9 +300,6 @@ class Console extends Component {
                     onClickUserDelete={() => this.setState({ visibilityOfDeletePopUp: true, typeOfActionOnUser: "delete" })}
                     onClickUserEdit={() => this.onClickUserActions("edit")}
 
-                    //props for add user component
-                    addUserPopUpActive={popUpActive} addUserCloseButton={() => this.searchSecondButtonClick(false)}
-                    addUserDataForm={addUserDataForm}
 
                     //to check if it is userData or not
                     isUserData={true}
@@ -334,9 +315,6 @@ class Console extends Component {
                     selectedDataCount={checkedDataKeys.length}
 
                     onSelectAll={this.onClickSelectAllCheckBox}
-
-                    onChangeAddUsersTab={this.onChangeAddUsersTab}
-
 
                 />
 
@@ -381,6 +359,8 @@ class Console extends Component {
                 >
                     <p>{`Are you sure you want to ${typeOfActionOnUser} selected ${checkedDataKeys.length} User(s)`}</p>
                 </Modal>
+
+                {addUserspopUpStatus ? <ConsoleAddUser addUserCloseButton={() => this.setState({ addUserspopUpStatus: false })} /> : null}
             </div>
         )
     }

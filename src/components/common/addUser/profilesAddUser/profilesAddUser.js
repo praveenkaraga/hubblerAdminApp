@@ -70,15 +70,18 @@ class ProfilesAddUsers extends Component {
 
         const finalData = this.modellingData(data)
         return (
-            <div className="profileAddUsers_main">
-                <CustomSearch searchPlaceHolder="Search Profiles" onSearch={this.onChangeProfileSearch} />
-                <Table pagination={{ position: 'none' }}
-                    columns={columns}
-                    dataSource={finalData}
-                    footer={() => ""}
-                    scroll={{ y: "unset" }}
-                    className={"profileAddUsers_table"}
-                />
+            <div className="profileAddUser_main">
+                <div className="profileAddUser_container">
+                    <h3 className="main_heading">Profiles</h3>
+                    <CustomSearch searchPlaceHolder="Search Profiles" onSearch={this.onChangeProfileSearch} />
+                    <Table pagination={{ position: 'none' }}
+                        columns={columns}
+                        dataSource={finalData}
+                        footer={() => ""}
+                        scroll={{ y: "unset" }}
+                        className={"profileAddUser_table"}
+                    />
+                </div>
             </div>
         );
     }

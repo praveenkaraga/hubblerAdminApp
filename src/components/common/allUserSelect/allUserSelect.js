@@ -123,7 +123,7 @@ class AllUserSelect extends Component {
     render() {
         const { allHeadingsData = [], userData = [], searchFirstButtonName, searchSecondButtonName, searchPlaceHolder, searchFirstButtonLoader = false, onChangeCheckBox,
             searchSecondButtonLoader = false, searchFirstButtonClick, searchSecondButtonClick, searchLoader = false, onSearch, totalUsers, goPrevPage, goNextPage, currentPageNumber, columnSettingData,
-            onClickUserActivate, onClickUserDeactivate, onClickUserDelete, onClickUserEdit, addUserPopUpActive, addUserCloseButton, addUserDataForm, isUserData = true, onlySelectAndAdd = false,
+            onClickUserActivate, onClickUserDeactivate, onClickUserDelete, onClickUserEdit, isUserData = true, onlySelectAndAdd = false,
             typeOfData = "Total Data", onClickTableRow, columnConfigurable = false, allSelect, onSearchDropdownSelect, searchDropdownPlaceholder, searchDropdownData, onChangeSearchDropdown,
             showHeaderButtons, disableButtonNames, selectedDataCount, onClickAddUserButton, onSelectAll, onColumnSettingSave, visibleColumnSetting, onColumnSettingCancel, onChangeAddUsersTab,
             onSearchColumnSetting } = this.props
@@ -139,7 +139,7 @@ class AllUserSelect extends Component {
                         firstButtonLoader={searchFirstButtonLoader} secondButtonLoader={searchSecondButtonLoader} searchLoader={searchLoader} onSearch={onSearch}
                         onClickFirst={searchFirstButtonClick} onClickSecond={searchSecondButtonClick} userSelected={selectedDataCount}
                         onUserActivate={onClickUserActivate} onUserDeactivate={onClickUserDeactivate} onlySelectAndAdd={onlySelectAndAdd}
-                        onUserDelete={onClickUserDelete} onUserEdit={onClickUserEdit} addUserPopUpActive={addUserPopUpActive} isUserData={isUserData}
+                        onUserDelete={onClickUserDelete} onUserEdit={onClickUserEdit} isUserData={isUserData}
                         allSelect={allSelect} onSearchDropdownSelect={onSearchDropdownSelect} searchDropdownPlaceholder={searchDropdownPlaceholder}
                         searchDropdownData={searchDropdownData} onChangeSearchDropdown={onChangeSearchDropdown} showButtonNames={showHeaderButtons}
                         disableButtonNames={disableButtonNames} onClickAddUserButton={onClickAddUserButton} />
@@ -194,8 +194,6 @@ class AllUserSelect extends Component {
                     </div>
 
                 </div>
-
-                {addUserPopUpActive ? <AddUser onClickClose={addUserCloseButton} addUserDataForm={addUserDataForm} onChangeAddUsersTab={onChangeAddUsersTab} /> : null}
             </div>
         )
     }

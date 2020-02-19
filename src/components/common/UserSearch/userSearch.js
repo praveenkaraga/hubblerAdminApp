@@ -6,12 +6,6 @@ import { capitalFirstLetter } from '../../../utils/helper'
 
 class UserSearch extends Component {
 
-    constructor(props) {
-        super(props);
-
-    }
-
-
     debounce = (fn, time) => { //TO DO
         let timeout;
 

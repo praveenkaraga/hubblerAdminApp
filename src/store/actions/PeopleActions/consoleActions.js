@@ -33,13 +33,6 @@ export const patchTableColumnSetting = (settingData) => { //patching the saved t
     }
 }
 
-export const addUserDataForm = () => {
-    const payload = getAddUserDataForm()
-    return {
-        type: actionTypes.ADD_USER_DATA_FORM,
-        payload
-    }
-}
 
 export const postCommonActionOnUser = (typeOfAction, data) => {
     const payload = postCommonActionOnUserApi(typeOfAction, data)

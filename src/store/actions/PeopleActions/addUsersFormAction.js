@@ -1,8 +1,17 @@
 import * as actionTypes from '../../actionTypes'
 import {
-    getAddUsersProfileDataApi
+    getAddUsersProfileDataApi, getAddUserDataForm
 } from '../../../utils/Apis/peopleApi'
 
+
+
+export const addUserDataForm = () => {
+    const payload = getAddUserDataForm()
+    return {
+        type: actionTypes.ADD_USER_DATA_FORM,
+        payload
+    }
+}
 
 
 export const getAddUsersProfileData = (id) => {
