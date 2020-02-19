@@ -30,7 +30,7 @@ class Console extends Component {
         super(props)
         this.state = {
             addUserspopUpStatus: false,
-            UserInfoVisible: false,
+            userInfoVisible: false,
             userId: "",
             userData: {},
             checkedDataKeys: [],
@@ -38,7 +38,8 @@ class Console extends Component {
             visibleColumnSetting: false,
             typeOfActionOnUser: "",
             visibilityOfDeletePopUp: false,
-            loaderOfDeletePopUp: false
+            loaderOfDeletePopUp: false,
+            addUserMode: "add"
         }
         this.selectedUsers = []
         this.ifSelectedAllData = []
@@ -78,7 +79,9 @@ class Console extends Component {
     onChangeCheckBox = (selectedRowsKeys, selectedRows) => {
         const checkedDataKeys = selectedRowsKeys
         this.whenSelectingUsers(selectedRows) //for validation of activate and deactivate buttons 
-        this.setState({ checkedDataKeys })
+        let editRowId
+        if (selectedRows[0]) editRowId = selectedRows[0]._id// saving data of latest selected one
+        this.setState({ checkedDataKeys, userId: editRowId })
     }
 
     changeStatusOfUserAction = (selectedDataOriginal) => { //handelling the case to enable and disable the activate and deactivate button on selection
@@ -145,12 +148,6 @@ class Console extends Component {
     }
 
 
-    onClickUserActions = (typeOfAction) => {
-        console.log(typeOfAction)
-    }
-
-
-
     // on click of activate, deactivate and delete button
     // "actiontype" is type of action we are taking from the above three
     actionOnUser = async (actionType) => { // on click of activate 
@@ -186,7 +183,7 @@ class Console extends Component {
 
     onCloseUserInfo = (status, userId = "", userData = {}) => {
         this.setState({
-            UserInfoVisible: status,
+            userInfoVisible: status,
             userId,
             userData
         })
@@ -254,13 +251,13 @@ class Console extends Component {
 
 
     render() {
-        const { consoleUserData, totalUsers, currentPageNumber, searchLoader, columnSettingData, addUserDataForm } = this.props.consoleReducer
+        const { consoleUserData, totalUsers, currentPageNumber, searchLoader, columnSettingData } = this.props.consoleReducer
         const { importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpData, uploadPopUpVisibility, startUploadStatus, uploadFileStatus,
             importUsersUploadResponseData, isFileUploaded, clickedTeamUserData, contentLoader } = this.props.teamViewReducer;
         const { tableColumnData } = this.props.commonReducer
 
-        const { addUserspopUpStatus, UserInfoVisible, userId, checkedDataKeys, disableHeaderButtonNames, visibleColumnSetting, typeOfActionOnUser,
-            visibilityOfDeletePopUp, loaderOfDeletePopUp } = this.state;
+        const { addUserspopUpStatus, userInfoVisible, userId, checkedDataKeys, disableHeaderButtonNames, visibleColumnSetting, typeOfActionOnUser,
+            visibilityOfDeletePopUp, loaderOfDeletePopUp, addUserMode } = this.state;
         return (
             <div className="console_main">
                 <div className="console_heading"><h3>Console</h3></div>
@@ -270,7 +267,7 @@ class Console extends Component {
                     searchFirstButtonName={"IMPORT USERS"}
                     searchSecondButtonName={"ADD USER"}
                     searchFirstButtonClick={() => this.props.commonTeamReducerAction({ importUsersPopUpVisiblity: true })} //enabling the user info slider
-                    searchSecondButtonClick={() => this.setState({ addUserspopUpStatus: true })}
+                    searchSecondButtonClick={() => this.setState({ addUserspopUpStatus: true, addUserMode: "add" })}
                     onSearch={this.userSearchData} searchPlaceHolder={"Search Users / Managers / Designation"}
                     searchFirstButtonLoader={false}
                     searchSecondButtonLoader={false} searchLoader={searchLoader} typeOfData="Total Users"
@@ -298,7 +295,7 @@ class Console extends Component {
                     onClickUserActivate={() => this.setState({ visibilityOfDeletePopUp: true, typeOfActionOnUser: "activate" })}
                     onClickUserDeactivate={() => this.setState({ visibilityOfDeletePopUp: true, typeOfActionOnUser: "deactivate" })}
                     onClickUserDelete={() => this.setState({ visibilityOfDeletePopUp: true, typeOfActionOnUser: "delete" })}
-                    onClickUserEdit={() => this.onClickUserActions("edit")}
+                    onClickUserEdit={() => this.setState({ addUserspopUpStatus: true, addUserMode: "edit" })}//{() => this.onClickUserActions("edit")}
 
 
                     //to check if it is userData or not
@@ -318,12 +315,13 @@ class Console extends Component {
 
                 />
 
-                <UserInfoSlider visible={UserInfoVisible} onCloseFunction={() => this.onCloseUserInfo(false)}
+                <UserInfoSlider visible={userInfoVisible} onCloseFunction={() => this.onCloseUserInfo(false)}
                     teamUserData={clickedTeamUserData}
                     sourceTeamView={true}
                     url={`/reportees/organization/${userId}/?start=1&offset=100&sortKey=name&sortOrder=dsc&filterKey=_id&filterQuery=`}
                     contentLoader={contentLoader}
                     clickedMemberData={this.state.clickedMemberData}
+                    onClickEdit={() => this.setState({ userInfoVisible: false, addUserspopUpStatus: true, addUserMode: "edit" })}
                 />
 
 
@@ -360,7 +358,15 @@ class Console extends Component {
                     <p>{`Are you sure you want to ${typeOfActionOnUser} selected ${checkedDataKeys.length} User(s)`}</p>
                 </Modal>
 
-                {addUserspopUpStatus ? <ConsoleAddUser addUserCloseButton={() => this.setState({ addUserspopUpStatus: false })} /> : null}
+                {addUserspopUpStatus
+                    ?
+                    <ConsoleAddUser
+                        addUserCloseButton={() => this.setState({ addUserspopUpStatus: false })}
+                        addUserMode={addUserMode}
+                        userId={userId}
+                    />
+                    : null
+                }
             </div>
         )
     }

@@ -17,7 +17,9 @@ class OrganisationsAddUser extends Component {
             //
             addUsersCommonCardTitle = "Add Reportees",
             addUsersCommonCardSubText = "You don't have any Reportees here. Please add from the Users list.",
-            backButton = false
+            backButton = false,
+            addUserMode,
+            managerData = {}
 
         } = this.props
         return (
@@ -26,12 +28,17 @@ class OrganisationsAddUser extends Component {
                     <h3 className="main_heading">Organisation Details</h3>
                     <div className="manager_main">
                         <h3 className="manager_heading">MANAGER</h3>
-                        {/* <div className="search_with_add_img">
-                            <SearchDropdown onSelect={onSearchDropdownSelect} placeholder={searchDropdownPlaceholder} searchData={searchDropdownData}
-                                onChange={onChangeSearchDropdown} searchIcon={true} width={300} />
-                            <div className="add_manager__img_container"><img className="add_manager" src={require('../../../../images/svg/add-manager.svg')} /></div>
-                        </div> */}
-                        < UserCardView />
+                        {
+                            addUserMode === "add" || !Object.keys(managerData).length
+                                ?
+                                <div className="search_with_add_img">
+                                    <SearchDropdown onSelect={onSearchDropdownSelect} placeholder={searchDropdownPlaceholder} searchData={searchDropdownData}
+                                        onChange={onChangeSearchDropdown} searchIcon={true} width={300} />
+                                    <div className="add_manager__img_container"><img className="add_manager" src={require('../../../../images/svg/add-manager.svg')} /></div>
+                                </div>
+                                :
+                                < UserCardView />
+                        }
                     </div>
                     <hr className="splitter" />
                     <div className="reportees_main">

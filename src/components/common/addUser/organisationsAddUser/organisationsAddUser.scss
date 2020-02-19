@@ -32,11 +32,15 @@
                 border-radius: 4px;
                 background-color: #f3f3f3;
                 border: 1px solid #d9d9d9;
+                margin-bottom: 30px;
         
                 .ant-select-selection__rendered{
         
                     .ant-input{
                         border : none;
+                    }
+                    .ant-input-affix-wrapper .ant-input-prefix{
+                        left: 9px;
                     }
                 }
         

@@ -38,7 +38,7 @@ class AddUser extends Component {
 
     render() {
 
-        const { onClickClose, addUserDataForm, addUserProfileData, onChangeAddUsersTab } = this.props
+        const { onClickClose, addUserDataForm, addUserProfileData, onChangeAddUsersTab, addUserMode } = this.props
         const { croppedImage } = this.state
         const profileImgcontent = (
             <div className="actionButtons">
@@ -92,7 +92,7 @@ class AddUser extends Component {
                                 <CustomForm formData={addUserDataForm} />
                             </TabPane>
                             <TabPane key="organisation" tab="Organisation">
-                                <OrganisationsAddUser />
+                                <OrganisationsAddUser addUserMode={addUserMode} />
                             </TabPane>
                             <TabPane key="apps" tab="Apps">
                                 <AppsAddUser />

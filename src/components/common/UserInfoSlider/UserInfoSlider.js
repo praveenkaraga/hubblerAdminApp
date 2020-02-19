@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
-import {Drawer} from "antd";
+import React, { Component } from 'react';
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { Drawer } from "antd";
 import 'antd/dist/antd.css';
 import './userInfoSlider.scss'
 import UserInfoSliderContent from '../UserInfoSlider/UserInfoSliderContent'
-import {getTeamViewOrgData, changeLoaderStatus, getClickedTeamUserData} from "../../../store/actions/PeopleActions/peopleActions";
+import { getTeamViewOrgData, changeLoaderStatus, getClickedTeamUserData } from "../../../store/actions/PeopleActions/peopleActions";
 
 
 class UserInfoSlider extends Component {
@@ -18,8 +18,8 @@ class UserInfoSlider extends Component {
     }
 
     render() {
-        const {visible = false, onCloseFunction, teamUserData, userId, getTeamViewOrgData, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, clickedMemberData, contentLoader, changeLoaderStatus, sourceTeamView, url} = this.props;
-        const {clickedUserOrgData, clickedTeamUserData} = this.props.teamViewReducer
+        const { visible = false, onCloseFunction, teamUserData, userId, getTeamViewOrgData, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, clickedMemberData, contentLoader, changeLoaderStatus, onClickEdit, sourceTeamView, url } = this.props;
+        const { clickedUserOrgData, clickedTeamUserData } = this.props.teamViewReducer
         let usersId = teamUserData ? teamUserData._id : '';
         return (
             <div className={'user-info-slider'}>
@@ -30,17 +30,18 @@ class UserInfoSlider extends Component {
                     onClose={() => onCloseFunction(false)}
                     visible={visible}>
                     <UserInfoSliderContent teamUserData={teamUserData} userId={usersId}
-                                           onCloseFunction={onCloseFunction}
-                                           clickedUserOrgData={clickedUserOrgData}
-                                           sourceTeamView={sourceTeamView}
-                                           clickedTeamUserData={clickedTeamUserData}
-                                           url={url}
-                                           getTeamViewOrgData={(url) => this.props.getTeamViewOrgData(url)}
-                                           changeLoaderStatus={(flag) => this.props.changeLoaderStatus(flag)}
-                                           clickedUserOrgManagerData={clickedUserOrgManagerData}
-                                           clickedUserOrgReporteesData={clickedUserOrgReporteesData}
-                                           total_Count={total_Count} clickedMemberData={clickedMemberData}
-                                           contentLoader={contentLoader}/>
+                        onCloseFunction={onCloseFunction}
+                        clickedUserOrgData={clickedUserOrgData}
+                        sourceTeamView={sourceTeamView}
+                        clickedTeamUserData={clickedTeamUserData}
+                        url={url}
+                        onClickEdit={onClickEdit}
+                        getTeamViewOrgData={(url) => this.props.getTeamViewOrgData(url)}
+                        changeLoaderStatus={(flag) => this.props.changeLoaderStatus(flag)}
+                        clickedUserOrgManagerData={clickedUserOrgManagerData}
+                        clickedUserOrgReporteesData={clickedUserOrgReporteesData}
+                        total_Count={total_Count} clickedMemberData={clickedMemberData}
+                        contentLoader={contentLoader} />
                 </Drawer>
             </div>
         )
@@ -55,7 +56,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return bindActionCreators(
-        {getTeamViewOrgData, changeLoaderStatus, getClickedTeamUserData},
+        { getTeamViewOrgData, changeLoaderStatus, getClickedTeamUserData },
         dispatch
     );
 };
