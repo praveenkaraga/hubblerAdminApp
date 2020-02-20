@@ -40,7 +40,6 @@ export const teamViewReducer = (state = intialState, action) => {
         case actionTypes.GET_USER_DATA:
             return {
                 ...state,
-                count: 2
             }
 
 
@@ -103,8 +102,6 @@ export const teamViewReducer = (state = intialState, action) => {
                 rootData.push({...user, userSelected: true})
             }
             let userIndex = findIndex(rootData, {_id: id});
-            let totalCountMember = find(rootData, item => item._id === id);
-            debugger
             let newRootData = slice(rootData, 0, (userIndex + 1));
             return {
                 ...state,

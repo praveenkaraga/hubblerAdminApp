@@ -22,11 +22,11 @@ class TeamViewUserCard extends Component {
 
     render() {
         const {} = this.props.teamViewReducer
-        const {member, index} = this.props
+        const {member, index,generateTree} = this.props
 
         return (
             <div className={'team-view-user-card'} key={index}>
-                <div className={'team-view-user-hold'}>
+                <div className={'team-view-user-hold'} onClick={() => generateTree(member)}>
                     <div className={'team-view-user-content'}>
                         {member.profile_image ?
                             <div className={'user-icon'}

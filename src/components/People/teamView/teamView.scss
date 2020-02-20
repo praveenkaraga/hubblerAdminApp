@@ -274,6 +274,7 @@
             background-color: #fff;
             display: flex;
             padding: 1px;
+            cursor: pointer;
           }
 
           .team-view-user-content {
@@ -383,13 +384,11 @@
         }
 
         .user-list-item-variant {
-          cursor: pointer;
           height: 100px;
           width: 100%;
         }
 
         .user-list-item {
-          cursor: pointer;
         }
 
         .card-wrap {

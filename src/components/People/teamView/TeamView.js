@@ -19,9 +19,17 @@ import UserInfoSlider from '../../../components/common/UserInfoSlider/UserInfoSl
 import ImportUsersPopUp from '../../../components/common/ImportUsersPopUp/ImportUsersPopUp'
 import SearchDropdown from '../../common/searchDropDown/searchDropDown'
 import find from 'lodash/find'
+import ConsoleAddUser from "../consoleAddUser/consoleAddUser";
 
 
 class TeamView extends Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            addUserPopUpStatus: false,
+            addUserMode: "add",
+        }
+    }
     componentDidMount() {
         this.props.getTeamViewUsersData();
         this.props.getAllUsers()
@@ -90,8 +98,14 @@ class TeamView extends Component {
         this.props.getClickedTeamUserReporteeData(value)
     };
 
+    onEditClick = () =>{
+        this.props.commonTeamReducerAction({teamViewUserDrawerVisible: false});
+        this.setState({  addUserPopUpStatus: true, addUserMode: "edit" })
+    }
+
     render() {
         const {orgChartUsers, teamViewUserDrawerVisible, clickedTeamUserData, teamViewClickedUserId, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, loader, clickedMemberData, contentLoader, importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpVisibility, uploadPopUpData, importUsersUploadResponseData, uploadFileStatus, isFileUploaded, startUploadStatus, clickedUserOrgData, searchDropDownData,reporteeLoader} = this.props.teamViewReducer
+        const {addUserPopUpStatus,addUserMode} = this.state
         return (
             <div className={'team-view'}>
                 {loader ? <div className={'loader'}></div> : <div>
@@ -105,8 +119,7 @@ class TeamView extends Component {
                             </div>
                             <Button type="primary" className={'import-users'} onClick={this.showModal}>Import
                                 Users</Button>
-                            <Button type="primary">Add User</Button>
-                        </div>
+                            <Button type="primary" onClick={() => this.setState({ addUserPopUpStatus: true, addUserMode: "add" })}>Add User</Button></div>
                     </div>
                     {reporteeLoader ? <div className={'cover'}></div> : ''}
                     <OrgChart/>
@@ -117,6 +130,7 @@ class TeamView extends Component {
                                     teamUserData={clickedTeamUserData}
                                     userId={teamViewClickedUserId}
                                     url={`/reportees/organization/${teamViewClickedUserId}/?start=1&offset=100&sortKey=name&sortOrder=dsc&filterKey=_id&filterQuery=`}
+                                    onClickEdit={() => this.onEditClick() }
 
                         // getTeamViewOrgData={(id) => this.props.getTeamViewOrgData(id)}
                         // clickedUserOrgData={clickedUserOrgData}
@@ -163,7 +177,17 @@ class TeamView extends Component {
                                       isFileUploaded={isFileUploaded}
                         //boolean value for if file is uploaded
                     />
-                </div>}
+                    {addUserPopUpStatus
+                        ?
+                        <ConsoleAddUser
+                            addUserCloseButton={() => this.setState({ addUserPopUpStatus: false })}
+                            addUserMode={addUserMode}
+                            userId={teamViewClickedUserId}
+                        />
+                        : null
+                    }
+                </div>
+                }
             </div>
         )
     }

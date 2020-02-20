@@ -62,9 +62,8 @@ class UserList extends Component {
         const {member, index, type} = this.props;
         const {rootData,orgChartUsers} = this.props.teamViewReducer
         return (
-            <li className={type === 'reportee' ? 'user-list-item' : 'user-list-item-variant'}
-                onClick={() => this.generateTree(member)}>
-                <div className={type === 'manager' ? 'card-wrap' : ''}><TeamViewUserCard member={member} index={index}/>
+            <li className={type === 'reportee' ? 'user-list-item' : 'user-list-item-variant'}>
+                <div className={type === 'manager' ? 'card-wrap' : ''}><TeamViewUserCard member={member} index={index} generateTree={(member) => this.generateTree(member)}/>
                 </div>
                 {/*{this.test(type,rootData)}*/}
                 {isEmpty(rootData) && type === 'reportee' ? '' :  this.getConnection(type, member) }

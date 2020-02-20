@@ -172,7 +172,7 @@ class Departments extends Component {
             this.setState({creationPopUpVisibility: false,commonCreationViewHeaderName : ''})
             message.success("Department Created Successfully");
             this.props.commonDepartmentAction({newDataCreatedSuccessfully: false})
-            this.props.history.push(`/people/department/${this.props.departmentReducer.createdDepartmentData.id}`, {headerName: this.props.departmentReducer.createdDepartmentData.result.name})
+            // this.props.history.push(`/people/department/${this.props.departmentReducer.createdDepartmentData.id}`, {headerName: this.props.departmentReducer.createdDepartmentData.result.name})
         } else {
             message.error(errorMsg);
         }

@@ -8,7 +8,6 @@ import {
     getUploadFieldData,
     patchUploadData,getUsers
 } from '../../../utils/Apis/peopleApi'
-import uniqBy from "lodash/uniqBy";
 
 export const getTeamViewUsersData = (data) => { // to get the users of the organization for team view
     const payload = getTeamViewUsers()
