@@ -108,7 +108,7 @@ class ColumnSetting extends Component {
 
     render() {
 
-        const { columnDataDraggable, columnDataNotDraggable, checkedList, onSearchColumnSetting } = this.state
+        const { columnDataDraggable, columnDataNotDraggable, checkedList } = this.state
         const { columnSettingData } = this.props
 
         const allCategories = columnSettingData.columnSettingCategories || []
