@@ -10,7 +10,7 @@ import {
 } from '../../../utils/Apis/peopleApi'
 import uniqBy from "lodash/uniqBy";
 
-export const getTeamViewUsersData = (data) => {
+export const getTeamViewUsersData = (data) => { // to get the users of the organization for team view
     const payload = getTeamViewUsers()
     return {
         type: actionTypes.GET_TEAM_VIEW_USER_DATA,
@@ -134,7 +134,14 @@ export const searchDropDownData = (perPageRows, currentPage, searchData, heading
         type: actionTypes.GET_SEARCH_DROPDOWN_DATA,
         payload
     }
+}
 
+export const getAllUsers= () =>{
+    const payload = getUsers()
+    return {
+        type: actionTypes.GET_ALL_USERS,
+        payload
+    }
 }
 
 

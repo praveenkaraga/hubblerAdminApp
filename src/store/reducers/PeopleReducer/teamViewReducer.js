@@ -4,6 +4,7 @@ import findIndex from "lodash/findIndex";
 import slice from 'lodash/slice'
 import uniqBy from "lodash/uniqBy";
 import first from 'lodash/first'
+import find from 'lodash/find'
 
 const intialState = {
     count: 1,
@@ -23,7 +24,9 @@ const intialState = {
     importStatus: false,
     clickedUserOrgData: {},
     clickedTeamUserData: {},
-    searchDropdownData :[],
+    searchDropdownData: [],
+    reporteeLoader: false,
+    allUsers:[],
 }
 
 export const teamViewReducer = (state = intialState, action) => {
@@ -55,7 +58,7 @@ export const teamViewReducer = (state = intialState, action) => {
         case actionTypes.GET_TEAM_VIEW_USER_DATA:
             return {
                 ...state,
-                rootData : [],
+                rootData: [],
                 orgChartUsers: action.payload.data ? action.payload.data.reportees : [] || state.orgChartUsers,
                 mainData: action.payload.data ? action.payload.data.reportees : state.mainData,
                 loader: false,
@@ -100,16 +103,20 @@ export const teamViewReducer = (state = intialState, action) => {
                 rootData.push({...user, userSelected: true})
             }
             let userIndex = findIndex(rootData, {_id: id});
+            let totalCountMember = find(rootData, item => item._id === id);
+            debugger
             let newRootData = slice(rootData, 0, (userIndex + 1));
             return {
                 ...state,
                 orgChartUsers: action.payload.data ? action.payload.data.reportees : [] || state.orgChartUsers,
                 preservedData: [...state.preservedData, {
                     id: id,
-                    reportees: action.payload.data ? action.payload.data.reportees : []
+                    reportees: action.payload.data ? action.payload.data.reportees : [],
+                    total_count :  action.payload.data.total_count ||  ''
                 }],
-                total_count: action.payload.data.total_count || '',
-                rootData: uniqBy(newRootData, '_id')
+                total_count: action.payload.data.total_count ||  '',
+                rootData: uniqBy(newRootData, '_id'),
+                reporteeLoader: false
 
             }
 
@@ -157,7 +164,12 @@ export const teamViewReducer = (state = intialState, action) => {
             console.log(action.payload);
             return {
                 ...state,
-                searchDropDownData : action.payload.data ? action.payload.data.result : []
+                searchDropDownData: action.payload.data ? action.payload.data.result : []
+            };
+        case actionTypes.GET_ALL_USERS:
+            return {
+                ...state,
+                allUsers: action.payload.data ? action.payload.data.result : []
             };
 
     }

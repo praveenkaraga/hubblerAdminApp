@@ -51,7 +51,7 @@ export const { getTeamViewUsersData,
     getImportUserUploadDetails,
     uploadImportUsersPopUPVisibility,
     patchImportUsersData,
-    commonTeamReducerAction, searchDropDownData } = teamViewActions
+    commonTeamReducerAction,searchDropDownData,getAllUsers } = teamViewActions
 
 
 //------------------------------xxxxxxxxxxxxxxxxx--------------------------------

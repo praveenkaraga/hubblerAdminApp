@@ -95,7 +95,7 @@ export const getDeptTableColumns = () => { // to remove
 };
 
 
-export const postCreteDepartmentData = (data) => { //to patch the newly created department data
+export const postCreteDepartmentData = (data) => { //to post the newly created department data
     return axios.post("/rest/departments/", data, axiosConfig)
 }
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX---End of Departments Api------XXXXXXXXXXXXXXXXXXXXXXXXXXX
