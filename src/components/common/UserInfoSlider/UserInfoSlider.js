@@ -5,7 +5,7 @@ import { Drawer } from "antd";
 import 'antd/dist/antd.css';
 import './userInfoSlider.scss'
 import UserInfoSliderContent from '../UserInfoSlider/UserInfoSliderContent'
-import { getTeamViewOrgData, changeLoaderStatus, getClickedTeamUserData } from "../../../store/actions/PeopleActions/peopleActions";
+import { getTeamViewOrgData, commonTeamReducerAction, getClickedTeamUserData } from "../../../store/actions/PeopleActions/peopleActions";
 
 
 class UserInfoSlider extends Component {
@@ -37,7 +37,7 @@ class UserInfoSlider extends Component {
                         url={url}
                         onClickEdit={onClickEdit}
                         getTeamViewOrgData={(url) => this.props.getTeamViewOrgData(url)}
-                        changeLoaderStatus={(flag) => this.props.changeLoaderStatus(flag)}
+                        changeLoaderStatus={(flag) => this.props.commonTeamReducerAction({contentLoader : flag })}
                         clickedUserOrgManagerData={clickedUserOrgManagerData}
                         clickedUserOrgReporteesData={clickedUserOrgReporteesData}
                         total_Count={total_Count} clickedMemberData={clickedMemberData}
@@ -56,7 +56,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return bindActionCreators(
-        { getTeamViewOrgData, changeLoaderStatus, getClickedTeamUserData },
+        { getTeamViewOrgData, commonTeamReducerAction, getClickedTeamUserData },
         dispatch
     );
 };

@@ -55,7 +55,9 @@ class Departments extends Component {
             checkedDataKeys: [],
             creationPopUpMode: "add",
             editRowName: "",
-            editRowId: ""
+            editRowId: "",
+            visibilityOfDeletePopUp: false,
+            loaderOfDeletePopUp: false,
         }
     }
 
@@ -341,7 +343,6 @@ class Departments extends Component {
             allSelectedUsersSearchData: searchData,
             allSelectedUsersSearchLoader: true
         })
-
         this.setState({
             searchData,
             allSelectedUsersCurrentPageNumber: 1
@@ -349,7 +350,6 @@ class Departments extends Component {
     }
 
     /*addableFunc*/
-
     addUsersOnClickHeadingColumn = (activeHeading, sortingType) => {
         const {createdDepartmentData} = this.props.departmentReducer;
 
@@ -455,6 +455,7 @@ class Departments extends Component {
         if (actionType === "edit") {
             this.setState({ creationPopUpVisibility: true, creationPopUpMode: "edit", commonCreationViewHeaderName : this.state.editRowName   })
         } else {
+            this.setState({ loaderOfDeletePopUp: true })
             await this.props.postCommonDelete("departments", { departments: checkedDataKeys })
             const { postDeletedDataSuccessfulMessage, postDeletedDataSuccessfully, errorMsg } = this.props.commonReducer
             if (postDeletedDataSuccessfully) {
@@ -465,7 +466,7 @@ class Departments extends Component {
                 message.error(errorMsg)
                 this.props.getDepartmentData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
             }
-            this.setState({ checkedDataKeys: [] })
+            this.setState({ checkedDataKeys: [],loaderOfDeletePopUp: false, visibilityOfDeletePopUp: false})
         }
     }
 
@@ -477,7 +478,7 @@ class Departments extends Component {
 
         const {importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpData, uploadPopUpVisibility, startUploadStatus, uploadFileStatus, importUsersUploadResponseData, isFileUploaded} = this.props.teamViewReducer;
 
-        const {creationPopUpVisibility, showAddUsersPopUp, commonCreationViewHeaderName, changeToCreatedView, formPopUpActive, creationPopUpMode,checkedDataKeys} = this.state;
+        const {creationPopUpVisibility, showAddUsersPopUp, commonCreationViewHeaderName, changeToCreatedView, formPopUpActive, creationPopUpMode,checkedDataKeys,loaderOfDeletePopUp,visibilityOfDeletePopUp} = this.state;
         return (
             <div className="departments-main">
                 {!changeToCreatedView ? <div className={'departments-main-view'}>
@@ -502,7 +503,7 @@ class Departments extends Component {
                                    showHeaderButtons={[{ id: "edit", label: "Edit Department" }, { id: "delete", label: "Delete Department" }]}
                                    disableButtonNames={[checkedDataKeys.length > 1 ? "edit" : ""]}
                                    selectedDataCount={checkedDataKeys.length}
-                                   onClickUserDelete={() => this.onClickDepartmentActions("delete")}
+                                   onClickUserDelete={() => this.setState({ visibilityOfDeletePopUp: true })}
                                    onClickUserEdit={() => this.onClickDepartmentActions("edit")}
 
                     />
@@ -652,6 +653,21 @@ class Departments extends Component {
 
                     // *end of CommonCreationView props*
                 />*/}
+                <Modal // used this modal for confirmation before deleting department items
+                    title={`Delete Designation(s)`}
+                    visible={visibilityOfDeletePopUp}
+                    onOk={() => this.onClickDepartmentActions("delete")}
+                    confirmLoading={loaderOfDeletePopUp}
+                    onCancel={() => this.setState({ visibilityOfDeletePopUp: false })}
+                    centered
+                    closable
+                    okText={"Delete"}
+                    maskClosable={false}
+                    okType={"danger"}
+                    wrapClassName={"departments-delete-popup"}
+                    destroyOnClose={true}>
+                    <p>{`Are you sure you want to delete the selected ${checkedDataKeys.length} Designation(s)`}</p>
+                </Modal>
             </div>
         );
     }

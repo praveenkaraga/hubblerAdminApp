@@ -4,8 +4,6 @@ import '../teamView.scss'
 import {bindActionCreators} from "redux";
 import {
     getClickedTeamUserReporteeData,
-    storeClickedUserId,
-    updateRollBackData,
     getTeamViewUsersData,commonTeamReducerAction
 } from "../../../../store/actions/PeopleActions/peopleActions";
 import TeamViewUserCard from './TeamViewUserCard'
@@ -83,9 +81,7 @@ class OrgChart extends Component {
     }
 
     setReportee = (member,managerId) => {
-        const {rootData} = this.props.teamViewReducer
-        this.props.storeClickedUserId(member._id, member);
-        this.props.commonTeamReducerAction({reporteeLoader: true});
+        this.props.commonTeamReducerAction({reporteeLoader: true,teamViewClickedUserId: member._id,clickedMemberData: member});
         this.props.getClickedTeamUserReporteeData(managerId || member._id)
     };
 
@@ -104,7 +100,7 @@ class OrgChart extends Component {
                 if (index === userIndex - 1) {
                     return ele
                 }
-            })
+            });
             let newPreservedData = slice(preservedData, 0, (userIndex));
             let newRootData = slice(rootData, 0, (userIndex));
             if(lastUser === undefined){
@@ -112,11 +108,10 @@ class OrgChart extends Component {
                 this.props.commonTeamReducerAction({rootData: [managerData],clickedMemberData:managerData,preservedData:[]});
                 this.props.getClickedTeamUserReporteeData(rootData[0].manager._id)
             }else{
-                this.props.storeClickedUserId(lastUser._id, lastUser);
-                this.props.updateRollBackData(requiredReportessData.reportees, newPreservedData, newRootData)
+                this.props.commonTeamReducerAction({teamViewClickedUserId: lastUser._id._id,clickedMemberData: lastUser,orgChartUsers : requiredReportessData.reportees,preservedData: newPreservedData,rootData : newRootData});
             }
         } else {
-            this.props.updateRollBackData(mainData, [], [])
+            this.props.commonTeamReducerAction({ orgChartUsers:mainData, preservedData: [], rootData : []});
         }
     };
 
@@ -124,9 +119,7 @@ class OrgChart extends Component {
         const {orgChartUsers, rootData} = this.props.teamViewReducer
         if (!isEmpty(rootData)) {
             this.props.getTeamViewUsersData();
-
         }
-        console.log('backToRootUser')
     }
 
     render() {
@@ -137,8 +130,8 @@ class OrgChart extends Component {
                     <div className={'user-hold'}>Root User</div>
                 </div>*/}
 
-                {isEmpty(rootData) ? '' : <div className={'back-to-root-wrap'}>
-                    <span className={'back-to-root-icon'} onClick={this.backToRootUser}></span>
+                {isEmpty(rootData) ? '' : <div className={'back-to-root-wrap'} onClick={this.backToRootUser}>
+                    <span className={'back-to-root-icon'} ></span>
                     <span className={'back-to-root-text'}>Back to root user</span>
                 </div>}
                 {isEmpty(rootData) ? '' : <div className={'up-arrow'} style={{backgroundImage: `url(${UpArrow})`}}
@@ -194,8 +187,7 @@ const mapDispatchToProps = dispatch => {
     return bindActionCreators(
         {
             getClickedTeamUserReporteeData,
-            storeClickedUserId,
-            updateRollBackData, getTeamViewUsersData,commonTeamReducerAction
+             getTeamViewUsersData,commonTeamReducerAction
         },
         dispatch
     );

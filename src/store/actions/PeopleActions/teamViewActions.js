@@ -17,14 +17,6 @@ export const getTeamViewUsersData = (data) => { // to get the users of the organ
     }
 }
 
-export const teamViewUserClick = (payload) => {
-    return {
-        type: actionTypes.TEAM_VIEW_USER_CLICK,
-        payload
-    }
-
-}
-
 export const getClickedTeamUserData = (id) => {
     const payload = getClickedTeamViewUser(id)
     return {
@@ -40,52 +32,12 @@ export const getTeamViewOrgData = (url) => {
     }
 }
 
-export const storeClickedUserId = (userID, member) => {
-    return {
-        type: actionTypes.STORE_CLICKED_USER_ID,
-        payload: {
-            teamViewClickedUserId: userID,
-            clickedMemberData: member
-        }
-    }
-};
-
-export const changeLoaderStatus = (payload) => {
-    return {
-        type: actionTypes.CHANGE_LOADER_STATUS,
-        payload: {
-            contentLoader: payload
-        }
-
-    }
-};
-
 export const getClickedTeamUserReporteeData = (userId) => {
     const payload = getClickedUserReporteeData(userId)
     return {
         type: actionTypes.GET_CLICKED_TEAM_USER_REPORTEE_DATA,
         payload
     }
-}
-export const updateRollBackData = (reportees, preservedData, rootData) => {
-    return {
-        type: actionTypes.GET_BACK_MANAGER_DATA,
-        payload: {
-            orgChartUsers: reportees,
-            preservedData: preservedData,
-            rootData: rootData
-        }
-    }
-}
-
-export const importUsersPopUPVisibility = (flag) => {
-    return {
-        type: actionTypes.IMPORT_USERS_POPUP_VISIBILITY,
-        payload: {
-            importUsersPopUpVisiblity: flag
-        }
-    }
-
 }
 
 export const onClickOfDownloadExcel = () => {
@@ -107,7 +59,7 @@ export const uploadImportUsersPopUPVisibility = (flag) => {
     return {
         type: actionTypes.UPLOAD_IMPORT_USERS_POPUP_VISIBILITY,
         payload: {
-            uploadPopUpVisibility: flag
+            uploadPopUpVisibility: flag,
         }
     }
 }
@@ -118,14 +70,14 @@ export const patchImportUsersData = (id,data,status) =>{
         type: actionTypes.PATCH_IMPORT_USERS_DATA,
         payload
     }
-}
+};
 
 export const commonTeamReducerAction = (payload) =>{
     return {
         type: actionTypes.COMMON_ACTION,
         payload
     }
-}
+};
 
 export const searchDropDownData = (perPageRows, currentPage, searchData, headingData, sortingType) =>{
     const payload = getUsers(perPageRows, currentPage, searchData, headingData, sortingType)
@@ -133,7 +85,7 @@ export const searchDropDownData = (perPageRows, currentPage, searchData, heading
         type: actionTypes.GET_SEARCH_DROPDOWN_DATA,
         payload
     }
-}
+};
 
 export const getAllUsers= () =>{
     const payload = getUsers()
@@ -141,7 +93,7 @@ export const getAllUsers= () =>{
         type: actionTypes.GET_ALL_USERS,
         payload
     }
-}
+};
 
 
 
