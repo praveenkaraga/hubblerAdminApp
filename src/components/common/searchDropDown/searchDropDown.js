@@ -21,7 +21,7 @@ class SearchDropdown extends Component {
 
 
     render() {
-        const { placeholder = "Search and Add", searchData = [], searchIcon = false, width = 200 } = this.props
+        const { placeholder = "Search and Add", searchData = [], searchIcon = false, width = 200, value = "" } = this.props
 
         // modelling all the options for below autocomplete component
         const children = searchData.map(data => <Option key={data._id} name={data.name}>
@@ -45,7 +45,7 @@ class SearchDropdown extends Component {
             <div>
                 <AutoComplete className="searchDropdown" allowClear style={{ width }} onSelect={this.onOptionSelect}
                     onSearch={this.handleSearch}
-                    dataSource={children} optionLabelProp="name">
+                    dataSource={children} optionLabelProp="name" value={value}>
 
                     <Input prefix={searchIcon ? <Icon type="search" className="search-icon" /> : null} placeholder={placeholder} />
                 </AutoComplete>

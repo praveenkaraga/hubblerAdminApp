@@ -8,11 +8,11 @@ class CustomSearch extends Component {
         this.state = {}
     }
     render() {
-        const { searchPlaceHolder, searchLoader, onSearch } = this.props
+        const { searchPlaceHolder, searchLoader, onSearch, value } = this.props
 
         return (
             <div className="custom_search_main">
-                <Input.Search placeholder={searchPlaceHolder} loading={searchLoader} onChange={onSearch} />
+                <Input.Search placeholder={searchPlaceHolder} loading={searchLoader} onChange={onSearch} value={value} />
             </div>
         );
     }

@@ -1,6 +1,6 @@
 
 import axios from "axios";
-import {axiosConfig} from '../helper'
+import { axiosConfig } from '../helper'
 
 
 axios.defaults.proxy = true;
@@ -61,7 +61,7 @@ export const patchUploadData = (id, data) => { // to patch the bulk-upload field
 //-----------------------------Apis for table column Settings------------------------------
 
 export const getTableColumnSetting = (searchData) => { //to get all column setting data
-    return axios.get(`/table/fields/rest/users/?filterKey=lbl&search_key=${searchData || ""}`)
+    return axios.get(`/table/fields/rest/users/?filterKey=lbl&search_key=${searchData || ""}&limit=200`)
 };
 
 export const patchTableColumnSettingApi = (data) => { //to patch column setting data

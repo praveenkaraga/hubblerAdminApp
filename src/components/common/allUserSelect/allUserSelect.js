@@ -126,7 +126,7 @@ class AllUserSelect extends Component {
             onClickUserActivate, onClickUserDeactivate, onClickUserDelete, onClickUserEdit, isUserData = true, onlySelectAndAdd = false,
             typeOfData = "Total Data", onClickTableRow, columnConfigurable = false, allSelect, onSearchDropdownSelect, searchDropdownPlaceholder, searchDropdownData, onChangeSearchDropdown,
             showHeaderButtons, disableButtonNames, selectedDataCount, onClickAddUserButton, onSelectAll, onColumnSettingSave, visibleColumnSetting, onColumnSettingCancel, onChangeAddUsersTab,
-            onSearchColumnSetting } = this.props
+            onSearchColumnSetting, searchDropDownValue } = this.props
         const perPageOptions = [7, 10, 20, 30, 40, 50, 100]
         const { rowsPerPage } = this.state
         const totalPages = Math.ceil(totalUsers / rowsPerPage)
@@ -142,7 +142,7 @@ class AllUserSelect extends Component {
                         onUserDelete={onClickUserDelete} onUserEdit={onClickUserEdit} isUserData={isUserData}
                         allSelect={allSelect} onSearchDropdownSelect={onSearchDropdownSelect} searchDropdownPlaceholder={searchDropdownPlaceholder}
                         searchDropdownData={searchDropdownData} onChangeSearchDropdown={onChangeSearchDropdown} showButtonNames={showHeaderButtons}
-                        disableButtonNames={disableButtonNames} onClickAddUserButton={onClickAddUserButton} />
+                        disableButtonNames={disableButtonNames} onClickAddUserButton={onClickAddUserButton} searchDropDownValue={searchDropDownValue} />
 
 
                     <div className="setting_table_combine">
