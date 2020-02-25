@@ -135,6 +135,5 @@ export const teamViewReducer = (state = intialState, action) => {
             };
 
     }
-
     return {...state}
 };
