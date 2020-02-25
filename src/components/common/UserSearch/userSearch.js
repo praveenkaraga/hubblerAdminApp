@@ -58,7 +58,7 @@ class UserSearch extends Component {
         const { firstButtonName = "IMPORT", secondButtonName = "ADD", searchPlaceHolder = "Search", firstButtonLoader = false,
             secondButtonLoader = false, searchLoader = false, onSearch, onClickFirst, onClickSecond, userSelected,
             isUserData = true, onlySelectAndAdd = false, allSelect = false, onSearchDropdownSelect, searchDropdownPlaceholder,
-            searchDropdownData, onChangeSearchDropdown, showButtonNames = [], disableButtonNames = [] } = this.props
+            searchDropdownData, onChangeSearchDropdown, showButtonNames = [], disableButtonNames = [], searchDropDownValue } = this.props
 
         const alluserActions = this.createUserActionButtons(showButtonNames)
 
@@ -110,7 +110,7 @@ class UserSearch extends Component {
                             </>
 
                             : <div className="suggestionSearch_with_addUser">
-                                <SearchDropdown onSelect={onSearchDropdownSelect} placeholder={searchDropdownPlaceholder} searchData={searchDropdownData} onChange={onChangeSearchDropdown} />
+                                <SearchDropdown onSelect={onSearchDropdownSelect} placeholder={searchDropdownPlaceholder} searchData={searchDropdownData} onChange={onChangeSearchDropdown} value={searchDropDownValue} />
                                 <div className="add_user">
                                     <div className="vLine"></div>
                                     <img src={require('../../../images/svg/user-add-list.svg')} alt="add-user" onClick={this.addUserClick} />
