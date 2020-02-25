@@ -44,5 +44,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://sandbox-ssh.hubblerapp.com"
+  "proxy": "https://sandbox-ssh.hubblerapp.com",
+  "devDependencies": {
+    "eslint": "^6.8.0"
+  }
 }
