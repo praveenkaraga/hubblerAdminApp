@@ -23,6 +23,10 @@ export const postHolidayCreatedDataApi = (data) => { //to post a type to profile
     return axios.post(`/holiday/holiday-profiles/`, data, axiosConfig)
 };
 
+export const postCommonDeleteApi = (viewType, data, id) => {
+    return axios.post(`/rest/${id ? viewType + "/" + id : viewType}/delete/`, data, axiosConfig)
+}
+
 //-----------------------------------------------------------------------------------------------------------------
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX------END PROFILES------XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 //-----------------------------------------------------------------------------------------------------------------

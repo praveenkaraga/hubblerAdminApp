@@ -8,6 +8,7 @@ import {
     commonHolidayAction,
     getHolidayTableColumnData,
     getHolidayProfileData,
+    postProfileCommonDelete
     /*postCreateDeptData,
     getAddableUsersData,
     onClickOfDownloadExcel,
@@ -129,8 +130,27 @@ class HolidayProfile extends Component {
         }
     };
 
-    onClickDepartmentActions = (actionType) => {
+    onClickDepartmentActions = async (actionType) => {
         this.setState({ creationPopUpVisibility: true, creationPopUpMode: "edit" })
+
+        const { checkedDataKeys, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType } = this.state
+        if (actionType === "edit") {
+            this.setState({ creationPopUpVisibility: true, creationPopUpMode: "edit", commonCreationViewHeaderName : this.state.editRowName   })
+        } else {
+            this.setState({ loaderOfDeletePopUp: true })
+            await this.props.postCommonDelete("departments", { departments: checkedDataKeys })
+            const { postDeletedDataSuccessfulMessage, postDeletedDataSuccessfully, errorMsg } = this.props.commonReducer
+            if (postDeletedDataSuccessfully) {
+                message.success(postDeletedDataSuccessfulMessage)
+                this.props.getDepartmentData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
+                this.props.commonActionForCommonReducer({ postDeletedDataSuccessfully: false })
+            } else {
+                message.error(errorMsg)
+                this.props.getDepartmentData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
+            }
+            this.setState({ checkedDataKeys: [],loaderOfDeletePopUp: false, visibilityOfDeletePopUp: false})
+        }
+
     };
 
     render() {
