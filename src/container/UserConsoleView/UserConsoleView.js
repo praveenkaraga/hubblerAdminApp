@@ -263,6 +263,8 @@ class UserConsoleView extends Component {
         //console.log(searchData, type, "onDropdownSearch")
         panelType === "circles" ? this.props.getCirclesData(searchData) : this.props.getCustomFields(searchData)
     }
+
+
     render() {
         const { activeLinkName } = this.props.firstReducer
         const { circlesData, customFieldsData, parentNodeOptions, parentNodeSwitch } = this.props.userConsoleMainReducer
@@ -289,6 +291,9 @@ class UserConsoleView extends Component {
                         </div>
                         {this.customDropdownData.map(singleData => (
                             <CustomDropdown panelDataype={singleData.type}
+                                panelKey={singleData.type}
+                                defaultActivePanelKey={window.location.href.split("/")[4] + "s"}
+                                activeDataOfPanelId={window.location.href.split("/")[5]} // return id for the current active one
                                 searchPlaceHolder={singleData.searchPlaceHolder}
                                 panelData={singleData.type === "circles" ? circlesData : customFieldsData}
                                 onSinglePanelClick={(data) => this.onSinglePanelClick(data, singleData.type)}
