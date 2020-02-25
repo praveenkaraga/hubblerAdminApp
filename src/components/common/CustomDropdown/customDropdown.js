@@ -82,7 +82,6 @@ class CustomDropdown extends Component {
         super(props);
         this.state = {
             activeCollapse: false,
-            panelDataActive: "",
             popConfirmActive: false,
             panelWithPopActive: "",
             localSearchData: ""
@@ -97,7 +96,6 @@ class CustomDropdown extends Component {
 
     onSelectingPanelData = (data) => { //on selection of each panel data
         if (this.props.onSinglePanelClick) this.props.onSinglePanelClick(data)
-        this.setState({ panelDataActive: data._id })
     }
 
 
@@ -111,7 +109,7 @@ class CustomDropdown extends Component {
 
     onLocalSearch = (e) => {
         const searchData = e.target.value || ""
-        const { panelData, onSearch } = this.props
+        const { onSearch } = this.props
 
         //performing a local search on the data
         // const filteredData = panelData.filter(data => {
@@ -121,7 +119,7 @@ class CustomDropdown extends Component {
         // })
         if (onSearch) onSearch(searchData) //checking if prop is being is passed or not
 
-        this.setState({ localSearchData: searchData || "nodata" }) // saving no data when search is empty to handle empty data from api when search is done
+        this.setState({ localSearchData: searchData }) // saving no data when search is empty to handle empty data from api when search is done
 
     }
 
@@ -148,9 +146,9 @@ class CustomDropdown extends Component {
     }
 
     render() {
-        const { activeCollapse, panelDataActive, localSearchData, popConfirmActive, panelWithPopActive } = this.state
+        const { activeCollapse, localSearchData, popConfirmActive, panelWithPopActive } = this.state
         const { panelDataype, panelData, popUpConfirmButtonName = "Confirm",
-            popUpCancelButtonName = "Cancel" } = this.props
+            popUpCancelButtonName = "Cancel", defaultActivePanelKey, panelKey, activeDataOfPanelId } = this.props
         return (
             <div className="custom_dropdown_main">
 
@@ -158,11 +156,13 @@ class CustomDropdown extends Component {
                     bordered={false}
                     expandIcon={({ isActive }) => <Icon type="caret-right" rotate={isActive ? 90 : 0} />}
                     onChange={this.collapseChange}
+                    // activeKey={"circles"}
+                    defaultActiveKey={defaultActivePanelKey}
                 >
-                    <Panel disabled={panelData.length ? false : true} header={<AnimationSearch collapseStatus={activeCollapse} onDropdownSearch={this.onLocalSearch} {...this.props} changeState={this.changeState} />} key="1" style={customPanelStyle}>
+                    <Panel disabled={panelData.length ? false : true} header={<AnimationSearch collapseStatus={activeCollapse} onDropdownSearch={this.onLocalSearch} {...this.props} changeState={this.changeState} />} key={panelKey} style={customPanelStyle}>
                         {localSearchData !== "nodata" && panelData.length ?
                             panelData.map(data => (
-                                <div className={`panelSingleData ${data._id === panelDataActive ? "panelSingleDataActive" : ""}`} onClick={() => this.onSelectingPanelData(data)}>
+                                <div className={`panelSingleData ${data._id == activeDataOfPanelId ? "panelSingleDataActive" : ""}`} onClick={() => this.onSelectingPanelData(data)}>
                                     <div className={`dataImage ${panelDataype === "circles" ? "circleDataImage" : "customDataImage"}`}></div>
                                     <div className="singleDataName">
 
@@ -186,7 +186,7 @@ class CustomDropdown extends Component {
                                 </div>
                             ))
 
-                            : <div className="no_match">No Match Found</div>}
+                            : <div className="no_match">No Data</div>}
                     </Panel>
                 </Collapse>
             </div>
