@@ -32,7 +32,7 @@ export const departmentReducer = (state = initialState, action) => {
 
 
     switch (action.type) {
-        case actionTypes.GET_DEPARTMENTS_DATA:
+        case actionTypes.GET_DEPARTMENTS_DATA: //to store department data and disbale the loader
             const departmentsDataDataInitial = action.payload.data
             const departmentsData = departmentsDataDataInitial ? departmentsDataDataInitial.result : []
             const departmentsDataCopy = JSON.parse(JSON.stringify(departmentsData))
@@ -45,12 +45,12 @@ export const departmentReducer = (state = initialState, action) => {
                 searchLoader: false,
             };
 
-        case actionTypes.COMMON_DEPARTMENT_ACTION :
+        case actionTypes.COMMON_DEPARTMENT_ACTION : //common values to be updated
             return {
                 ...state, ...action.payload
             };
 
-        case actionTypes.GET_DEPT_TABLE_COLUMN_DATA:
+        case actionTypes.GET_DEPT_TABLE_COLUMN_DATA: //to remove
             const columnDataInitial = action.payload.data;
             const columnData = columnDataInitial ? filter(action.payload.data.result, ele => ele._id !== 'designations') : [];
             return {
@@ -58,7 +58,7 @@ export const departmentReducer = (state = initialState, action) => {
                 departmentColumnData: columnData
             }
 
-        case actionTypes.POST_CREATE_DEPARTMENT_DATA:
+        case actionTypes.POST_CREATE_DEPARTMENT_DATA: //to store the new department that's created
             const initialData = action.payload.data;
             const data = initialData ? initialData : {};
             return {
@@ -68,7 +68,7 @@ export const departmentReducer = (state = initialState, action) => {
                 newDataCreatedSuccessfully : true,
                 viewDecider: 0
             }
-        case actionTypes.GET_ADDABLE_USERS_DATA:
+        case actionTypes.GET_ADDABLE_USERS_DATA: //to store the data for the addUsersPopup
             const userDataIntital = action.payload.data
             const userData = userDataIntital ? userDataIntital.result : []
             const userDataCopy = JSON.parse(JSON.stringify(userData))
@@ -80,13 +80,13 @@ export const departmentReducer = (state = initialState, action) => {
                 addUsersSearchLoader: false,
             }
 
-        case actionTypes.GET_DEPARTMENTS_SUGGESTION_DATA:
+        case actionTypes.GET_DEPARTMENTS_SUGGESTION_DATA: //to store the suggestion search data
             const departmentSuggestionDataInitial = action.payload.data.result;
             return {
                 ...state,
                 departmentSuggestionData: departmentSuggestionDataInitial,
             }
-        case actionTypes.EDIT_USER_DATA_FORM:
+        case actionTypes.EDIT_USER_DATA_FORM: //to remove
             const editUserDataFormInitial = action.payload.data ? action.payload.data.result : []
             return {
                 ...state,

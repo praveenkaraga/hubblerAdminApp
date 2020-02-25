@@ -103,6 +103,7 @@
       width: 14%;
       background-color: #ffffff;
       padding: 5px;
+      cursor: pointer;
 
       .back-to-root-icon {
         width: 9px;
@@ -274,6 +275,7 @@
             background-color: #fff;
             display: flex;
             padding: 1px;
+            cursor: pointer;
           }
 
           .team-view-user-content {
@@ -383,13 +385,11 @@
         }
 
         .user-list-item-variant {
-          cursor: pointer;
           height: 100px;
           width: 100%;
         }
 
         .user-list-item {
-          cursor: pointer;
         }
 
         .card-wrap {

@@ -3,16 +3,17 @@ import './holidayProfile.scss'
 import AllUserSelect from '../../common/allUserSelect/allUserSelect'
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
+
 import {
     commonHolidayAction,
     getHolidayTableColumnData,
     getHolidayProfileData,
-    postCreateDeptData,
+    /*postCreateDeptData,
     getAddableUsersData,
     onClickOfDownloadExcel,
     getImportUserUploadDetails,
-    patchImportUsersData, editUserDataForm
-} from "../../../store/actions/PeopleActions/peopleActions";
+    patchImportUsersData, editUserDataForm*/
+} from "../../../store/actions/ProfileActions/profileActions";
 import {withRouter} from "react-router-dom";
 import CreationPopUp from '../../common/CreationPopUp/CreationPopUp'
 import {message} from "antd";
@@ -189,10 +190,10 @@ const mapDispatchToProps = dispatch => {
             commonHolidayAction,
             getHolidayTableColumnData,
             getHolidayProfileData,
-            postCreateDeptData, getAddableUsersData,
+            /*postCreateDeptData, getAddableUsersData,
             onClickOfDownloadExcel,
             getImportUserUploadDetails,
-            patchImportUsersData, editUserDataForm
+            patchImportUsersData, editUserDataForm*/
         },
         dispatch
     );

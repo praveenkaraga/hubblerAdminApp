@@ -34,7 +34,7 @@ export const getHolidayProfileData = (perPageRows, currentPage, searchData, head
         type: actionTypes.GET_HOLIDAY_PROFILES_DATA,
         payload
     }
-}
+};
 
 
 

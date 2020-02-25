@@ -7,35 +7,45 @@ import OrgChart from './teamViewComponents/OrgChart'
 import {bindActionCreators} from "redux";
 import {
     getTeamViewUsersData,
-    teamViewUserClick,
     getTeamViewOrgData,
-    changeLoaderStatus,
-    importUsersPopUPVisibility,
     onClickOfDownloadExcel,
     getImportUserUploadDetails,
-    uploadImportUsersPopUPVisibility, patchImportUsersData, commonTeamReducerAction, searchDropDownData,getClickedTeamUserReporteeData,getAllUsers
+    uploadImportUsersPopUPVisibility,
+    patchImportUsersData,
+    commonTeamReducerAction,
+    searchDropDownData,
+    getClickedTeamUserReporteeData,
+    getAllUsers
 } from "../../../store/actions/PeopleActions/peopleActions";
 import UserInfoSlider from '../../../components/common/UserInfoSlider/UserInfoSlider'
 import ImportUsersPopUp from '../../../components/common/ImportUsersPopUp/ImportUsersPopUp'
 import SearchDropdown from '../../common/searchDropDown/searchDropDown'
 import find from 'lodash/find'
+import ConsoleAddUser from "../consoleAddUser/consoleAddUser";
 
 
 class TeamView extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            addUserPopUpStatus: false,
+            addUserMode: "add",
+        }
+    }
+
     componentDidMount() {
         this.props.getTeamViewUsersData();
-        this.props.getAllUsers()
+        this.props.getAllUsers();
 
         this.downloadExcel()
     }
 
     showModal = () => {
-        this.props.importUsersPopUPVisibility(true);
-        this.props.commonTeamReducerAction({isFileUploaded: false})
+        this.props.commonTeamReducerAction({isFileUploaded: false, importUsersPopUpVisiblity : true})
     };
 
     closeModal = () => {
-        this.props.importUsersPopUPVisibility(false)
+        this.props.commonTeamReducerAction({importUsersPopUpVisiblity :false})
     };
 
     downloadExcel = () => {
@@ -57,7 +67,7 @@ class TeamView extends Component {
     }
 
     importUsersModalCloseHandler = () => {
-        this.props.importUsersPopUPVisibility(false)
+        this.props.commonTeamReducerAction({importUsersPopUpVisiblity :false})
     }
 
     startUploadHandler = () => {
@@ -79,19 +89,29 @@ class TeamView extends Component {
     };
 
     onSearchDropdownSelect = async (value) => { // on select user from drop down search
-        const {orgChartUsers,rootData,searchDropDownData} = this.props.teamViewReducer
+        const {orgChartUsers, rootData, searchDropDownData} = this.props.teamViewReducer
         console.log({
-            rootData :rootData,
-            orgChartUsers :orgChartUsers,
+            rootData: rootData,
+            orgChartUsers: orgChartUsers,
             searchDropDownData
         });
-        let dropDownRootData =  find(searchDropDownData, item => item._id === value)
-        this.props.commonTeamReducerAction({rootData: [dropDownRootData],clickedMemberData:dropDownRootData,preservedData:[]});
+        let dropDownRootData = find(searchDropDownData, item => item._id === value)
+        this.props.commonTeamReducerAction({
+            rootData: [dropDownRootData],
+            clickedMemberData: dropDownRootData,
+            preservedData: []
+        });
         this.props.getClickedTeamUserReporteeData(value)
     };
 
+    onEditClick = () => {
+        this.props.commonTeamReducerAction({teamViewUserDrawerVisible: false});
+        this.setState({addUserPopUpStatus: true, addUserMode: "edit"})
+    }
+
     render() {
-        const {orgChartUsers, teamViewUserDrawerVisible, clickedTeamUserData, teamViewClickedUserId, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, loader, clickedMemberData, contentLoader, importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpVisibility, uploadPopUpData, importUsersUploadResponseData, uploadFileStatus, isFileUploaded, startUploadStatus, clickedUserOrgData, searchDropDownData,reporteeLoader} = this.props.teamViewReducer
+        const {orgChartUsers, teamViewUserDrawerVisible, clickedTeamUserData, teamViewClickedUserId, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, loader, clickedMemberData, contentLoader, importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpVisibility, uploadPopUpData, importUsersUploadResponseData, uploadFileStatus, isFileUploaded, startUploadStatus, clickedUserOrgData, searchDropDownData, reporteeLoader} = this.props.teamViewReducer
+        const {addUserPopUpStatus, addUserMode} = this.state
         return (
             <div className={'team-view'}>
                 {loader ? <div className={'loader'}></div> : <div>
@@ -105,25 +125,25 @@ class TeamView extends Component {
                             </div>
                             <Button type="primary" className={'import-users'} onClick={this.showModal}>Import
                                 Users</Button>
-                            <Button type="primary">Add User</Button>
-                        </div>
+                            <Button type="primary"
+                                    onClick={() => this.setState({addUserPopUpStatus: true, addUserMode: "add"})}>Add
+                                User</Button></div>
                     </div>
                     {reporteeLoader ? <div className={'cover'}></div> : ''}
                     <OrgChart/>
 
                     <UserInfoSlider visible={teamViewUserDrawerVisible}
                                     sourceTeamView={true}
-                                    onCloseFunction={(flag) => this.props.teamViewUserClick(flag)}
+                                    onCloseFunction={(flag) => this.props.commonTeamReducerAction({teamViewUserDrawerVisible: flag})}
                                     teamUserData={clickedTeamUserData}
                                     userId={teamViewClickedUserId}
                                     url={`/reportees/organization/${teamViewClickedUserId}/?start=1&offset=100&sortKey=name&sortOrder=dsc&filterKey=_id&filterQuery=`}
+                                    onClickEdit={() => this.onEditClick()}
 
                         // getTeamViewOrgData={(id) => this.props.getTeamViewOrgData(id)}
                         // clickedUserOrgData={clickedUserOrgData}
                                     clickedMemberData={clickedMemberData}
-                                    contentLoader={contentLoader}
-
-                        /* changeLoaderStatus={(flag) => this.props.changeLoaderStatus(flag)}*//>
+                                    contentLoader={contentLoader}/>
 
                     <ImportUsersPopUp visible={importUsersPopUpVisiblity}
                         //boolean value to handle the visiblity of the importUsersPopup
@@ -161,8 +181,17 @@ class TeamView extends Component {
                                       uploadFileLoadingStatus={uploadFileStatus}
                         //loader status of footerSecondButton(Process) button - boolean
                                       isFileUploaded={isFileUploaded}
+
+                                      commonAction={()=>this.props.commonTeamReducerAction()}
                         //boolean value for if file is uploaded
                     />
+                    { addUserPopUpStatus ?
+                        <ConsoleAddUser
+                            addUserCloseButton={() => this.setState({addUserPopUpStatus: false})}
+                            addUserMode={addUserMode}
+                            userId={teamViewClickedUserId}/>
+                        : null
+                    }
                 </div>}
             </div>
         )
@@ -179,13 +208,15 @@ const mapDispatchToProps = dispatch => {
     return bindActionCreators(
         {
             getTeamViewUsersData,
-            teamViewUserClick,
             getTeamViewOrgData,
-            changeLoaderStatus,
-            importUsersPopUPVisibility,
             onClickOfDownloadExcel,
             getImportUserUploadDetails,
-            uploadImportUsersPopUPVisibility, patchImportUsersData, commonTeamReducerAction, searchDropDownData,getClickedTeamUserReporteeData,getAllUsers
+            uploadImportUsersPopUPVisibility,
+            patchImportUsersData,
+            commonTeamReducerAction,
+            searchDropDownData,
+            getClickedTeamUserReporteeData,
+            getAllUsers
         },
         dispatch
     );

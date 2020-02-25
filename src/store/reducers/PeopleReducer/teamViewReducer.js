@@ -26,7 +26,8 @@ const intialState = {
     clickedTeamUserData: {},
     searchDropdownData: [],
     reporteeLoader: false,
-    allUsers:[],
+    allUsers: [],
+    teamViewUserDrawerVisible: false,
 }
 
 export const teamViewReducer = (state = intialState, action) => {
@@ -40,22 +41,9 @@ export const teamViewReducer = (state = intialState, action) => {
         case actionTypes.GET_USER_DATA:
             return {
                 ...state,
-                count: 2
             }
 
-
-        case actionTypes.CREATE_ACTIVE_LINK:
-            return {
-                ...state,
-                activeLinkName: action.payload
-            }
-
-        case actionTypes.HAMBURGER_ICON_CLICK:
-            return {
-                ...state,
-                consoleDrawerVisible: action.payload
-            }
-        case actionTypes.GET_TEAM_VIEW_USER_DATA:
+        case actionTypes.GET_TEAM_VIEW_USER_DATA: // to store the team-view users data
             return {
                 ...state,
                 rootData: [],
@@ -63,23 +51,13 @@ export const teamViewReducer = (state = intialState, action) => {
                 mainData: action.payload.data ? action.payload.data.reportees : state.mainData,
                 loader: false,
             }
-        case actionTypes.STORE_CLICKED_USER_ID:
-            return {
-                ...state, ...action.payload
-            }
-        case actionTypes.TEAM_VIEW_USER_CLICK:
-            return {
-                ...state,
-                teamViewUserDrawerVisible: action.payload
-            }
-        case actionTypes.GET_CLICKED_TEAM_USER_DATA:
+        case actionTypes.GET_CLICKED_TEAM_USER_DATA: //to store the clicked team view user's data
             return {
                 ...state,
                 clickedTeamUserData: action.payload.data.result || {},
                 contentLoader: false
-
             }
-        case actionTypes.GET_TEAM_VIEW_ORG_DATA:
+        case actionTypes.GET_TEAM_VIEW_ORG_DATA: // to the team-view users oragnization data
             return {
                 ...state,
                 clickedUserOrgData: action.payload.data,
@@ -90,12 +68,7 @@ export const teamViewReducer = (state = intialState, action) => {
                 contentLoader: false,
             }
 
-        case actionTypes.CHANGE_LOADER_STATUS:
-            return {
-                ...state, ...action.payload
-            }
-
-        case actionTypes.GET_CLICKED_TEAM_USER_REPORTEE_DATA:
+        case actionTypes.GET_CLICKED_TEAM_USER_REPORTEE_DATA: // to store the team-view user's reportees data
             const rootData = state.rootData;
             const id = state.clickedMemberData._id;
             const user = state.clickedMemberData;
@@ -103,8 +76,6 @@ export const teamViewReducer = (state = intialState, action) => {
                 rootData.push({...user, userSelected: true})
             }
             let userIndex = findIndex(rootData, {_id: id});
-            let totalCountMember = find(rootData, item => item._id === id);
-            debugger
             let newRootData = slice(rootData, 0, (userIndex + 1));
             return {
                 ...state,
@@ -112,30 +83,21 @@ export const teamViewReducer = (state = intialState, action) => {
                 preservedData: [...state.preservedData, {
                     id: id,
                     reportees: action.payload.data ? action.payload.data.reportees : [],
-                    total_count :  action.payload.data.total_count ||  ''
+                    total_count: action.payload.data.total_count || ''
                 }],
-                total_count: action.payload.data.total_count ||  '',
+                total_count: action.payload.data.total_count || '',
                 rootData: uniqBy(newRootData, '_id'),
                 reporteeLoader: false
 
             }
 
-        case actionTypes.GET_BACK_MANAGER_DATA:
-            return {
-                ...state, ...action.payload
-            }
-
-        case actionTypes.IMPORT_USERS_POPUP_VISIBILITY:
-            return {
-                ...state, ...action.payload
-            };
-        case actionTypes.DOWNLOAD_SAMPLE_EXCEL:
+        case actionTypes.DOWNLOAD_SAMPLE_EXCEL: // to store bulk-upload sample file
             return {
                 ...state,
                 sampleExcelFile: action.payload.data ? action.payload.data.result : ""
             };
 
-        case actionTypes.GET_UPLOAD_FIELDS_DETAILS:
+        case actionTypes.GET_UPLOAD_FIELDS_DETAILS: // to store the upload fields data
             return {
                 ...state,
                 uploadPopUpData: action.payload.data ? action.payload.data.result ? action.payload.data.result.length ? first(action.payload.data.result) : [] : [] : {},
@@ -144,11 +106,11 @@ export const teamViewReducer = (state = intialState, action) => {
 
                 /*importUsersPopUpVisiblity:false*/
             };
-        case actionTypes.UPLOAD_IMPORT_USERS_POPUP_VISIBILITY:
+        case actionTypes.UPLOAD_IMPORT_USERS_POPUP_VISIBILITY: // to store the visibility value of the ImportUsersUploadPopup
             return {
                 ...state, ...action.payload
             };
-        case actionTypes.PATCH_IMPORT_USERS_DATA:
+        case actionTypes.PATCH_IMPORT_USERS_DATA: // to store response after patching the the importUsers data
             return {
                 ...state,
                 importUsersUploadResponseData: action.payload.data || {},
@@ -156,23 +118,22 @@ export const teamViewReducer = (state = intialState, action) => {
                 isFileUploaded: true,
                 importUsersPopUpVisiblity: false
             };
-        case actionTypes.COMMON_ACTION:
+        case actionTypes.COMMON_ACTION: // common storage of values
             return {
                 ...state, ...action.payload
             };
-        case actionTypes.GET_SEARCH_DROPDOWN_DATA:
+        case actionTypes.GET_SEARCH_DROPDOWN_DATA: // to store search dropdown data
             console.log(action.payload);
             return {
                 ...state,
                 searchDropDownData: action.payload.data ? action.payload.data.result : []
             };
-        case actionTypes.GET_ALL_USERS:
+        case actionTypes.GET_ALL_USERS: //to store the data of the usrs of the organization
             return {
                 ...state,
                 allUsers: action.payload.data ? action.payload.data.result : []
             };
 
     }
-
     return {...state}
-}
+};

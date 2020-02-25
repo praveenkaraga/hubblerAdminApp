@@ -4,7 +4,7 @@ import '../teamView.scss'
 import {bindActionCreators} from "redux";
 import DefaultImageMale from '../../../../images/profile-male.svg'
 import DefaultImageFemale from '../../../../images/profile-female.svg'
-import {teamViewUserClick,getClickedTeamUserData,storeClickedUserId,commonTeamReducerAction} from "../../../../store/actions/PeopleActions/peopleActions";
+import {getClickedTeamUserData,commonTeamReducerAction} from "../../../../store/actions/PeopleActions/peopleActions";
 
 
 
@@ -14,19 +14,18 @@ class TeamViewUserCard extends Component {
 
     onUserClick(userId,member,event){
         event.stopPropagation()
-        this.props.teamViewUserClick(true)
-        this.props.commonTeamReducerAction({contentLoader : true})
+        this.props.commonTeamReducerAction({contentLoader : true, teamViewUserDrawerVisible : true, teamViewClickedUserId: userId,clickedMemberData: member})
         this.props.getClickedTeamUserData(userId)
-        this.props.storeClickedUserId(userId,member)
+        // this.props.storeClickedUserId(userId,member) //you can remove this
     }
 
     render() {
         const {} = this.props.teamViewReducer
-        const {member, index} = this.props
+        const {member, index,generateTree} = this.props
 
         return (
             <div className={'team-view-user-card'} key={index}>
-                <div className={'team-view-user-hold'}>
+                <div className={'team-view-user-hold'} onClick={() => generateTree(member)}>
                     <div className={'team-view-user-content'}>
                         {member.profile_image ?
                             <div className={'user-icon'}
@@ -59,9 +58,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return bindActionCreators(
         {
-            teamViewUserClick,
             getClickedTeamUserData,
-            storeClickedUserId,
             commonTeamReducerAction,
 
         },
