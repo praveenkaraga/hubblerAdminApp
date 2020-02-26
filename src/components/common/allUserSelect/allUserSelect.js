@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Select } from 'antd';
 import './allUserSelect.scss'
 import UserSearch from '../../common/UserSearch/userSearch'
-import AddUser from '../../common/addUser/addUser'
 import UserTable from '../../common/userTable/userTable'
 import ColumnSettingWithPopOver from './columnSetting/columnSettingWithPopOver/columnSettingWithPopOver'
 
@@ -126,7 +125,7 @@ class AllUserSelect extends Component {
             onClickUserActivate, onClickUserDeactivate, onClickUserDelete, onClickUserEdit, isUserData = true, onlySelectAndAdd = false,
             typeOfData = "Total Data", onClickTableRow, columnConfigurable = false, allSelect, onSearchDropdownSelect, searchDropdownPlaceholder, searchDropdownData, onChangeSearchDropdown,
             showHeaderButtons, disableButtonNames, selectedDataCount, onClickAddUserButton, onSelectAll, onColumnSettingSave, visibleColumnSetting, onColumnSettingCancel,
-            onSearchColumnSetting, searchDropDownValue, debounceTimeUserSearch, debounceTimeSearchDropdown } = this.props
+            onSearchColumnSetting, searchDropDownValue, debounceTimeUserSearch, debounceTimeSearchDropdown, tableLoading } = this.props
         const perPageOptions = [7, 10, 20, 30, 40, 50, 100]
         const { rowsPerPage } = this.state
         const totalPages = Math.ceil(totalUsers / rowsPerPage)
@@ -160,8 +159,8 @@ class AllUserSelect extends Component {
                             : null}
 
 
-                        <UserTable ref={table => this.wholeTable = table} modifiedUserData={modifiedUserData} allHeadingsData={allHeadingsData}
-                            sortingData={this.onheadingClick} onChangeCheckBox={this.onChangeCheckBox} loading={!modifiedUserData.length ? true : false}
+                        <UserTable modifiedUserData={modifiedUserData} allHeadingsData={allHeadingsData}
+                            sortingData={this.onheadingClick} onChangeCheckBox={this.onChangeCheckBox} loading={tableLoading}
                             onClickTableRow={onClickTableRow} onSelectRow={this.onSelectRow} selectedDataCount={selectedDataCount} onSelectAll={onSelectAll} />
                     </div>
 

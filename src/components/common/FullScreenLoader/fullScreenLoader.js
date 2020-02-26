@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-
+import './fullScreenLoader.scss'
 class FullSreenLoader extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {  }
-    }
     render() { 
         return ( 
-            <div>Loader</div>
+            <div className="fullscreen_loader_main" >
+                <div className="fullscreen_loader"></div>
+            </div>
         );
     }
 }

@@ -8,7 +8,8 @@ import {
     postCommonCreateData,
     commonActionForCommonReducer,
     patchCommonCreateData,
-    postCommonDelete
+    postCommonDelete,
+    commonDesignationAction
 } from '../../../store/actions/PeopleActions/peopleActions'
 import { withRouter } from "react-router-dom";
 import CreationPopUp from '../../../components/common/CreationPopUp/CreationPopUp'
@@ -63,6 +64,7 @@ class Designations extends Component {
 
     //calling  designaiton data api
     componentDidMount() {
+        this.props.commonDesignationAction({tableLoading : true})
         this.props.designationsData(this.state.rowsPerPage)
     }
 
@@ -83,6 +85,7 @@ class Designations extends Component {
     onClickHeadingColumn = (activeheading, sortingType) => {
         const { rowsPerPage, searchData, currentPageNumber } = this.state
         const activeheadingModified = activeheading === "designations" ? "name" : "count"
+        this.props.commonDesignationAction({tableLoading : true})
         this.props.designationsData(rowsPerPage, currentPageNumber, searchData, activeheadingModified, sortingType)
         this.setState({
             activeheading: activeheadingModified,
@@ -111,6 +114,7 @@ class Designations extends Component {
     //on change of rows per page of the table
     onChangeRowsPerPage = (rowsPerPage) => {
         const { searchData, activeheading, sortingType } = this.state
+        this.props.commonDesignationAction({tableLoading : true})
         this.props.designationsData(rowsPerPage, 1, searchData, activeheading, sortingType)
         this.setState({
             rowsPerPage,
@@ -121,8 +125,8 @@ class Designations extends Component {
     //on change of pages of the table
     changePage = (calcData) => {
         const { currentPageNumber, rowsPerPage, searchData, activeheading, sortingType } = this.state
-
         const goToPage = currentPageNumber + calcData
+        this.props.commonDesignationAction({tableLoading : true})
         this.props.designationsData(rowsPerPage, goToPage, searchData, activeheading, sortingType)
         this.setState({
             currentPageNumber: goToPage
@@ -147,6 +151,7 @@ class Designations extends Component {
     // type will be "edit" or "add"
     onSaveDesignation = async (type) => {
         const { newDesignationName, editRowId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType } = this.state
+        this.setState({loaderOfDeletePopUp : true})
         if (type === "edit") {
             await this.props.patchCommonCreateData("designations", editRowId, { name: newDesignationName }) //waiting for the api to be patched
         } else {
@@ -154,14 +159,14 @@ class Designations extends Component {
         }
         const { patchDataCreatedSuccessfully, patchSuccessMessage, newDataCreatedSuccessfully, errorMsg } = this.props.commonReducer // will be true if success is true from above post api and pop up will be closed
         if (type === "edit" ? patchDataCreatedSuccessfully : newDataCreatedSuccessfully) {
-            this.setState({ creationPopUpVisibility: false, checkedDataKeys: [] })
             message.success(type === "edit" ? "Designation Saved Successfully" : "Designation Created Successfully ");// show success message
             this.props.commonActionForCommonReducer({ patchDataCreatedSuccessfully: false, newDataCreatedSuccessfully: false })
+            this.props.commonDesignationAction({tableLoading : true})
             this.props.designationsData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
         } else {
             message.error(errorMsg);
         }
-
+        this.setState({ creationPopUpVisibility: false,loaderOfDeletePopUp : false, checkedDataKeys: []})
     }
 
 
@@ -175,14 +180,14 @@ class Designations extends Component {
             this.setState({ loaderOfDeletePopUp: true })
             await this.props.postCommonDelete("designations", { designations: checkedDataKeys }) //waiting for the delete api 
             const { postDeletedDataSuccessfulMessage, postDeletedDataSuccessfully, errorMsg } = this.props.commonReducer
+            this.props.commonDesignationAction({tableLoading : true})
             if (postDeletedDataSuccessfully) { // if delete api gives success true
-                message.success(postDeletedDataSuccessfulMessage)
-                this.props.designationsData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
+                message.success(postDeletedDataSuccessfulMessage) 
                 this.props.commonActionForCommonReducer({ postDeletedDataSuccessfully: false })
             } else {
                 message.error(errorMsg)
-                this.props.designationsData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
             }
+            this.props.designationsData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
             this.setState({ checkedDataKeys: [], loaderOfDeletePopUp: false, visibilityOfDeletePopUp: false })
         }
     }
@@ -190,7 +195,7 @@ class Designations extends Component {
 
 
     render() {
-        const { designationData, totalDesignationsCount } = this.props.designationsReducer
+        const { designationData, totalDesignationsCount, tableLoading } = this.props.designationsReducer
         const { currentPageNumber, creationPopUpVisibility, newDesignationName, checkedDataKeys, creationPopUpMode, editRowName, visibilityOfDeletePopUp, loaderOfDeletePopUp } = this.state
 
         return (
@@ -207,7 +212,7 @@ class Designations extends Component {
                     headingClickData={this.onClickHeadingColumn}
                     onChangeCheckBox={this.onChangeCheckBox}
                     searchSecondButtonClick={() => this.setState({ creationPopUpVisibility: true, creationPopUpMode: "add" })} // onclick of add desgnation..enabling pop up for adding
-
+                    tableLoading ={tableLoading}
 
                     totalUsers={totalDesignationsCount} currentPageNumber={currentPageNumber}
                     onChangeRowsPerPage={this.onChangeRowsPerPage}
@@ -247,7 +252,7 @@ class Designations extends Component {
                     secondButtonDisable={newDesignationName.length < 3 || newDesignationName === editRowName ? true : false}
                     afterClose={() => this.setState({ newDesignationName: "", editRowName: "" })} // after closing the pop up resetting it
                     creationPopUpFirstFieldChangeHandler={this.creationPopUpInput}
-
+                    creationPopSecondButtonLoader = {loaderOfDeletePopUp}
                 />
 
                 <Modal //used this modal for confirmation before deleting node items
@@ -288,7 +293,8 @@ const mapDispatchToProps = dispatch => {
             postCommonCreateData,
             commonActionForCommonReducer,
             patchCommonCreateData,
-            postCommonDelete
+            postCommonDelete,
+            commonDesignationAction
         },
         dispatch
     );

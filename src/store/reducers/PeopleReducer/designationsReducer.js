@@ -6,6 +6,7 @@ const intialState = {
     designationDataOriginal: [],
     totalDesignationsCount: 0,
     currentPageNumber: 1,
+    tableLoading: true
 }
 
 export const designationsReducer = (state = intialState, action) => {
@@ -15,32 +16,34 @@ export const designationsReducer = (state = intialState, action) => {
     }
 
     switch (action.type) {
-        case actionTypes.GET_DESIGNATIONS_DATA:
-            const designationDataIntial = action.payload.data ? action.payload.data.result : []
-            const totalDesignationsCount = action.payload.data ? action.payload.data.total_count : 0
-            designationDataIntial.forEach(data => {
-                data["designations"] = data.name
-                data["people"] = data.count
-            });
+    case actionTypes.GET_DESIGNATIONS_DATA:
+        const designationDataIntial = action.payload.data ? action.payload.data.result : []
+        const totalDesignationsCount = action.payload.data ? action.payload.data.total_count : 0
+        designationDataIntial.forEach(data => {
+            data["designations"] = data.name
+            data["people"] = data.count
+        });
 
-            return {
-                ...state,
-                designationDataOriginal: JSON.parse(JSON.stringify(designationDataIntial)),
-                designationData: JSON.parse(JSON.stringify(designationDataIntial)),
-                totalDesignationsCount
-            }
-
-
-        case actionTypes.COMMON_DESIGNATION_ACTION:
-            return {
-                ...state,
-                ...action.payload
-            }
+        return {
+            ...state,
+            designationDataOriginal: JSON.parse(JSON.stringify(designationDataIntial)),
+            designationData: JSON.parse(JSON.stringify(designationDataIntial)),
+            totalDesignationsCount,
+            tableLoading: false
+        }
 
 
+    case actionTypes.COMMON_DESIGNATION_ACTION:
+        return {
+            ...state,
+            ...action.payload
+        }
+
+    default:    
+        return { ...state }
     }
 
 
-    return { ...state }
+    
 
 }

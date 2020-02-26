@@ -84,6 +84,7 @@ class UserConsoleView extends Component {
             fieldPopUpSwitchData: false,
             parentNodeSwitchData: false,
             parentObject: {},
+            creationPopupLoader : false
         }
 
         this.customDropdownData = [
@@ -150,7 +151,7 @@ class UserConsoleView extends Component {
             parent: this.state.parentObject,
         }
 
-
+        this.setState({ creationPopupLoader : true})
         if (popUpMode === "setting") { // it is in edit mode we will call patch and if it is add mode we will call post
             await this.props.patchCommonCreateData(popUpDataType === "fields" ? "nodes" : popUpDataType, creationPopUpData.id, popUpDataType === "fields" ? finalDataField : finalDataCircle)
         } else {
@@ -168,6 +169,7 @@ class UserConsoleView extends Component {
         } else {
             message.error(errorMsg);
         }
+        this.setState({ creationPopUpVisibility: false , creationPopupLoader : false})
     }
 
 
@@ -268,7 +270,7 @@ class UserConsoleView extends Component {
     render() {
         const { activeLinkName } = this.props.firstReducer
         const { circlesData, customFieldsData, parentNodeOptions, parentNodeSwitch } = this.props.userConsoleMainReducer
-        const { creationPopUpVisibility, creationPopUpData, creationPopUpInputData } = this.state
+        const { creationPopUpVisibility, creationPopUpData, creationPopUpInputData , creationPopupLoader} = this.state
         return (
             <div className={'user-console-view'}>
                 <div className={'user-console-view-wrap'}>
@@ -330,6 +332,7 @@ class UserConsoleView extends Component {
                             parentNodeOptions={parentNodeOptions}
                             parentNodeOnchange={this.parentNodeOnchange}
                             parentNodeOnSearch={this.parentNodeOnSearch}
+                            creationPopSecondButtonLoader = {creationPopupLoader}
                         />
 
 

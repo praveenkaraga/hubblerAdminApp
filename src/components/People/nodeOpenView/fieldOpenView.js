@@ -15,7 +15,7 @@ import CreationPopUp from '../../../components/common/CreationPopUp/CreationPopU
 import { message, Modal } from 'antd'
 import { getNodeId } from '../../../utils/helper'
 import AddUsersCommonCard from '../../common/AddUsersCommonCard/AddUsersCommonCard'
-
+import FullScreenLoader from '../../common/FullScreenLoader/fullScreenLoader'
 class FieldOpenView extends Component {
 
     constructor(props) {
@@ -43,7 +43,7 @@ class FieldOpenView extends Component {
     }
 
     componentDidMount() {
-        this.updateNodeId(true)
+        this.updateNodeId(true, true)
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {// have used this for updation of name.. when updating name in side..this will also render
@@ -72,7 +72,7 @@ class FieldOpenView extends Component {
         const { apiCallFlag } = this.state// this flag is only for not calling this api two times when we land on circles for the first time
         if (prevState.singleNodeId !== currentNodeId && !apiCallFlag) {//if node id in url is different from the previous one this will call the api and rerender the component
             this.setState({ singleNodeId: currentNodeId, apiCallFlag: true })
-            this.updateNodeId(false)
+            this.updateNodeId(false, true)
         }
         if (apiCallFlag) this.setState({ apiCallFlag: false }) // flag is true then make it false...will work on first time only
 
@@ -82,9 +82,11 @@ class FieldOpenView extends Component {
     }
 
     //update node id from url on change
-    updateNodeId = (status) => {
+    updateNodeId = (status, toCall) => {
         const nodeId = getNodeId(this.props.history)//a common fn to take out id from url
         if (status) this.setState({ singleNodeId: nodeId })
+        this.props.commonActionForCommonReducer({ fieldTableLoading : true })
+        if(toCall)  this.props.commonActionForCommonReducer({ viewDeciderLoader : true })
         this.props.getSingleFieldData(nodeId, this.state.rowsPerPage)
     }
 
@@ -104,6 +106,7 @@ class FieldOpenView extends Component {
     //will make ascend and descend that column
     onClickHeadingColumn = (activeheading, sortingType) => {
         const { rowsPerPage, searchData, currentPageNumber, singleNodeId, filterKeyId } = this.state
+        this.props.commonActionForCommonReducer({ fieldTableLoading : true})
         this.props.getSingleFieldData(singleNodeId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType, filterKeyId)
         this.setState({
             activeheading,
@@ -133,6 +136,7 @@ class FieldOpenView extends Component {
     //on change of rows per page of the table
     onChangeRowsPerPage = (rowsPerPage) => {
         const { searchData, activeheading, sortingType, singleNodeId, filterKeyId } = this.state
+        this.props.commonActionForCommonReducer({ fieldTableLoading : true})
         this.props.getSingleFieldData(singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType, filterKeyId)
         this.setState({
             rowsPerPage,
@@ -143,8 +147,8 @@ class FieldOpenView extends Component {
     //on change of pages of the table
     changePage = (calcData) => {
         const { currentPageNumber, rowsPerPage, searchData, activeheading, sortingType, singleNodeId, filterKeyId } = this.state
-
         const goToPage = currentPageNumber + calcData
+        this.props.commonActionForCommonReducer({ fieldTableLoading : true})
         this.props.getSingleFieldData(singleNodeId, rowsPerPage, goToPage, searchData, activeheading, sortingType, filterKeyId)
         this.setState({
             currentPageNumber: goToPage
@@ -175,22 +179,21 @@ class FieldOpenView extends Component {
             await this.props.postCommonDelete("nodes", { data: checkedDataKeys }, singleNodeId)
             const { postDeletedDataSuccessfulMessage, postDeletedDataSuccessfully, errorMsg } = this.props.commonReducer
             if (postDeletedDataSuccessfully) {
-                this.setState({ loaderOfDeletePopUp: false, visibilityOfDeletePopUp: false })
                 message.success(postDeletedDataSuccessfulMessage)
-                this.props.getSingleFieldData(singleNodeId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
-                this.props.commonActionForCommonReducer({ postDeletedDataSuccessfully: false })
+                this.props.commonActionForCommonReducer({ postDeletedDataSuccessfully: false})
             } else {
                 message.error(errorMsg)
-                this.props.getSingleFieldData(singleNodeId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
-                this.setState({ loaderOfDeletePopUp: false, visibilityOfDeletePopUp: false })
             }
-            this.setState({ checkedDataKeys: [] })
+            this.props.commonActionForCommonReducer({ fieldTableLoading : true})
+            this.props.getSingleFieldData(singleNodeId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
+            this.setState({ checkedDataKeys: [],  loaderOfDeletePopUp: false, visibilityOfDeletePopUp: false } )
         }
     }
 
     // on save of edited name or new create
     onSaveEditOrCreateField = async (type) => {
         const { newFieldItemName, editRowId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType, filterKeyId, singleNodeId } = this.state
+        this.setState({loaderOfDeletePopUp : true})
         if (type === "edit") { // if it in edit mode then we will call patch
             await this.props.patchCommonCreateData("node_items", singleNodeId, { [filterKeyId]: newFieldItemName }, editRowId) //waiting for the api to be patch
         } else { // if we are creating new then post will be called
@@ -198,17 +201,17 @@ class FieldOpenView extends Component {
         }
         const { patchDataCreatedSuccessfully, patchSuccessMessage, newDataCreatedSuccessfully, errorMsg } = this.props.commonReducer // will be true if success is true from above post api and pop up will be closed
         if (type === "edit" ? patchDataCreatedSuccessfully : newDataCreatedSuccessfully) { // according to difference type we are deciding the success
-            this.setState({ creationPopUpVisibility: false, checkedDataKeys: [] })
             message.success(type === "edit" ? "Saved Successfully" : "Created Successfully "); // according to difference type we are deciding the success message
-            this.props.commonActionForCommonReducer({ patchDataCreatedSuccessfully: false, newDataCreatedSuccessfully: false })
+            this.props.commonActionForCommonReducer({ patchDataCreatedSuccessfully: false, newDataCreatedSuccessfully: false , fieldTableLoading : true})
             this.props.getSingleFieldData(singleNodeId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
         } else {
             message.error(errorMsg);
         }
+        this.setState({ creationPopUpVisibility: false, loaderOfDeletePopUp: false,  checkedDataKeys: [] })
     }
 
     render() {
-        const { singleFieldData, singleFieldCount, singleFieldName, singleFieldFilterKeyId } = this.props.commonReducer
+        const { singleFieldData, singleFieldCount, singleFieldName, singleFieldFilterKeyId, fieldTableLoading, viewDeciderLoader } = this.props.commonReducer
         const { currentPageNumber, creationPopUpVisibility, newFieldItemName, checkedDataKeys, creationPopUpMode, editRowName, filterKeyId, visibilityOfDeletePopUp, loaderOfDeletePopUp } = this.state
         if (!filterKeyId && singleFieldFilterKeyId) { // on first time load saving the id
             this.setState({ filterKeyId: singleFieldFilterKeyId })
@@ -242,52 +245,55 @@ class FieldOpenView extends Component {
         return (
             <div className="fields_main">
                 <div className="fields_heading"><h3>{singleFieldName}</h3></div>
-                {singleFieldCount //checking if count of field item is empty or not
-                    ?
-                    <AllUserSelect userData={singleFieldData}
+                {!viewDeciderLoader
+                    ? singleFieldCount //checking if count of field item is empty or not
+                        ?
+                        <AllUserSelect userData={singleFieldData}
 
-                        searchFirstButtonName={"IMPORT RESOURCES"}
-                        searchSecondButtonName={"ADD NEW ITEM"}
-                        allHeadingsData={fieldsColumnData}
-                        searchPlaceHolder={`Search ${singleFieldName}`}
-                        onSearch={this.fieldSearchData}
-                        typeOfData="Total Items"
+                            searchFirstButtonName={"IMPORT RESOURCES"}
+                            searchSecondButtonName={"ADD NEW ITEM"}
+                            allHeadingsData={fieldsColumnData}
+                            searchPlaceHolder={`Search ${singleFieldName}`}
+                            onSearch={this.fieldSearchData}
+                            typeOfData="Total Items"
 
-                        headingClickData={this.onClickHeadingColumn}
-                        onChangeCheckBox={this.onChangeCheckBox}
-                        searchSecondButtonClick={() => this.setState({ creationPopUpVisibility: true, creationPopUpMode: "add" })} // opening the pop up and also type of pop up to open
+                            headingClickData={this.onClickHeadingColumn}
+                            onChangeCheckBox={this.onChangeCheckBox}
+                            searchSecondButtonClick={() => this.setState({ creationPopUpVisibility: true, creationPopUpMode: "add" })} // opening the pop up and also type of pop up to open
+                            tableLoading={fieldTableLoading}
 
+                            totalUsers={singleFieldCount}
+                            currentPageNumber={currentPageNumber}
+                            onChangeRowsPerPage={this.onChangeRowsPerPage}
+                            goPrevPage={() => this.changePage(-1)}
+                            goNextPage={() => this.changePage(1)}
 
-                        totalUsers={singleFieldCount}
-                        currentPageNumber={currentPageNumber}
-                        onChangeRowsPerPage={this.onChangeRowsPerPage}
-                        goPrevPage={() => this.changePage(-1)}
-                        goNextPage={() => this.changePage(1)}
+                            //onClick Designation Header Action Buttons
+                            onClickUserDelete={() => this.setState({ visibilityOfDeletePopUp: true })} //{() => this.onFieldItemActions("delete")}
+                            onClickUserEdit={() => this.onFieldItemActions("edit")}
 
-                        // //onClick Designation Header Action Buttons
-                        onClickUserDelete={() => this.setState({ visibilityOfDeletePopUp: true })} //{() => this.onFieldItemActions("delete")}
-                        onClickUserEdit={() => this.onFieldItemActions("edit")}
+                            isUserData={false}
 
-                        isUserData={false}
+                            onClickTableRow={this.onRowClick}
 
-                        onClickTableRow={this.onRowClick}
+                            // //buttons to show and hide 
+                            showHeaderButtons={[{ id: "edit", label: "Edit Item" }, { id: "delete", label: "Delete Items" }]} // buttons to show when selected row
+                            disableButtonNames={[checkedDataKeys.length > 1 ? "edit" : ""]}
 
-                        // //buttons to show and hide 
-                        showHeaderButtons={[{ id: "edit", label: "Edit Item" }, { id: "delete", label: "Delete Items" }]} // buttons to show when selected row
-                        disableButtonNames={[checkedDataKeys.length > 1 ? "edit" : ""]}
+                            // //to empty the selected Data
+                            selectedDataCount={checkedDataKeys.length}
+                        />
+                        :
+                        <AddUsersCommonCard
+                            titleName={singleFieldName}
+                            addUsersCardSubText={`You don't have any ${singleFieldName} here. Please add new ${singleFieldName}.`}
+                            addUsersCommonCardButtonClick={() => this.setState({ creationPopUpVisibility: true, creationPopUpMode: "add" })}// opening the pop up and also type of pop up to open
+                            buttonName={`Add New ${singleFieldName}`}
+                        />
 
-                        // //to empty the selected Data
-                        selectedDataCount={checkedDataKeys.length}
-                    />
-                    :
-                    <AddUsersCommonCard
-                        titleName={singleFieldName}
-                        addUsersCardSubText={`You don't have any ${singleFieldName} here. Please add new ${singleFieldName}.`}
-                        addUsersCommonCardButtonClick={() => this.setState({ creationPopUpVisibility: true, creationPopUpMode: "add" })}// opening the pop up and also type of pop up to open
-                        buttonName={`Add New ${singleFieldName}`}
-                    />
-
+                    : <FullScreenLoader /> 
                 }
+
                 <CreationPopUp creationPopUpVisibility={creationPopUpVisibility}
                     creationPopUpTitle={creationPopUpMode === "add" ? "Add New Item" : "Edit Item name"}
                     creationPopFirstButtonName={"Cancel"}
@@ -300,6 +306,7 @@ class FieldOpenView extends Component {
                     secondButtonDisable={newFieldItemName.length < 3 || newFieldItemName === editRowName ? true : false}
                     afterClose={() => this.setState({ newFieldItemName: "", editRowName: "" })}
                     creationPopUpFirstFieldChangeHandler={this.creationPopUpInput}
+                    creationPopSecondButtonLoader = {loaderOfDeletePopUp}
                 />
 
 

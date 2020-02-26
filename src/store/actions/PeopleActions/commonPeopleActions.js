@@ -8,7 +8,7 @@ import {
     getSingleFieldDataApi,
     postCommonAddSelectedUsersDataApi,
     postCommonRemovePeopleApi,
-    postCommonDeleteApi, getParentNodeOptions
+    postCommonDeleteApi
 } from '../../../utils/Apis/peopleApi'
 
 export const getSingleViewData = (viewType, id, perPageRows, currentPage, searchData, headingData, sortingType, id2) => {
