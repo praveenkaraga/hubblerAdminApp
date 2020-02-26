@@ -8,6 +8,6 @@ export const { commonHolidayAction, getHolidayTableColumnData, getHolidayProfile
 //------------------------------xxxxxxxxxxxxxxxxxxx-------------------------------//
 
 //--------------------------------- Common Actions ----------------------------------
-export const { postProfileCommonDelete, } = commonProfileActions
+export const { postProfileCommonDelete, commonActionForCommonProfileReducer,patchCommonCreatedData,postCommonProfileCreatedData} = commonProfileActions
 
 //------------------------------ xxxxxxxxxxxxxxxxxxxxxxx-----------------------------

@@ -8,7 +8,7 @@ import {
     commonHolidayAction,
     getHolidayTableColumnData,
     getHolidayProfileData,
-    postProfileCommonDelete
+    postProfileCommonDelete,commonActionForCommonProfileReducer,patchCommonCreatedData,postCommonProfileCreatedData
     /*postCreateDeptData,
     getAddableUsersData,
     onClickOfDownloadExcel,
@@ -17,7 +17,8 @@ import {
 } from "../../../store/actions/ProfileActions/profileActions";
 import {withRouter} from "react-router-dom";
 import CreationPopUp from '../../common/CreationPopUp/CreationPopUp'
-import {message} from "antd";
+import {message, Modal} from "antd";
+import isEmpty from "lodash/isEmpty";
 
 
 class HolidayProfile extends Component {
@@ -33,6 +34,8 @@ class HolidayProfile extends Component {
             creationPopUpMode: 'add',
             newHolidayName : '',
             checkedDataKeys: [],
+            visibilityOfDeletePopUp: false,
+            loaderOfDeletePopUp: false,
         }
     }
 
@@ -102,10 +105,9 @@ class HolidayProfile extends Component {
     };
 
     onSaveNewHoliday = async () => {
-        const { newHolidayName } = this.state;
-        await this.props.postCommonCreateData("holiday", { name: newHolidayName });
-
-        const { newDataCreatedSuccessfully, newCreatedDataId, errorMsg } = this.props.commonReducer; // will be true if success is true from above post api and pop up will be closed
+        /*const { newHolidayName } = this.state;
+        await this.props.postCommonProfileCreatedData("holiday","holiday-profiles", { name: newHolidayName });
+        const { newDataCreatedSuccessfully, newCreatedDataId, errorMsg ,createdProfileData} = this.props.commonProfileReducer; // will be true if success is true from above post api and pop up will be closed
         if (newDataCreatedSuccessfully) {
             this.setState({ creationPopUpVisibility: false });
             message.success("Holiday Profile Created Successfully");
@@ -114,39 +116,51 @@ class HolidayProfile extends Component {
         } else {
             message.error(errorMsg);
         }
-    };
+*/
 
-    onSaveEditedHoliday = async () => {
-        const { newHolidayName, editRowId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType } = this.state
-        await this.props.patchCommonCreateData("holiday", editRowId, { name: newHolidayName });
-        const { patchDataCreatedSuccessfully, patchSuccessMessage, errorMsg } = this.props.commonReducer
-        if (patchDataCreatedSuccessfully) {
-            this.setState({ creationPopUpVisibility: false, checkedDataKeys: [] });
-            message.success(patchSuccessMessage || "Saved Successfully");
-            this.props.commonActionForCommonReducer({ newDataCreatedSuccessfully: false });
-            this.props.designationsData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
+        const { newHolidayName, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType } = this.state
+        let data = { name: newHolidayName};
+        await this.props.postCommonProfileCreatedData("holiday","holiday-profiles", data);
+        const {errorMsg ,createdProfileData} = this.props.commonProfileReducer; // will be true if success is true from above post api and pop up will be closed
+        if (!isEmpty(createdProfileData)) {
+            this.setState({ creationPopUpVisibility: false, newHolidayName: '' })
+            message.success("Holiday Profile Created Successfully");
+            this.props.commonActionForCommonProfileReducer({ newDataCreatedSuccessfully: false })
+            this.props.getHolidayProfileData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
         } else {
             message.error(errorMsg);
         }
     };
 
-    onClickDepartmentActions = async (actionType) => {
-        this.setState({ creationPopUpVisibility: true, creationPopUpMode: "edit" })
+    onSaveEditedHoliday = async () => {
+        const { newHolidayName, editRowId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType } = this.state
+        await this.props.patchCommonCreatedData("holiday","holiday-profiles", editRowId, { name: newHolidayName });
+        const { patchDataCreatedSuccessfully, patchSuccessMessage, errorMsg } = this.props.commonProfileReducer
+        if (patchDataCreatedSuccessfully) {
+            this.setState({ creationPopUpVisibility: false, checkedDataKeys: [] });
+            message.success(patchSuccessMessage || "Saved Successfully");
+            this.props.commonActionForCommonProfileReducer({ newDataCreatedSuccessfully: false });
+            this.props.getHolidayProfileData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
+        } else {
+            message.error(errorMsg);
+        }
+    };
 
+    onClickHolidayActions = async (actionType) => {
         const { checkedDataKeys, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType } = this.state
         if (actionType === "edit") {
             this.setState({ creationPopUpVisibility: true, creationPopUpMode: "edit", commonCreationViewHeaderName : this.state.editRowName   })
         } else {
             this.setState({ loaderOfDeletePopUp: true })
-            await this.props.postCommonDelete("departments", { departments: checkedDataKeys })
-            const { postDeletedDataSuccessfulMessage, postDeletedDataSuccessfully, errorMsg } = this.props.commonReducer
+            await this.props.postProfileCommonDelete("holiday", { ids: checkedDataKeys })
+            const { postDeletedDataSuccessfulMessage, postDeletedDataSuccessfully, errorMsg } = this.props.commonProfileReducer
             if (postDeletedDataSuccessfully) {
                 message.success(postDeletedDataSuccessfulMessage)
-                this.props.getDepartmentData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
-                this.props.commonActionForCommonReducer({ postDeletedDataSuccessfully: false })
+                this.props.getHolidayProfileData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
+                this.props.commonActionForCommonProfileReducer({ postDeletedDataSuccessfully: false })
             } else {
                 message.error(errorMsg)
-                this.props.getDepartmentData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
+                this.props.getHolidayProfileData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
             }
             this.setState({ checkedDataKeys: [],loaderOfDeletePopUp: false, visibilityOfDeletePopUp: false})
         }
@@ -155,7 +169,7 @@ class HolidayProfile extends Component {
 
     render() {
         const {holidayColumnData, holidayProfilesData, totalUsers, searchLoader} = this.props.holidayReducer
-        const {creationPopUpVisibility,creationPopUpMode,newHolidayName,editRowName,checkedDataKeys} = this.state;
+        const {creationPopUpVisibility,creationPopUpMode,newHolidayName,editRowName,checkedDataKeys,loaderOfDeletePopUp,visibilityOfDeletePopUp} = this.state;
         console.log(holidayProfilesData);
         return (
             <div className="holiday-profile-main">
@@ -176,8 +190,8 @@ class HolidayProfile extends Component {
                                showHeaderButtons={[{ id: "edit", label: "Edit Holiday" }, { id: "delete", label: "Delete Holiday" }, { id: "duplicate", label: "Duplicate Holiday" }]}
                                disableButtonNames={[checkedDataKeys.length > 1 ? "edit" : ""]}
                                selectedDataCount={checkedDataKeys.length}
-                               onClickUserDelete={() => this.onClickDepartmentActions("delete")}
-                               onClickUserEdit={() => this.onClickDepartmentActions("edit")}/>
+                               onClickUserDelete={() => this.setState({ visibilityOfDeletePopUp: true })}
+                               onClickUserEdit={() => this.onClickHolidayActions("edit")}/>
 
                 <CreationPopUp creationPopUpVisibility={creationPopUpVisibility}
                                creationPopUpTitle={creationPopUpMode === "add" ? "Add New Holiday Profile" : "Edit Holiday Profile"}
@@ -192,6 +206,22 @@ class HolidayProfile extends Component {
                                afterClose={() => this.setState({ newHolidayName: "" })}
                                creationPopUpFirstFieldChangeHandler={this.creationPopUpInput}
                 />
+
+                <Modal // used this modal for confirmation before deleting department items
+                    title={`Delete Holiday(s)`}
+                    visible={visibilityOfDeletePopUp}
+                    onOk={() => this.onClickHolidayActions("delete")}
+                    confirmLoading={loaderOfDeletePopUp}
+                    onCancel={() => this.setState({ visibilityOfDeletePopUp: false })}
+                    centered
+                    closable
+                    okText={"Delete"}
+                    maskClosable={false}
+                    okType={"danger"}
+                    wrapClassName={"departments-delete-popup"}
+                    destroyOnClose={true}>
+                    <p>{`Are you sure you want to delete the selected ${checkedDataKeys.length} Holiday(s)`}</p>
+                </Modal>
             </div>
         )
     }
@@ -201,6 +231,7 @@ class HolidayProfile extends Component {
 const mapStateToProps = state => {
     return {
         holidayReducer: state.holidayReducer,
+        commonProfileReducer : state.commonProfileReducer
     };
 };
 
@@ -209,7 +240,7 @@ const mapDispatchToProps = dispatch => {
         {
             commonHolidayAction,
             getHolidayTableColumnData,
-            getHolidayProfileData,
+            getHolidayProfileData,postProfileCommonDelete,commonActionForCommonProfileReducer,patchCommonCreatedData,postCommonProfileCreatedData
             /*postCreateDeptData, getAddableUsersData,
             onClickOfDownloadExcel,
             getImportUserUploadDetails,

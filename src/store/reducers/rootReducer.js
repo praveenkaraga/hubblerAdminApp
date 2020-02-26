@@ -8,6 +8,7 @@ import { userConsoleMainReducer } from './PeopleReducer/userConsoleMainReducer'
 import { commonPeopleReducer } from './PeopleReducer/commonPeopleReducer'
 import { holidayReducer } from './ProfileReducer/holidayReducer'
 import { consoleAddUserReducer } from './PeopleReducer/consoleAddUserReducer'
+import { commonProfileReducer } from './ProfileReducer/commonProfileReducer'
 
 const rootReducer = combineReducers({
     firstReducer,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
     userConsoleMainReducer,
     commonReducer: commonPeopleReducer,
     consoleAddUserReducer,
+    commonProfileReducer,
 
     holidayReducer
 

@@ -183,7 +183,6 @@ class Departments extends Component {
     onSaveEditedDepartment = async () => {
         const { editRowId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType } = this.state
         await this.props.patchCommonCreateData("departments", editRowId, { name: this.state.commonCreationViewHeaderName }) //waiting for the api to be posted
-
         const { patchDataCreatedSuccessfully, patchSuccessMessage, errorMsg } = this.props.commonReducer // will be true if success is true from above post api and pop up will be closed
         if (patchDataCreatedSuccessfully) {
             this.setState({ creationPopUpVisibility: false, checkedDataKeys: [] })

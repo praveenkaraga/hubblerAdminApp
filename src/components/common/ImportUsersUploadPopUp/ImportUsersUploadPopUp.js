@@ -44,7 +44,7 @@ class ExcelFieldsList extends Component {
         };
 
         let sampleDataModeled = map(slicedDataFilled, (item, index) => {
-            if ( item.type === 'none' ? index === dataObj.index :  item._id === dataObj.ele._id) {
+            if (item.type === 'none' ? index === dataObj.index : item._id === dataObj.ele._id) {
                 return {...item, data: dataObj.patchData.data, name: dataObj.patchData.name}
             } else {
                 return item
@@ -117,8 +117,8 @@ class SampleDataList extends Component {
         const {uploadPopUpData, dropDownObj, switchStatus, sampleDataModeled} = this.props;
         let slicedData = slice(uploadPopUpData.sheet_columns, 0, uploadPopUpData.fields.length);
         let count = slicedData.length < uploadPopUpData.fields.length ? uploadPopUpData.fields.length - slicedData.length : ''
-        let fillArrayData = fill(Array(count), {data: 'None', name: "None"})
-        let slicedDataFilledInitial = /*count ? slicedData.concat(fillArrayData) : slicedData*/ sampleDataModeled ? sampleDataModeled : slicedData
+        //let fillArrayData = fill(Array(count), {data: 'None', name: "None"})
+        let slicedDataFilledInitial =  sampleDataModeled ? sampleDataModeled : slicedData
         let slicedDataFilled = map(slicedDataFilledInitial, function (ele, index) {
             return {
                 ...ele, index: index
@@ -131,9 +131,10 @@ class SampleDataList extends Component {
                     map(slicedDataFilled, function (ele, index) {
                         return (<li className={'sample-data-list-item'} key={index}>
                             {dropDownObj.index === index ?
-                                    <div
-                                        className={'field-holder field-holder-variant'}>{switchStatus ? dropDownObj.patchData.data : dropDownObj.patchData.name} </div> :
-                                    <div className={'field-holder field-holder-variant'}>{switchStatus ? ele.data : ele.name} </div>}
+                                <div
+                                    className={'field-holder field-holder-variant'}>{switchStatus ? dropDownObj.patchData.data : dropDownObj.patchData.name} </div> :
+                                <div
+                                    className={'field-holder field-holder-variant'}>{switchStatus ? ele.data : ele.name} </div>}
                         </li>)
                     })
                 }
@@ -219,6 +220,7 @@ class ImportUsersUploadPopUp extends Component {
     }
 
     processImportUsersData = () => {
+        // eslint-disable-next-line no-unused-vars
         const {uploadPopUpData, patchImportUsersDataHandler, importUsersUploadResponseData, commonTeamReducerAction} = this.props;
         let _this = this
         let addingUpdatedBy = this.state.mappings.map(function (ele) {
@@ -262,12 +264,10 @@ class ImportUsersUploadPopUp extends Component {
             }
         });
         this.setState({
-                mappings: mappingData,
-                reqFields: compact(reqFields),
-                sampleDataModeled: slicedDataFilled
-
-            }
-        )
+            mappings: mappingData,
+            reqFields: compact(reqFields),
+            sampleDataModeled: slicedDataFilled
+        })
     }
 
     uploadOptionChange = (value) => {
