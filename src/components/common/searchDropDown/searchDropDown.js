@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { AutoComplete, Icon, Input } from 'antd';
+import {debounce} from '../../../utils/helper'
 import './searchDropDown.scss'
 
 const { Option } = AutoComplete;
@@ -11,9 +12,10 @@ class SearchDropdown extends Component {
         }
     }
 
-    handleSearch = value => { //passing search value to prop on search
-        if (this.props.onChange) this.props.onChange(value) //checking if prop is being passed or not
-    };
+    
+    handleSearch = debounce(searchValue => { 
+        if(this.props.onChange) this.props.onChange(searchValue) 
+    }, this.props.debounceTime || 0)
 
     onOptionSelect = (value) => { //on Select of a data from dropdown
         if (this.props.onSelect) this.props.onSelect(value) //checking if prop is being passed or not

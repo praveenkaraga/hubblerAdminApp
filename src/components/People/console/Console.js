@@ -51,8 +51,8 @@ class Console extends Component {
     }
 
 
-    userSearchData = (e) => { // on Search of console table
-        const searchData = e.target.value
+    userSearchData = (searchData) => { // on Search of console table
+       
         const { rowsPerPage, activeheading, sortingType } = this.props.consoleReducer
         this.props.getConsoleUserData(rowsPerPage, 1, searchData, activeheading, sortingType)
         this.props.commonConsoleAction({ currentPageNumber: 1, searchData, searchLoader: true })
@@ -240,7 +240,7 @@ class Console extends Component {
     //function will returns all the buttons which will be shown on selection of any user(s)
     showButtons = () => {
         return [{ id: "activate", label: "Activate User" }, { id: "deactivate", label: "Deactivate User" },
-        { id: "edit", label: "Edit User" }, { id: "delete", label: "Delete User" }]
+            { id: "edit", label: "Edit User" }, { id: "delete", label: "Delete User" }]
 
     }
 
@@ -254,6 +254,7 @@ class Console extends Component {
         const { consoleUserData, totalUsers, currentPageNumber, searchLoader, columnSettingData } = this.props.consoleReducer
         const { importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpData, uploadPopUpVisibility, startUploadStatus, uploadFileStatus,
             importUsersUploadResponseData, isFileUploaded, clickedTeamUserData, contentLoader } = this.props.teamViewReducer;
+        
         const { tableColumnData } = this.props.commonReducer
 
         const { addUserspopUpStatus, userInfoVisible, userId, checkedDataKeys, disableHeaderButtonNames, visibleColumnSetting, typeOfActionOnUser,
@@ -271,7 +272,7 @@ class Console extends Component {
                     onSearch={this.userSearchData} searchPlaceHolder={"Search Users / Managers / Designation"}
                     searchFirstButtonLoader={false}
                     searchSecondButtonLoader={false} searchLoader={searchLoader} typeOfData="Total Users"
-
+                    debounceTimeUserSearch = {300}
 
                     // props for main AllUser component
                     onChangeCheckBox={this.onChangeCheckBox} totalUsers={totalUsers}

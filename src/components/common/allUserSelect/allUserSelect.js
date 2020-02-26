@@ -70,42 +70,42 @@ class AllUserSelect extends Component {
                 allHeadingsData.forEach(data => {
                     const dataType = data.type
                     switch (dataType) { //checking for all types of data type
-                        case "text": //if it is string 
-                            singleUserData["name"] = <div className="name_with_image">
-                                {isUserData ? // if prop isUserData true then we will show profile pic/ initial names as profiles pic(if pic is not there)
+                    case "text": //if it is string 
+                        singleUserData["name"] = <div className="name_with_image">
+                            {isUserData ? // if prop isUserData true then we will show profile pic/ initial names as profiles pic(if pic is not there)
 
-                                    !(singleUserData["deactivate"] === true) ? //checking if user is deactivated or not{a eactivated sign will be shown instead of profile pic}
-                                        singleUserData["profile_image"] // checking if user has profile pic or not
-                                            ?
-                                            <img src={singleUserData["profile_image"]["thumbnail"]} alt="Profile Pic" /> //profile pic
-                                            :
-                                            <div className="no_profile_pic"><p>{singleUserData.firstname.substring(0, 2)}</p></div> //if no profile pic then we are showing first two intials of their first name
-                                        : <div className="no_profile_pic"><img className="deactivated_user_pic" src={require('../../../images/svg/deactivate-user-pic.svg')} /></div>
-                                    : ""}
-                                <div className="only_name">{singleUserData.firstname || ""}  {singleUserData.lastname || ""}</div>
-                            </div>
-                            singleUserData["key"] = singleUserData._id
-                            break;
-                        case "number": //if type number display as it is
-                            break;
-                        case "object": // if type is object 
-                            if (singleUserData[data._id]) { //checking value is there or not for that object
-                                if (Array.isArray(singleUserData[data._id])) {  //checking if the object is array or proper object
-                                    let tempData = []
-                                    singleUserData[data._id].forEach(arrayData => {
-                                        tempData.push(arrayData.name)
-                                    })
-                                    singleUserData[data._id] = tempData.join(", ")
-                                } else {
-                                    singleUserData[data._id] = singleUserData[data._id]["firstname"] + " " + singleUserData[data._id]["lastname"]
-                                }
+                                !(singleUserData["deactivate"] === true) ? //checking if user is deactivated or not{a eactivated sign will be shown instead of profile pic}
+                                    singleUserData["profile_image"] // checking if user has profile pic or not
+                                        ?
+                                        <img src={singleUserData["profile_image"]["thumbnail"]} alt="Profile Pic" /> //profile pic
+                                        :
+                                        <div className="no_profile_pic"><p>{singleUserData.firstname.substring(0, 2)}</p></div> //if no profile pic then we are showing first two intials of their first name
+                                    : <div className="no_profile_pic"><img className="deactivated_user_pic" src={require('../../../images/svg/deactivate-user-pic.svg')} /></div>
+                                : ""}
+                            <div className="only_name">{singleUserData.firstname || ""}  {singleUserData.lastname || ""}</div>
+                        </div>
+                        singleUserData["key"] = singleUserData._id
+                        break;
+                    case "number": //if type number display as it is
+                        break;
+                    case "object": // if type is object 
+                        if (singleUserData[data._id]) { //checking value is there or not for that object
+                            if (Array.isArray(singleUserData[data._id])) {  //checking if the object is array or proper object
+                                let tempData = []
+                                singleUserData[data._id].forEach(arrayData => {
+                                    tempData.push(arrayData.name)
+                                })
+                                singleUserData[data._id] = tempData.join(", ")
                             } else {
-                                singleUserData[data._id] = ""
+                                singleUserData[data._id] = singleUserData[data._id]["firstname"] + " " + singleUserData[data._id]["lastname"]
                             }
-                            break;
-
-                        default:
+                        } else {
                             singleUserData[data._id] = ""
+                        }
+                        break;
+
+                    default:
+                        singleUserData[data._id] = ""
                     }
                 })
             })
@@ -121,12 +121,12 @@ class AllUserSelect extends Component {
 
 
     render() {
-        const { allHeadingsData = [], userData = [], searchFirstButtonName, searchSecondButtonName, searchPlaceHolder, searchFirstButtonLoader = false, onChangeCheckBox,
+        const { allHeadingsData = [], userData = [], searchFirstButtonName, searchSecondButtonName, searchPlaceHolder, searchFirstButtonLoader = false,
             searchSecondButtonLoader = false, searchFirstButtonClick, searchSecondButtonClick, searchLoader = false, onSearch, totalUsers, goPrevPage, goNextPage, currentPageNumber, columnSettingData,
             onClickUserActivate, onClickUserDeactivate, onClickUserDelete, onClickUserEdit, isUserData = true, onlySelectAndAdd = false,
             typeOfData = "Total Data", onClickTableRow, columnConfigurable = false, allSelect, onSearchDropdownSelect, searchDropdownPlaceholder, searchDropdownData, onChangeSearchDropdown,
-            showHeaderButtons, disableButtonNames, selectedDataCount, onClickAddUserButton, onSelectAll, onColumnSettingSave, visibleColumnSetting, onColumnSettingCancel, onChangeAddUsersTab,
-            onSearchColumnSetting, searchDropDownValue } = this.props
+            showHeaderButtons, disableButtonNames, selectedDataCount, onClickAddUserButton, onSelectAll, onColumnSettingSave, visibleColumnSetting, onColumnSettingCancel,
+            onSearchColumnSetting, searchDropDownValue, debounceTimeUserSearch, debounceTimeSearchDropdown } = this.props
         const perPageOptions = [7, 10, 20, 30, 40, 50, 100]
         const { rowsPerPage } = this.state
         const totalPages = Math.ceil(totalUsers / rowsPerPage)
@@ -142,7 +142,8 @@ class AllUserSelect extends Component {
                         onUserDelete={onClickUserDelete} onUserEdit={onClickUserEdit} isUserData={isUserData}
                         allSelect={allSelect} onSearchDropdownSelect={onSearchDropdownSelect} searchDropdownPlaceholder={searchDropdownPlaceholder}
                         searchDropdownData={searchDropdownData} onChangeSearchDropdown={onChangeSearchDropdown} showButtonNames={showHeaderButtons}
-                        disableButtonNames={disableButtonNames} onClickAddUserButton={onClickAddUserButton} searchDropDownValue={searchDropDownValue} />
+                        disableButtonNames={disableButtonNames} onClickAddUserButton={onClickAddUserButton} searchDropDownValue={searchDropDownValue} 
+                        searchDebounceTime={debounceTimeUserSearch} searchDropDownDebounceTime={debounceTimeSearchDropdown}/>
 
 
                     <div className="setting_table_combine">

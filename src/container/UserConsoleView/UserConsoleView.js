@@ -302,6 +302,7 @@ class UserConsoleView extends Component {
                                 onClickAdd={() => this.onClickAdd(singleData.type)}
                                 onDeleteConfirmClick={(data) => this.onDeleteConfirmClick(data, singleData.type)}
                                 onSearch={(searchData) => this.onDropdownSearch(searchData, singleData.type)}
+                                searchDebounceTime={300}
                             />
                         ))
                         }
