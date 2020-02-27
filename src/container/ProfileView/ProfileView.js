@@ -12,9 +12,9 @@ import {createActiveLink, hamburgerIconClick} from "../../store/actions/PeopleAc
 
 import './profileView.scss'
 import HolidayProfile from "../../components/Profile/HolidayProfile/HolidayProfile";
-import CommonRouting from '../../components/common/CommonRouting/CommonRouting'
+import ProfileRouting from '../../components/Profile/profileRouting/profileRouting'
 
-const routes = [
+const navLinkRoutes = [
     {
         path: "/holidayProfile",
         exact: false,
@@ -28,7 +28,7 @@ const routes = [
         main: () => 'Working Day Profile Component',
         name: "Working Day",
         class_name: 'working-day',
-        link_name: 'working-day',
+        link_name: 'workingDay',
     },
     {
         path: "/leaveProfile",
@@ -64,8 +64,8 @@ class ProfileView extends Component {
         return (
             <div className={'profile-view'}>
                 <div className={'profile-view-wrap'}>
-                    <CommonRouting routes={routes} leftPanelTitle={'Profile'} activeLinkHandler={this.createActiveLink}
-                                   activeLinkName={activeLinkName} path={"holidayProfile"}/>
+                    <ProfileRouting navLinkRoutes={navLinkRoutes} leftPanelTitle={'Profile'} activeLinkHandler={this.createActiveLink}
+                        activeLinkName={activeLinkName} className={"profile-routing-view"}/>
                 </div>
             </div>
         )

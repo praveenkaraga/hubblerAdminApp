@@ -65,6 +65,8 @@ const routes = [
     }
 ];
 
+
+
 class UserConsoleView extends Component {
 
     constructor(props) {
@@ -352,18 +354,12 @@ class UserConsoleView extends Component {
                             <Route exact path={["/people", "/people/circle", "/people/field", "/people/designation", "/people/department"]}>
                                 <Redirect to={"/people/console"} />
                             </Route>
-                            <Route exact path={"/people/designation"}>
-                                <Redirect to={"/people/designations"} />
-                            </Route>
+                            <Route exact path={"/people/field/:id/"} children={FieldOpenView} />
 
-                            <Route exact path={"/people/console"} component={Console} />
-                            <Route exact path={"/people/departments"} component={Departments} />
-                            <Route exact path={"/people/designations"} component={Designations} />
                             <Route exact path={"/people/circle/:id"}
                                 children={<CommonSingleOpenView viewType="circles" />} />
                             <Route exact path={"/people/field/:id/:id"}
                                 children={<CommonSingleOpenView viewType="nodes" />} />
-                            <Route exact path={"/people/field/:id/"} component={FieldOpenView} />
                             <Route exact path={"/people/department/:id"}
                                 children={<CommonSingleOpenView viewType="departments" />} />
                             <Route exact path={"/people/designation/:id"}

@@ -154,7 +154,7 @@ class CustomDropdown extends Component {
                     <Panel header={<AnimationSearch collapseStatus={activeCollapse} onDropdownSearch={(e) => this.onLocalSearch(e.target.value)} {...this.props} changeState={this.changeState} />} key={panelKey} style={customPanelStyle}>
                         {localSearchData !== "nodata" && panelData.length ?
                             panelData.map(data => (
-                                <div className={`panelSingleData ${data._id == activeDataOfPanelId ? "panelSingleDataActive" : ""}`} onClick={() => this.onSelectingPanelData(data)}>
+                                <div className={`panelSingleData ${data._id === activeDataOfPanelId ? "panelSingleDataActive" : ""}`} onClick={() => this.onSelectingPanelData(data)}>
                                     <div className={`dataImage ${panelDataype === "circles" ? "circleDataImage" : "customDataImage"}`}></div>
                                     <div className="singleDataName">
 

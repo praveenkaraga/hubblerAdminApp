@@ -5,24 +5,24 @@ import {
     NavLink,
     Redirect,
 } from "react-router-dom";
-import './commonRouting.scss'
-import HolidayProfile from '../../Profile/HolidayProfile/HolidayProfile'
+import './profileRouting.scss'
+import HolidayProfile from '../HolidayProfile/HolidayProfile'
 
-class CommonRouting extends Component {
+class ProfileRouting extends Component {
 
     render() {
-        const {routes, leftPanelTitle,activeLinkHandler,activeLinkName,path} = this.props;
+        const {navLinkRoutes, leftPanelTitle,activeLinkHandler,activeLinkName,path, className} = this.props;
         let leftPanelTitleToLower = leftPanelTitle.toLowerCase();
         return (
-            <div className={'common-routing-view'}>
-                <div className={'common-routing-view-wrap'}>
+            <div className={className}>
+                <div className={`${className}-wrap`}>
                     <div className={'left-panel'}>
                         <div className={leftPanelTitleToLower}>{leftPanelTitle}</div>
                         <div className={'nav-link-wrap'}>
-                            {routes.map((route, index) => (
+                            {navLinkRoutes.map((route, index) => (
                                 <NavLink
                                     to={`/${leftPanelTitleToLower}${route.path}`}
-                                    className={`nav-link ${activeLinkName === route.link_name ? `link-active ${route.class_name}-link-active` : `list-item ${route.class_name}-link`}`}
+                                    className={`nav-link ${activeLinkName === route.link_name ? `link-active ${route.class_name}-link-active` : `list-item ${route.class_name}-link-black`}`}
                                     key={index}
                                     activeClassName={`${route.class_name}-link-active nav-link-active`}
                                     onClick={() => activeLinkHandler(route)}>{route.name}</NavLink>))
@@ -31,7 +31,7 @@ class CommonRouting extends Component {
                     </div>
                     <div className={'route-wrap'}>
                         <Switch>
-                            {routes.map((route, index) => (
+                            {navLinkRoutes.map((route, index) => (
                                 <Route
                                     key={index}
                                     path={`/${leftPanelTitleToLower}${route.path}`}
@@ -50,4 +50,4 @@ class CommonRouting extends Component {
     }
 }
 
-export default CommonRouting
+export default ProfileRouting

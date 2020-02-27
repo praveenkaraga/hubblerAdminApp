@@ -1,9 +1,21 @@
-.common-routing-view {
+$selectorTypes : "holiday","working-day" ,"reimbursement", "leave","tracking";
+
+@mixin navLinks($imageType){
+  @each $selectorType in $selectorTypes {
+    .#{$selectorType}-link-#{$imageType}{
+      background-image: url('../../../images/svg/#{$selectorType}-#{$imageType}.svg');
+    }
+  }
+
+}
+
+
+.profile-routing-view {
   height: 100%;
   background-color: #f0f1f8;
   width: 100%;
 
-  .common-routing-view-wrap {
+  .profile-routing-view-wrap {
     height: 100%;
     display: flex;
 
@@ -27,7 +39,6 @@
         text-decoration: none;
         color: #000000;
         background-color: #edf6fd;
-        //background-image: url(../../../images/svg/holiday-active.svg);
 
       }
 
@@ -57,21 +68,8 @@
         cursor: pointer;
       }
 
-      .holiday-link {
-        background-image: url(../../../images/svg/holiday.svg);
-      }
-      .working-day-link {
-        background-image: url(../../../images/svg/working-days.svg);
-      }
-      .leave-link {
-        background-image: url(../../../images/svg/leave_mgt.svg);
-      }
-      .reimbursement-link {
-        background-image: url(../../../images/svg/reimbursement.svg);
-      }
-      .tracking-link {
-        background-image: url(../../../images/svg/timeline-black.svg);
-      }
+    
+      @include navLinks("black");
 
       .link-active {
         background-repeat: no-repeat;
@@ -81,26 +79,9 @@
         cursor: pointer;
       }
 
-      .holiday-link-active {
-        background-image: url(../../../images/svg/holiday-active.svg);
+      @include navLinks("active");
 
-      }
-      .working-day-link-active {
-        background-image: url(../../../images/svg/working-days-active.svg);
-
-      }
-      .leave-link-active {
-        background-image: url(../../../images/svg/leave_mgt-activity.svg);
-
-      }
-      .reimbursement-link-active {
-        background-image: url(../../../images/svg/reimbursement-active.svg);
-
-      }
-      .tracking-link-active {
-        background-image: url(../../../images/svg/timeline-blue.svg);
-
-      }
+      
     }
     .route-wrap {
       width: calc(100% - 250px);
