@@ -2,6 +2,7 @@ import * as actionTypes from '../../actionTypes'
 import {
     getHolidayTableColumns,
     getCommonProfilesData,
+    getHolidaysTypeData,
 
 
     postCreteDepartmentData,
@@ -10,6 +11,8 @@ import {
     getAddableUserData,
     getDeptAddUsersTableColumns, getHeaderName, getCircleSuggestionDataApi, getAddUserDataForm
 } from '../../../utils/Apis/peopleApi'
+
+import {holidayTypeData} from '../../../utils/Apis/profileApi'
 
 export const commonHolidayAction = (payload) =>{
     return {
@@ -32,6 +35,14 @@ export const getHolidayProfileData = (perPageRows, currentPage, searchData, head
     const payload = getCommonProfilesData(type,subType,perPageRows, currentPage, searchData, headingData, sortingType)
     return {
         type: actionTypes.GET_HOLIDAY_PROFILES_DATA,
+        payload
+    }
+};
+
+export const getHolidayTypeData = () => {
+    const payload = holidayTypeData()
+    return {
+        type: actionTypes.GET_HOLIDAY_TYPE_DATA,
         payload
     }
 };

@@ -57,7 +57,7 @@ class AdminNav extends Component {
         return (
             <div className={'admin-nav'}>
                 <div className={'admin-nav-header'}>
-                    <div className={'hamburger-icon'} onClick={() => this.props.hamburgerIconClick(true)}></div>
+                    <div className={'hamburger-icon'} onClick={() => this.props.hamburgerIconClick(!consoleDrawerVisible)}></div>
                     <div className={'header-text-hubbler'}>hubbler</div>
                 </div>
                 <Router>

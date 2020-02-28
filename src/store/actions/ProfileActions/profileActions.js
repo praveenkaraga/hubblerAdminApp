@@ -3,7 +3,7 @@ import * as commonProfileActions from "../ProfileActions/commonProfileActions";
 
 //------------------------------ Holiday Profile Actions -------------------------------//
 
-export const { commonHolidayAction, getHolidayTableColumnData, getHolidayProfileData } = holidayActions;
+export const { commonHolidayAction, getHolidayTableColumnData, getHolidayProfileData,getHolidayTypeData} = holidayActions;
 
 //------------------------------xxxxxxxxxxxxxxxxxxx-------------------------------//
 

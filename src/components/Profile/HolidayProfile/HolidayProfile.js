@@ -3,12 +3,11 @@ import './holidayProfile.scss'
 import AllUserSelect from '../../common/allUserSelect/allUserSelect'
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-
 import {
     commonHolidayAction,
     getHolidayTableColumnData,
     getHolidayProfileData,
-    postProfileCommonDelete,commonActionForCommonProfileReducer,patchCommonCreatedData,postCommonProfileCreatedData
+    postProfileCommonDelete, commonActionForCommonProfileReducer, patchCommonCreatedData, postCommonProfileCreatedData,getHolidayTypeData
     /*postCreateDeptData,
     getAddableUsersData,
     onClickOfDownloadExcel,
@@ -19,6 +18,10 @@ import {withRouter} from "react-router-dom";
 import CreationPopUp from '../../common/CreationPopUp/CreationPopUp'
 import {message, Modal} from "antd";
 import isEmpty from "lodash/isEmpty";
+import HolidayCreateNewPopUp from "../../common/HolidayCreateNewPopUp/HolidayCreateNewPopUp"
+import LeaveCreateNewPopUp from '../../common/LeaveCreateNewPopUp/LeaveCreateNewPopUp'
+import VehicleReimCreatePopUp from '../../common/VehicleReimCreatePopUp/VehicleReimCreatePopUp'
+import MiscReimCreatePopUp from '../../common/MiscReimCreatePopUp/MiscReimCreatePopUp'
 
 
 class HolidayProfile extends Component {
@@ -30,9 +33,9 @@ class HolidayProfile extends Component {
             activeHeading: "",
             sortingType: "",
             searchData: "",
-            creationPopUpVisibility : false,
+            creationPopUpVisibility: false,
             creationPopUpMode: 'add',
-            newHolidayName : '',
+            newHolidayName: '',
             checkedDataKeys: [],
             visibilityOfDeletePopUp: false,
             loaderOfDeletePopUp: false,
@@ -41,7 +44,8 @@ class HolidayProfile extends Component {
 
     componentDidMount() {
         this.props.getHolidayTableColumnData();
-        this.props.getHolidayProfileData(30)
+        this.props.getHolidayProfileData(30);
+        this.props.getHolidayTypeData()
     }
 
     onChangeCheckBox = (selectedRowsKeys, selectedRows) => {
@@ -99,9 +103,9 @@ class HolidayProfile extends Component {
     };
 
     creationPopUpInput = (e) => {
-        const { editRowName } = this.state;
+        const {editRowName} = this.state;
         const inputData = e.target.value;
-        this.setState({ newHolidayName: inputData, editRowName: inputData ? editRowName : "" })
+        this.setState({newHolidayName: inputData, editRowName: inputData ? editRowName : ""})
     };
 
     onSaveNewHoliday = async () => {
@@ -118,14 +122,14 @@ class HolidayProfile extends Component {
         }
 */
 
-        const { newHolidayName, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType } = this.state
-        let data = { name: newHolidayName};
-        await this.props.postCommonProfileCreatedData("holiday","holiday-profiles", data);
-        const {errorMsg ,createdProfileData} = this.props.commonProfileReducer; // will be true if success is true from above post api and pop up will be closed
+        const {newHolidayName, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType} = this.state
+        let data = {name: newHolidayName};
+        await this.props.postCommonProfileCreatedData("holiday", "holiday-profiles", data);
+        const {errorMsg, createdProfileData} = this.props.commonProfileReducer; // will be true if success is true from above post api and pop up will be closed
         if (!isEmpty(createdProfileData)) {
-            this.setState({ creationPopUpVisibility: false, newHolidayName: '' })
+            this.setState({creationPopUpVisibility: false, newHolidayName: ''})
             message.success("Holiday Profile Created Successfully");
-            this.props.commonActionForCommonProfileReducer({ newDataCreatedSuccessfully: false })
+            this.props.commonActionForCommonProfileReducer({newDataCreatedSuccessfully: false})
             this.props.getHolidayProfileData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
         } else {
             message.error(errorMsg);
@@ -133,13 +137,13 @@ class HolidayProfile extends Component {
     };
 
     onSaveEditedHoliday = async () => {
-        const { newHolidayName, editRowId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType } = this.state
-        await this.props.patchCommonCreatedData("holiday","holiday-profiles", editRowId, { name: newHolidayName });
-        const { patchDataCreatedSuccessfully, patchSuccessMessage, errorMsg } = this.props.commonProfileReducer
+        const {newHolidayName, editRowId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType} = this.state
+        await this.props.patchCommonCreatedData("holiday", "holiday-profiles", editRowId, {name: newHolidayName});
+        const {patchDataCreatedSuccessfully, patchSuccessMessage, errorMsg} = this.props.commonProfileReducer
         if (patchDataCreatedSuccessfully) {
-            this.setState({ creationPopUpVisibility: false, checkedDataKeys: [] });
+            this.setState({creationPopUpVisibility: false, checkedDataKeys: []});
             message.success(patchSuccessMessage || "Saved Successfully");
-            this.props.commonActionForCommonProfileReducer({ newDataCreatedSuccessfully: false });
+            this.props.commonActionForCommonProfileReducer({newDataCreatedSuccessfully: false});
             this.props.getHolidayProfileData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
         } else {
             message.error(errorMsg);
@@ -147,34 +151,38 @@ class HolidayProfile extends Component {
     };
 
     onClickHolidayActions = async (actionType) => {
-        const { checkedDataKeys, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType } = this.state
+        const {checkedDataKeys, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType} = this.state
         if (actionType === "edit") {
-            this.setState({ creationPopUpVisibility: true, creationPopUpMode: "edit", commonCreationViewHeaderName : this.state.editRowName   })
+            this.setState({
+                creationPopUpVisibility: true,
+                creationPopUpMode: "edit",
+                commonCreationViewHeaderName: this.state.editRowName
+            })
         } else {
-            this.setState({ loaderOfDeletePopUp: true })
-            await this.props.postProfileCommonDelete("holiday", { ids: checkedDataKeys })
-            const { postDeletedDataSuccessfulMessage, postDeletedDataSuccessfully, errorMsg } = this.props.commonProfileReducer
+            this.setState({loaderOfDeletePopUp: true})
+            await this.props.postProfileCommonDelete("holiday", {ids: checkedDataKeys})
+            const {postDeletedDataSuccessfulMessage, postDeletedDataSuccessfully, errorMsg} = this.props.commonProfileReducer
             if (postDeletedDataSuccessfully) {
                 message.success(postDeletedDataSuccessfulMessage)
                 this.props.getHolidayProfileData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
-                this.props.commonActionForCommonProfileReducer({ postDeletedDataSuccessfully: false })
+                this.props.commonActionForCommonProfileReducer({postDeletedDataSuccessfully: false})
             } else {
                 message.error(errorMsg)
                 this.props.getHolidayProfileData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
             }
-            this.setState({ checkedDataKeys: [],loaderOfDeletePopUp: false, visibilityOfDeletePopUp: false})
+            this.setState({checkedDataKeys: [], loaderOfDeletePopUp: false, visibilityOfDeletePopUp: false})
         }
 
     };
 
     render() {
-        const {holidayColumnData, holidayProfilesData, totalUsers, searchLoader} = this.props.holidayReducer
-        const {creationPopUpVisibility,creationPopUpMode,newHolidayName,editRowName,checkedDataKeys,loaderOfDeletePopUp,visibilityOfDeletePopUp} = this.state;
+        const {holidayColumnData, holidayProfilesData, totalUsers, searchLoader,holidayTypeData} = this.props.holidayReducer
+        const {creationPopUpVisibility, creationPopUpMode, newHolidayName, editRowName, checkedDataKeys, loaderOfDeletePopUp, visibilityOfDeletePopUp} = this.state;
         console.log(holidayProfilesData);
         return (
             <div className="holiday-profile-main">
                 <div className="holiday-profile-heading"><h3>Holiday Profiles</h3></div>
-                <AllUserSelect allHeadingsData={holidayColumnData} userData={holidayProfilesData || []}
+                {/*<AllUserSelect allHeadingsData={holidayColumnData} userData={holidayProfilesData || []}
                                isUserData={false} totalUsers={totalUsers}
                                searchSecondButtonName={"ADD HOLIDAY"}
                                searchSecondButtonClick={() => this.setState({ creationPopUpVisibility: true, creationPopUpMode: "add" })}
@@ -191,7 +199,13 @@ class HolidayProfile extends Component {
                                disableButtonNames={[checkedDataKeys.length > 1 ? "edit" : ""]}
                                selectedDataCount={checkedDataKeys.length}
                                onClickUserDelete={() => this.setState({ visibilityOfDeletePopUp: true })}
-                               onClickUserEdit={() => this.onClickHolidayActions("edit")}/>
+                               onClickUserEdit={() => this.onClickHolidayActions("edit")}/>*/}
+
+
+                {/*<HolidayCreateNewPopUp createNewVisibility={true} holidayTypeDropdownData={holidayTypeData} />*/}
+                {/*<LeaveCreateNewPopUp createNewVisibility={true} />*/}
+                <VehicleReimCreatePopUp createNewVisibility={true} />
+                {/*<MiscReimCreatePopUp createNewVisibility={true} />*/}
 
                 <CreationPopUp creationPopUpVisibility={creationPopUpVisibility}
                                creationPopUpTitle={creationPopUpMode === "add" ? "Add New Holiday Profile" : "Edit Holiday Profile"}
@@ -200,10 +214,10 @@ class HolidayProfile extends Component {
                                fieldHeader={"Profile Name"}
                                fieldPlaceHolder={"Enter Holiday Profile"}
                                inputValue={newHolidayName || editRowName}
-                               creationPopFirstButtonHandler={() => this.setState({ creationPopUpVisibility: false })}
+                               creationPopFirstButtonHandler={() => this.setState({creationPopUpVisibility: false})}
                                creationPopSecondButtonHandler={creationPopUpMode === "add" ? this.onSaveNewHoliday : this.onSaveEditedHoliday}
                                secondButtonDisable={newHolidayName.length < 3 || newHolidayName === editRowName ? true : false}
-                               afterClose={() => this.setState({ newHolidayName: "" })}
+                               afterClose={() => this.setState({newHolidayName: ""})}
                                creationPopUpFirstFieldChangeHandler={this.creationPopUpInput}
                 />
 
@@ -212,7 +226,7 @@ class HolidayProfile extends Component {
                     visible={visibilityOfDeletePopUp}
                     onOk={() => this.onClickHolidayActions("delete")}
                     confirmLoading={loaderOfDeletePopUp}
-                    onCancel={() => this.setState({ visibilityOfDeletePopUp: false })}
+                    onCancel={() => this.setState({visibilityOfDeletePopUp: false})}
                     centered
                     closable
                     okText={"Delete"}
@@ -231,7 +245,7 @@ class HolidayProfile extends Component {
 const mapStateToProps = state => {
     return {
         holidayReducer: state.holidayReducer,
-        commonProfileReducer : state.commonProfileReducer
+        commonProfileReducer: state.commonProfileReducer
     };
 };
 
@@ -240,7 +254,11 @@ const mapDispatchToProps = dispatch => {
         {
             commonHolidayAction,
             getHolidayTableColumnData,
-            getHolidayProfileData,postProfileCommonDelete,commonActionForCommonProfileReducer,patchCommonCreatedData,postCommonProfileCreatedData
+            getHolidayProfileData,
+            postProfileCommonDelete,
+            commonActionForCommonProfileReducer,
+            patchCommonCreatedData,
+            postCommonProfileCreatedData,getHolidayTypeData
             /*postCreateDeptData, getAddableUsersData,
             onClickOfDownloadExcel,
             getImportUserUploadDetails,

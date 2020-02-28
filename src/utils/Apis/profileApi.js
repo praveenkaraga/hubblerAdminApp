@@ -30,6 +30,10 @@ export const patchCommonCreateDataApi = (type, subType, id, data) => {
     return axios.patch(`/${type}/${subType}/${id}/`, data, axiosConfig)
 }
 
+export const holidayTypeData = () =>{
+    return axios.get(`/holiday/holiday-types/`, axiosConfig)
+}
+
 //-----------------------------------------------------------------------------------------------------------------
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX------END PROFILES------XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 //-----------------------------------------------------------------------------------------------------------------
