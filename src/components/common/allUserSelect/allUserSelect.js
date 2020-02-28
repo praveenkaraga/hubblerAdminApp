@@ -66,6 +66,7 @@ class AllUserSelect extends Component {
         let modifiedUserData = JSON.parse(JSON.stringify(userData)) //making a deep clone of incoming data
         if (modifiedUserData.length) { //checking if there is data or not 
             modifiedUserData.forEach(singleUserData => {
+                const copyName = singleUserData.name || ""
                 allHeadingsData.forEach(data => {
                     const dataType = data.type
                     switch (dataType) { //checking for all types of data type
@@ -81,7 +82,7 @@ class AllUserSelect extends Component {
                                         <div className="no_profile_pic"><p>{singleUserData.firstname.substring(0, 2)}</p></div> //if no profile pic then we are showing first two intials of their first name
                                     : <div className="no_profile_pic"><img className="deactivated_user_pic" src={require('../../../images/svg/deactivate-user-pic.svg')} /></div>
                                 : ""}
-                            <div className="only_name">{singleUserData.firstname || ""}  {singleUserData.lastname || ""}</div>
+                            <div className="only_name">{copyName || ( singleUserData.firstname || "" + singleUserData.lastname || "")}</div>
                         </div>
                         singleUserData["key"] = singleUserData._id
                         break;

@@ -92,9 +92,9 @@ class FieldOpenView extends Component {
 
 
     // on search in table 
-    fieldSearchData = (e) => {
+    fieldSearchData = (searchData) => {
         const { singleNodeId, rowsPerPage, activeheading, sortingType, filterKeyId } = this.state
-        const searchData = e.target.value
+        this.props.commonActionForCommonReducer({ fieldTableLoading : true })
         this.props.getSingleFieldData(singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType, filterKeyId)
         this.setState({
             searchData,

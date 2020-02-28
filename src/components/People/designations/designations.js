@@ -24,6 +24,7 @@ class Designations extends Component {
             activeheading: "",
             sortingType: "",
             searchData: "",
+
             creationPopUpVisibility: false,
             newDesignationName: "",
             checkedDataKeys: [],
@@ -69,9 +70,9 @@ class Designations extends Component {
     }
 
     //on search in the designaiton table
-    designationSearchData = (e) => {
+    designationSearchData = (searchData) => {
         const { rowsPerPage, activeheading, sortingType } = this.state
-        const searchData = e.target.value
+        this.props.commonDesignationAction({ tableLoading : true })
         this.props.designationsData(rowsPerPage, 1, searchData, activeheading, sortingType)
         this.setState({
             searchData,

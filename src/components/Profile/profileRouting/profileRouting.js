@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import './profileRouting.scss'
 import HolidayProfile from '../HolidayProfile/HolidayProfile'
+import CommonLandingView from '../commonLandingView/commonLandingView'
 
 class ProfileRouting extends Component {
 
@@ -36,13 +37,13 @@ class ProfileRouting extends Component {
                                     key={index}
                                     path={`/${leftPanelTitleToLower}${route.path}`}
                                     exact={route.exact}
-                                    component={route.main}/>
+                                    children={route.main}/>
                             ))}
-                            <Route exact path={`/${leftPanelTitleToLower}`}>
-                                <Redirect to={`${leftPanelTitleToLower}/${path}`}/>
-                            </Route>
-                            <Route path={`${leftPanelTitleToLower}/${path}`} children={<HolidayProfile/>}/>
                         </Switch>
+
+                        <Route exact path={["/profile"]}>
+                            <Redirect to={"/profile/holiday"} />
+                        </Route>
                     </div>
                 </div>
             </div>

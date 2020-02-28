@@ -12,41 +12,42 @@ import {createActiveLink, hamburgerIconClick} from "../../store/actions/PeopleAc
 
 import './profileView.scss'
 import HolidayProfile from "../../components/Profile/HolidayProfile/HolidayProfile";
-import ProfileRouting from '../../components/Profile/profileRouting/profileRouting'
+import ProfileRouting from '../../components/Profile/profileRouting/profileRouting';
+import CommonLandingView from '../../components/Profile/commonLandingView/commonLandingView'
 
 const navLinkRoutes = [
     {
-        path: "/holidayProfile",
+        path: "/holiday",
         exact: false,
-        main: () => <HolidayProfile/>,
+        main: <CommonLandingView viewType="holiday"/>,
         name: "Holiday",
         class_name: 'holiday',
         link_name: 'holiday',
     },
     {
-        path: "/workingDayProfile",
-        main: () => 'Working Day Profile Component',
+        path: "/workingDay",
+        main: <CommonLandingView viewType="workingDay"/>,
         name: "Working Day",
         class_name: 'working-day',
         link_name: 'workingDay',
     },
     {
-        path: "/leaveProfile",
-        main: () => 'Leave Profile Component',
+        path: "/leave",
+        main: <CommonLandingView viewType="leave"/>,
         name: "Leave",
         class_name: 'leave',
         link_name: 'leave',
     },
     {
-        path: "/reimbursementProfile",
-        main: () => 'Reimbursement Profile Component',
+        path: "/reimbursement",
+        main: <CommonLandingView viewType="reimbursement"/>,
         name: "Reimbursement",
         class_name: 'reimbursement',
         link_name: 'reimbursement',
     },
     {
-        path: "/trackingProfile",
-        main: () => 'Tracking Profile Component',
+        path: "/tracking",
+        main: <CommonLandingView viewType="tracking"/>,
         name: "Tracking",
         class_name: 'tracking',
         link_name: 'tracking',
@@ -66,6 +67,7 @@ class ProfileView extends Component {
                 <div className={'profile-view-wrap'}>
                     <ProfileRouting navLinkRoutes={navLinkRoutes} leftPanelTitle={'Profile'} activeLinkHandler={this.createActiveLink}
                         activeLinkName={activeLinkName} className={"profile-routing-view"}/>
+
                 </div>
             </div>
         )

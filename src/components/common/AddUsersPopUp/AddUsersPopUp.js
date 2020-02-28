@@ -14,27 +14,27 @@ class AddUsersPopUp extends Component {
                 footer={null} className={'add-users-pop-up-model'}
                 onCancel={addUsersPopUpClose}>
                 <AllUserSelect allHeadingsData={addUsersPopUpTableColumnsData} userData={addUsersPopUpUsersData}
-                               searchPlaceHolder={addUsersPopUpPlaceHolder}
-                               searchFirstButtonName={addUsersPopUpFirstButtonName}
-                               totalUsers={addUsersPopUpTotalUsers}
-                               isUserData={addUsersPopUpIsUserData}
-                               onChangeCheckBox={addUsersPopUpOnChangeCheckBox} onlySelectAndAdd={addUsersPopUpOnlySelectAndAdd}
-                               searchFirstButtonClick={addUsersPopUpFirstButtonClick}
-                               onChangeRowsPerPage={addUsersOnChangeRowsPerPage}
-                               headingClickData={addUsersOnClickHeadingColumn}
-                               goPrevPage={() => addUsersChangePage(-1)}
-                               goNextPage={() => addUsersChangePage(1)}
-                               onSearch={addUsersSearchData}
-                               currentPageNumber={addUsersCurrentPageNumber}
-                               searchLoader={addUsersSearchLoader}
-                               showHeaderButtons={addUsersShowHeaderButtons}
-                               disableButtonNames={addUsersDisableButtonNames}
-                               selectedDataCount={addUsersSelectedDataCount}
-                               onClickUserDelete={addUsersOnClickActions}
-                               onClickUserEdit={addUsersOnClickActions}
-                               onClickAddUserButton={addUsersOnClickAddUserButton}
-                               onSelectRow={addUsersOnSelectRow}
-                               onSelectAll={addUsersOnSelectAll}
+                    searchPlaceHolder={addUsersPopUpPlaceHolder}
+                    searchFirstButtonName={addUsersPopUpFirstButtonName}
+                    totalUsers={addUsersPopUpTotalUsers}
+                    isUserData={addUsersPopUpIsUserData}
+                    onChangeCheckBox={addUsersPopUpOnChangeCheckBox} onlySelectAndAdd={addUsersPopUpOnlySelectAndAdd}
+                    searchFirstButtonClick={addUsersPopUpFirstButtonClick}
+                    onChangeRowsPerPage={addUsersOnChangeRowsPerPage}
+                    headingClickData={addUsersOnClickHeadingColumn}
+                    goPrevPage={() => addUsersChangePage(-1)}
+                    goNextPage={() => addUsersChangePage(1)}
+                    onSearch={addUsersSearchData}
+                    currentPageNumber={addUsersCurrentPageNumber}
+                    searchLoader={addUsersSearchLoader}
+                    showHeaderButtons={addUsersShowHeaderButtons}
+                    disableButtonNames={addUsersDisableButtonNames}
+                    selectedDataCount={addUsersSelectedDataCount}
+                    onClickUserDelete={addUsersOnClickActions}
+                    onClickUserEdit={addUsersOnClickActions}
+                    onClickAddUserButton={addUsersOnClickAddUserButton}
+                    onSelectRow={addUsersOnSelectRow}
+                    onSelectAll={addUsersOnSelectAll}
 
                 />
             </Modal>

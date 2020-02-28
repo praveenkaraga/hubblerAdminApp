@@ -100,9 +100,8 @@ class CommonSingleOpenView extends Component {
     }
 
 
-    onChangeSearch = (e) => { //onChange of left side of search
+    onChangeSearch = (searchData) => { //onChange of left side of search
         const { rowsPerPage, activeheading, sortingType, singleNodeId, viewType, subNodeId } = this.state
-        const searchData = e.target.value
         this.props.getSingleViewData(viewType, singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType, subNodeId)
         this.setState({ searchData, currentPageNumber: 1 })
     }
