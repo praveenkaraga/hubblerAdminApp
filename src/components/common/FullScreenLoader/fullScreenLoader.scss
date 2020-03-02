@@ -1,0 +1,10 @@
+.fullscreen_loader_main{
+    height: 100%;
+    .fullscreen_loader{
+        height: 100%;
+        background-image: url('../../../images/loader-black.svg');
+        background-size: 55px;
+        background-repeat: no-repeat;
+        background-position: center
+    }
+}

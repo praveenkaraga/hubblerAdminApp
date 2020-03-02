@@ -5,6 +5,11 @@
     max-height: unset ;
 }
 
+.ant-table-empty{
+    .ant-table-body{
+        height: 70%; 
+    }
+}
 
 
 .ant-table-thead  tr  th{

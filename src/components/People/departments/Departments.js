@@ -291,9 +291,8 @@ class Departments extends Component {
         })
     }
 
-    departmentSearchData = (e) => {
+    departmentSearchData = (searchData) => {
         const { rowsPerPage, activeheading, sortingType } = this.state
-        const searchData = e.target.value
         this.props.getDepartmentData(rowsPerPage, 1, searchData, activeheading, sortingType)
         this.props.commonDepartmentAction({ currentPageNumber: 1, searchData, searchLoader: true })
         this.setState({

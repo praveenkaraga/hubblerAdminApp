@@ -57,76 +57,12 @@ export const holidayReducer = (state = initialState, action) => {
             const holidayTypeDataInitial = action.payload.data;
             const holidayTypeData = holidayTypeDataInitial ? holidayTypeDataInitial.result : [];
             return {
-                holidayTypeData : holidayTypeData,
+                holidayTypeData: holidayTypeData,
             }
 
 
-
-        /*case actionTypes.POST_CREATE_DEPARTMENT_DATA:
-        const initialData = action.payload.data;
-        const data = initialData ? initialData : {};
-        return {
-            ...state,
-            createdDepartmentData: data,
-            commonViewLoader: false,
-            viewDecider: 0
-        }
-    case actionTypes.POST_ADD_SELECTED_USERS_DATA:
-        const dataInitial = action.payload.data;
-        return {
-            ...state,
-            dataInitial
-        };
-    case actionTypes.GET_ADD_SELECTED_USERS_POSTED_DATA:
-        const addedUsersInitialData = action.payload.data;
-        const allSelectedUserData = addedUsersInitialData ? addedUsersInitialData.result : []
-        const allSelectedUserDataCopy = JSON.parse(JSON.stringify(allSelectedUserData))
-        const totalAllSelectedUsers = addedUsersInitialData ? addedUsersInitialData.total_count : 0
-        let decideView = isEmpty(allSelectedUserData) ? false : true
-        return {
-            ...state,
-            addedUsersData: addedUsersInitialData ? addedUsersInitialData : [],
-            viewDecider: decideView,
-            commonViewLoader: false,
-            allSelectedUsersSearchLoader: false,
-            totalAllSelectedUsers
-        };
-
-    case actionTypes.GET_ADDABLE_USERS_DATA:
-        const userDataIntital = action.payload.data
-        const userData = userDataIntital ? userDataIntital.result : []
-        const userDataCopy = JSON.parse(JSON.stringify(userData))
-        const totalAddableUsers = userDataIntital ? userDataIntital.total_count : 0
-        return {
-            ...state,
-            addableUsersData: userDataCopy,
-            totalAddableUsers,
-            addUsersSearchLoader: false,
-        }
-
-    case actionTypes.GET_COMMON_VIEW_HEADER_NAME:
-        let headerInitial = action.payload.data ? action.payload.data.result : {};
-        let commonViewHeader = headerInitial.name ? headerInitial.name : '';
-        console.log(action.payload.data);
-        return {
-            headerNameWhenRouted: commonViewHeader
-        }
-
-    case actionTypes.GET_DEPARTMENTS_SUGGESTION_DATA:
-        const departmentSuggestionDataInitial = action.payload.data.result;
-        return {
-            ...state,
-            departmentSuggestionData: departmentSuggestionDataInitial,
-        }
-    case actionTypes.EDIT_USER_DATA_FORM:
-        const editUserDataFormInitial = action.payload.data ? action.payload.data.result : []
-        return {
-            ...state,
-            editUserDataFormMain: editUserDataFormInitial,
-            editUserDataForm: JSON.parse(JSON.stringify(editUserDataFormInitial))
-        }*/
-
+        default:
+            return {...state}
 
     }
-    return {...state}
 }

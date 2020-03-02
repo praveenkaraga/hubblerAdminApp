@@ -9,7 +9,7 @@ axios.defaults.proxy = true;
 //--------------------Console API'S------------------------------------------------------------------
 export const getUsers = (perPageRows, currentPage, searchData, headingData, sortingType) => {
     const startNumber = ((currentPage - 1) * perPageRows) + 1
-    return axios.get(`/rest/users/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "searchAll" : ""}&filterQuery=${searchData || ""}&version=1`, axiosConfig);
+    return axios.get(`/rest/users/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || ""}&sortOrder=${sortingType || "dsc"}&filterKey=${searchData ? "searchAll" : "_id"}&filterQuery=${searchData || ""}&version=1`, axiosConfig);
 };
 //XXXXXXXXXXXXXXXXX---End of Console API'S------XXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -81,7 +81,7 @@ export const getAddUserDataForm = () => { // to remove
 //-------------------------------Departments Api------------------------------------------
 export const getDepartmentsData = (perPageRows, currentPage, searchData, headingData, sortingType) => { // to get the departments data
     const startNumber = ((currentPage - 1) * perPageRows) + 1
-    return axios.get(`/rest/departments/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "name" : ""}&filterQuery=${searchData || ""}`, axiosConfig);
+    return axios.get(`/rest/departments/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || "_id"}&sortOrder=${sortingType || "dsc"}&filterKey=${searchData ? "name" : ""}&filterQuery=${searchData || ""}`, axiosConfig);
 
 };
 
@@ -105,7 +105,7 @@ export const postCreteDepartmentData = (data) => { //to post the newly created d
 
 export const getDesignationsData = (perPageRows, currentPage, searchData, headingData, sortingType) => {
     const startNumber = ((currentPage - 1) * perPageRows) + 1
-    return axios.get(`/rest/designations/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "name" : ""}&filterQuery=${searchData || ""}`, axiosConfig);
+    return axios.get(`/rest/designations/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || "_id"}&sortOrder=${sortingType || "dsc"}&filterKey=${searchData ? "name" : ""}&filterQuery=${searchData || ""}`, axiosConfig);
 };
 
 
@@ -208,34 +208,3 @@ export const getAddUsersProfileDataApi = (id) => {
 
 //--xxxxxxxxxxxxxx--Add Users Form Api---xxxxxxx
 
-
-
-//-------- Holiday Profile Apis------------------
-
-
-
-
-
-
-
-//-----------------------------------------------------------------------------------------------------------------
-//------------------------------PROFILES---------------------------------------------------------------------------
-//-----------------------------------------------------------------------------------------------------------------
-
-export const getHolidayTableColumns = () => { // to remove
-    return axios.get("https://demo4798197.mockable.io/holiday-profile-columns")
-};
-
-export const getCommonProfilesData = (type, subType, perPageRows, currentPage, searchData, headingData, sortingType) => { //to get a type of profile data based on the type and subtype
-    const startNumber = ((currentPage - 1) * perPageRows) + 1
-    return axios.get(`/${type}/${subType}/?start=${startNumber || 1}&offset=${perPageRows || 0}&sortKey=${headingData || ""}&sortOrder=${sortingType || ""}&filterKey=${searchData ? "name" : ""}&filterQuery=${searchData || ""}`, axiosConfig);
-
-};
-
-export const postHolidayCreatedDataApi = (data) => { //to post a type to profile that's newly created
-    return axios.post(`/holiday/holiday-profiles/`, data, axiosConfig)
-};
-
-//-----------------------------------------------------------------------------------------------------------------
-//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX------END PROFILES------XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-//-----------------------------------------------------------------------------------------------------------------

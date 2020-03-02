@@ -65,6 +65,8 @@ const routes = [
     }
 ];
 
+
+
 class UserConsoleView extends Component {
 
     constructor(props) {
@@ -84,6 +86,7 @@ class UserConsoleView extends Component {
             fieldPopUpSwitchData: false,
             parentNodeSwitchData: false,
             parentObject: {},
+            creationPopupLoader : false
         }
 
         this.customDropdownData = [
@@ -150,7 +153,7 @@ class UserConsoleView extends Component {
             parent: this.state.parentObject,
         }
 
-
+        this.setState({ creationPopupLoader : true})
         if (popUpMode === "setting") { // it is in edit mode we will call patch and if it is add mode we will call post
             await this.props.patchCommonCreateData(popUpDataType === "fields" ? "nodes" : popUpDataType, creationPopUpData.id, popUpDataType === "fields" ? finalDataField : finalDataCircle)
         } else {
@@ -168,6 +171,7 @@ class UserConsoleView extends Component {
         } else {
             message.error(errorMsg);
         }
+        this.setState({ creationPopUpVisibility: false , creationPopupLoader : false})
     }
 
 
@@ -268,7 +272,7 @@ class UserConsoleView extends Component {
     render() {
         const { activeLinkName } = this.props.firstReducer
         const { circlesData, customFieldsData, parentNodeOptions, parentNodeSwitch } = this.props.userConsoleMainReducer
-        const { creationPopUpVisibility, creationPopUpData, creationPopUpInputData } = this.state
+        const { creationPopUpVisibility, creationPopUpData, creationPopUpInputData , creationPopupLoader} = this.state
         return (
             <div className={'user-console-view'}>
                 <div className={'user-console-view-wrap'}>
@@ -302,6 +306,7 @@ class UserConsoleView extends Component {
                                 onClickAdd={() => this.onClickAdd(singleData.type)}
                                 onDeleteConfirmClick={(data) => this.onDeleteConfirmClick(data, singleData.type)}
                                 onSearch={(searchData) => this.onDropdownSearch(searchData, singleData.type)}
+                                searchDebounceTime={300}
                             />
                         ))
                         }
@@ -329,6 +334,7 @@ class UserConsoleView extends Component {
                             parentNodeOptions={parentNodeOptions}
                             parentNodeOnchange={this.parentNodeOnchange}
                             parentNodeOnSearch={this.parentNodeOnSearch}
+                            creationPopSecondButtonLoader = {creationPopupLoader}
                         />
 
 
@@ -348,18 +354,12 @@ class UserConsoleView extends Component {
                             <Route exact path={["/people", "/people/circle", "/people/field", "/people/designation", "/people/department"]}>
                                 <Redirect to={"/people/console"} />
                             </Route>
-                            <Route exact path={"/people/designation"}>
-                                <Redirect to={"/people/designations"} />
-                            </Route>
+                            <Route exact path={"/people/field/:id/"} children={FieldOpenView} />
 
-                            <Route exact path={"/people/console"} component={Console} />
-                            <Route exact path={"/people/departments"} component={Departments} />
-                            <Route exact path={"/people/designations"} component={Designations} />
                             <Route exact path={"/people/circle/:id"}
                                 children={<CommonSingleOpenView viewType="circles" />} />
                             <Route exact path={"/people/field/:id/:id"}
                                 children={<CommonSingleOpenView viewType="nodes" />} />
-                            <Route exact path={"/people/field/:id/"} component={FieldOpenView} />
                             <Route exact path={"/people/department/:id"}
                                 children={<CommonSingleOpenView viewType="departments" />} />
                             <Route exact path={"/people/designation/:id"}

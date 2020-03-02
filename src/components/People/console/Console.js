@@ -48,11 +48,12 @@ class Console extends Component {
     componentDidMount() { // calling console data and same excel file api
         this.props.getConsoleUserData(30)
         this.props.onClickOfDownloadExcel()
+        this.props.commonConsoleAction({tableLoading: true})
     }
 
 
-    userSearchData = (e) => { // on Search of console table
-        const searchData = e.target.value
+    userSearchData = (searchData) => { // on Search of console table
+       
         const { rowsPerPage, activeheading, sortingType } = this.props.consoleReducer
         this.props.getConsoleUserData(rowsPerPage, 1, searchData, activeheading, sortingType)
         this.props.commonConsoleAction({ currentPageNumber: 1, searchData, searchLoader: true })
@@ -112,8 +113,9 @@ class Console extends Component {
     //on change of rows per page of the table
     onChangeRowsPerPage = (rowsPerPage) => {
         const { searchData, activeheading, sortingType } = this.props.consoleReducer
+        this.props.commonConsoleAction({ rowsPerPage, currentPageNumber: 1, tableLoading: true  })
         this.props.getConsoleUserData(rowsPerPage, 1, searchData, activeheading, sortingType)
-        this.props.commonConsoleAction({ rowsPerPage, currentPageNumber: 1 })
+        
     }
 
 
@@ -121,16 +123,17 @@ class Console extends Component {
     changePage = (calcData) => {
         const { currentPageNumber, rowsPerPage, searchData, activeheading, sortingType } = this.props.consoleReducer
         const goToPage = currentPageNumber + calcData
+        this.props.commonConsoleAction({ currentPageNumber: goToPage , tableLoading: true})
         this.props.getConsoleUserData(rowsPerPage, goToPage, searchData, activeheading, sortingType)
-        this.props.commonConsoleAction({ currentPageNumber: goToPage })
     }
 
     //on click of heading of all the rows of the table
     //will make ascend and descend that column
     onClickHeadingColumn = (activeheading, sortingType) => {
         const { currentPageNumber, rowsPerPage, searchData } = this.props.consoleReducer
+        this.props.commonConsoleAction({ activeheading, sortingType, tableLoading: true})
         this.props.getConsoleUserData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
-        this.props.commonConsoleAction({ activeheading, sortingType })
+        
     }
 
     //on click of gear icon
@@ -157,7 +160,7 @@ class Console extends Component {
         const { actionSuccessMessage, errorMsg, actionOnUserSuccess, rowsPerPage, activeheading, sortingType, searchData, currentPageNumber } = this.props.consoleReducer
         if (actionOnUserSuccess) { // if api call gives success
             message.success(actionSuccessMessage) // show success message
-            this.props.commonConsoleAction({ actionOnUserSuccess: false })
+            this.props.commonConsoleAction({ actionOnUserSuccess: false, tableLoading: true })
             this.props.getConsoleUserData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
             this.setState({ checkedDataKeys: [] })
             this.selectedUsers = []
@@ -216,6 +219,7 @@ class Console extends Component {
         if (patchColumnSettingStatus) {
             message.success("Table Column Setting Saved")
             this.props.getLoginSessionData()
+            this.props.commonConsoleAction({ tableLoading: true })
             this.props.getConsoleUserData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
 
         } else {
@@ -240,7 +244,7 @@ class Console extends Component {
     //function will returns all the buttons which will be shown on selection of any user(s)
     showButtons = () => {
         return [{ id: "activate", label: "Activate User" }, { id: "deactivate", label: "Deactivate User" },
-        { id: "edit", label: "Edit User" }, { id: "delete", label: "Delete User" }]
+            { id: "edit", label: "Edit User" }, { id: "delete", label: "Delete User" }]
 
     }
 
@@ -251,9 +255,10 @@ class Console extends Component {
 
 
     render() {
-        const { consoleUserData, totalUsers, currentPageNumber, searchLoader, columnSettingData } = this.props.consoleReducer
+        const { consoleUserData, totalUsers, currentPageNumber, searchLoader, columnSettingData , tableLoading} = this.props.consoleReducer
         const { importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpData, uploadPopUpVisibility, startUploadStatus, uploadFileStatus,
             importUsersUploadResponseData, isFileUploaded, clickedTeamUserData, contentLoader } = this.props.teamViewReducer;
+        
         const { tableColumnData } = this.props.commonReducer
 
         const { addUserspopUpStatus, userInfoVisible, userId, checkedDataKeys, disableHeaderButtonNames, visibleColumnSetting, typeOfActionOnUser,
@@ -271,7 +276,7 @@ class Console extends Component {
                     onSearch={this.userSearchData} searchPlaceHolder={"Search Users / Managers / Designation"}
                     searchFirstButtonLoader={false}
                     searchSecondButtonLoader={false} searchLoader={searchLoader} typeOfData="Total Users"
-
+                    debounceTimeUserSearch = {300}
 
                     // props for main AllUser component
                     onChangeCheckBox={this.onChangeCheckBox} totalUsers={totalUsers}
@@ -281,6 +286,11 @@ class Console extends Component {
                     allHeadingsData={tableColumnData}
                     userData={consoleUserData}
                     onSelectRow={this.onSelectRow}
+                    onSelectAll={this.onClickSelectAllCheckBox}
+
+                    //Loader of Table
+                    tableLoading ={tableLoading}
+
 
                     //props of column setting component
                     onClickColumnSetting={this.onClickColumnSetting}
@@ -311,7 +321,7 @@ class Console extends Component {
                     //to empty the selected Data
                     selectedDataCount={checkedDataKeys.length}
 
-                    onSelectAll={this.onClickSelectAllCheckBox}
+                    
 
                 />
 

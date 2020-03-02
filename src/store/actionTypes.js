@@ -72,7 +72,13 @@ export const GET_ADD_USERS_PROFILE_DATA = "GET_ADD_USERS_PROFILE_DATA"
 
 
 
-//Holiday Profile
+
+//----------------------------------------------------------------------------
+//------------------------------Profiles--------------------------------------
+//----------------------------------------------------------------------------
+
+
+//----------------------------Holiday Profile
 export const COMMON_HOLIDAY_ACTION = "COMMON_HOLIDAY_ACTION"
 export const GET_HOLIDAY_TABLE_COLUMN_DATA = "GET_HOLIDAY_TABLE_COLUMN_DATA"
 export const GET_HOLIDAY_PROFILES_DATA = "GET_HOLIDAY_PROFILES_DATA"
@@ -85,4 +91,5 @@ export const GET_HOLIDAY_TYPE_DATA = "GET_HOLIDAY_TYPE_DATA"
 
 
 
+export const GET_COMMON_PROFILES_LANDING_VIEW_TABLE_DATA = "GET_COMMON_PROFILES_LANDING_VIEW_TABLE_DATA"
 

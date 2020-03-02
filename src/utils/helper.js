@@ -56,8 +56,8 @@ export function checkError(state, { payload }) {
 
 export function validationRules(required, label, minLength, maxLength) { //pre defined rules for validations...using for all fields
     return [{ required: required, message: `Please input ${label}` },
-    { min: minLength, message: `Minimum ${minLength} Letters` },
-    { max: maxLength, message: `Maximum ${maxLength} Letters` }]
+        { min: minLength, message: `Minimum ${minLength} Letters` },
+        { max: maxLength, message: `Maximum ${maxLength} Letters` }]
 }
 
 
@@ -72,4 +72,14 @@ export const getSubNodeId = (history) => {
 
 export const capitalFirstLetter = (data) => {
     return data.charAt(0).toUpperCase() + data.slice(1)
+}
+
+
+
+export function debounce (fn, wait) {
+    let t
+    return function () {
+        clearTimeout(t)
+        t = setTimeout(() => fn.apply(this, arguments), wait)
+    }
 }

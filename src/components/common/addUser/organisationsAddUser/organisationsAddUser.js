@@ -50,28 +50,28 @@ class OrganisationsAddUser extends Component {
                             addUsersCommonCardSubText={addUsersCommonCardSubText}
                             backButton={backButton}
 
-                        // viewDecider={searchData || singleViewCount ? 1 : 0}
-                        // allSelectedUsersUsersData={singleViewData}
-                        // allSelectedUsersHeadingsData={tableColumnData}
-                        // allSelectedUsersAllSelect={true}
-                        // allSelectedUsersSearchData={this.onChangeSearch}
-                        // allSelectedUsersPlaceHolder={`Search ${singleViewName}`}
-                        // allSelectedUsersOnClickHeadingColumn={this.onClickHeading}
-                        // allSelectedUsersTotalUsers={singleViewCount}
-                        // allSelectedUsersCurrentPageNumber={currentPageNumber}
-                        // allSelectedUsersOnChangeCheckBox={this.onChangeCheckBox}
-                        // allSelectedUsersOnChangeRowsPerPage={this.onChangeRowsPerPage}
-                        // allSelectedUsersShowHeaderButtons={[{ id: "delete", label: "Remove" }]} //BUttons to show when row selected
-                        // allSelectedUsersSelectedDataCount={checkedDataKeys.length}
-                        // allSelectedUsersOnClickAddUserButton={() => this.onClickOfAddUsers(true)}
-                        // allSelectedUsersChangePage={this.onChangePage}
-                        // allSelectedUsersOnClickUserActions={() => this.setState({ visibilityOfDeletePopUp: true })}
+                            // viewDecider={searchData || singleViewCount ? 1 : 0}
+                            // allSelectedUsersUsersData={singleViewData}
+                            // allSelectedUsersHeadingsData={tableColumnData}
+                            // allSelectedUsersAllSelect={true}
+                            // allSelectedUsersSearchData={this.onChangeSearch}
+                            // allSelectedUsersPlaceHolder={`Search ${singleViewName}`}
+                            // allSelectedUsersOnClickHeadingColumn={this.onClickHeading}
+                            // allSelectedUsersTotalUsers={singleViewCount}
+                            // allSelectedUsersCurrentPageNumber={currentPageNumber}
+                            // allSelectedUsersOnChangeCheckBox={this.onChangeCheckBox}
+                            // allSelectedUsersOnChangeRowsPerPage={this.onChangeRowsPerPage}
+                            // allSelectedUsersShowHeaderButtons={[{ id: "delete", label: "Remove" }]} //BUttons to show when row selected
+                            // allSelectedUsersSelectedDataCount={checkedDataKeys.length}
+                            // allSelectedUsersOnClickAddUserButton={() => this.onClickOfAddUsers(true)}
+                            // allSelectedUsersChangePage={this.onChangePage}
+                            // allSelectedUsersOnClickUserActions={() => this.setState({ visibilityOfDeletePopUp: true })}
 
-                        // //search with suggestion comp props
-                        // allSelectedUsersSearchDropdownPlaceholder={"Enter Name and Add"}
-                        // allSelectedUsersOnChangeSearchDropdown={this.onChangeSearchDropdown}
-                        // allSelectedUsersOnSearchDropdownSelect={this.onSearchDropdownSelect}
-                        // allSelectedUsersSearchDropdownData={suggestionSearchData ? singleViewSuggestionData : []}
+                            // //search with suggestion comp props
+                            // allSelectedUsersSearchDropdownPlaceholder={"Enter Name and Add"}
+                            // allSelectedUsersOnChangeSearchDropdown={this.onChangeSearchDropdown}
+                            // allSelectedUsersOnSearchDropdownSelect={this.onSearchDropdownSelect}
+                            // allSelectedUsersSearchDropdownData={suggestionSearchData ? singleViewSuggestionData : []}
 
 
                         //         //all below prop is for add Selected users popup

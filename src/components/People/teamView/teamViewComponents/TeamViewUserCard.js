@@ -9,8 +9,6 @@ import { getClickedTeamUserData, commonTeamReducerAction } from "../../../../sto
 
 
 class TeamViewUserCard extends Component {
-    componentDidMount() {
-    }
 
     onUserClick(userId, member, event) {
         event.stopPropagation()
@@ -20,7 +18,6 @@ class TeamViewUserCard extends Component {
     }
 
     render() {
-        const { } = this.props.teamViewReducer
         const { member, index, generateTree } = this.props
 
         return (

@@ -114,8 +114,7 @@ class ColumnSetting extends Component {
         }
     }
 
-    onSearch = (e) => { // on search of this custom search comp
-        const searchData = e.target.value
+    onSearch = (searchData) => { // on search of this custom search comp
         const { columnSettingFields } = this.props.columnSettingData
         // if (this.props.onSearchColumnSetting) this.props.onSearchColumnSetting(searchData) // checking for prop
 

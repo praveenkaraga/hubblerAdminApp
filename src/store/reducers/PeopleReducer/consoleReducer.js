@@ -16,7 +16,8 @@ const intialState = {
     columnSettingDataOriginal: {},
     actionSuccessMessage: "",
     actionOnUserSuccess: false,
-    patchColumnSettingStatus: false
+    patchColumnSettingStatus: false,
+    tableLoading : true
 }
 
 export const consoleReducer = (state = intialState, action) => {
@@ -27,59 +28,63 @@ export const consoleReducer = (state = intialState, action) => {
 
     switch (action.type) {
 
-        case actionTypes.GET_CONSOLE_USER_DATA:
-            const consoleUserDataIntital = action.payload.data
-            const consoleUserData = consoleUserDataIntital ? consoleUserDataIntital.result : []
-            const consoleUserDataCopy = JSON.parse(JSON.stringify(consoleUserData))
-            const totalUsers = consoleUserDataIntital ? consoleUserDataIntital.total_count : 0
-            return {
-                ...state,
-                consoleUserData: consoleUserDataCopy,
-                totalUsers,
-                searchLoader: false
-            }
+    case actionTypes.GET_CONSOLE_USER_DATA:
+        const consoleUserDataIntital = action.payload.data
+        const consoleUserData = consoleUserDataIntital ? consoleUserDataIntital.result : []
+        const consoleUserDataCopy = JSON.parse(JSON.stringify(consoleUserData))
+        const totalUsers = consoleUserDataIntital ? consoleUserDataIntital.total_count : 0
+        return {
+            ...state,
+            consoleUserData: consoleUserDataCopy,
+            totalUsers,
+            searchLoader: false,
+            tableLoading : false
+        }
 
-        case actionTypes.COMMON_CONSOLE_ACTION:
-            return {
-                ...state,
-                ...action.payload
-            }
+    case actionTypes.COMMON_CONSOLE_ACTION:
+        return {
+            ...state,
+            ...action.payload
+        }
 
-        case actionTypes.TABLE_COLUMN_SETTING_DATA:
-            const intialcolumnSettingData = action.payload.data ? action.payload.data.result : []
-            const columnSettingCategories = intialcolumnSettingData ? intialcolumnSettingData.categories : []
-            const columnSettingFields = intialcolumnSettingData ? intialcolumnSettingData.fields : []
-            const finalColumnSettingData = {
-                columnSettingCategories,
-                columnSettingFields
-            }
+    case actionTypes.TABLE_COLUMN_SETTING_DATA:
+        const intialcolumnSettingData = action.payload.data ? action.payload.data.result : []
+        const columnSettingCategories = intialcolumnSettingData ? intialcolumnSettingData.categories : []
+        const columnSettingFields = intialcolumnSettingData ? intialcolumnSettingData.fields : []
+        const finalColumnSettingData = {
+            columnSettingCategories,
+            columnSettingFields
+        }
 
-            return {
-                ...state,
-                columnSettingDataOriginal: finalColumnSettingData,
-                columnSettingData: JSON.parse(JSON.stringify(finalColumnSettingData)),
-            }
+        return {
+            ...state,
+            columnSettingDataOriginal: finalColumnSettingData,
+            columnSettingData: JSON.parse(JSON.stringify(finalColumnSettingData)),
+        }
 
 
 
-        case actionTypes.POST_COMMON_ACTION_ON_USER:
-            const actionOnUserDataInitial = action.payload.data.result
-            return {
-                ...state,
-                actionOnUserSuccess: true,
-                actionSuccessMessage: actionOnUserDataInitial.message || (actionOnUserDataInitial.deactivated ? `${actionOnUserDataInitial.deactivated} User(s) Succefully Deactivated` : "Not Deactivated")
-            }
+    case actionTypes.POST_COMMON_ACTION_ON_USER:
+        const actionOnUserDataInitial = action.payload.data.result
+        return {
+            ...state,
+            actionOnUserSuccess: true,
+            actionSuccessMessage: actionOnUserDataInitial.message || (actionOnUserDataInitial.deactivated ? `${actionOnUserDataInitial.deactivated} User(s) Succefully Deactivated` : "Not Deactivated")
+        }
 
-        case actionTypes.PATCH_TABLE_COLUMN_SETTING:
-            return {
-                ...state,
-                patchColumnSettingStatus: true
-            }
+    case actionTypes.PATCH_TABLE_COLUMN_SETTING:
+        return {
+            ...state,
+            patchColumnSettingStatus: true
+        }
+
+    default :
+        return {...state}   
 
     }
 
 
-    return { ...state }
+  
 
 
 }
