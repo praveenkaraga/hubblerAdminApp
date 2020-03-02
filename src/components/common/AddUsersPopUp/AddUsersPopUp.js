@@ -5,7 +5,7 @@ import './addUsersPopUP.scss'
 
 class AddUsersPopUp extends Component {
     render() {
-        const {showAddUsersPopUp = false, addUsersPopUpTitle = `Add Users`, addUsersPopUpClose,addUsersPopUpPlaceHolder = `Search Department`,addUsersPopUpFirstButtonName = `Add Selected`,addUsersPopUpFirstButtonClick,addUsersPopUpOnChangeCheckBox, addUsersPopUpTableColumnsData, addUsersPopUpUsersData, addUsersPopUpTotalUsers,addUsersPopUpIsUserData = true,addUsersPopUpOnlySelectAndAdd = true,addUsersOnClickHeadingColumn,addUsersOnChangeRowsPerPage,addUsersChangePage,addUsersSearchData,addUsersCurrentPageNumber,addUsersSearchLoader,addUsersShowHeaderButtons,addUsersDisableButtonNames,addUsersSelectedDataCount,addUsersOnClickActions,addUsersOnClickAddUserButton,addUsersOnSelectRow,addUsersOnSelectAll} = this.props;
+        const {showAddUsersPopUp = false, addUsersPopUpTitle = `Add Users`, addUsersPopUpClose,addUsersPopUpPlaceHolder = `Search Department`,addUsersPopUpFirstButtonName = `Add Selected`,addUsersPopUpFirstButtonClick,addUsersPopUpOnChangeCheckBox, addUsersPopUpTableColumnsData, addUsersPopUpUsersData, addUsersPopUpTotalUsers,addUsersPopUpIsUserData = true,addUsersPopUpOnlySelectAndAdd = true,addUsersOnClickHeadingColumn,addUsersOnChangeRowsPerPage,addUsersChangePage,addUsersSearchData,addUsersCurrentPageNumber,addUsersSearchLoader,addUsersShowHeaderButtons,addUsersDisableButtonNames,addUsersSelectedDataCount,addUsersOnClickActions,addUsersOnClickAddUserButton,addUsersOnSelectRow,addUsersOnSelectAll,addUsersTableLoading} = this.props;
         return (
             <Modal
                 visible={showAddUsersPopUp}
@@ -34,7 +34,7 @@ class AddUsersPopUp extends Component {
                     onClickUserEdit={addUsersOnClickActions}
                     onClickAddUserButton={addUsersOnClickAddUserButton}
                     onSelectRow={addUsersOnSelectRow}
-                    onSelectAll={addUsersOnSelectAll}
+                    onSelectAll={addUsersOnSelectAll} tableLoading={addUsersTableLoading}
 
                 />
             </Modal>

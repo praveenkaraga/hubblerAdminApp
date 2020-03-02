@@ -30,6 +30,7 @@ class TeamView extends Component {
         this.state = {
             addUserPopUpStatus: false,
             addUserMode: "add",
+            suggestionSearchData : '',
         }
     }
 
@@ -90,17 +91,15 @@ class TeamView extends Component {
 
     onSearchDropdownSelect = async (value) => { // on select user from drop down search
         const {orgChartUsers, rootData, searchDropDownData} = this.props.teamViewReducer
-        console.log({
-            rootData: rootData,
-            orgChartUsers: orgChartUsers,
-            searchDropDownData
-        });
         let dropDownRootData = find(searchDropDownData, item => item._id === value)
         this.props.commonTeamReducerAction({
             rootData: [dropDownRootData],
             clickedMemberData: dropDownRootData,
             preservedData: []
         });
+        this.setState({
+            suggestionSearchData : '',
+        })
         this.props.getClickedTeamUserReporteeData(value)
     };
 
@@ -110,8 +109,8 @@ class TeamView extends Component {
     }
 
     render() {
-        const {orgChartUsers, teamViewUserDrawerVisible, clickedTeamUserData, teamViewClickedUserId, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, loader, clickedMemberData, contentLoader, importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpVisibility, uploadPopUpData, importUsersUploadResponseData, uploadFileStatus, isFileUploaded, startUploadStatus, clickedUserOrgData, searchDropDownData, reporteeLoader} = this.props.teamViewReducer
-        const {addUserPopUpStatus, addUserMode} = this.state
+        const {orgChartUsers, teamViewUserDrawerVisible, clickedTeamUserData, teamViewClickedUserId, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, loader, clickedMemberData, contentLoader, importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpVisibility, uploadPopUpData, importUsersUploadResponseData, uploadFileStatus, isFileUploaded, startUploadStatus, clickedUserOrgData, searchDropDownData, reporteeLoader,debounceTimeSearchDropdown = 300} = this.props.teamViewReducer
+        const {addUserPopUpStatus, addUserMode,suggestionSearchData} = this.state
         return (
             <div className={'team-view'}>
                 {loader ? <div className={'loader'}></div> : <div>
@@ -121,7 +120,7 @@ class TeamView extends Component {
                             <div className={'search-dropdown-wrap'}>
                                 <SearchDropdown placeholder={'Search User'} searchIcon={true}
                                                 searchData={searchDropDownData} onChange={this.onChangeSearchDropdown}
-                                                onSelect={this.onSearchDropdownSelect}/>
+                                                onSelect={this.onSearchDropdownSelect} debounceTime={debounceTimeSearchDropdown} value={suggestionSearchData}/>
                             </div>
                             <Button type="primary" className={'import-users'} onClick={this.showModal}>Import
                                 Users</Button>

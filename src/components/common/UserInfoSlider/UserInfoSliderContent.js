@@ -40,8 +40,7 @@ class UserInfoSliderContent extends Component {
         const { teamUserData, userId, onCloseFunction, getTeamViewOrgData, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, onClickEdit, clickedMemberData, contentLoader, changeLoaderStatus, sourceTeamView, clickedUserOrgData, url, clickedTeamUserData } = this.props
         let memberData = sourceTeamView ? clickedMemberData : teamUserData
         let teamUsersProAppData = sourceTeamView ? clickedTeamUserData : clickedTeamUserData
-
-        let deactivationDate = teamUserData.deactivation_details ? moment(teamUserData.deactivation_details.at, 'DDMMYYYY HH:mm').format('DD MMM YYYY, HH:mm A') : '';
+        let deactivationDate = teamUserData.deactivation_details ? moment.utc(teamUserData.deactivation_details.at, 'DDMMYYYY HH:mm').local().format('DD MMM YYYY, hh:mm A') : '';
         let deactivator = teamUserData.deactivation_details ? teamUserData.deactivation_details.by.name : ''
 
         return (

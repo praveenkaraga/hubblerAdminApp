@@ -73,6 +73,7 @@ class AdminNav extends Component {
                                     className={`admin-link list-item ${route.class_name}-link`}
                                     key={index}
                                     to={route.path}
+                                    activeClassName={`${route.class_name}-link-active nav-link-active`}
                                     onClick={() => this.props.hamburgerIconClick(false)}>{route.name}</NavLink>
                             ))}
                         </div>
