@@ -12,6 +12,8 @@ export const { commonHolidayAction } = holidayActions;
 
 //------------------------------ Holiday Profile Actions -------------------------------//
 
-export const {  getCommonProfilesLandingViewTableData } = commonProfileActions;
+export const {  getCommonProfilesLandingViewTableData,
+    commonActionForCommonProfileReducer,
+    commonActionsOnProfileData } = commonProfileActions;
 
 //------------------------------xxxxxxxxxxxxxxxxxxx-------------------------------//

@@ -70,8 +70,10 @@ export const getSubNodeId = (history) => {
 }
 
 
-export const capitalFirstLetter = (data) => {
-    return data.charAt(0).toUpperCase() + data.slice(1)
+export const capitalFirstLetter = (inputData) => {
+    return inputData.split(" ").map( data =>
+        data.charAt(0).toUpperCase() + data.slice(1)
+    ).join(" ")
 }
 
 

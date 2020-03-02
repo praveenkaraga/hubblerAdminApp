@@ -13,25 +13,26 @@ export const consoleAddUserReducer = (state = intialState, action) => {
     }
 
     switch (action.type) {
-        case actionTypes.ADD_USER_DATA_FORM:
-            const addUserDataFormInitial = action.payload.data ? action.payload.data.result : []
-            return {
-                ...state,
-                addUserDataFormMain: addUserDataFormInitial,
-                addUserDataForm: JSON.parse(JSON.stringify(addUserDataFormInitial))
-            }
+    case actionTypes.ADD_USER_DATA_FORM:
+        const addUserDataFormInitial = action.payload.data ? action.payload.data.result : []
+        return {
+            ...state,
+            addUserDataFormMain: addUserDataFormInitial,
+            addUserDataForm: JSON.parse(JSON.stringify(addUserDataFormInitial))
+        }
 
 
-        case actionTypes.GET_ADD_USERS_PROFILE_DATA:
-            console.log(action.payload.data)
-            return {
-                ...state,
+    case actionTypes.GET_ADD_USERS_PROFILE_DATA:
+        console.log(action.payload.data)
+        return {
+            ...state,
 
-            }
+        }
+
+    default:
+        return { ...state }
 
     }
 
-
-    return { ...state }
-
+    
 }

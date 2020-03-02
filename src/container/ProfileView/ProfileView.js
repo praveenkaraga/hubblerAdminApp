@@ -26,7 +26,7 @@ const navLinkRoutes = [
     },
     {
         path: "/workingDay",
-        main: <CommonLandingView viewType="workingDay"/>,
+        main: <CommonLandingView viewType="working_day"/>,
         name: "Working Day",
         class_name: 'working-day',
         link_name: 'workingDay',
