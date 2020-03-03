@@ -6,7 +6,7 @@ export function columnData(viewType){
     let typeColumn3 = "number"
 
     switch(viewType){
-    case "workingDay":
+    case "working_day":
         titleColumn1 = "Working Day Profile"
         titleColumn3 = "Working Days"
         dataIndexColumn3 = "workdays"    

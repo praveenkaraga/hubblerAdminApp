@@ -1,7 +1,7 @@
 module.exports = {
     "extends": "react-app",
     "rules": {
-        /*"no-console": ["error", { allow: ["warn", "log", "error"] }],
+        "no-console": ["error", { allow: ["warn", "log", "error"] }],
         "no-dupe-else-if": "error",
         "no-debugger": "error",
         "no-empty-function": "error",

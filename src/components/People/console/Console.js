@@ -255,7 +255,7 @@ class Console extends Component {
 
 
     render() {
-        const { consoleUserData, totalUsers, currentPageNumber, searchLoader, columnSettingData , tableLoading} = this.props.consoleReducer
+        const { consoleUserData, totalUsers, currentPageNumber,searchLoader, columnSettingData , tableLoading} = this.props.consoleReducer
         const { importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpData, uploadPopUpVisibility, startUploadStatus, uploadFileStatus,
             importUsersUploadResponseData, isFileUploaded, clickedTeamUserData, contentLoader } = this.props.teamViewReducer;
         
@@ -351,8 +351,8 @@ class Console extends Component {
                 />
 
 
-                <Modal //used this modal for confirmation before deleting node items
-                    title={`${capitalFirstLetter(typeOfActionOnUser)} User(s)`}
+                <Modal //used this modal for confirmation before doing any action on Users
+                    title={`${capitalFirstLetter(typeOfActionOnUser)} ${checkedDataKeys.length > 1 ? "Users" : "User"}`}
                     visible={visibilityOfDeletePopUp}
                     onOk={() => this.actionOnUser(typeOfActionOnUser)}
                     confirmLoading={loaderOfDeletePopUp}
@@ -365,7 +365,7 @@ class Console extends Component {
                     wrapClassName={"console_delete_popup"}
                     destroyOnClose={true}
                 >
-                    <p>{`Are you sure you want to ${typeOfActionOnUser} selected ${checkedDataKeys.length} User(s)`}</p>
+                    <p>{`Are you sure you want to ${typeOfActionOnUser} selected ${checkedDataKeys.length} ${checkedDataKeys.length > 1 ? "Users" : "User"}`}</p>
                 </Modal>
 
                 {addUserspopUpStatus

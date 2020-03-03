@@ -71,18 +71,18 @@ class AllUserSelect extends Component {
                     const dataType = data.type
                     switch (dataType) { //checking for all types of data type
                     case "text": //if it is string 
-                        singleUserData["name"] = <div className="name_with_image">
-                            {isUserData ? // if prop isUserData true then we will show profile pic/ initial names as profiles pic(if pic is not there)
-
+                        
+                        singleUserData["name"] = copyName && ! isUserData ? copyName :  <div className="name_with_image">
+                            {
                                 !(singleUserData["deactivate"] === true) ? //checking if user is deactivated or not{a eactivated sign will be shown instead of profile pic}
                                     singleUserData["profile_image"] // checking if user has profile pic or not
                                         ?
                                         <img src={singleUserData["profile_image"]["thumbnail"]} alt="Profile Pic" /> //profile pic
                                         :
                                         <div className="no_profile_pic"><p>{singleUserData.firstname.substring(0, 2)}</p></div> //if no profile pic then we are showing first two intials of their first name
-                                    : <div className="no_profile_pic"><img className="deactivated_user_pic" src={require('../../../images/svg/deactivate-user-pic.svg')} /></div>
-                                : ""}
-                            <div className="only_name">{copyName || ( singleUserData.firstname || "" + singleUserData.lastname || "")}</div>
+                                    : <div className="no_profile_pic"><img className="deactivated_user_pic" src={require('../../../images/svg/deactivate-user-pic.svg')} alt="deactivated_user"/></div>
+                            }
+                            <div className="only_name">{( singleUserData.firstname || "" + singleUserData.lastname || "")}</div>
                         </div>
                         singleUserData["key"] = singleUserData._id
                         break;
@@ -123,7 +123,7 @@ class AllUserSelect extends Component {
     render() {
         const { allHeadingsData = [], userData = [], searchFirstButtonName, searchSecondButtonName, searchPlaceHolder, searchFirstButtonLoader = false,
             searchSecondButtonLoader = false, searchFirstButtonClick, searchSecondButtonClick, searchLoader = false, onSearch, totalUsers, goPrevPage, goNextPage, currentPageNumber, columnSettingData,
-            onClickUserActivate, onClickUserDeactivate, onClickUserDelete, onClickUserEdit, isUserData = true, onlySelectAndAdd = false,
+            onClickUserActivate, onClickUserDeactivate, onClickUserDelete, onClickUserDuplicate, onClickUserEdit, isUserData = true, onlySelectAndAdd = false,
             typeOfData = "Total Data", onClickTableRow, columnConfigurable = false, allSelect, onSearchDropdownSelect, searchDropdownPlaceholder, searchDropdownData, onChangeSearchDropdown,
             showHeaderButtons, disableButtonNames, selectedDataCount, onClickAddUserButton, onSelectAll, onColumnSettingSave, visibleColumnSetting, onColumnSettingCancel,
             onSearchColumnSetting, searchDropDownValue, debounceTimeUserSearch, debounceTimeSearchDropdown, tableLoading } = this.props
@@ -138,7 +138,7 @@ class AllUserSelect extends Component {
                     <UserSearch firstButtonName={searchFirstButtonName} secondButtonName={searchSecondButtonName} searchPlaceHolder={searchPlaceHolder}
                         firstButtonLoader={searchFirstButtonLoader} secondButtonLoader={searchSecondButtonLoader} searchLoader={searchLoader} onSearch={onSearch}
                         onClickFirst={searchFirstButtonClick} onClickSecond={searchSecondButtonClick} userSelected={selectedDataCount}
-                        onUserActivate={onClickUserActivate} onUserDeactivate={onClickUserDeactivate} onlySelectAndAdd={onlySelectAndAdd}
+                        onUserActivate={onClickUserActivate} onUserDeactivate={onClickUserDeactivate} onUserDuplicate={onClickUserDuplicate} onlySelectAndAdd={onlySelectAndAdd}
                         onUserDelete={onClickUserDelete} onUserEdit={onClickUserEdit} isUserData={isUserData}
                         allSelect={allSelect} onSearchDropdownSelect={onSearchDropdownSelect} searchDropdownPlaceholder={searchDropdownPlaceholder}
                         searchDropdownData={searchDropdownData} onChangeSearchDropdown={onChangeSearchDropdown} showButtonNames={showHeaderButtons}

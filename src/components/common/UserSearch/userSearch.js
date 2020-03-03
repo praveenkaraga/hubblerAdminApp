@@ -63,7 +63,7 @@ class UserSearch extends Component {
                 <div className="all_buttons">
                     {userSelected && !onlySelectAndAdd ? //if userSelected true and onlySelectAndAdd is false then buttons to do action on table data will be visible 
                         <div className="user_action_buttons">
-                            <Tooltip key={`totalUserstooltip`} placement="top" title={"Total Users Selected"}>
+                            <Tooltip key={`totalUserstooltip`} placement="top" title={"Total Selected"}>
                                 <div className="user_count">{userSelected}</div>
                             </Tooltip>
                             {alluserActions.map((data, i) => {
