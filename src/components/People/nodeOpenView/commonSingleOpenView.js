@@ -266,8 +266,7 @@ class CommonSingleOpenView extends Component {
                 this.props.commonActionForCommonReducer({ postRemovePeopleSuccessfully: false, tableLoading: true })
                 this.props.getSingleViewData(viewType, singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType, subNodeId)
                 this.setState({ currentPageNumber: 1, checkedDataKeys: [] })
-                message.success(postRemovePeopleSuccessMessage)
-               
+                message.success(postRemovePeopleSuccessMessage)               
 
             } else {
                 message.error(errorMsg)
@@ -288,7 +287,7 @@ class CommonSingleOpenView extends Component {
             <>{ !viewDeciderLoader ?
                 <>
                     <CommonCreationView commonCreationViewHeaderName={singleViewName}
-                        viewDecider={searchData !== null || singleViewCount ? 1 : 0}
+                        viewDecider={searchData !== null || singleViewCount}
                         allSelectedUsersUsersData={singleViewData}
                         allSelectedUsersHeadingsData={tableColumnData}
                         backButton={!(viewType === "circles") ? true : false} // if viewtype is not circle then back button will be visible

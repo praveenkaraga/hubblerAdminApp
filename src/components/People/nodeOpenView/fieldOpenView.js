@@ -25,7 +25,7 @@ class FieldOpenView extends Component {
             rowsPerPage: 30,
             activeheading: "",
             sortingType: "",
-            searchData: "",
+            searchData: null,
             creationPopUpVisibility: false,
             newFieldItemName: "",
             checkedDataKeys: [],
@@ -71,7 +71,7 @@ class FieldOpenView extends Component {
 
         const { apiCallFlag } = this.state// this flag is only for not calling this api two times when we land on circles for the first time
         if (prevState.singleNodeId !== currentNodeId && !apiCallFlag) {//if node id in url is different from the previous one this will call the api and rerender the component
-            this.setState({ singleNodeId: currentNodeId, apiCallFlag: true })
+            this.setState({ singleNodeId: currentNodeId, apiCallFlag: true, searchData: null })
             this.updateNodeId(false, true)
         }
         if (apiCallFlag) this.setState({ apiCallFlag: false }) // flag is true then make it false...will work on first time only
@@ -212,7 +212,7 @@ class FieldOpenView extends Component {
 
     render() {
         const { singleFieldData, singleFieldCount, singleFieldName, singleFieldFilterKeyId, tableLoading, viewDeciderLoader, searchLoader } = this.props.commonReducer
-        const { currentPageNumber, creationPopUpVisibility, newFieldItemName, checkedDataKeys, creationPopUpMode, editRowName, filterKeyId, visibilityOfDeletePopUp, loaderOfDeletePopUp } = this.state
+        const { currentPageNumber, creationPopUpVisibility, newFieldItemName, checkedDataKeys, creationPopUpMode, editRowName, filterKeyId, visibilityOfDeletePopUp, loaderOfDeletePopUp, searchData } = this.state
         if (!filterKeyId && singleFieldFilterKeyId) { // on first time load saving the id
             this.setState({ filterKeyId: singleFieldFilterKeyId })
         }
@@ -246,7 +246,7 @@ class FieldOpenView extends Component {
             <div className="fields_main">
                 <div className="fields_heading"><h3>{singleFieldName}</h3></div>
                 {!viewDeciderLoader
-                    ? singleFieldCount //checking if count of field item is empty or not
+                    ?searchData !== null ||singleFieldCount //checking if count of field item is empty or not
                         ?
                         <AllUserSelect userData={singleFieldData}
 
@@ -262,6 +262,7 @@ class FieldOpenView extends Component {
                             searchSecondButtonClick={() => this.setState({ creationPopUpVisibility: true, creationPopUpMode: "add" })} // opening the pop up and also type of pop up to open
                             tableLoading={tableLoading}
                             searchLoader={searchLoader}
+                            debounceTimeUserSearch = {300}
 
                             totalUsers={singleFieldCount}
                             currentPageNumber={currentPageNumber}
@@ -305,7 +306,7 @@ class FieldOpenView extends Component {
                     creationPopFirstButtonHandler={() => this.setState({ creationPopUpVisibility: false })}
                     creationPopSecondButtonHandler={() => this.onSaveEditOrCreateField(creationPopUpMode)}
                     secondButtonDisable={newFieldItemName.length < 3 || newFieldItemName === editRowName ? true : false}
-                    afterClose={() => this.setState({ newFieldItemName: "", editRowName: "" })}
+                    //afterClose={() => this.setState({ newFieldItemName: "", editRowName: "" })}
                     creationPopUpFirstFieldChangeHandler={this.creationPopUpInput}
                     creationPopSecondButtonLoader = {loaderOfDeletePopUp}
                 />

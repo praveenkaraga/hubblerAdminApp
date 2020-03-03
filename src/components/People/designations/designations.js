@@ -254,7 +254,7 @@ class Designations extends Component {
                     // or no name in input
                     // or less than three letters
                     secondButtonDisable={newDesignationName.length < 3 || newDesignationName === editRowName ? true : false}
-                    afterClose={() => this.setState({ newDesignationName: "", editRowName: "" })} // after closing the pop up resetting it
+                    //  afterClose={() => this.setState({ newDesignationName: "", editRowName: "" })} // after closing the pop up resetting it
                     creationPopUpFirstFieldChangeHandler={this.creationPopUpInput}
                     creationPopSecondButtonLoader = {loaderOfDeletePopUp}
                 />
