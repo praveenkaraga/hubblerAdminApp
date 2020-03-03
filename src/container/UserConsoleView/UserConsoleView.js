@@ -330,6 +330,7 @@ class UserConsoleView extends Component {
                                        inputValue={creationPopUpInputData || creationPopUpData.name}
                                        creationPopFirstButtonHandler={() => this.setState({creationPopUpVisibility: false})}
                                        creationPopSecondButtonHandler={() => this.onSaveCreationPopUp(creationPopUpData.type)}
+                                       creationPopThirdButtonHandler={() => this.onSaveCreationPopUp(creationPopUpData.type)}
                                        secondButtonDisable={creationPopUpInputData.length < 3 || creationPopUpInputData === creationPopUpData.fixedName ? true : false}
                                        afterClose={this.afterClose}
                                        creationPopUpFirstFieldChangeHandler={this.creationPopUpInput}

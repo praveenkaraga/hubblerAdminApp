@@ -13,6 +13,7 @@ import {
 import {capitalFirstLetter} from '../../../utils/helper'
 import {Modal, message} from 'antd'
 
+
 class CommonLandingView extends Component {
     constructor(props) {
         super(props);

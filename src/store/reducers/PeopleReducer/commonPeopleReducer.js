@@ -134,7 +134,7 @@ export const commonPeopleReducer = (state = intialState, action) => {
         const intialDeleteData = action.payload.data
         return {
             ...state,
-            postDeletedDataSuccessfulMessage: intialDeleteData ? (typeof intialDeleteData.result === "string" ? intialDeleteData.result : intialDeleteData.result.message || "Deleted Successfully") : intialDeleteData.message || "Deleted Successfully",
+            postDeletedDataSuccessfulMessage: intialDeleteData ? (typeof intialDeleteData.result === "string" ? intialDeleteData.result : intialDeleteData.message || "Deleted Successfully") : intialDeleteData.message || "Deleted Successfully",
             postDeletedDataSuccessfully: true
         }
 
