@@ -22,7 +22,7 @@ class CommonSingleOpenView extends Component {
             rowsPerPage: 30,
             activeheading: "",
             sortingType: "",
-            searchData: "",
+            searchData: null,
             viewType: this.props.viewType, // getting viewtype{it can be designation, departments, circles, nodes}
             addUsersPopUpStatus: false,
             checkedDataKeys: [],
@@ -53,7 +53,7 @@ class CommonSingleOpenView extends Component {
         const nodeId2 = viewType === "nodes" ? getSubNodeId(this.props.history) : "" // if viewtype node we will take subnode also{id of node item}
         if (status) this.setState({ singleNodeId: nodeId, subNodeId: nodeId2 }) // if status true we will update this.. status is just to make sure not to call setstate two times if already calling it outside
         this.props.commonActionForCommonReducer({viewDeciderLoader : true})
-        this.props.getSingleViewData(viewType, nodeId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType, nodeId2)
+        this.props.getSingleViewData(viewType, nodeId, rowsPerPage)
     }
 
     static getDerivedStateFromProps(nextProps, prevState) { // have used this for updation of name.. when updating name in side..this will also render
@@ -75,12 +75,11 @@ class CommonSingleOpenView extends Component {
 
     // will rerender the component when we are clicking on different circle when we are already in a circle
     componentDidUpdate(prevProps, prevState) {
-        console.log(this.props.viewType )
         if (this.props.viewType === "circles") {
             const currentNodeId = getNodeId(this.props.history) // getting new node id
             const { apiCallFlag } = this.state // this flag is only for not calling this api two times when we land on circles for the first time
             if (prevState.singleNodeId !== currentNodeId && !apiCallFlag) { //if node id in url is different from the previous one this will call the api and rerender the component
-                this.setState({ singleNodeId: currentNodeId, apiCallFlag: true })
+                this.setState({ singleNodeId: currentNodeId, apiCallFlag: true , searchData:null})
                 this.updateNodeId(false)
             }
             if (apiCallFlag) this.setState({ apiCallFlag: false }) // flag is true then make it false...will work on first time only
@@ -96,6 +95,7 @@ class CommonSingleOpenView extends Component {
     // on serach in the drop down searh comp
     onChangeSearchDropdown = (searchData) => {
         const { singleNodeId, viewType, subNodeId } = this.state
+        this.props.commonActionForCommonReducer({ searchLoader : true })
         this.props.getSingleViewSuggestionData(viewType, singleNodeId, 30, 1, searchData, "", "", subNodeId)
         this.setState({ suggestionSearchData: searchData })
     }
@@ -103,6 +103,7 @@ class CommonSingleOpenView extends Component {
 
     onChangeSearch = (searchData) => { //onChange of left side of search
         const { rowsPerPage, activeheading, sortingType, singleNodeId, viewType, subNodeId } = this.state
+        this.props.commonActionForCommonReducer({ searchLoader : true })
         this.props.getSingleViewData(viewType, singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType, subNodeId)
         this.setState({ searchData, currentPageNumber: 1 })
     }
@@ -111,6 +112,7 @@ class CommonSingleOpenView extends Component {
     //will make ascend and descend that column
     onClickHeading = (activeheading, sortingType) => {
         const { rowsPerPage, searchData, currentPageNumber, singleNodeId, viewType, subNodeId } = this.state
+        this.props.commonActionForCommonReducer({  tableLoading: true })
         this.props.getSingleViewData(viewType, singleNodeId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType, subNodeId)
         this.setState({
             activeheading,
@@ -121,6 +123,7 @@ class CommonSingleOpenView extends Component {
     //on change of rows per page of the table
     onChangeRowsPerPage = (rowsPerPage) => {
         const { searchData, singleNodeId, viewType, activeheading, sortingType, subNodeId } = this.state
+        this.props.commonActionForCommonReducer({  tableLoading: true })
         this.props.getSingleViewData(viewType, singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType, subNodeId)
         this.setState({
             rowsPerPage,
@@ -132,7 +135,7 @@ class CommonSingleOpenView extends Component {
     onChangePage = (calcData) => {
         const { currentPageNumber, viewType, singleNodeId, rowsPerPage, searchData, activeheading, sortingType, subNodeId } = this.state
         const goToPage = currentPageNumber + calcData
-
+        this.props.commonActionForCommonReducer({  tableLoading: true })
         this.props.getSingleViewData(viewType, singleNodeId, rowsPerPage, goToPage, searchData, activeheading, sortingType, subNodeId)
         this.setState({
             currentPageNumber: goToPage
@@ -155,6 +158,7 @@ class CommonSingleOpenView extends Component {
 
     onSearchDropdownSelect = async (value) => { // on select user from drop down search 
         await this.addUsersPopUpOnChangeCheckBox([value])
+        //this.props.commonActionForCommonReducer({  tableLoading: true })
         this.onClickAddSelectedButton()//this fn will post that data of selected user
         this.onChangeSearchDropdown("")
     }
@@ -165,7 +169,7 @@ class CommonSingleOpenView extends Component {
     //calling api for add users and making pop up visible
     onClickOfAddUsers = (status) => {
         const { viewType, singleNodeId, subNodeId } = this.state
-
+        this.props.commonActionForCommonReducer({  suggestionTableLoading: true })
         if (status) {
             this.props.getSingleViewSuggestionData(viewType, singleNodeId, 30, 1, "", "", "", subNodeId)
         }
@@ -176,6 +180,7 @@ class CommonSingleOpenView extends Component {
     // on click of headings of each column of add users pop up
     addUsersOnClickHeadingColumn = (activeheading, sortingType) => {
         const { addUsersCurrentPageNumber, addUsersRowsPerPage, addUsersSearchData, viewType, singleNodeId, subNodeId } = this.state
+        this.props.commonActionForCommonReducer({  suggestionTableLoading: true })
         this.props.getSingleViewSuggestionData(viewType, singleNodeId, addUsersRowsPerPage, addUsersCurrentPageNumber, addUsersSearchData, activeheading, sortingType, subNodeId)
         this.setState({
             addUsersActiveheading: activeheading,
@@ -186,6 +191,7 @@ class CommonSingleOpenView extends Component {
     // on change of rows per page of add users pop up
     addUsersOnChangeRowsPerPage = (rowsPerPage) => {
         const { addUsersSearchData, addUsersActiveheading, addUsersSortingType, viewType, singleNodeId, subNodeId } = this.state
+        this.props.commonActionForCommonReducer({  suggestionTableLoading: true })
         this.props.getSingleViewSuggestionData(viewType, singleNodeId, rowsPerPage, 1, addUsersSearchData, addUsersActiveheading, addUsersSortingType, subNodeId)
         this.setState({
             addUsersRowsPerPage: rowsPerPage,
@@ -197,6 +203,7 @@ class CommonSingleOpenView extends Component {
     onSearchInAddUsers = (value) => {
         const searchvalue = value
         const { addUsersRowsPerPage, addUsersActiveheading, addUsersSortingType, viewType, singleNodeId, subNodeId } = this.state
+        this.props.commonActionForCommonReducer({ searchLoader : true })
         this.props.getSingleViewSuggestionData(viewType, singleNodeId, addUsersRowsPerPage, 1, searchvalue, addUsersActiveheading, addUsersSortingType, subNodeId)
 
         this.setState({
@@ -217,7 +224,7 @@ class CommonSingleOpenView extends Component {
     addUsersChangePage = (calcData) => {
         const { addUsersCurrentPageNumber, addUsersRowsPerPage, addUsersActiveheading, addUsersSearchData, addUsersSortingType, viewType, singleNodeId, subNodeId } = this.state
         const goToPage = addUsersCurrentPageNumber + calcData
-
+        this.props.commonActionForCommonReducer({ suggestionTableLoading: true })
         this.props.getSingleViewSuggestionData(viewType, singleNodeId, addUsersRowsPerPage, goToPage, addUsersSearchData, addUsersActiveheading, addUsersSortingType, subNodeId)
         this.setState({
             addUsersCurrentPageNumber: goToPage
@@ -230,12 +237,14 @@ class CommonSingleOpenView extends Component {
         const { addUsersCheckedDataKeys, singleNodeId, viewType, rowsPerPage, searchData, activeheading, sortingType, subNodeId } = this.state
         const finalData = { users: addUsersCheckedDataKeys, _id: singleNodeId }
         if (viewType === "nodes") finalData["node_item_id"] = subNodeId // if viewtpe nodes thwn add one more key for data params
+        this.props.commonActionForCommonReducer({  addSelectedButtonLoader: true })
         await this.props.postCommonAddSelectedUsersData(viewType, finalData)
         const { postSelectedUsersSuccessfully, postSelectedUsersSuccessMessage, errorMsg } = this.props.commonReducer
         if (postSelectedUsersSuccessfully) { // api susscessfully posted
-            this.props.getSingleViewData(viewType, singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType, subNodeId)
-            this.setState({ addUsersPopUpStatus: false, currentPageNumber: 1, addUsersCheckedDataKeys: [] })
             message.success(postSelectedUsersSuccessMessage)
+            this.setState({ addUsersPopUpStatus: false, currentPageNumber: 1 })
+            this.props.commonActionForCommonReducer({  tableLoading: true })
+            this.props.getSingleViewData(viewType, singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType, subNodeId)
         } else {
             message.error(errorMsg)
         }
@@ -254,10 +263,11 @@ class CommonSingleOpenView extends Component {
             await this.props.postCommonRemovePeople(viewType, finalData)
             const { postRemovePeopleSuccessfully, postRemovePeopleSuccessMessage, errorMsg } = this.props.commonReducer
             if (postRemovePeopleSuccessfully) {
+                this.props.commonActionForCommonReducer({ postRemovePeopleSuccessfully: false, tableLoading: true })
                 this.props.getSingleViewData(viewType, singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType, subNodeId)
                 this.setState({ currentPageNumber: 1, checkedDataKeys: [] })
                 message.success(postRemovePeopleSuccessMessage)
-                this.props.commonActionForCommonReducer({ postRemovePeopleSuccessfully: false })
+               
 
             } else {
                 message.error(errorMsg)
@@ -269,14 +279,16 @@ class CommonSingleOpenView extends Component {
 
 
     render() {
-        const { singleViewName, singleViewCount, singleViewData, singleViewSuggestionData, singleViewSuggestionDataCount, tableColumnData, viewDeciderLoader } = this.props.commonReducer
+        const { singleViewName, singleViewCount, singleViewData, singleViewSuggestionData, singleViewSuggestionDataCount, tableColumnData, viewDeciderLoader ,
+            searchLoader ,tableLoading, suggestionTableLoading, addSelectedButtonLoader
+        } = this.props.commonReducer
         const { searchData, currentPageNumber, addUsersPopUpStatus, checkedDataKeys, addUsersCheckedDataKeys, addUsersCurrentPageNumber, viewType, suggestionSearchData,
             visibilityOfDeletePopUp, loaderOfDeletePopUp } = this.state
         return (
             <>{ !viewDeciderLoader ?
                 <>
                     <CommonCreationView commonCreationViewHeaderName={singleViewName}
-                        viewDecider={searchData || singleViewCount ? 1 : 0}
+                        viewDecider={searchData !== null || singleViewCount ? 1 : 0}
                         allSelectedUsersUsersData={singleViewData}
                         allSelectedUsersHeadingsData={tableColumnData}
                         backButton={!(viewType === "circles") ? true : false} // if viewtype is not circle then back button will be visible
@@ -294,6 +306,9 @@ class CommonSingleOpenView extends Component {
                         allSelectedUsersOnClickAddUserButton={() => this.onClickOfAddUsers(true)}
                         allSelectedUsersChangePage={this.onChangePage}
                         allSelectedUsersOnClickUserActions={() => this.setState({ visibilityOfDeletePopUp: true })}
+                        allSelectedUsersSearchLoader={searchLoader}
+                        allSelectedUsersDebounceTimeUserSearch={300}
+                        allSelectedUsersTableLoading={tableLoading}
 
                         //search with suggestion comp props
                         allSelectedUsersSearchDropdownPlaceholder={"Enter Name and Add"}
@@ -317,7 +332,10 @@ class CommonSingleOpenView extends Component {
                         addUsersSelectedDataCount={addUsersCheckedDataKeys.length}
                         addUsersChangePage={this.addUsersChangePage}
                         addUsersCurrentPageNumber={addUsersCurrentPageNumber}
-                        addUsersPopUpFirstButtonClick={this.onClickAddSelectedButton} />
+                        addUsersPopUpFirstButtonClick={this.onClickAddSelectedButton} 
+                        addUsersSearchLoader={searchLoader}
+                        addUsersTableLoading={suggestionTableLoading}
+                    />
 
 
                     <Modal //used this modal for confirmation before deleting node items

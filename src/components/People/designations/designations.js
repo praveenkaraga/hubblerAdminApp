@@ -143,7 +143,10 @@ class Designations extends Component {
     creationPopUpInput = (e) => {
         const { editRowName } = this.state
         const inputData = e.target.value
-        this.setState({ newDesignationName: inputData, editRowName: inputData ? editRowName : "" })
+        // console.log(editRowId)
+        this.setState({ newDesignationName: inputData,
+            editRowName: inputData ? editRowName : "" 
+        })
 
     }
 

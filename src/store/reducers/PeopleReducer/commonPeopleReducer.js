@@ -21,7 +21,9 @@ const intialState = {
     postDeletedDataSuccessfulMessage: "",
     postDeletedDataSuccessfully: false,
     viewDeciderLoader : true,
-    fieldTableLoading: true,
+    tableLoading: true,
+    searchLoader : false,
+    suggestionTableLoading : true
 }
 
 export const commonPeopleReducer = (state = intialState, action) => {
@@ -36,6 +38,8 @@ export const commonPeopleReducer = (state = intialState, action) => {
         return {
             ...state,
             viewDeciderLoader : false,
+            searchLoader : false,
+            tableLoading: false,
             singleViewName: singleViewDataItitial ? singleViewDataItitial.name : "",
             singleViewCount: singleViewDataItitial ? singleViewDataItitial.total_count : 0,
             singleViewData: singleViewDataItitial ? singleViewDataItitial.result : []
@@ -46,6 +50,8 @@ export const commonPeopleReducer = (state = intialState, action) => {
         const singleViewSuggestionDataInitial = action.payload.data
         return {
             ...state,
+            searchLoader : false,
+            suggestionTableLoading: false,
             singleViewSuggestionData: singleViewSuggestionDataInitial ? singleViewSuggestionDataInitial.result : [],
             singleViewSuggestionDataCount: singleViewSuggestionDataInitial ? singleViewSuggestionDataInitial.total_count : 0
         }
@@ -97,8 +103,9 @@ export const commonPeopleReducer = (state = intialState, action) => {
         const singleFieldDataInitial = action.payload.data
         return {
             ...state,
-            fieldTableLoading: false,
+            tableLoading: false,
             viewDeciderLoader : false,
+            searchLoader:false,
             singleFieldName: singleFieldDataInitial ? singleFieldDataInitial.name : "",
             singleFieldCount: singleFieldDataInitial ? singleFieldDataInitial.total_count : 0,
             singleFieldData: singleFieldDataInitial ? singleFieldDataInitial.result : [],
