@@ -1,16 +1,18 @@
 import * as actionTypes from '../../actionTypes'
-// import {
-//     getCommonProfilesLandingViewTableDataApi,
+import {
+    holidayTypeData
+} from  '../../../utils/Apis/profileApi'
 
-// } from '../../../utils/Apis/peopleApi'
+// import {holidayTypeData} from '../../../utils/Apis/profileApi'
 
-export const commonHolidayAction = (payload) =>{
+
+export const getHolidayTypeData = () => {
+    const payload = holidayTypeData()
     return {
-        type: actionTypes.COMMON_HOLIDAY_ACTION,
+        type: actionTypes.GET_HOLIDAY_TYPE_DATA,
         payload
     }
-}
-
+};
 
 
 

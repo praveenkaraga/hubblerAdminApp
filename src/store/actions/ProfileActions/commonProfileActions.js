@@ -9,17 +9,20 @@ export const getCommonProfilesLandingViewTableData = (viewType, perPageRows, cur
     const payload = getCommonProfilesLandingViewTableDataApi(viewType,perPageRows, currentPage, searchData, headingData, sortingType)
     return {
         type: actionTypes.GET_COMMON_PROFILES_LANDING_VIEW_TABLE_DATA,
-        payload
-    }
-};
-
-
-export const commonActionForCommonProfileReducer = (payload) =>{
-    return{
-        type : actionTypes.COMMON_ACTION_FOR_COMMON_PROFILE_REDUCER,
-        payload
+        payload,
     }
 }
+
+       
+        export const commonActionForCommonProfileReducer = (payload) => {
+            return {
+                type: actionTypes.COMMON_ACTION_FOR_COMMON_PROFILE_REDUCER,
+                payload
+            }
+        };
+    
+
+
 
 
 export const commonActionsOnProfileData = (viewType, typeOfAction,  data) =>{

@@ -1,0 +1,20 @@
+.holiday-create-new-popup-modal {
+  .field-wrap {
+    padding: 5px;
+  }
+
+  .holiday-type-select {
+    width: 100%;
+    margin: 5px 0;
+  }
+
+  .range-picker {
+    margin: 5px 0;
+  }
+
+}
+.holiday-type-options, .ant-select-selection-selected-value{
+  text-transform: capitalize;
+}
+
+

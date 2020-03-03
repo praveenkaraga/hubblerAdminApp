@@ -1,16 +1,13 @@
 import * as holidayActions from './holidayActions'
-import * as commonProfileActions from './commonProfileActions'
-
+import * as commonProfileActions from "../ProfileActions/commonProfileActions";
 //------------------------------ Holiday Profile Actions -------------------------------//
 
-export const { commonHolidayAction } = holidayActions;
 
 //------------------------------xxxxxxxxxxxxxxxxxxx-------------------------------//
 
 
+//--------------------------------- Common Actions ----------------------------------
 
-
-//------------------------------ Holiday Profile Actions -------------------------------//
 
 export const {  getCommonProfilesLandingViewTableData,
     commonActionForCommonProfileReducer,

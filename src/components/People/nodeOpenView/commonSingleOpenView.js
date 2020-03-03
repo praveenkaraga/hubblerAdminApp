@@ -6,7 +6,7 @@ import {
     getSingleViewSuggestionData,
     postCommonAddSelectedUsersData,
     postCommonRemovePeople,
-    commonActionForCommonReducer
+    commonActionForCommonReducer,createActiveLink
 } from '../../../store/actions/PeopleActions/peopleActions'
 import CommonCreationView from '../../common/CommonCreationView/CommonCreationView'
 import { withRouter } from "react-router-dom";
@@ -75,6 +75,7 @@ class CommonSingleOpenView extends Component {
 
     // will rerender the component when we are clicking on different circle when we are already in a circle
     componentDidUpdate(prevProps, prevState) {
+        console.log(this.props.viewType )
         if (this.props.viewType === "circles") {
             const currentNodeId = getNodeId(this.props.history) // getting new node id
             const { apiCallFlag } = this.state // this flag is only for not calling this api two times when we land on circles for the first time
@@ -193,8 +194,8 @@ class CommonSingleOpenView extends Component {
     }
 
     // on search inside the add users pop up
-    onSearchInAddUsers = (e) => {
-        const searchvalue = e.target.value
+    onSearchInAddUsers = (value) => {
+        const searchvalue = value
         const { addUsersRowsPerPage, addUsersActiveheading, addUsersSortingType, viewType, singleNodeId, subNodeId } = this.state
         this.props.getSingleViewSuggestionData(viewType, singleNodeId, addUsersRowsPerPage, 1, searchvalue, addUsersActiveheading, addUsersSortingType, subNodeId)
 
@@ -348,7 +349,7 @@ class CommonSingleOpenView extends Component {
 const mapStateToProps = state => {
     return {
         commonReducer: state.commonReducer,
-        consoleReducer: state.consoleReducer
+        consoleReducer: state.consoleReducer,
     };
 };
 
@@ -359,7 +360,7 @@ const mapDispatchToProps = dispatch => {
             getSingleViewSuggestionData,
             postCommonAddSelectedUsersData,
             postCommonRemovePeople,
-            commonActionForCommonReducer
+            commonActionForCommonReducer,createActiveLink
         },
         dispatch
     );

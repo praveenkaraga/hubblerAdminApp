@@ -95,6 +95,7 @@ class CustomDropdown extends Component {
 
 
     onSelectingPanelData = (data) => { //on selection of each panel data
+        this.props.updateCurrentLinkDetails(this.props.history)
         if (this.props.onSinglePanelClick) this.props.onSinglePanelClick(data)
     }
 

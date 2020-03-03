@@ -9,6 +9,6 @@ module.exports = {
         "no-extra-bind": "error",
         "no-useless-catch": "error",
         "indent": ["error", 4] // A custom style-related rule for example
-        // More custom rules here
+        // More custom rules here*/
     }
 }

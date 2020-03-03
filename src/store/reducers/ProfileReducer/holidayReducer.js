@@ -1,13 +1,10 @@
 import {checkError} from "../../../utils/helper";
 import * as actionTypes from "../../actionTypes";
-import filter from 'lodash/filter'
-import map from 'lodash/map'
-import isEmpty from 'lodash/isEmpty'
 
 const initialState = {
     count: 1,
     holidayColumnData: [],
-    holidayProfilesData:[],
+    holidayProfilesData: [],
     searchLoader: false,
 
 }
@@ -20,14 +17,17 @@ export const holidayReducer = (state = initialState, action) => {
 
     switch (action.type) {
 
-    case actionTypes.COMMON_HOLIDAY_ACTION :
+        
+    case actionTypes.GET_HOLIDAY_TYPE_DATA :
+        const holidayTypeDataInitial = action.payload.data;
+        const holidayTypeData = holidayTypeDataInitial ? holidayTypeDataInitial.result : [];
         return {
-            ...state, ...action.payload
-        };
+            holidayTypeData: holidayTypeData,
+        }
 
 
     default:
-        return{...state}
+        return {...state}
 
     }
 }

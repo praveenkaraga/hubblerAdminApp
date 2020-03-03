@@ -17,7 +17,7 @@ export const commonProfileReducer = (state = initialState, action) => {
     }
 
     switch (action.type) {
-
+      
     case actionTypes.GET_COMMON_PROFILES_LANDING_VIEW_TABLE_DATA:
         const initialLandingData = action.payload.data
         const initialLandingData2 =  initialLandingData ? initialLandingData.result :[]
@@ -51,4 +51,4 @@ export const commonProfileReducer = (state = initialState, action) => {
         return{...state}
 
     }
-}
+};
