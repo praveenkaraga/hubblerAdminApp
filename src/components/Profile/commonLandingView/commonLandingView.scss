@@ -1,0 +1,11 @@
+.commonLandingView_main{
+    height: 95%;
+    display: flex;
+    flex-direction: column;
+  
+    .commonLandingView-heading {
+        h3{
+            text-transform: capitalize;
+        }
+    }
+  }

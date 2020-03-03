@@ -76,6 +76,11 @@
         cursor: pointer;
       }
 
+      .console-link-active,.team-view-link-active,.departments-link-active,.designations-link-active{
+        background-color: #edf6fd;
+        font-weight: bold;
+      }
+
       .console-link-active {
         background-image: url(../../images/console_select.svg);
 

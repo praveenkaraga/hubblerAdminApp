@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { AutoComplete } from 'antd';
+import { AutoComplete, Icon, Input } from 'antd';
+import {debounce} from '../../../utils/helper'
 import './searchDropDown.scss'
 
 const { Option } = AutoComplete;
@@ -11,9 +12,10 @@ class SearchDropdown extends Component {
         }
     }
 
-    handleSearch = value => { //passing search value to prop on search
-        if (this.props.onChange) this.props.onChange(value) //checking if prop is being passed or not
-    };
+    
+    handleSearch = debounce(searchValue => { 
+        if(this.props.onChange) this.props.onChange(searchValue) 
+    }, this.props.debounceTime || 0)
 
     onOptionSelect = (value) => { //on Select of a data from dropdown
         if (this.props.onSelect) this.props.onSelect(value) //checking if prop is being passed or not
@@ -21,7 +23,7 @@ class SearchDropdown extends Component {
 
 
     render() {
-        const { placeholder = "Search and Add", searchData = [] } = this.props
+        const { placeholder = "Search and Add", searchData = [], searchIcon = false, width = 200, value = "" } = this.props
 
         // modelling all the options for below autocomplete component
         const children = searchData.map(data => <Option key={data._id} name={data.name}>
@@ -43,8 +45,11 @@ class SearchDropdown extends Component {
         </Option>);
         return (
             <div>
-                <AutoComplete className="searchDropdown" allowClear style={{ width: 200 }} onSelect={this.onOptionSelect} onSearch={this.handleSearch} placeholder={placeholder} optionLabelProp="name">
-                    {children}
+                <AutoComplete className="searchDropdown" allowClear style={{ width }} onSelect={this.onOptionSelect}
+                    onSearch={this.handleSearch}
+                    dataSource={children} optionLabelProp="name" value={value}>
+
+                    <Input prefix={searchIcon ? <Icon type="search" className="search-icon" /> : null} placeholder={placeholder} />
                 </AutoComplete>
             </div>
         );

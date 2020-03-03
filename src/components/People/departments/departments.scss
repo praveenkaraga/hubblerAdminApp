@@ -1,0 +1,132 @@
+.departments-main {
+  height: 95%;
+  display: flex;
+  flex-direction: column;
+
+  .departments-heading {
+
+  }
+
+  .departments-main-view {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+}
+
+.department-name-input {
+  margin-top: 8px;
+}
+
+.departments-secondary-view {
+  .departments-secondary-view-wrap {
+    display: flex;
+    flex-direction: column;
+
+    .all-select-wrap{
+      margin-top: 50px;
+    }
+
+    .department-name {
+      background-image: url("../../../images/arrow right.svg");
+      background-repeat: no-repeat;
+      background-position: center left;
+      margin: auto 0;
+      padding-left: 35px;
+      font-size: 20px;
+      text-transform: capitalize;
+      cursor: pointer;
+    }
+  }
+
+  .back-to-main-view{
+    background-image: url("../../../images/arrow right.svg");
+    background-size: 15px;
+    width: 60px;
+    height: 60px;
+    background-repeat: no-repeat;
+
+  }
+
+  .add-user-card {
+    width: 400px;
+    font-family: sans-serif;
+    display: flex;
+    border: 1px solid #dbdbdb;
+    border-radius: 5px;
+    text-transform: none;
+    margin: 50px auto;
+    flex-direction: column;
+    background-color: #ffffff;
+
+
+
+    .header {
+      width: 100%;
+      border-bottom: 1px solid #dbdbdb;
+      text-transform: none;
+      padding: 5px 15px;
+      font-size: 21px;
+    }
+
+    .icon-mini {
+      background-image: url("../../../images/empty-customer.svg");
+      margin: auto;
+      background-repeat: no-repeat;
+      width: 85px;
+      height: 85px;
+      background-size: 85px;
+    }
+
+    .text {
+      padding: 15px;
+      font-size: 13px;
+    }
+    .add-from-users-list{
+      margin: 10px;
+      width: 160px;
+    }
+
+  }
+}
+.user-pop-model{
+  height: 100%;
+  padding: 25px;
+
+  .ant-modal-content{
+    box-shadow: none;
+    height: 100%;
+    background-color: transparent;
+    margin-top: 0!important;
+  }
+  .ant-modal-header{
+    width: 94%;
+    margin: auto;
+  }
+
+  .ant-modal-close{
+    margin-right: 3%;
+  }
+  .ant-modal-body{
+    height: 93%;
+    padding: 0;
+  }
+  .all-users-wrap{
+    height: 100%;
+  }
+  .add-users-header-wrap{
+    background-color: #fff;
+    margin: 0 37px;
+    padding: 10px 25px;
+    color:#323232;
+    font-size: 17px;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+  }
+}
+.ant-modal.user-pop-model{
+  width: 100%!important;
+  height: 100%;
+}
+

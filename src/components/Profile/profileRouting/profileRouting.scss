@@ -1,0 +1,92 @@
+$selectorTypes : "holiday","working-day" ,"reimbursement", "leave","tracking";
+
+@mixin navLinks($imageType){
+  @each $selectorType in $selectorTypes {
+    .#{$selectorType}-link-#{$imageType}{
+      background-image: url('../../../images/svg/#{$selectorType}-#{$imageType}.svg');
+    }
+  }
+
+}
+
+
+.profile-routing-view {
+  height: 100%;
+  background-color: #f0f1f8;
+  width: 100%;
+
+  .profile-routing-view-wrap {
+    height: 100%;
+    display: flex;
+
+
+    .left-panel {
+      width: 250px;
+      background: white;
+      overflow-x: scroll;
+      box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+
+
+      .nav-link {
+        text-decoration: none;
+        color: #000000;
+        font-size: 14px;
+      }
+
+      .nav-link-active {
+        font-size: 14px;
+        font-weight: bold;
+        text-decoration: none;
+        color: #000000;
+        background-color: #edf6fd;
+
+      }
+
+      .nav-link-wrap {
+        display: flex;
+        flex-direction: column;
+        list-style-type: none;
+        padding: 0;
+      }
+
+      .profile {
+        background-image: url(../../../images/svg/profile-main.svg);
+        background-repeat: no-repeat;
+        background-position: 20px;
+        background-size: 20px;
+        padding: 22px 0 21px 65px;
+        background-color: #fafafa;
+        font-size: 14px;
+        color: #323232;
+        border-bottom: 1px solid #c2c5c8;
+      }
+      .list-item {
+        background-repeat: no-repeat;
+        background-position: 20px;
+        background-size: 20px;
+        padding: 22px 0 21px 65px;
+        cursor: pointer;
+      }
+
+    
+      @include navLinks("black");
+
+      .link-active {
+        background-repeat: no-repeat;
+        background-position: 20px;
+        background-size: 20px;
+        padding: 22px 0 21px 65px;
+        cursor: pointer;
+      }
+
+      @include navLinks("active");
+
+      
+    }
+    .route-wrap {
+      width: calc(100% - 250px);
+      height: 100%;
+      padding: 20px;
+    }
+  }
+}

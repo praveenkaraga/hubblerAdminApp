@@ -2,26 +2,9 @@ import React, { Component } from 'react';
 import { Input, Button, Tooltip } from 'antd';
 import './userSearch.scss'
 import SearchDropdown from '../searchDropDown/searchDropDown'
-import { capitalFirstLetter } from '../../../utils/helper'
+import { capitalFirstLetter, debounce } from '../../../utils/helper'
 
 class UserSearch extends Component {
-
-    constructor(props) {
-        super(props);
-
-    }
-
-
-    debounce = (fn, time) => { //TO DO
-        let timeout;
-
-        return function () {
-            const functionCall = () => fn.apply(this, arguments);
-
-            clearTimeout(timeout);
-            timeout = setTimeout(functionCall, time);
-        }
-    }
 
 
     createUserActionButtons = (buttonNames) => {
@@ -59,24 +42,28 @@ class UserSearch extends Component {
         }
     }
 
+    onSearch =  debounce(searchValue => { 
+        if(this.props.onSearch) this.props.onSearch(searchValue) 
+    }, this.props.searchDebounceTime || 0)
+
     render() {
 
         const { firstButtonName = "IMPORT", secondButtonName = "ADD", searchPlaceHolder = "Search", firstButtonLoader = false,
-            secondButtonLoader = false, searchLoader = false, onSearch, onClickFirst, onClickSecond, userSelected,
-            isUserData = true, onlySelectAndAdd = false, allSelect = false, onSearchDropdownSelect, searchDropdownPlaceholder,
-            searchDropdownData, onChangeSearchDropdown, showButtonNames = [], disableButtonNames = [] } = this.props
+            secondButtonLoader = false, searchLoader = false, onClickFirst, onClickSecond, userSelected,
+            onlySelectAndAdd = false, allSelect = false, onSearchDropdownSelect, searchDropdownPlaceholder,
+            searchDropdownData, onChangeSearchDropdown, showButtonNames = [], disableButtonNames = [], searchDropDownValue , searchDropDownDebounceTime} = this.props
 
         const alluserActions = this.createUserActionButtons(showButtonNames)
 
         return (
             <div className={`search_and_buttons ${userSelected ? "user_selected" : "no_user_selected"}`}> {/*if userSelected id true the background color will change...and different class will be implemented */}
                 <div className="search_users">
-                    <Input.Search placeholder={searchPlaceHolder} loading={searchLoader} onChange={onSearch} />
+                    <Input.Search placeholder={searchPlaceHolder} loading={searchLoader} onChange={(e)=>this.onSearch(e.target.value)} />
                 </div>
                 <div className="all_buttons">
                     {userSelected && !onlySelectAndAdd ? //if userSelected true and onlySelectAndAdd is false then buttons to do action on table data will be visible 
                         <div className="user_action_buttons">
-                            <Tooltip key={`totalUserstooltip`} placement="top" title={"Total Users Selected"}>
+                            <Tooltip key={`totalUserstooltip`} placement="top" title={"Total Selected"}>
                                 <div className="user_count">{userSelected}</div>
                             </Tooltip>
                             {alluserActions.map((data, i) => {
@@ -116,7 +103,7 @@ class UserSearch extends Component {
                             </>
 
                             : <div className="suggestionSearch_with_addUser">
-                                <SearchDropdown onSelect={onSearchDropdownSelect} placeholder={searchDropdownPlaceholder} searchData={searchDropdownData} onChange={onChangeSearchDropdown} />
+                                <SearchDropdown onSelect={onSearchDropdownSelect} placeholder={searchDropdownPlaceholder} searchData={searchDropdownData} onChange={onChangeSearchDropdown} value={searchDropDownValue} debounceTime={searchDropDownDebounceTime}/>
                                 <div className="add_user">
                                     <div className="vLine"></div>
                                     <img src={require('../../../images/svg/user-add-list.svg')} alt="add-user" onClick={this.addUserClick} />

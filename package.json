@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "antd": "^3.26.6",
-    "axios": "^0.19.0",
+    "axios": "^0.19.2",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
     "node-sass": "^4.13.0",
@@ -44,5 +44,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://sandbox-ssh.hubblerapp.com"
+  "proxy": "https://sandbox-ssh.hubblerapp.com",
+  "devDependencies": {
+    "eslint": "^6.8.0"
+  }
 }

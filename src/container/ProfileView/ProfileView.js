@@ -8,45 +8,46 @@ import {
     Redirect,
     withRouter
 } from "react-router-dom";
-import {createActiveLink, hamburgerIconClick} from "../../store/actions/actions";
+import {createActiveLink, hamburgerIconClick} from "../../store/actions/PeopleActions/peopleActions";
 
 import './profileView.scss'
-import HolidayProfile from "../../components/HolidayProfile/HolidayProfile";
-import CommonRouting from '../../components/common/CommonRouting/CommonRouting'
+import HolidayProfile from "../../components/Profile/HolidayProfile/HolidayProfile";
+import ProfileRouting from '../../components/Profile/profileRouting/profileRouting';
+import CommonLandingView from '../../components/Profile/commonLandingView/commonLandingView'
 
-const routes = [
+const navLinkRoutes = [
     {
-        path: "/holidayProfile",
+        path: "/holiday",
         exact: false,
-        main: () => <HolidayProfile/>,
+        main: <CommonLandingView viewType="holiday"/>,
         name: "Holiday",
         class_name: 'holiday',
         link_name: 'holiday',
     },
     {
-        path: "/workingDayProfile",
-        main: () => 'Working Day Profile Component',
+        path: "/workingDay",
+        main: <CommonLandingView viewType="working_day"/>,
         name: "Working Day",
         class_name: 'working-day',
-        link_name: 'working-day',
+        link_name: 'workingDay',
     },
     {
-        path: "/leaveProfile",
-        main: () => 'Leave Profile Component',
+        path: "/leave",
+        main: <CommonLandingView viewType="leave"/>,
         name: "Leave",
         class_name: 'leave',
         link_name: 'leave',
     },
     {
-        path: "/reimbursementProfile",
-        main: () => 'Reimbursement Profile Component',
+        path: "/reimbursement",
+        main: <CommonLandingView viewType="reimbursement"/>,
         name: "Reimbursement",
         class_name: 'reimbursement',
         link_name: 'reimbursement',
     },
     {
-        path: "/trackingProfile",
-        main: () => 'Tracking Profile Component',
+        path: "/tracking",
+        main: <CommonLandingView viewType="tracking"/>,
         name: "Tracking",
         class_name: 'tracking',
         link_name: 'tracking',
@@ -64,8 +65,9 @@ class ProfileView extends Component {
         return (
             <div className={'profile-view'}>
                 <div className={'profile-view-wrap'}>
-                    <CommonRouting routes={routes} leftPanelTitle={'Profile'} activeLinkHandler={this.createActiveLink}
-                                   activeLinkName={activeLinkName} path={"holidayProfile"}/>
+                    <ProfileRouting navLinkRoutes={navLinkRoutes} leftPanelTitle={'Profile'} activeLinkHandler={this.createActiveLink}
+                        activeLinkName={activeLinkName} className={"profile-routing-view"}/>
+
                 </div>
             </div>
         )
@@ -87,8 +89,8 @@ const mapDispatchToProps = dispatch => {
     );
 };
 
-export default connect(
+export default withRouter (connect(
     mapStateToProps,
     mapDispatchToProps
-)(ProfileView)
+)(ProfileView))
 

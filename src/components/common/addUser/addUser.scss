@@ -1,0 +1,262 @@
+.add_user_main{
+    z-index: 10;
+    background-color: #fff;
+    position: absolute;
+    width: 60%;
+    top: 3%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    height: 95.8%;
+    box-shadow: 0 5px 10px 5px rgba(0,0,0,.2);
+
+    .add_user_container{
+        // padding: 15px;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+
+        
+
+        .heading-with-close{
+            display: flex;
+            height: 45px;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+            
+            .heading{
+                color: #323232;
+                font-size: 15px;
+                font-weight: 600;
+                margin: 0;
+            }
+
+            img{
+                margin-top: 2px;
+                height: 14px;
+                cursor: pointer;
+            }
+        }
+
+        .profile_pic_with_details{
+            display: flex;
+           position: absolute;
+            flex-direction: column;
+            top: 77px;
+            align-items: center;
+            border-bottom: 1px solid #f1f1f1;
+            z-index: 12;
+           //transform: translate(0%);
+            width: 220px;
+
+            .profile_pic{
+                height: 87px;
+                width: 80px;
+                border-radius: 3px;
+                overflow: hidden; 
+                position: relative;
+
+                .change_photo{
+                    padding: 2px;
+                    margin: 0;
+                    text-align: center;
+                    color: #1890ff;
+                    font-size: 0.8em;
+                    background: #f8f8f8;
+                    border-top: 1px solid #e5e5e5;
+                    cursor: pointer;
+               }
+            }
+
+            .profile_image{
+                height: 78px;
+                width: 78px;
+                padding: 1px;
+                cursor: pointer;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+
+            .no_profile_image{
+                height: 78px;
+                width: 78px;
+                background-color: #eef0f2;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+
+                p{
+                    margin: 0;
+                    color: #767373;
+                    font-size: 12px;
+                    width: 73%;
+                    text-align: center;
+                    margin-top: 3px;
+                }
+            }
+
+            .camera{
+                height: 31px;
+                right: 0;
+                bottom: 10px;
+                position: absolute;
+                cursor: pointer;
+            }
+
+            .user_details{
+                text-align: center;
+                margin-top: 5px;
+                margin-bottom: 12px;
+                color: black;
+                .name{
+                   
+                    font-size: 17px;
+                }
+
+                h3{
+                    margin: 0;
+                }
+                p{
+                    margin-bottom: 0.4em;
+                    font-size: 12px;
+                }
+            }
+        }
+
+        .add_user_tab_container{
+        //    padding: 0 5px;
+            display: flex;
+            flex-direction: row;
+            height: 100%;
+
+            .ant-tabs-content{
+                height: 100%;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .ant-tabs-nav-animated>div{
+                display: flex;
+                flex-direction: column;
+                align-items: baseline;
+            }
+
+            .ant-tabs-nav-wrap{
+              margin-top: 265px;
+            }
+
+            .ant-tabs-left-bar{
+                width: 220px ;
+                flex-shrink: 0;
+                border-right: unset;
+                background-color: #f9fcff;
+
+                .ant-tabs-tab{
+                    margin: 0 0 11px 0;
+                    padding: 3px 24px;
+                }
+                
+            }
+
+            .ant-tabs-left-content{
+                border-left: unset;
+                padding: 5px;
+                overflow: scroll;
+
+                .ant-tabs-tabpane-active{
+                    height: 100%;
+                }
+            }
+
+
+
+            .ant-tabs-nav-scroll{
+                width: 100%;
+            }
+        }
+
+
+        .bottom_buttons{
+            height: 70px;
+            padding: 4px 10px 4px 10px;;
+            background: #F6F6F6;
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+
+            button:first-child, button:nth-child(2){
+               margin-right: 10px;
+            }
+            
+        }
+
+    }
+
+    
+}
+
+.pop_up_display_block{
+    z-index: 9;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: #000;
+    top: 0;
+    left: 0;
+    opacity: 0.5;
+}
+
+
+.addUser_popup{
+    .ant-popover-inner-content{
+       
+        // box-shadow: 0 0 7px 5px rgba(0, 0, 0, 0.1);
+        background-color: #ffffff;
+        border-radius: 5px;
+        padding: 0;
+
+       .actionButtons{
+        width: 78px;
+        height: 54px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        div{
+            width: 100%;
+            text-align: center;
+            cursor: pointer;
+            font-size: 12px;
+            height: 27px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #323232;
+            border-radius: 0px 0px 5px 5px;
+        }
+
+
+        div:hover{
+            background-color: #e5faff;
+
+        }
+
+        label{
+            width: 100%;
+
+            div{
+                border-radius: 5px 5px 0px 0px;
+            }
+        }
+       }
+    }
+}

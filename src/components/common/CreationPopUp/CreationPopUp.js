@@ -35,36 +35,36 @@ class CreationPopUp extends Component {
             <div>
                 <div>{fieldHeader}</div>
                 <Input placeholder={fieldPlaceHolder} className={'preferred-field-class'}
-                       onChange={creationPopUpFirstFieldChangeHandler}
-                       value={inputValue} onPressEnter={creationPopSecondButtonHandler}
-                       maxLength={inputMaxLength}
+                    onChange={creationPopUpFirstFieldChangeHandler}
+                    value={inputValue} onPressEnter={creationPopSecondButtonHandler}
+                    maxLength={inputMaxLength}
                 />
             </div>
             <div className={'second-field-wrap'}>
                 <div>{secondFieldHeader}</div>
                 <Select defaultValue={dropDownValue ? dropDownValue : secondFieldOptions[0].key}
-                        onChange={creationPopUpSecondFieldChangeHandler}
-                        className={'second-field-element'}
-                        disabled={type === 'edit' ? true : false}
+                    onChange={creationPopUpSecondFieldChangeHandler}
+                    className={'second-field-element'}
+                    disabled={type === 'edit' ? true : false}
                 >
                     {map(secondFieldOptions, function (ele, inde) {
                         return <Option value={ele.key}
-                                       key={ele.key}>{ele.name}</Option>
+                            key={ele.key}>{ele.name}</Option>
 
                     })}
                 </Select>
             </div>
             <div className={'third-field-wrap'}>
                 <Switch onChange={creationPopUpThirdFieldChangeHandler} className={'third-field-element'}
-                        checked={requiredCheckValue}/>
+                    checked={requiredCheckValue}/>
                 <div className={'field-header-name'}>{thirdFieldHeader}</div>
 
             </div>
             <div className={'fourth-field-wrap'}>
                 <div className={'switch-header-wrap'}>
                     <Switch onChange={creationPopUpFourthFieldChangeHandler} className={'third-field-element'}
-                            loading={parentNodeSwitchLoader}
-                            checked={parentNodeCheckValue}/>
+                        loading={parentNodeSwitchLoader}
+                        checked={parentNodeCheckValue}/>
                     <div className={'field-header-name'}>{fourthFieldHeader}</div>
                 </div>
                 {parentNodeCheckValue && !isEmpty(parentNodeOptions) ?
@@ -82,7 +82,7 @@ class CreationPopUp extends Component {
                         >
                             {map(parentNodeOptions, function (inele, inde) {
                                 return <Option value={inele._id}
-                                               key={inele._id}>{inele.name}</Option>
+                                    key={inele._id}>{inele.name}</Option>
                             })}
                         </Select></div> : ''}
             </div>
@@ -92,20 +92,20 @@ class CreationPopUp extends Component {
     getRequiredFields = (customField) => {
         const {creationPopUpFirstFieldChangeHandler, fieldHeader, fieldPlaceHolder, inputValue, creationPopSecondButtonHandler, inputMaxLength} = this.props
         switch (customField) {
-            case 'add' : {
-                return this.getCustomFieldsSkeleton('add')
-            }
-            case 'edit' : {
-                return this.getCustomFieldsSkeleton('edit')
-            }
-            default : {
-                return <div>
-                    <div>{fieldHeader}</div>
-                    <Input placeholder={fieldPlaceHolder} className={'preferred-field-class'}
-                           onChange={creationPopUpFirstFieldChangeHandler} value={inputValue}
-                           onPressEnter={creationPopSecondButtonHandler} maxLength={inputMaxLength}/>
-                </div>
-            }
+        case 'add' : {
+            return this.getCustomFieldsSkeleton('add')
+        }
+        case 'edit' : {
+            return this.getCustomFieldsSkeleton('edit')
+        }
+        default : {
+            return <div>
+                <div>{fieldHeader}</div>
+                <Input placeholder={fieldPlaceHolder} className={'preferred-field-class'}
+                    onChange={creationPopUpFirstFieldChangeHandler} value={inputValue}
+                    onPressEnter={creationPopSecondButtonHandler} maxLength={inputMaxLength}/>
+            </div>
+        }
         }
     };
 
@@ -114,8 +114,8 @@ class CreationPopUp extends Component {
         const {
             creationPopUpVisibility = false, creationPopUpTitle = `Add New Department`, creationPopFirstButtonName = `Cancel`,
             creationPopSecondButtonName = `Create`, creationPopFirstButtonHandler, creationPopSecondButtonHandler,
-            customField = 'default', afterClose, secondButtonDisable, inputMaxLength = "50",inputValue
-        } = this.props
+            customField = 'default', afterClose, secondButtonDisable, creationPopSecondButtonLoader} = this.props
+        
         return (
             <div className={'creation-pop-up'}>
                 <Modal
@@ -128,8 +128,8 @@ class CreationPopUp extends Component {
                         <Button key="cancel" onClick={(e) => creationPopFirstButtonHandler(e)}>
                             {creationPopFirstButtonName}
                         </Button>,
-                        <Button key="create" onClick={(e) => creationPopSecondButtonHandler(e)}
-                                type="primary" disabled={secondButtonDisable}>{creationPopSecondButtonName}</Button>,
+                        <Button key="create" onClick={(e) => creationPopSecondButtonHandler(e)} loading={creationPopSecondButtonLoader}
+                            type="primary" disabled={secondButtonDisable}>{creationPopSecondButtonName}</Button>,
                     ]}
                     centered>
 
