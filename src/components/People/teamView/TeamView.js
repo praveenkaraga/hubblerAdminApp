@@ -182,6 +182,7 @@ class TeamView extends Component {
                                       isFileUploaded={isFileUploaded}
 
                                       commonAction={()=>this.props.commonTeamReducerAction()}
+                                      patchImportUsersDataHandler={this.patchImportUserData}
                         //boolean value for if file is uploaded
                     />
                     { addUserPopUpStatus ?

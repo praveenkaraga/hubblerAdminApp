@@ -22,6 +22,7 @@ const initialState = {
     departmentSuggestionData: [],
     editUserDataForm: [],
     editUserDataFormMain: [],
+    tableLoading:true,
 }
 
 export const departmentReducer = (state = initialState, action) => {
@@ -43,6 +44,7 @@ export const departmentReducer = (state = initialState, action) => {
                 departmentsData: d,
                 totalUsers,
                 searchLoader: false,
+                tableLoading: false
             };
 
         case actionTypes.COMMON_DEPARTMENT_ACTION : //common values to be updated
