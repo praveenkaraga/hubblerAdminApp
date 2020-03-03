@@ -218,8 +218,7 @@ class HolidayProfile extends Component {
                                creationPopSecondButtonHandler={creationPopUpMode === "add" ? this.onSaveNewHoliday : this.onSaveEditedHoliday}
                                secondButtonDisable={newHolidayName.length < 3 || newHolidayName === editRowName ? true : false}
                                afterClose={() => this.setState({newHolidayName: ""})}
-                               creationPopUpFirstFieldChangeHandler={this.creationPopUpInput}
-                />
+                               creationPopUpFirstFieldChangeHandler={this.creationPopUpInput}/>
 
                 <Modal // used this modal for confirmation before deleting department items
                     title={`Delete Holiday(s)`}

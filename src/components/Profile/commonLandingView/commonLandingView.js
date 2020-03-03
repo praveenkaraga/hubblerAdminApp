@@ -1,18 +1,19 @@
-
-import React, { Component } from 'react';
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import React, {Component} from 'react';
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
 import './commonLandingView.scss'
 import AllUserSelect from '../../common/allUserSelect/allUserSelect'
 import {columnData} from '../commonLandingView/columnData'
 import {getCommonProfilesLandingViewTableData} from '../../../store/actions/ProfileActions/profileActions'
 
+
+
 class CommonLandingView extends Component {
     constructor(props) {
         super(props);
-        this.state = { 
+        this.state = {
             type: "", //for api call
-            subtype :"", //for api call
+            subtype: "", //for api call
             currentPageNumber: 1,
             rowsPerPage: 30,
             activeheading: "",
@@ -22,42 +23,42 @@ class CommonLandingView extends Component {
     }
 
 
-    componentDidMount(){
+    componentDidMount() {
         const {viewType} = this.props
         let type = "holiday"
         let subType = "holiday-profiles"
-        switch(viewType){
-        case "workingDay":
-            type = "workdays"
-            subType = "profiles"
-            break;
-        
-        case "leave":
-            type = "leave"
-            subType = "leave_profiles"
-            break;
-        
-        case "reimbursement":
-            type = "reimbursement"
-            subType = "profiles"
-            break;
-        
-        case "tracking":
-            type = "tracking"
-            subType = "profiles"
-            break;
-        
-        default:
-            type = "holiday"
-            subType = "holiday-profiles"
-                
+        switch (viewType) {
+            case "workingDay":
+                type = "workdays"
+                subType = "profiles"
+                break;
+
+            case "leave":
+                type = "leave"
+                subType = "leave_profiles"
+                break;
+
+            case "reimbursement":
+                type = "reimbursement"
+                subType = "profiles"
+                break;
+
+            case "tracking":
+                type = "tracking"
+                subType = "profiles"
+                break;
+
+            default:
+                type = "holiday"
+                subType = "holiday-profiles"
+
         }
         this.props.getCommonProfilesLandingViewTableData(type, subType, 30)
         this.setState({type, subType})
     }
 
-    onClickHeadingColumn = (activeheading, sortingType) =>{
-        const { type, subType, rowsPerPage, searchData, currentPageNumber } = this.state
+    onClickHeadingColumn = (activeheading, sortingType) => {
+        const {type, subType, rowsPerPage, searchData, currentPageNumber} = this.state
         //  this.props.commonDesignationAction({tableLoading : true})
         this.props.getCommonProfilesLandingViewTableData(type, subType, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
         this.setState({
@@ -66,20 +67,20 @@ class CommonLandingView extends Component {
         })
     }
 
-     //on change of rows per page of the table
-     onChangeRowsPerPage = (rowsPerPage) => {
-         const { type, subType, searchData, activeheading, sortingType } = this.state
-         // this.props.commonDesignationAction({tableLoading : true})
-         this.props.getCommonProfilesLandingViewTableData(type, subType, rowsPerPage, 1, searchData, activeheading, sortingType)
-         this.setState({
-             rowsPerPage,
-             currentPageNumber: 1
-         })
-     }
+    //on change of rows per page of the table
+    onChangeRowsPerPage = (rowsPerPage) => {
+        const {type, subType, searchData, activeheading, sortingType} = this.state
+        // this.props.commonDesignationAction({tableLoading : true})
+        this.props.getCommonProfilesLandingViewTableData(type, subType, rowsPerPage, 1, searchData, activeheading, sortingType)
+        this.setState({
+            rowsPerPage,
+            currentPageNumber: 1
+        })
+    }
 
-     //on change of pages of the table
+    //on change of pages of the table
     changePage = (calcData) => {
-        const { type, subType, currentPageNumber, rowsPerPage, searchData, activeheading, sortingType } = this.state
+        const {type, subType, currentPageNumber, rowsPerPage, searchData, activeheading, sortingType} = this.state
         const goToPage = currentPageNumber + calcData
         //  this.props.commonDesignationAction({tableLoading : true})
         this.props.getCommonProfilesLandingViewTableData(type, subType, rowsPerPage, goToPage, searchData, activeheading, sortingType)
@@ -90,8 +91,8 @@ class CommonLandingView extends Component {
 
     //on search in the designaiton table
     onSearchProfile = (searchData) => {
-        const {type, subType, rowsPerPage, activeheading, sortingType } = this.state
-        
+        const {type, subType, rowsPerPage, activeheading, sortingType} = this.state
+
         this.props.getCommonProfilesLandingViewTableData(type, subType, rowsPerPage, 1, searchData, activeheading, sortingType)
         this.setState({
             searchData,
@@ -99,11 +100,13 @@ class CommonLandingView extends Component {
         })
     }
 
-    render() { 
+
+
+    render() {
         const {viewType} = this.props
-        const { profileLandingDataCount, profileLandingData, tableLoading} =  this.props.commonProfileReducer
+        const {profileLandingDataCount, profileLandingData, tableLoading} = this.props.commonProfileReducer
         const {currentPageNumber} = this.state
-        return ( 
+        return (
             <div className="commonLandingView_main">
                 <div className="commonLandingView-heading"><h3>Holiday Profiles</h3></div>
                 {/* <AllUserSelect allHeadingsData={holidayColumnData} userData={holidayProfilesData || []}
@@ -141,7 +144,7 @@ class CommonLandingView extends Component {
                     creationPopUpFirstFieldChangeHandler={this.creationPopUpInput}
                 /> */}
 
-                <AllUserSelect 
+                <AllUserSelect
                     allHeadingsData={columnData(viewType)}
                     userData={profileLandingData}
                     totalUsers={profileLandingDataCount}
@@ -153,15 +156,16 @@ class CommonLandingView extends Component {
                     goNextPage={() => this.changePage(1)}
                     currentPageNumber={currentPageNumber}
                 />
+
             </div>
         );
     }
 }
- 
+
 
 const mapStateToProps = state => {
     return {
-        commonProfileReducer : state.commonProfileReducer
+        commonProfileReducer: state.commonProfileReducer
     };
 };
 
