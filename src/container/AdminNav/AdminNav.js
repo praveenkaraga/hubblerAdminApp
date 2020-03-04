@@ -11,7 +11,7 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    NavLink,
+    NavLink, Redirect
 } from "react-router-dom";
 
 
@@ -36,10 +36,16 @@ const routes = [
         class_name: 'app-studio'
     },
     {
+        path: "/linkApp",
+        main: () => 'Link App',
+        name: "Link App",
+        class_name: 'link-app'
+    },
+    {
         path: "/webApps",
         main: () => 'Web Apps',
         name: "Web Apps",
-        class_name: 'web-apps'
+        class_name: 'web-apps app-studio'
     },
     {
         path: "/accounts",
@@ -47,7 +53,48 @@ const routes = [
         name: "Accounts",
         class_name: 'accounts'
     },
-
+    {
+        path: "/mis",
+        main: () => 'MIS',
+        name: "MIS",
+        class_name: 'mis'
+    },
+    {
+        path: "/tracking",
+        main: () => 'Tracking',
+        name: "Tracking",
+        class_name: 'tracking'
+    },
+    {
+        path: "/social",
+        main: () => 'Social',
+        name: "Social",
+        class_name: 'social'
+    },
+    /*{
+        path: "/leaderBoard",
+        main: () => 'Leader Board',
+        name: "Leader Board",
+        class_name: 'leader-board'
+    },
+    {
+        path: "/settings",
+        main: () => 'Settings',
+        name: "Settings",
+        class_name: 'settings'
+    },
+    {
+        path: "/rolesAndPolicies",
+        main: () => 'Roles And Policies',
+        name: "Roles And Policies",
+        class_name: 'roles-policies'
+    },
+    {
+        path: "/auditTrail",
+        main: () => 'Audit Trail',
+        name: "Audit Trail",
+        class_name: 'audit-trail'
+    },*/
 ];
 
 class AdminNav extends Component {
@@ -57,7 +104,8 @@ class AdminNav extends Component {
         return (
             <div className={'admin-nav'}>
                 <div className={'admin-nav-header'}>
-                    <div className={'hamburger-icon'} onClick={() => this.props.hamburgerIconClick(!consoleDrawerVisible)}></div>
+                    <div className={'hamburger-icon'}
+                         onClick={() => this.props.hamburgerIconClick(!consoleDrawerVisible)}></div>
                     <div className={'header-text-hubbler'}>hubbler</div>
                 </div>
                 <Router>
@@ -76,6 +124,8 @@ class AdminNav extends Component {
                                     activeClassName={`${route.class_name}-link-active nav-link-active`}
                                     onClick={() => this.props.hamburgerIconClick(false)}>{route.name}</NavLink>
                             ))}
+                            <div className={'powered-by'}>Powered by</div>
+
                         </div>
                     </Drawer>
                     <div className={'console-main-route-wrap'}>
@@ -115,4 +165,8 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(AdminNav)
+
+
+{/*<Redirect from={"/mis"} exact to={`https://sandconsole.hubblerapp.com/dashboard/index.html#${"webAppStudioView"}`} />*/
+}
 

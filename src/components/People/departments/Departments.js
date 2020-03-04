@@ -192,8 +192,11 @@ class Departments extends Component {
     }
 
     creationPopThirdButtonHandler = async (e) => {
+        const {rowsPerPage, currentPageNumber, searchData, activeHeading, sortingType} = this.state
+
         let data = {name: this.state.commonCreationViewHeaderName};
         this.setState({multiCreationLoader: true})
+
 
         await this.props.postCreateDeptData(data);
         const {errorMsg} = this.props.commonReducer // will be true if success is true from above post api and pop up will be closed
@@ -201,6 +204,8 @@ class Departments extends Component {
             this.setState({commonCreationViewHeaderName: ''})
             message.success("Department Created Successfully");
             this.props.commonDepartmentAction({newDataCreatedSuccessfully: false})
+            this.props.getDepartmentData(rowsPerPage, currentPageNumber, searchData, activeHeading, sortingType)
+
             // this.props.history.push(`/people/department/${this.props.departmentReducer.createdDepartmentData.id}`, {headerName: this.props.departmentReducer.createdDepartmentData.result.name})
         } else {
             message.error(errorMsg);

@@ -41,6 +41,11 @@ class VehicleReimCreatePopUp extends Component {
         console.log(`checked = ${e.target.checked}`);
     }
 
+
+    onIconChange = () =>{
+        console.log('onIconChange')
+    }
+
     render() {
         const {createNewVisibility} = this.props
         let _this = this
@@ -77,9 +82,8 @@ class VehicleReimCreatePopUp extends Component {
                     <Button key="create" type="primary">Ok</Button>,
                 ]}
                 centered>
-                {/*<div>Vehicle</div>*/}
                 <div className={'vehicle-content-wrap'}>
-                    {/*<div className={'vehicle-icons'}></div>*/}
+                    <div className={'vehicle-icons'} onClick={this.onIconChange}></div>
                     <div>
                         <Form name="basic" onFinish={this.onFinish}
                               onFinishFailed={this.onFinishFailed}>

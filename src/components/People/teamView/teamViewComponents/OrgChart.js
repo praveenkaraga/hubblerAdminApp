@@ -16,6 +16,7 @@ import slice from "lodash/slice";
 import isEmpty from "lodash/isEmpty";
 
 
+
 class UserList extends Component {
     generateTree = (member) => {
         this.props.setReportee(member)
@@ -85,11 +86,22 @@ class OrgChart extends Component {
         this.props.getClickedTeamUserReporteeData(managerId || member._id)
     };
 
+    getManagerData = async (id) =>{
+        const { usersManager } = this.props.teamViewReducer
+
+        await this.props.getClickedTeamUserReporteeData(id)
+        this.props.commonTeamReducerAction({ rootData: [usersManager], clickedMemberData: usersManager, preservedData: [] });
+
+    }
+
     getBackManagerData = () => {
         const { rootData, preservedData, clickedMemberData, mainData, allUsers } = this.props.teamViewReducer
+        let _this = this
         let lastUser = rootData[rootData.length - 1]  /*last(rootData)*/
+        let prevManager = ''
         this.props.commonTeamReducerAction({ total_count: '' });
         if (lastUser.manager) {
+            prevManager = lastUser.manager
             lastUser = find(rootData, item => item._id === lastUser.manager._id);
             /*if(newRootData.length === 1 && newRootData[0].manager){
                 this.setReportee(newRootData[0])
@@ -105,8 +117,12 @@ class OrgChart extends Component {
             let newRootData = slice(rootData, 0, (userIndex));
             if (lastUser === undefined) {
                 let managerData = find(allUsers, item => item._id === rootData[0].manager._id)
-                this.props.commonTeamReducerAction({ rootData: [managerData], clickedMemberData: managerData, preservedData: [] });
-                this.props.getClickedTeamUserReporteeData(rootData[0].manager._id)
+                if(managerData === undefined){
+                    _this.getManagerData(prevManager._id)
+                }else{
+                    this.props.commonTeamReducerAction({ rootData: [managerData], clickedMemberData: managerData, preservedData: [] });
+                    this.props.getClickedTeamUserReporteeData(rootData[0].manager._id)
+                }
             } else {
                 this.props.commonTeamReducerAction({ teamViewClickedUserId: lastUser._id._id, clickedMemberData: lastUser, orgChartUsers: requiredReportessData.reportees, preservedData: newPreservedData, rootData: newRootData });
             }
