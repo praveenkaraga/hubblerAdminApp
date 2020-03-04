@@ -8,7 +8,7 @@ class AddUsersPopUp extends Component {
         const {showAddUsersPopUp = false, addUsersPopUpTitle = `Add Users`, addUsersPopUpClose,addUsersPopUpPlaceHolder = `Search Department`,addUsersPopUpFirstButtonName = `Add Selected`,addUsersPopUpFirstButtonClick,addUsersPopUpOnChangeCheckBox, 
             addUsersPopUpTableColumnsData, addUsersPopUpUsersData, addUsersPopUpTotalUsers,addUsersPopUpIsUserData = true,addUsersPopUpOnlySelectAndAdd = true,addUsersOnClickHeadingColumn,addUsersOnChangeRowsPerPage,addUsersChangePage,addUsersSearchData,
             addUsersCurrentPageNumber,addUsersSearchLoader,addUsersShowHeaderButtons,addUsersDisableButtonNames,addUsersSelectedDataCount,addUsersOnClickActions,addUsersOnClickAddUserButton,addUsersOnSelectRow,addUsersOnSelectAll,
-            addUsersTableLoading, addUsersSearchDropDownValue, addUsersDebounceTimeUserSearch, addUsersDebounceTimeSearchDropdown
+            addUsersTableLoading, addUsersSearchDropDownValue, addUsersDebounceTimeUserSearch, addUsersDebounceTimeSearchDropdown, addUsersSearchFirstButtonLoader
         } = this.props;
         return (
             <Modal
@@ -43,7 +43,7 @@ class AddUsersPopUp extends Component {
                     searchDropDownValue={addUsersSearchDropDownValue}
                     debounceTimeUserSearch={addUsersDebounceTimeUserSearch}
                     debounceTimeSearchDropdown={addUsersDebounceTimeSearchDropdown}
-
+                    searchFirstButtonLoader={addUsersSearchFirstButtonLoader}
                 />
             </Modal>
         )

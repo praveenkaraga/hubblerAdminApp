@@ -287,7 +287,7 @@ class CommonSingleOpenView extends Component {
             <>{ !viewDeciderLoader ?
                 <>
                     <CommonCreationView commonCreationViewHeaderName={singleViewName}
-                        viewDecider={searchData !== null || singleViewCount}
+                        viewDecider={(searchData !== null) || singleViewCount}
                         allSelectedUsersUsersData={singleViewData}
                         allSelectedUsersHeadingsData={tableColumnData}
                         backButton={!(viewType === "circles") ? true : false} // if viewtype is not circle then back button will be visible
@@ -320,6 +320,7 @@ class CommonSingleOpenView extends Component {
                         //all below prop is for add Selected users popup
                         addUsersCommonCardButtonClick={() => this.onClickOfAddUsers(true)}
                         showAddUsersPopUp={addUsersPopUpStatus}
+                        addUsersPopUpPlaceHolder={"Search Users"}
                         addUsersPopUpClose={() => this.onClickOfAddUsers(false)}
                         addUsersPopUpTableColumnsData={tableColumnData}
                         addUsersPopUpUsersData={singleViewSuggestionData}

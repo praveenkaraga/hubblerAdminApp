@@ -28,7 +28,8 @@ import ImportUsersPopUp from '../../../components/common/ImportUsersPopUp/Import
 import {message} from 'antd'
 
 import CreationPopUp from "../../common/CreationPopUp/CreationPopUp";
-
+import AddUserCommonCard from '../../common/AddUsersCommonCard/AddUsersCommonCard'
+import FullScreenLoader from '../../common/FullScreenLoader/fullScreenLoader'
 
 class Departments extends Component {
     constructor(props) {
@@ -43,7 +44,7 @@ class Departments extends Component {
             rowsPerPage: 30,
             activeHeading: "",
             sortingType: "",
-            searchData: "",
+            searchData: null,
             allSelectedUsersCurrentPageNumber: 1,/**/
             allSelectedUsersRowsPerPage: 30,
             allSelectedUsersActiveHeading: "",
@@ -68,7 +69,7 @@ class Departments extends Component {
     }
 
     componentDidMount() {
-        this.props.commonDepartmentAction({tableLoading: true})
+        this.props.commonDepartmentAction({viewDeciderLoader: true})
         this.props.getDeptTableColumnData();
         this.props.getDepartmentData(30)
         this.props.onClickOfDownloadExcel()
@@ -177,11 +178,12 @@ class Departments extends Component {
         const {rowsPerPage, currentPageNumber, searchData, activeHeading, sortingType} = this.state
         this.setState({creationLoader: true})
         let data = {name: this.state.commonCreationViewHeaderName};
-        await this.props.postCreateDeptData(data);
-        const {errorMsg} = this.props.commonReducer // will be true if success is true from above post api and pop up will be closed
-        if (!isEmpty(this.props.departmentReducer.createdDepartmentData)) {
+        await this.props.postCommonCreateData("departments",data);
+        const {errorMsg, newDataCreatedSuccessfully, newDataCreatedSuccessfulMessage} = this.props.commonReducer // will be true if success is true from above post api and pop up will be closed
+        console.log("newDataCreatedSuccessfully", newDataCreatedSuccessfully)
+        if (newDataCreatedSuccessfully) {
             this.setState({creationPopUpVisibility: false, commonCreationViewHeaderName: ''})
-            message.success("Department Created Successfully");
+            message.success(newDataCreatedSuccessfulMessage);
             this.props.commonDepartmentAction({newDataCreatedSuccessfully: false})
             this.props.getDepartmentData(rowsPerPage, currentPageNumber, searchData, activeHeading, sortingType)
             // this.props.history.push(`/people/department/${this.props.departmentReducer.createdDepartmentData.id}`, {headerName: this.props.departmentReducer.createdDepartmentData.result.name})
@@ -324,7 +326,6 @@ class Departments extends Component {
 
     departmentSearchData = (searchData) => {
         const {rowsPerPage, activeHeading, sortingType} = this.state
-        this.props.commonDepartmentAction({tableLoading: true})
         this.props.getDepartmentData(rowsPerPage, 1, searchData, activeHeading, sortingType)
         this.props.commonDepartmentAction({currentPageNumber: 1, searchData, searchLoader: true})
         this.setState({
@@ -426,10 +427,6 @@ class Departments extends Component {
         })
     }
 
-    afterClose = () => {
-        console.log("afterClose Triggered")
-    }
-
     onRowThisClick = (rowData) => {
         this.setState({
             changeToCreatedView: true,
@@ -506,197 +503,101 @@ class Departments extends Component {
 
 
     render() {
-        const {departmentColumnData, departmentsData, addableUsersData, totalUsers, addedUsersData, tableColumnsData, viewDecider, commonViewLoader, totalAddableUsers, totalAllSelectedUsers, commonViewHeader, searchLoader, allSelectedUsersSearchLoader, addUsersSearchLoader, editUserDataForm, tableLoading} = this.props.departmentReducer;
+        const {departmentColumnData, departmentsData, totalUsers,  tableColumnsData,  searchLoader,  editUserDataForm, tableLoading, viewDeciderLoader} = this.props.departmentReducer;
 
         const columnData = tableColumnsData ? filter(tableColumnsData, ele => ele._id !== 'departments') : [];
 
         const {importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpData, uploadPopUpVisibility, startUploadStatus, uploadFileStatus, importUsersUploadResponseData, isFileUploaded} = this.props.teamViewReducer;
 
-        const {creationPopUpVisibility, showAddUsersPopUp, commonCreationViewHeaderName, changeToCreatedView, formPopUpActive, creationPopUpMode, checkedDataKeys, loaderOfDeletePopUp, visibilityOfDeletePopUp,creationLoader,multiCreationLoader} = this.state;
+        const {creationPopUpVisibility, commonCreationViewHeaderName, searchData, formPopUpActive, creationPopUpMode, checkedDataKeys, loaderOfDeletePopUp, visibilityOfDeletePopUp,creationLoader,multiCreationLoader} = this.state;
         return (
             <div className="departments-main">
-                {!changeToCreatedView ? <div className={'departments-main-view'}>
+                <div className={'departments-main-view'}>
                     <div className="departments-heading"><h3>Departments</h3></div>
-                    <AllUserSelect allHeadingsData={departmentColumnData} userData={departmentsData || []}
-                                   searchPlaceHolder={"Search Department"} searchFirstButtonName={"IMPORT RESOURCES"}
-                                   searchFirstButtonClick={this.importUsersClick}
-                                   searchSecondButtonName={"ADD DEPARTMENT"} totalUsers={totalUsers}
-                                   searchSecondButtonClick={() => this.searchSecondButtonClick(true)} isUserData={false}
-                                   onChangeCheckBox={this.onChangeCheckBox}
-                                   onChangeRowsPerPage={this.onChangeRowsPerPage}
-                                   headingClickData={this.onClickHeadingColumn}
-                                   goPrevPage={() => this.changePage(-1)}
-                                   goNextPage={() => this.changePage(1)}
-                                   onSearch={this.departmentSearchData}
-                                   currentPageNumber={this.state.currentPageNumber}
-                                   onClickTableRow={this.onRowThisClick}
-                                   searchLoader={searchLoader}
-                        // onClickUserEdit={() => this.onClickUserEditAction(true)}
-                                   addUserPopUpActive={formPopUpActive}
-                                   addUserDataForm={editUserDataForm}
-                                   showHeaderButtons={[{id: "edit", label: "Edit Department"}, {
-                                       id: "delete",
-                                       label: "Delete Department"
-                                   }]}
-                                   disableButtonNames={[checkedDataKeys.length > 1 ? "edit" : ""]}
-                                   selectedDataCount={checkedDataKeys.length}
-                                   onClickUserDelete={() => this.setState({visibilityOfDeletePopUp: true})}
-                                   tableLoading={tableLoading}
-                                   onClickUserEdit={() => this.onClickDepartmentActions("edit")}
+                    {!viewDeciderLoader ?
+                        (searchData !== null) || totalUsers ?   
 
-                    />
+                            <AllUserSelect allHeadingsData={departmentColumnData} userData={departmentsData || []}
+                                searchPlaceHolder={"Search Department"} searchFirstButtonName={"IMPORT RESOURCES"}
+                                searchFirstButtonClick={this.importUsersClick}
+                                searchSecondButtonName={"ADD DEPARTMENT"} totalUsers={totalUsers}
+                                searchSecondButtonClick={() => this.searchSecondButtonClick(true)} isUserData={false}
+                                onChangeCheckBox={this.onChangeCheckBox}
+                                onChangeRowsPerPage={this.onChangeRowsPerPage}
+                                headingClickData={this.onClickHeadingColumn}
+                                goPrevPage={() => this.changePage(-1)}
+                                goNextPage={() => this.changePage(1)}
+                                onSearch={this.departmentSearchData}
+                                currentPageNumber={this.state.currentPageNumber}
+                                onClickTableRow={this.onRowThisClick}
+                                searchLoader={searchLoader}
+                                debounceTimeUserSearch = {300}
+
+                                // onClickUserEdit={() => this.onClickUserEditAction(true)}
+                                addUserPopUpActive={formPopUpActive}
+                                addUserDataForm={editUserDataForm}
+                                showHeaderButtons={[{id: "edit", label: "Edit Department"}, {
+                                    id: "delete",
+                                    label: "Delete Department"
+                                }]}
+                                disableButtonNames={[checkedDataKeys.length > 1 ? "edit" : ""]}
+                                selectedDataCount={checkedDataKeys.length}
+                                onClickUserDelete={() => this.setState({visibilityOfDeletePopUp: true})}
+                                tableLoading={tableLoading}
+                                onClickUserEdit={() => this.onClickDepartmentActions("edit")}
+
+                            />
+
+                            :< AddUserCommonCard 
+                                addUsersCardTitle={"Add Department"}
+                                buttonName={"Add Department"} 
+                                addUsersCardSubText={"You don't have any Department. Please add Departments."}
+                                addUsersCommonCardSecondButtonClick={() => this.searchSecondButtonClick(true)} 
+                            />
+
+                        : <FullScreenLoader /> 
+
+                    }
                     <ImportUsersPopUp visible={importUsersPopUpVisiblity}
-                                      secondButtonClickHandler={this.props.onClickOfDownloadExcel}
-                                      sampleExcelFile={sampleExcelFile}
-                                      thirdButtonClickHandler={this.importUsersModalCloseHandler}
-                                      fourthButtonClickHandler={this.startUploadHandler}
-                                      fourthButtonLoaderStatus={startUploadStatus}
-                                      importUsersUploadPopUpVisibility={uploadPopUpVisibility}
-                                      uploadPopUpData={uploadPopUpData}
-                                      importUsersPopUpCloseHandler={() => this.props.commonTeamReducerAction({uploadPopUpVisibility: false})}
-                                      patchImportUsersDataHandler={this.patchImportUserData}
-                                      importUsersUploadResponseData={importUsersUploadResponseData}
-                                      uploadFileLoadingStatus={uploadFileStatus}
-                                      isFileUploaded={isFileUploaded}
-                                      commonAction={this.props.commonTeamReducerAction}
+                        secondButtonClickHandler={this.props.onClickOfDownloadExcel}
+                        sampleExcelFile={sampleExcelFile}
+                        thirdButtonClickHandler={this.importUsersModalCloseHandler}
+                        fourthButtonClickHandler={this.startUploadHandler}
+                        fourthButtonLoaderStatus={startUploadStatus}
+                        importUsersUploadPopUpVisibility={uploadPopUpVisibility}
+                        uploadPopUpData={uploadPopUpData}
+                        importUsersPopUpCloseHandler={() => this.props.commonTeamReducerAction({uploadPopUpVisibility: false})}
+                        patchImportUsersDataHandler={this.patchImportUserData}
+                        importUsersUploadResponseData={importUsersUploadResponseData}
+                        uploadFileLoadingStatus={uploadFileStatus}
+                        isFileUploaded={isFileUploaded}
+                        commonAction={this.props.commonTeamReducerAction}
                     />
-                </div> : ""}
+                </div> 
 
 
                 <CreationPopUp creationPopUpVisibility={creationPopUpVisibility}
-                               creationPopUpTitle={creationPopUpMode === "add" ? "Add New Department" : "Edit Department"}
-                               creationPopFirstButtonHandler={this.creationPopFirstButtonHandler}
-                               creationPopSecondButtonHandler={creationPopUpMode === "add" ? this.creationPopSecondButtonHandler : this.onSaveEditedDepartment}
-                               creationPopUpFirstFieldChangeHandler={this.creationPopUpFirstFieldChangeHandler}
-                               customField={'default'} fieldHeader={"Department Name"}
-                               fieldPlaceHolder={'Enter Department'}
-                               secondFieldHeader={`Type`}
-                               creationPopUpSecondFieldChangeHandler={this.creationPopUpSecondFieldChangeHandler}
-                               thirdFieldHeader={'Required'}
-                               creationPopUpThirdFieldChangeHandler={this.creationPopUpThirdFieldChangeHandler}
-                               inputValue={commonCreationViewHeaderName}
-                               secondButtonDisable={!commonCreationViewHeaderName ? true : false}
-                               thirdButtonDisable={!commonCreationViewHeaderName ? true : false}
-                               afterClose={this.afterClose}
-                               inputMaxLength={50}
-                               creationPopSecondButtonName={creationPopUpMode === "add" ? "Create" : "Save"}
-                               creationPopThirdButtonHandler={this.creationPopThirdButtonHandler}
-                               creationPopUpMode={creationPopUpMode}
-                               creationPopSecondButtonLoader={creationLoader}
-                               creationPopThirdButtonLoader={multiCreationLoader}
+                    creationPopUpTitle={creationPopUpMode === "add" ? "Add New Department" : "Edit Department"}
+                    creationPopFirstButtonHandler={this.creationPopFirstButtonHandler}
+                    creationPopSecondButtonHandler={creationPopUpMode === "add" ? this.creationPopSecondButtonHandler : this.onSaveEditedDepartment}
+                    creationPopUpFirstFieldChangeHandler={this.creationPopUpFirstFieldChangeHandler}
+                    customField={'default'} fieldHeader={"Department Name"}
+                    fieldPlaceHolder={'Enter Department'}
+                    secondFieldHeader={`Type`}
+                    creationPopUpSecondFieldChangeHandler={this.creationPopUpSecondFieldChangeHandler}
+                    thirdFieldHeader={'Required'}
+                    creationPopUpThirdFieldChangeHandler={this.creationPopUpThirdFieldChangeHandler}
+                    inputValue={commonCreationViewHeaderName}
+                    secondButtonDisable={!commonCreationViewHeaderName ? true : false}
+                    thirdButtonDisable={!commonCreationViewHeaderName ? true : false}
+                    inputMaxLength={50}
+                    creationPopSecondButtonName={creationPopUpMode === "add" ? "Create" : "Save"}
+                    creationPopThirdButtonHandler={this.creationPopThirdButtonHandler}
+                    creationPopUpMode={creationPopUpMode}
+                    creationPopSecondButtonLoader={creationLoader}
+                    creationPopThirdButtonLoader={multiCreationLoader}
                 />
 
-
-                {/*<CreationPopViewCombined creationPopUpVisibility={creationPopUpVisibility}
-                    //implies the visibility status of creation PopUP = boolean
-                                         creationPopFirstButtonHandler={this.creationPopFirstButtonHandler}
-                    //function that gets invoked on click of the the first button of create pop
-                                         creationPopSecondButtonHandler={creationPopUpMode === "add" ? this.creationPopSecondButtonHandler : this.onSaveEditedDepartment}
-                    //function that gets invoked on click of the second button of create popup
-                                         creationPopUpFirstFieldChangeHandler={this.creationPopUpFirstFieldChangeHandler}
-                    //function that gets invoked for first fieldType (input) of the creation popup
-                                         fieldHeader={"Department Name"}
-                    //value for fieldType header
-                                         fieldPlaceHolder={'Enter Department'}
-                    //value for fieldType placeholder
-                                         secondFieldHeader={`Type`}
-                    //value for second fieldType header
-                                         creationPopUpSecondFieldChangeHandler={this.creationPopUpSecondFieldChangeHandler}
-                    //function that gets invoked for second fieldType (select) of the creation popup
-                                         thirdFieldHeader={'Required'}
-                    //value for third fieldType header
-                                         creationPopUpThirdFieldChangeHandler={this.creationPopUpThirdFieldChangeHandler}
-                    //function that gets invoked for third fieldType (toggle) of the creation popup
-                                         customField={'default'} // custom field type ('add' or 'edit') that implies the type of fields that can be added
-                                         secondButtonDisable={!commonCreationViewHeaderName ? true : false}
-                                         afterClose={this.afterClose}
-                                         inputValue={commonCreationViewHeaderName}
-                                         inputMaxLength={50}
-                    //maximum number of charecters a user can enter in the input field
-                                         creationPopUpTitle={creationPopUpMode === "add" ? "Add New Designation" : "Edit Designation"}
-                                         creationPopSecondButtonName={creationPopUpMode === "add" ? "Create" : "Save"}
-
-
-                    // *end of CreationPopUp props*
-                                         commonCreationViewBackButtonClick={this.commonCreationViewBackButtonClick}
-                    //function that gets invoked on click of the back button of commonCreationView
-                                         commonCreationViewHeaderName={commonCreationViewHeaderName || commonViewHeader}
-                    //name of the header (usually the value obtained from first fieldType of creation popu)
-                                         backButton={true}
-                    //implies whether back button is required or not = boolean
-                                         viewDecider={viewDecider}
-                    //implies value(true or false or 0 or 1) that dicides whether to show the AddUsersCommonCardView or AllUserSelectTable
-                                         addUsersCommonCardButtonClick={this.addUsersCommonCardButtonClick}
-                    //function that gets invoked on click of the addUsersCommonCardButton
-                                         allSelectedUsersHeadingsData={columnData}
-                    //column data (array) for allHeadingsData of AllUsersSelect
-                                         allSelectedUsersUsersData={addedUsersData ? addedUsersData.result : []}
-                    //users data (array) for userData AllUsersSelect
-                                         allSelectedUsersTotalUsers={totalAllSelectedUsers}
-                    //total count of users for totalUsers AllUsersSelect
-                                         allSelectedUsersIsUserData={true}
-                    //boolean value for isUserData of AllUsersSelect
-                                         allSelectedUsersAllSelect={true}
-                    //boolean value to show suggestion search kind of component
-                                         allSelectedUsersOnChangeCheckBox={this.allSelectedUsersOnChangeCheckBox}
-                    //function that gets invoked on click of checkbox of AllUsersSelect
-                                         allSelectedUsersOnlySelectAndAdd={true}
-                    //boolean value for onlySelectAndAdd AllUsersSelect
-                                         allSelectedUsersFirstButtonClick={this.allSelectedUsersFirstButtonClick}
-                    //function that gets invoked on click of first button of AllUsersSelect
-                                         allSelectedUsersOnClickHeadingColumn={this.allSelectedUsersOnClickHeadingColumn}
-                    //function that gets invoked for headingClickData of AllUsersSelect
-                                         allSelectedUsersOnChangeRowsPerPage={this.allSelectedUsersOnChangeRowsPerPage}
-                    //function that gets invoked for onChangeRowsPerPage of AllUsersSelect
-                                         allSelectedUsersChangePage={this.allSelectedUsersChangePage}
-                    //function that gets invoked for goNextPage of AllUsersSelect
-                                         allSelectedUsersSearchData={this.allSelectedUsersDepartmentSearchData}
-                    //function that gets invoked for onSearch of AllUsersSelect
-                                         allSelectedUsersSearchLoader={allSelectedUsersSearchLoader}
-                    //boolean value for the search loader in AllUsers of AllUsersSelect
-                                         allSelectedUsersCurrentPageNumber={this.state.allSelectedUsersCurrentPageNumber}
-                    //value for currentPageNumber of AllUsersSelect
-                                         showAddUsersPopUp={showAddUsersPopUp}
-                    //boolean value that enables the visibility of AddUsersPopUp
-                                         addUsersPopUpClose={this.addUsersPopUpClose}
-                    //function that gets invoked on click of close icon of AddUsersPopUp
-                                         addUsersPopUpFirstButtonClick={this.addUsersPopUpFirstButtonClick}
-                    //function that gets invoked on click of first button of AddUsersPopUp
-                                         addUsersPopUpOnChangeCheckBox={this.addUsersPopUpOnChangeCheckBox}
-                    //function that gets invoked on click of checkbox of AddUsersPopUp
-                                         addUsersPopUpTableColumnsData={tableColumnsData}
-                    //column data (array) for allHeadingsData of AllUsersSelect of AddUsersPopUp
-                                         addUsersPopUpUsersData={addableUsersData}
-                    //users data (array) for userData of AllUsersSelect of AddUsersPopUp
-                                         addUsersPopUpTotalUsers={totalAddableUsers}
-                    //total count of users for totalUsers of AllUsersSelect of AddUsersPopUp
-                                         addUsersPopUpIsUserData={true}
-                    //boolean value for isUserData of AllUsersSelect of AddUsersPopUp
-                                         addUsersPopUpOnlySelectAndAdd={true}
-                    //boolean value for onlySelectAndAdd of AllUsersSelect of AddUsersPopUp
-                                         addUsersOnClickHeadingColumn={this.addUsersOnClickHeadingColumn}
-                    //function that gets invoked for headingClickData of AllUsersSelect of AddUsers Component
-                                         addUsersOnChangeRowsPerPage={this.addUsersOnChangeRowsPerPage}
-                    //function that gets invoked for onChangeRowsPerPage of AllUsersSelect of AddUsers Component
-                                         addUsersChangePage={this.addUsersChangePage}
-                    //function that gets invoked for goNextPage of AllUsersSelect of AddUsers Component
-                                         addUsersSearchData={this.addUsersDepartmentSearchData}
-                    //function that gets invoked for onSearch of AllUsersSelect of AddUsers Component
-                                         addUsersSearchLoader={addUsersSearchLoader}
-                    //boolean value for search loader of AddUsers of AllUsersSelect component
-                                         addUsersCurrentPageNumber={this.state.addUsersCurrentPageNumber}
-                    //value for currentPageNumber of AllUsersSelect of AddUsers Component
-                                         changeToCreatedView={changeToCreatedView}
-                    //boolean value to shift to CommonCreationView
-                                         commonViewLoader={commonViewLoader}
-                    //boolean value for viewChanging - loader
-                                         allSelectedUsersOnSearchDropdownSelect={this.onSearchDropdownSelect}
-                                         allSelectedUsersSearchDropdownPlaceholder={'Search and Add'}
-                                         allSelectedUsersSearchDropdownData={[]}
-                                         allSelectedUsersOnChangeSearchDropdown={this.onChangeSearchDropdown}
-
-                    // *end of CommonCreationView props*
-                />*/}
                 <Modal // used this modal for confirmation before deleting department items
                     title={`Delete Designation(s)`}
                     visible={visibilityOfDeletePopUp}

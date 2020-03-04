@@ -246,7 +246,7 @@ class FieldOpenView extends Component {
             <div className="fields_main">
                 <div className="fields_heading"><h3>{singleFieldName}</h3></div>
                 {!viewDeciderLoader
-                    ?searchData !== null ||singleFieldCount //checking if count of field item is empty or not
+                    ?(searchData !== null) ||singleFieldCount //checking if count of field item is empty or not
                         ?
                         <AllUserSelect userData={singleFieldData}
 

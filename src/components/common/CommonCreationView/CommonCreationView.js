@@ -13,11 +13,12 @@ class CommonCreationView extends Component {
             allSelectedUsersHeadingsData, allSelectedUsersUsersData, allSelectedUsersTotalUsers, allSelectedUsersPlaceHolder, allSelectedUsersFirstButtonName, allSelectedUsersIsUserData, allSelectedUsersOnChangeCheckBox, allSelectedUsersOnlySelectAndAdd, allSelectedUsersFirstButtonClick,
             allSelectedUsersOnClickHeadingColumn, allSelectedUsersOnChangeRowsPerPage, allSelectedUsersChangePage, allSelectedUsersSearchData, allSelectedUsersCurrentPageNumber, allSelectedUsersAllSelect, allSelectedUsersOnSearchDropdownSelect, allSelectedUsersSearchDropdownPlaceholder,
             allSelectedUsersSearchDropdownData, allSelectedUsersOnChangeSearchDropdown, allSelectedUsersShowHeaderButtons, allSelectedUsersDisableButtonNames, allSelectedUsersSelectedDataCount, allSelectedUsersOnClickUserActions, allSelectedUsersOnClickAddUserButton, allSelectedUsersOnSelectRow, allSelectedUsersOnSelectAll,
-            allSelectedUsersTableLoading, allSelectedUsersSearchDropDownValue, allSelectedUsersDebounceTimeUserSearch, allSelectedUsersDebounceTimeSearchDropdown
+            allSelectedUsersTableLoading, allSelectedUsersSearchDropDownValue, allSelectedUsersDebounceTimeUserSearch, allSelectedUsersDebounceTimeSearchDropdown, allSelectedUsersSearchFirstButtonLoader, allSelectedUsersSearchSecondButtonLoader
         } = this.props;
         const {
             showAddUsersPopUp, addUsersPopUpTitle, addUsersPopUpClose, addUsersPopUpPlaceHolder, addUsersPopUpFirstButtonName, addUsersPopUpFirstButtonClick, addUsersPopUpOnChangeCheckBox, addUsersPopUpTableColumnsData, addUsersPopUpUsersData, addUsersPopUpTotalUsers, addUsersPopUpIsUserData, addUsersPopUpOnlySelectAndAdd, allSelectedUsersSearchLoader, addUsersSearchLoader
-            , addUsersOnClickHeadingColumn, addUsersOnChangeRowsPerPage, addUsersChangePage, addUsersSearchData, addUsersCurrentPageNumber,  addUsersSelectedDataCount, addUsersOnClickActions, addUsersOnClickAddUserButton, addUsersOnSelectRow, addUsersOnSelectAll, addUsersTableLoading,addUsersSearchDropDownValue,addUsersDebounceTimeUserSearch,addUsersDebounceTimeSearchDropdown
+            , addUsersOnClickHeadingColumn, addUsersOnChangeRowsPerPage, addUsersChangePage, addUsersSearchData, addUsersCurrentPageNumber,  addUsersSelectedDataCount, addUsersOnClickActions, addUsersOnClickAddUserButton, addUsersOnSelectRow, addUsersOnSelectAll, addUsersTableLoading,addUsersSearchDropDownValue,addUsersDebounceTimeUserSearch,addUsersDebounceTimeSearchDropdown,
+            addUsersSearchFirstButtonLoader
         } = this.props
 
         return (
@@ -75,6 +76,8 @@ class CommonCreationView extends Component {
                             searchDropDownValue={allSelectedUsersSearchDropDownValue}
                             debounceTimeUserSearch={allSelectedUsersDebounceTimeUserSearch}
                             debounceTimeSearchDropdown={allSelectedUsersDebounceTimeSearchDropdown}
+                            searchFirstButtonLoader={allSelectedUsersSearchFirstButtonLoader}
+                            searchSecondButtonLoader={allSelectedUsersSearchSecondButtonLoader}
 
 
                         />
@@ -109,6 +112,7 @@ class CommonCreationView extends Component {
                         addUsersSearchDropDownValue={addUsersSearchDropDownValue}
                         addUsersDebounceTimeUserSearch={addUsersDebounceTimeUserSearch}
                         addUsersDebounceTimeSearchDropdown={addUsersDebounceTimeSearchDropdown}
+                        addUsersSearchFirstButtonLoader={addUsersSearchFirstButtonLoader}
                     />
                     : null}
 

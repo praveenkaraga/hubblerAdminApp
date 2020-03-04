@@ -128,7 +128,7 @@ class AllUserSelect extends Component {
             onClickUserActivate, onClickUserDeactivate, onClickUserDelete, onClickUserDuplicate, onClickUserEdit, isUserData = true, onlySelectAndAdd = false,
             typeOfData = "Total Data", onClickTableRow, columnConfigurable = false, allSelect, onSearchDropdownSelect, searchDropdownPlaceholder, searchDropdownData, onChangeSearchDropdown,
             showHeaderButtons, disableButtonNames, selectedDataCount, onClickAddUserButton, onSelectAll, onColumnSettingSave, visibleColumnSetting, onColumnSettingCancel,
-            onSearchColumnSetting, searchDropDownValue, debounceTimeUserSearch, debounceTimeSearchDropdown, tableLoading } = this.props
+            onSearchColumnSetting, searchDropDownValue, debounceTimeUserSearch, debounceTimeSearchDropdown, tableLoading , searchFirstButtonDisable, searchSecondButtonDisable} = this.props
         const perPageOptions = [7, 10, 20, 30, 40, 50, 100]
         const { rowsPerPage } = this.state
         const totalPages = Math.ceil(totalUsers / rowsPerPage)
@@ -138,7 +138,8 @@ class AllUserSelect extends Component {
             <div className="allUserSelect_main">
                 <div className="allUserSelect_container">
                     <UserSearch firstButtonName={searchFirstButtonName} secondButtonName={searchSecondButtonName} searchPlaceHolder={searchPlaceHolder}
-                        firstButtonLoader={searchFirstButtonLoader} secondButtonLoader={searchSecondButtonLoader} searchLoader={searchLoader} onSearch={onSearch}
+                        firstButtonLoader={searchFirstButtonLoader} secondButtonLoader={searchSecondButtonLoader} firstButtonDisable={searchFirstButtonDisable}
+                        searchLoader={searchLoader} onSearch={onSearch} secondButtonDisable={searchSecondButtonDisable}
                         onClickFirst={searchFirstButtonClick} onClickSecond={searchSecondButtonClick} userSelected={selectedDataCount}
                         onUserActivate={onClickUserActivate} onUserDeactivate={onClickUserDeactivate} onUserDuplicate={onClickUserDuplicate} onlySelectAndAdd={onlySelectAndAdd}
                         onUserDelete={onClickUserDelete} onUserEdit={onClickUserEdit} isUserData={isUserData}

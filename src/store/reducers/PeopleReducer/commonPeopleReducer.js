@@ -7,6 +7,7 @@ const intialState = {
     singleViewData: [],
     singleViewSuggestionData: [],
     newDataCreatedSuccessfully: false,
+    newDataCreatedSuccessfulMessage:"",
     patchSuccessMessage: "",
     patchDataCreatedSuccessfully: false,
     tableColumnData: [],
@@ -61,7 +62,8 @@ export const commonPeopleReducer = (state = intialState, action) => {
         return {
             ...state,
             newDataCreatedSuccessfully: true,
-            newCreatedDataId: newDataInitial ? newDataInitial.id : ""
+            newDataCreatedSuccessfulMessage : newDataInitial ? newDataInitial.message : "Created Successfully",
+            
         }
 
     case actionTypes.COMMON_ACTION_FOR_COMMON_REDUCER:
