@@ -25,7 +25,7 @@ class FieldOpenView extends Component {
             rowsPerPage: 30,
             activeheading: "",
             sortingType: "",
-            searchData: "",
+            searchData: null,
             creationPopUpVisibility: false,
             newFieldItemName: "",
             checkedDataKeys: [],
@@ -71,7 +71,7 @@ class FieldOpenView extends Component {
 
         const { apiCallFlag } = this.state// this flag is only for not calling this api two times when we land on circles for the first time
         if (prevState.singleNodeId !== currentNodeId && !apiCallFlag) {//if node id in url is different from the previous one this will call the api and rerender the component
-            this.setState({ singleNodeId: currentNodeId, apiCallFlag: true })
+            this.setState({ singleNodeId: currentNodeId, apiCallFlag: true, searchData: null })
             this.updateNodeId(false, true)
         }
         if (apiCallFlag) this.setState({ apiCallFlag: false }) // flag is true then make it false...will work on first time only
@@ -83,18 +83,19 @@ class FieldOpenView extends Component {
 
     //update node id from url on change
     updateNodeId = (status, toCall) => {
+        const {rowsPerPage} = this.state
         const nodeId = getNodeId(this.props.history)//a common fn to take out id from url
         if (status) this.setState({ singleNodeId: nodeId })
-        this.props.commonActionForCommonReducer({ fieldTableLoading : true })
+        this.props.commonActionForCommonReducer({ tableLoading : true })
         if(toCall)  this.props.commonActionForCommonReducer({ viewDeciderLoader : true })
-        this.props.getSingleFieldData(nodeId, this.state.rowsPerPage)
+        this.props.getSingleFieldData(nodeId, rowsPerPage)
     }
 
 
     // on search in table 
     fieldSearchData = (searchData) => {
         const { singleNodeId, rowsPerPage, activeheading, sortingType, filterKeyId } = this.state
-        this.props.commonActionForCommonReducer({ fieldTableLoading : true })
+        this.props.commonActionForCommonReducer({  searchLoader: true })
         this.props.getSingleFieldData(singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType, filterKeyId)
         this.setState({
             searchData,
@@ -106,7 +107,7 @@ class FieldOpenView extends Component {
     //will make ascend and descend that column
     onClickHeadingColumn = (activeheading, sortingType) => {
         const { rowsPerPage, searchData, currentPageNumber, singleNodeId, filterKeyId } = this.state
-        this.props.commonActionForCommonReducer({ fieldTableLoading : true})
+        this.props.commonActionForCommonReducer({ tableLoading : true})
         this.props.getSingleFieldData(singleNodeId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType, filterKeyId)
         this.setState({
             activeheading,
@@ -136,7 +137,7 @@ class FieldOpenView extends Component {
     //on change of rows per page of the table
     onChangeRowsPerPage = (rowsPerPage) => {
         const { searchData, activeheading, sortingType, singleNodeId, filterKeyId } = this.state
-        this.props.commonActionForCommonReducer({ fieldTableLoading : true})
+        this.props.commonActionForCommonReducer({ tableLoading : true})
         this.props.getSingleFieldData(singleNodeId, rowsPerPage, 1, searchData, activeheading, sortingType, filterKeyId)
         this.setState({
             rowsPerPage,
@@ -148,7 +149,7 @@ class FieldOpenView extends Component {
     changePage = (calcData) => {
         const { currentPageNumber, rowsPerPage, searchData, activeheading, sortingType, singleNodeId, filterKeyId } = this.state
         const goToPage = currentPageNumber + calcData
-        this.props.commonActionForCommonReducer({ fieldTableLoading : true})
+        this.props.commonActionForCommonReducer({ tableLoading : true})
         this.props.getSingleFieldData(singleNodeId, rowsPerPage, goToPage, searchData, activeheading, sortingType, filterKeyId)
         this.setState({
             currentPageNumber: goToPage
@@ -184,7 +185,7 @@ class FieldOpenView extends Component {
             } else {
                 message.error(errorMsg)
             }
-            this.props.commonActionForCommonReducer({ fieldTableLoading : true})
+            this.props.commonActionForCommonReducer({ tableLoading : true})
             this.props.getSingleFieldData(singleNodeId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
             this.setState({ checkedDataKeys: [],  loaderOfDeletePopUp: false, visibilityOfDeletePopUp: false } )
         }
@@ -192,7 +193,7 @@ class FieldOpenView extends Component {
 
     // on save of edited name or new create
     onSaveEditOrCreateField = async (type) => {
-        const { newFieldItemName, editRowId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType, filterKeyId, singleNodeId } = this.state
+        const { newFieldItemName, editRowId, filterKeyId, singleNodeId } = this.state
         this.setState({loaderOfDeletePopUp : true})
         if (type === "edit") { // if it in edit mode then we will call patch
             await this.props.patchCommonCreateData("node_items", singleNodeId, { [filterKeyId]: newFieldItemName }, editRowId) //waiting for the api to be patch
@@ -202,8 +203,7 @@ class FieldOpenView extends Component {
         const { patchDataCreatedSuccessfully, patchSuccessMessage, newDataCreatedSuccessfully, errorMsg } = this.props.commonReducer // will be true if success is true from above post api and pop up will be closed
         if (type === "edit" ? patchDataCreatedSuccessfully : newDataCreatedSuccessfully) { // according to difference type we are deciding the success
             message.success(type === "edit" ? "Saved Successfully" : "Created Successfully "); // according to difference type we are deciding the success message
-            this.props.commonActionForCommonReducer({ patchDataCreatedSuccessfully: false, newDataCreatedSuccessfully: false , fieldTableLoading : true})
-            this.props.getSingleFieldData(singleNodeId, rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
+            this.props.commonActionForCommonReducer({ patchDataCreatedSuccessfully: false, newDataCreatedSuccessfully: false , tableLoading : true})
         } else {
             message.error(errorMsg);
         }
@@ -211,8 +211,8 @@ class FieldOpenView extends Component {
     }
 
     render() {
-        const { singleFieldData, singleFieldCount, singleFieldName, singleFieldFilterKeyId, fieldTableLoading, viewDeciderLoader } = this.props.commonReducer
-        const { currentPageNumber, creationPopUpVisibility, newFieldItemName, checkedDataKeys, creationPopUpMode, editRowName, filterKeyId, visibilityOfDeletePopUp, loaderOfDeletePopUp } = this.state
+        const { singleFieldData, singleFieldCount, singleFieldName, singleFieldFilterKeyId, tableLoading, viewDeciderLoader, searchLoader } = this.props.commonReducer
+        const { currentPageNumber, creationPopUpVisibility, newFieldItemName, checkedDataKeys, creationPopUpMode, editRowName, filterKeyId, visibilityOfDeletePopUp, loaderOfDeletePopUp, searchData } = this.state
         if (!filterKeyId && singleFieldFilterKeyId) { // on first time load saving the id
             this.setState({ filterKeyId: singleFieldFilterKeyId })
         }
@@ -246,7 +246,7 @@ class FieldOpenView extends Component {
             <div className="fields_main">
                 <div className="fields_heading"><h3>{singleFieldName}</h3></div>
                 {!viewDeciderLoader
-                    ? singleFieldCount //checking if count of field item is empty or not
+                    ?(searchData !== null) ||singleFieldCount //checking if count of field item is empty or not
                         ?
                         <AllUserSelect userData={singleFieldData}
 
@@ -260,7 +260,9 @@ class FieldOpenView extends Component {
                             headingClickData={this.onClickHeadingColumn}
                             onChangeCheckBox={this.onChangeCheckBox}
                             searchSecondButtonClick={() => this.setState({ creationPopUpVisibility: true, creationPopUpMode: "add" })} // opening the pop up and also type of pop up to open
-                            tableLoading={fieldTableLoading}
+                            tableLoading={tableLoading}
+                            searchLoader={searchLoader}
+                            debounceTimeUserSearch = {300}
 
                             totalUsers={singleFieldCount}
                             currentPageNumber={currentPageNumber}
@@ -304,7 +306,7 @@ class FieldOpenView extends Component {
                     creationPopFirstButtonHandler={() => this.setState({ creationPopUpVisibility: false })}
                     creationPopSecondButtonHandler={() => this.onSaveEditOrCreateField(creationPopUpMode)}
                     secondButtonDisable={newFieldItemName.length < 3 || newFieldItemName === editRowName ? true : false}
-                    afterClose={() => this.setState({ newFieldItemName: "", editRowName: "" })}
+                    //afterClose={() => this.setState({ newFieldItemName: "", editRowName: "" })}
                     creationPopUpFirstFieldChangeHandler={this.creationPopUpInput}
                     creationPopSecondButtonLoader = {loaderOfDeletePopUp}
                 />

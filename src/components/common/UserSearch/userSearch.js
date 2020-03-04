@@ -51,7 +51,8 @@ class UserSearch extends Component {
         const { firstButtonName = "IMPORT", secondButtonName = "ADD", searchPlaceHolder = "Search", firstButtonLoader = false,
             secondButtonLoader = false, searchLoader = false, onClickFirst, onClickSecond, userSelected,
             onlySelectAndAdd = false, allSelect = false, onSearchDropdownSelect, searchDropdownPlaceholder,
-            searchDropdownData, onChangeSearchDropdown, showButtonNames = [], disableButtonNames = [], searchDropDownValue , searchDropDownDebounceTime} = this.props
+            searchDropdownData, onChangeSearchDropdown, showButtonNames = [], disableButtonNames = [], searchDropDownValue , searchDropDownDebounceTime,
+            firstButtonDisable=false , secondButtonDisable=false} = this.props
 
         const alluserActions = this.createUserActionButtons(showButtonNames)
 
@@ -86,7 +87,7 @@ class UserSearch extends Component {
                         : // else the normal button will be visible
                         !allSelect ? // if "allSelect" true then one more search with dropDown will be visible or else normal buttons will be there 
                             <>
-                                {onClickFirst ? <Button className={`import_button ${onlySelectAndAdd && !userSelected ? "import_button_disable" : ""}`} type="primary" loading={firstButtonLoader} onClick={onClickFirst}>
+                                {onClickFirst ? <Button className={`import_button ${onlySelectAndAdd && !userSelected ? "import_button_disable" : ""}`} type="primary" disabled={firstButtonDisable} loading={firstButtonLoader} onClick={onClickFirst}>
                                     {firstButtonName}
                                     {onlySelectAndAdd && userSelected ?
                                         <div>
@@ -95,7 +96,7 @@ class UserSearch extends Component {
                                 </Button> : null}
 
                                 {onClickSecond ?
-                                    <Button className="add_user_button" type="primary" loading={secondButtonLoader} onClick={onClickSecond}>
+                                    <Button className="add_user_button" type="primary" disabled={secondButtonDisable} loading={secondButtonLoader} onClick={onClickSecond}>
                                         {secondButtonName}
                                     </Button>
                                     : null}
