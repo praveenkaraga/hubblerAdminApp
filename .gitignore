@@ -19,7 +19,7 @@
 .env.production.local
 /.idea
 .vscode
-.eslintrc.js
+src/.eslintrc.js
 
 npm-debug.log*
 yarn-debug.log*
