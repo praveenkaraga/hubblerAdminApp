@@ -63,6 +63,7 @@ class AllUserSelect extends Component {
 
     modellingData = (userData, allHeadingsData) => { //handelling api datas and modifying accordingly to fit in table properly 
         const { isUserData = true } = this.props
+
         let modifiedUserData = JSON.parse(JSON.stringify(userData)) //making a deep clone of incoming data
         if (modifiedUserData.length) { //checking if there is data or not 
             modifiedUserData.forEach(singleUserData => {
@@ -71,19 +72,20 @@ class AllUserSelect extends Component {
                     const dataType = data.type
                     switch (dataType) { //checking for all types of data type
                     case "text": //if it is string 
-                        
-                        singleUserData["name"] = copyName && ! isUserData ? copyName :  <div className="name_with_image">
-                            {
-                                !(singleUserData["deactivate"] === true) ? //checking if user is deactivated or not{a eactivated sign will be shown instead of profile pic}
-                                    singleUserData["profile_image"] // checking if user has profile pic or not
-                                        ?
-                                        <img src={singleUserData["profile_image"]["thumbnail"]} alt="Profile Pic" /> //profile pic
-                                        :
-                                        <div className="no_profile_pic"><p>{singleUserData.firstname.substring(0, 2)}</p></div> //if no profile pic then we are showing first two intials of their first name
-                                    : <div className="no_profile_pic"><img className="deactivated_user_pic" src={require('../../../images/svg/deactivate-user-pic.svg')} alt="deactivated_user"/></div>
-                            }
-                            <div className="only_name">{( singleUserData.firstname || "" + singleUserData.lastname || "")}</div>
-                        </div>
+                        singleUserData["name"] = copyName && !isUserData ? copyName 
+                            :  <div className="name_with_image">
+                                { isUserData ?
+                                    !(singleUserData["deactivate"] === true) ? //checking if user is deactivated or not{a eactivated sign will be shown instead of profile pic}
+                                        singleUserData["profile_image"] // checking if user has profile pic or not
+                                            ?
+                                            <img src={singleUserData["profile_image"]["thumbnail"]} alt="Profile Pic" /> //profile pic
+                                            :
+                                            <div className="no_profile_pic"><p>{singleUserData.firstname.substring(0, 2)}</p></div> //if no profile pic then we are showing first two intials of their first name
+                                        : <div className="no_profile_pic"><img className="deactivated_user_pic" src={require('../../../images/svg/deactivate-user-pic.svg')} alt="deactivated_user"/></div>
+                                    : null
+                                }
+                                <div className="only_name">{( singleUserData.firstname || "" + singleUserData.lastname || "")}</div>
+                            </div>
                         singleUserData["key"] = singleUserData._id
                         break;
                     case "number": //if type number display as it is
@@ -126,7 +128,7 @@ class AllUserSelect extends Component {
             onClickUserActivate, onClickUserDeactivate, onClickUserDelete, onClickUserDuplicate, onClickUserEdit, isUserData = true, onlySelectAndAdd = false,
             typeOfData = "Total Data", onClickTableRow, columnConfigurable = false, allSelect, onSearchDropdownSelect, searchDropdownPlaceholder, searchDropdownData, onChangeSearchDropdown,
             showHeaderButtons, disableButtonNames, selectedDataCount, onClickAddUserButton, onSelectAll, onColumnSettingSave, visibleColumnSetting, onColumnSettingCancel,
-            onSearchColumnSetting, searchDropDownValue, debounceTimeUserSearch, debounceTimeSearchDropdown, tableLoading } = this.props
+            onSearchColumnSetting, searchDropDownValue, debounceTimeUserSearch, debounceTimeSearchDropdown, tableLoading , searchFirstButtonDisable, searchSecondButtonDisable} = this.props
         const perPageOptions = [7, 10, 20, 30, 40, 50, 100]
         const { rowsPerPage } = this.state
         const totalPages = Math.ceil(totalUsers / rowsPerPage)
@@ -136,7 +138,8 @@ class AllUserSelect extends Component {
             <div className="allUserSelect_main">
                 <div className="allUserSelect_container">
                     <UserSearch firstButtonName={searchFirstButtonName} secondButtonName={searchSecondButtonName} searchPlaceHolder={searchPlaceHolder}
-                        firstButtonLoader={searchFirstButtonLoader} secondButtonLoader={searchSecondButtonLoader} searchLoader={searchLoader} onSearch={onSearch}
+                        firstButtonLoader={searchFirstButtonLoader} secondButtonLoader={searchSecondButtonLoader} firstButtonDisable={searchFirstButtonDisable}
+                        searchLoader={searchLoader} onSearch={onSearch} secondButtonDisable={searchSecondButtonDisable}
                         onClickFirst={searchFirstButtonClick} onClickSecond={searchSecondButtonClick} userSelected={selectedDataCount}
                         onUserActivate={onClickUserActivate} onUserDeactivate={onClickUserDeactivate} onUserDuplicate={onClickUserDuplicate} onlySelectAndAdd={onlySelectAndAdd}
                         onUserDelete={onClickUserDelete} onUserEdit={onClickUserEdit} isUserData={isUserData}

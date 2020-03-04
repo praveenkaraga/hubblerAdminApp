@@ -22,6 +22,7 @@ import ImportUsersPopUp from '../../../components/common/ImportUsersPopUp/Import
 import SearchDropdown from '../../common/searchDropDown/searchDropDown'
 import find from 'lodash/find'
 import ConsoleAddUser from "../consoleAddUser/consoleAddUser";
+import FullScreenLoader from '../../common/FullScreenLoader/fullScreenLoader'
 
 
 class TeamView extends Component {
@@ -30,7 +31,7 @@ class TeamView extends Component {
         this.state = {
             addUserPopUpStatus: false,
             addUserMode: "add",
-            suggestionSearchData : '',
+            suggestionSearchData: '',
         }
     }
 
@@ -42,11 +43,11 @@ class TeamView extends Component {
     }
 
     showModal = () => {
-        this.props.commonTeamReducerAction({isFileUploaded: false, importUsersPopUpVisiblity : true})
+        this.props.commonTeamReducerAction({isFileUploaded: false, importUsersPopUpVisiblity: true})
     };
 
     closeModal = () => {
-        this.props.commonTeamReducerAction({importUsersPopUpVisiblity :false})
+        this.props.commonTeamReducerAction({importUsersPopUpVisiblity: false})
     };
 
     downloadExcel = () => {
@@ -68,7 +69,7 @@ class TeamView extends Component {
     }
 
     importUsersModalCloseHandler = () => {
-        this.props.commonTeamReducerAction({importUsersPopUpVisiblity :false})
+        this.props.commonTeamReducerAction({importUsersPopUpVisiblity: false})
     }
 
     startUploadHandler = () => {
@@ -98,7 +99,7 @@ class TeamView extends Component {
             preservedData: []
         });
         this.setState({
-            suggestionSearchData : '',
+            suggestionSearchData: '',
         })
         this.props.getClickedTeamUserReporteeData(value)
     };
@@ -109,90 +110,100 @@ class TeamView extends Component {
     }
 
     render() {
-        const {orgChartUsers, teamViewUserDrawerVisible, clickedTeamUserData, teamViewClickedUserId, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, loader, clickedMemberData, contentLoader, importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpVisibility, uploadPopUpData, importUsersUploadResponseData, uploadFileStatus, isFileUploaded, startUploadStatus, clickedUserOrgData, searchDropDownData, reporteeLoader,debounceTimeSearchDropdown = 300} = this.props.teamViewReducer
-        const {addUserPopUpStatus, addUserMode,suggestionSearchData} = this.state
+        const {orgChartUsers, teamViewUserDrawerVisible, clickedTeamUserData, teamViewClickedUserId, clickedUserOrgManagerData, clickedUserOrgReporteesData, total_Count, loader, clickedMemberData, contentLoader, importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpVisibility, uploadPopUpData, importUsersUploadResponseData, uploadFileStatus, isFileUploaded, startUploadStatus, clickedUserOrgData, searchDropDownData, reporteeLoader, debounceTimeSearchDropdown} = this.props.teamViewReducer
+        const {addUserPopUpStatus, addUserMode, suggestionSearchData} = this.state
         return (
-            <div className={'team-view'}>
-                {loader ? <div className={'loader'}></div> : <div>
-                    <div className={'component-header-buttons-wrap'}>
-                        <div className={'component-header'}>Team View</div>
-                        <div className={'team-view-buttons-wrap'}>
-                            <div className={'search-dropdown-wrap'}>
-                                <SearchDropdown placeholder={'Search User'} searchIcon={true}
-                                                searchData={searchDropDownData} onChange={this.onChangeSearchDropdown}
-                                                onSelect={this.onSearchDropdownSelect} debounceTime={debounceTimeSearchDropdown} value={suggestionSearchData}/>
+            <>
+                {loader ? <FullScreenLoader/> :
+                    <div className={'team-view'}>
+                        {<div>
+                            <div className={'component-header-buttons-wrap'}>
+                                <div className={'component-header'}>Team View</div>
+                                <div className={'team-view-buttons-wrap'}>
+                                    <div className={'search-dropdown-wrap'}>
+                                        <SearchDropdown placeholder={'Search User'} searchIcon={true}
+                                                        searchData={searchDropDownData}
+                                                        onChange={this.onChangeSearchDropdown}
+                                                        onSelect={this.onSearchDropdownSelect}
+                                                        debounceTime={debounceTimeSearchDropdown}
+                                                        value={suggestionSearchData}/>
+                                    </div>
+                                    <Button type="primary" className={'import-users'} onClick={this.showModal}>Import
+                                        Users</Button>
+                                    <Button type="primary"
+                                            onClick={() => this.setState({
+                                                addUserPopUpStatus: true,
+                                                addUserMode: "add"
+                                            })}>Add
+                                        User</Button></div>
                             </div>
-                            <Button type="primary" className={'import-users'} onClick={this.showModal}>Import
-                                Users</Button>
-                            <Button type="primary"
-                                    onClick={() => this.setState({addUserPopUpStatus: true, addUserMode: "add"})}>Add
-                                User</Button></div>
-                    </div>
-                    {reporteeLoader ? <div className={'cover'}></div> : ''}
-                    <OrgChart/>
+                            {reporteeLoader ? <div className={'cover'}></div> : ''}
+                            <OrgChart/>
 
-                    <UserInfoSlider visible={teamViewUserDrawerVisible}
-                                    sourceTeamView={true}
-                                    onCloseFunction={(flag) => this.props.commonTeamReducerAction({teamViewUserDrawerVisible: flag})}
-                                    teamUserData={clickedTeamUserData}
-                                    userId={teamViewClickedUserId}
-                                    url={`/reportees/organization/${teamViewClickedUserId}/?start=1&offset=100&sortKey=name&sortOrder=dsc&filterKey=_id&filterQuery=`}
-                                    onClickEdit={() => this.onEditClick()}
+                            <UserInfoSlider visible={teamViewUserDrawerVisible}
+                                            sourceTeamView={true}
+                                            onCloseFunction={(flag) => this.props.commonTeamReducerAction({teamViewUserDrawerVisible: flag})}
+                                            teamUserData={clickedTeamUserData}
+                                            userId={teamViewClickedUserId}
+                                            url={`/reportees/organization/${teamViewClickedUserId}/?start=1&offset=100&sortKey=name&sortOrder=dsc&filterKey=_id&filterQuery=`}
+                                            onClickEdit={() => this.onEditClick()}
 
-                        // getTeamViewOrgData={(id) => this.props.getTeamViewOrgData(id)}
-                        // clickedUserOrgData={clickedUserOrgData}
-                                    clickedMemberData={clickedMemberData}
-                                    contentLoader={contentLoader}/>
+                                // getTeamViewOrgData={(id) => this.props.getTeamViewOrgData(id)}
+                                // clickedUserOrgData={clickedUserOrgData}
+                                            clickedMemberData={clickedMemberData}
+                                            contentLoader={contentLoader}/>
 
-                    <ImportUsersPopUp visible={importUsersPopUpVisiblity}
-                        //boolean value to handle the visiblity of the importUsersPopup
-                                      firstButtonName={'Select File'}
-                        //name of the first button of the importUsersPopup
-                                      secondButtonName={'Download Sample Excel'}
-                        //name of the second button of the importUsersPopup
-                                      secondButtonClickHandler={this.props.onClickOfDownloadExcel}
-                        //function that gets invoked on click of the the second button(Downloads a sample excel) of importUsersPopup
-                                      sampleExcelFile={sampleExcelFile}
-                        //sample file that has been downloaded on click of secondButton
-                                      thirdButtonName={'Cancel'}
-                        //name of the third button of the importUsersPopup
-                                      thirdButtonClickHandler={this.importUsersModalCloseHandler}
-                        //function that gets invoked on click of the the third button of importUsersPopup
-                                      fourthButtonName={'Start Upload'}
-                        //name of the fourth button of the importUsersPopup
-                                      fourthButtonClickHandler={this.startUploadHandler}
-                        //function that gets invoked on click of the the fourth button
-                                      fourthButtonLoaderStatus={startUploadStatus}
-                        //boolean value to check the loader status
-                                      fourthButtonOnLoadingText={'Uploading'}
-                        //text that you wish to be displayed when uploading is in process
-                        //end of 1st
-                                      importUsersUploadPopUpVisibility={uploadPopUpVisibility}
-                        //boolean value to handle the visiblity of the importUsersUploadPopUp
-                                      uploadPopUpData={uploadPopUpData}
-                        //data to be fed in form of an object
-                                      importUsersPopUpCloseHandler={this.props.uploadImportUsersPopUPVisibility}
-                        //function to close the importUsersUploadPopUp
-                                      patchImportUsersData={this.patchImportUserData}
-                        //function that gets invoked on click of the the third button(footer second button) of importUsersPopup
-                                      importUsersUploadResponseData={importUsersUploadResponseData}
-                        //data (object) obatined after the execution of patchImportUsersData function
-                                      uploadFileLoadingStatus={uploadFileStatus}
-                        //loader status of footerSecondButton(Process) button - boolean
-                                      isFileUploaded={isFileUploaded}
+                            <ImportUsersPopUp visible={importUsersPopUpVisiblity}
+                                //boolean value to handle the visiblity of the importUsersPopup
+                                              firstButtonName={'Select File'}
+                                //name of the first button of the importUsersPopup
+                                              secondButtonName={'Download Sample Excel'}
+                                //name of the second button of the importUsersPopup
+                                              secondButtonClickHandler={this.props.onClickOfDownloadExcel}
+                                //function that gets invoked on click of the the second button(Downloads a sample excel) of importUsersPopup
+                                              sampleExcelFile={sampleExcelFile}
+                                //sample file that has been downloaded on click of secondButton
+                                              thirdButtonName={'Cancel'}
+                                //name of the third button of the importUsersPopup
+                                              thirdButtonClickHandler={this.importUsersModalCloseHandler}
+                                //function that gets invoked on click of the the third button of importUsersPopup
+                                              fourthButtonName={'Start Upload'}
+                                //name of the fourth button of the importUsersPopup
+                                              fourthButtonClickHandler={this.startUploadHandler}
+                                //function that gets invoked on click of the the fourth button
+                                              fourthButtonLoaderStatus={startUploadStatus}
+                                //boolean value to check the loader status
+                                              fourthButtonOnLoadingText={'Uploading'}
+                                //text that you wish to be displayed when uploading is in process
+                                //end of 1st
+                                              importUsersUploadPopUpVisibility={uploadPopUpVisibility}
+                                //boolean value to handle the visiblity of the importUsersUploadPopUp
+                                              uploadPopUpData={uploadPopUpData}
+                                //data to be fed in form of an object
+                                              importUsersPopUpCloseHandler={this.props.uploadImportUsersPopUPVisibility}
+                                //function to close the importUsersUploadPopUp
+                                              patchImportUsersData={this.patchImportUserData}
+                                //function that gets invoked on click of the the third button(footer second button) of importUsersPopup
+                                              importUsersUploadResponseData={importUsersUploadResponseData}
+                                //data (object) obatined after the execution of patchImportUsersData function
+                                              uploadFileLoadingStatus={uploadFileStatus}
+                                //loader status of footerSecondButton(Process) button - boolean
+                                              isFileUploaded={isFileUploaded}
 
-                                      commonAction={()=>this.props.commonTeamReducerAction()}
-                        //boolean value for if file is uploaded
-                    />
-                    { addUserPopUpStatus ?
-                        <ConsoleAddUser
-                            addUserCloseButton={() => this.setState({addUserPopUpStatus: false})}
-                            addUserMode={addUserMode}
-                            userId={teamViewClickedUserId}/>
-                        : null
-                    }
-                </div>}
-            </div>
+                                              commonAction={() => this.props.commonTeamReducerAction()}
+                                              patchImportUsersDataHandler={this.patchImportUserData}
+                                //boolean value for if file is uploaded
+                            />
+                            {addUserPopUpStatus ?
+                                <ConsoleAddUser
+                                    addUserCloseButton={() => this.setState({addUserPopUpStatus: false})}
+                                    addUserMode={addUserMode}
+                                    userId={teamViewClickedUserId}/>
+                                : null
+                            }
+                        </div>}
+                    </div>}
+            </>
         )
     }
 }

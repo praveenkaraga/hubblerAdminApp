@@ -6,7 +6,9 @@ const intialState = {
     designationDataOriginal: [],
     totalDesignationsCount: 0,
     currentPageNumber: 1,
-    tableLoading: true
+    tableLoading: true,
+    searchLoader : false,
+    viewDeciderLoader : true
 }
 
 export const designationsReducer = (state = intialState, action) => {
@@ -29,7 +31,9 @@ export const designationsReducer = (state = intialState, action) => {
             designationDataOriginal: JSON.parse(JSON.stringify(designationDataIntial)),
             designationData: JSON.parse(JSON.stringify(designationDataIntial)),
             totalDesignationsCount,
-            tableLoading: false
+            tableLoading: false,
+            searchLoader : false,
+            viewDeciderLoader : false
         }
 
 

@@ -8,7 +8,7 @@ const intialState = {
     totalUsers: 0,
     rowsPerPage: 30,
     currentPageNumber: 1,
-    searchData: "",
+    searchData: null,
     searchLoader: false,
     activeheading: "",
     sortingType: "",
@@ -17,7 +17,9 @@ const intialState = {
     actionSuccessMessage: "",
     actionOnUserSuccess: false,
     patchColumnSettingStatus: false,
-    tableLoading : true
+    tableLoading : true,
+    patchColumnSettingSuccessMessage : "",
+    viewDeciderLoader : true
 }
 
 export const consoleReducer = (state = intialState, action) => {
@@ -38,7 +40,8 @@ export const consoleReducer = (state = intialState, action) => {
             consoleUserData: consoleUserDataCopy,
             totalUsers,
             searchLoader: false,
-            tableLoading : false
+            tableLoading : false,
+            viewDeciderLoader : false
         }
 
     case actionTypes.COMMON_CONSOLE_ACTION:
@@ -65,17 +68,19 @@ export const consoleReducer = (state = intialState, action) => {
 
 
     case actionTypes.POST_COMMON_ACTION_ON_USER:
-        const actionOnUserDataInitial = action.payload.data.result
+        const actionOnUserDataInitial = action.payload.data
         return {
             ...state,
             actionOnUserSuccess: true,
-            actionSuccessMessage: actionOnUserDataInitial.message || (actionOnUserDataInitial.deactivated ? `${actionOnUserDataInitial.deactivated} User(s) Succefully Deactivated` : "Not Deactivated")
+            actionSuccessMessage: actionOnUserDataInitial ? actionOnUserDataInitial.message : "Success"
         }
 
     case actionTypes.PATCH_TABLE_COLUMN_SETTING:
+        const patchColumnSettingInitial  = action.payload.data
         return {
             ...state,
-            patchColumnSettingStatus: true
+            patchColumnSettingStatus: true,
+            patchColumnSettingSuccessMessage : patchColumnSettingInitial ? patchColumnSettingInitial.message : "Table Column Setting Saved"
         }
 
     default :

@@ -14,6 +14,9 @@ import {
 import { withRouter } from "react-router-dom";
 import CreationPopUp from '../../../components/common/CreationPopUp/CreationPopUp'
 import { message, Modal } from 'antd'
+import AddUserCommonCard from '../../common/AddUsersCommonCard/AddUsersCommonCard'
+import FullScreenLoader from '../../common/FullScreenLoader/fullScreenLoader'
+
 class Designations extends Component {
 
     constructor(props) {
@@ -23,7 +26,7 @@ class Designations extends Component {
             rowsPerPage: 30,
             activeheading: "",
             sortingType: "",
-            searchData: "",
+            searchData: null,
 
             creationPopUpVisibility: false,
             newDesignationName: "",
@@ -65,14 +68,14 @@ class Designations extends Component {
 
     //calling  designaiton data api
     componentDidMount() {
-        this.props.commonDesignationAction({tableLoading : true})
+        this.props.commonDesignationAction({viewDeciderLoader : true})
         this.props.designationsData(this.state.rowsPerPage)
     }
 
     //on search in the designaiton table
     designationSearchData = (searchData) => {
         const { rowsPerPage, activeheading, sortingType } = this.state
-        this.props.commonDesignationAction({ tableLoading : true })
+        this.props.commonDesignationAction({ searchLoader : true })
         this.props.designationsData(rowsPerPage, 1, searchData, activeheading, sortingType)
         this.setState({
             searchData,
@@ -143,7 +146,10 @@ class Designations extends Component {
     creationPopUpInput = (e) => {
         const { editRowName } = this.state
         const inputData = e.target.value
-        this.setState({ newDesignationName: inputData, editRowName: inputData ? editRowName : "" })
+        // console.log(editRowId)
+        this.setState({ newDesignationName: inputData,
+            editRowName: inputData ? editRowName : "" 
+        })
 
     }
 
@@ -158,16 +164,16 @@ class Designations extends Component {
         } else {
             await this.props.postCommonCreateData("designations", { name: newDesignationName }) //waiting for the api to be posted
         }
-        const { patchDataCreatedSuccessfully, patchSuccessMessage, newDataCreatedSuccessfully, errorMsg } = this.props.commonReducer // will be true if success is true from above post api and pop up will be closed
+        const { patchDataCreatedSuccessfully, patchSuccessMessage, newDataCreatedSuccessfully, errorMsg , newDataCreatedSuccessfulMessage} = this.props.commonReducer // will be true if success is true from above post api and pop up will be closed
         if (type === "edit" ? patchDataCreatedSuccessfully : newDataCreatedSuccessfully) {
-            message.success(type === "edit" ? "Designation Saved Successfully" : "Designation Created Successfully ");// show success message
+            message.success(type === "edit" ? "Designation Saved Successfully" : newDataCreatedSuccessfulMessage);// show success message
             this.props.commonActionForCommonReducer({ patchDataCreatedSuccessfully: false, newDataCreatedSuccessfully: false })
             this.props.commonDesignationAction({tableLoading : true})
             this.props.designationsData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
         } else {
             message.error(errorMsg);
         }
-        this.setState({ creationPopUpVisibility: false,loaderOfDeletePopUp : false, checkedDataKeys: []})
+        this.setState({ creationPopUpVisibility: false,loaderOfDeletePopUp : false})
     }
 
 
@@ -196,46 +202,58 @@ class Designations extends Component {
 
 
     render() {
-        const { designationData, totalDesignationsCount, tableLoading } = this.props.designationsReducer
-        const { currentPageNumber, creationPopUpVisibility, newDesignationName, checkedDataKeys, creationPopUpMode, editRowName, visibilityOfDeletePopUp, loaderOfDeletePopUp } = this.state
+        const { designationData, totalDesignationsCount, tableLoading , viewDeciderLoader, searchLoader} = this.props.designationsReducer
+        const { currentPageNumber, creationPopUpVisibility, newDesignationName, checkedDataKeys, creationPopUpMode, editRowName, visibilityOfDeletePopUp, loaderOfDeletePopUp , searchData} = this.state
 
         return (
             <div className="designations_main">
                 <div className="designations_heading"><h3>Designations</h3></div>
 
-                <AllUserSelect userData={designationData}
+                { !viewDeciderLoader ?
+                
+                    (searchData !== null) || totalDesignationsCount ?   
+                        <AllUserSelect userData={designationData}
 
-                    searchFirstButtonName={"IMPORT RESOURCES"} searchSecondButtonName={"ADD DESIGNATION"}
-                    allHeadingsData={this.designationsColumnData}
-                    searchPlaceHolder={"Search Designation"} onSearch={this.designationSearchData}
-                    typeOfData="Designations"
+                            searchFirstButtonName={"IMPORT RESOURCES"} searchSecondButtonName={"ADD DESIGNATION"}
+                            allHeadingsData={this.designationsColumnData}
+                            searchPlaceHolder={"Search Designation"} onSearch={this.designationSearchData}
+                            typeOfData="Designations"
 
-                    headingClickData={this.onClickHeadingColumn}
-                    onChangeCheckBox={this.onChangeCheckBox}
-                    searchSecondButtonClick={() => this.setState({ creationPopUpVisibility: true, creationPopUpMode: "add" })} // onclick of add desgnation..enabling pop up for adding
-                    tableLoading ={tableLoading}
+                            headingClickData={this.onClickHeadingColumn}
+                            onChangeCheckBox={this.onChangeCheckBox}
+                            searchSecondButtonClick={() => this.setState({ creationPopUpVisibility: true, creationPopUpMode: "add" })} // onclick of add desgnation..enabling pop up for adding
+                            tableLoading ={tableLoading}
+                            debounceTimeUserSearch = {300}
+                            searchLoader={searchLoader}
+                            totalUsers={totalDesignationsCount} currentPageNumber={currentPageNumber}
+                            onChangeRowsPerPage={this.onChangeRowsPerPage}
+                            goPrevPage={() => this.changePage(-1)}
+                            goNextPage={() => this.changePage(1)}
 
-                    totalUsers={totalDesignationsCount} currentPageNumber={currentPageNumber}
-                    onChangeRowsPerPage={this.onChangeRowsPerPage}
-                    goPrevPage={() => this.changePage(-1)}
-                    goNextPage={() => this.changePage(1)}
+                            //onClick Designation Header Action Buttons
+                            onClickUserDelete={() => this.setState({ visibilityOfDeletePopUp: true })}
+                            onClickUserEdit={() => this.onClickDesignationActions("edit")}
 
-                    //onClick Designation Header Action Buttons
-                    onClickUserDelete={() => this.setState({ visibilityOfDeletePopUp: true })}
-                    onClickUserEdit={() => this.onClickDesignationActions("edit")}
+                            isUserData={false}
 
-                    isUserData={false}
+                            onClickTableRow={this.onRowClick}
 
-                    onClickTableRow={this.onRowClick}
+                            //buttons to show and hide 
+                            showHeaderButtons={[{ id: "edit", label: "Edit Designation" }, { id: "delete", label: "Delete Designation" }]} // buttons to show when designation selected
+                            disableButtonNames={[checkedDataKeys.length > 1 ? "edit" : ""]} // when more than one degnation selected..disabling the edit button
 
-                    //buttons to show and hide 
-                    showHeaderButtons={[{ id: "edit", label: "Edit Designation" }, { id: "delete", label: "Delete Designation" }]} // buttons to show when designation selected
-                    disableButtonNames={[checkedDataKeys.length > 1 ? "edit" : ""]} // when more than one degnation selected..disabling the edit button
-
-                    //to empty the selected Data
-                    selectedDataCount={checkedDataKeys.length}
-                />
-
+                            //to empty the selected Data
+                            selectedDataCount={checkedDataKeys.length}
+                        />
+                        :
+                        < AddUserCommonCard 
+                            addUsersCardTitle={"Add Designation"}
+                            buttonName={"Add Designation"} 
+                            addUsersCardSubText={"You don't have any Designation here. Please add Designations."}
+                            addUsersCommonCardSecondButtonClick= {()=>this.setState({ creationPopUpVisibility: true, creationPopUpMode: "add" })} // onclick of add desgnation..enabling pop up for adding
+                        />
+                    : <FullScreenLoader /> 
+                }
 
                 <CreationPopUp creationPopUpVisibility={creationPopUpVisibility}
                     creationPopUpTitle={creationPopUpMode === "add" ? "Add New Designation" : "Edit Designation"} //changing heading text in pop up according to pop up type...type is edit or add
@@ -251,7 +269,7 @@ class Designations extends Component {
                     // or no name in input
                     // or less than three letters
                     secondButtonDisable={newDesignationName.length < 3 || newDesignationName === editRowName ? true : false}
-                    afterClose={() => this.setState({ newDesignationName: "", editRowName: "" })} // after closing the pop up resetting it
+                    //  afterClose={() => this.setState({ newDesignationName: "", editRowName: "" })} // after closing the pop up resetting it
                     creationPopUpFirstFieldChangeHandler={this.creationPopUpInput}
                     creationPopSecondButtonLoader = {loaderOfDeletePopUp}
                 />

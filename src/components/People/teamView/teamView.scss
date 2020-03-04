@@ -118,7 +118,7 @@
       .back-to-root-text {
         font-size: 12px;
         font-family: robotoBold;
-        margin: 0 8px;
+        margin: 0 auto;
       }
     }
 
@@ -357,7 +357,6 @@
           ul {
             display: flex;
             flex-direction: column;
-            max-width: 1000px;
             //overflow: scroll;
             align-items: center;
             justify-content: center;
@@ -403,7 +402,7 @@
   }
 
   .loader {
-    background-image: url(../../../images/loader_medium.gif);
+    background-image: url(../../../images/loader-black.svg);
     background-size: 70px;
     background-position: center;
     background-repeat: no-repeat;

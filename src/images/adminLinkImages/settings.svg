@@ -2,7 +2,7 @@
   <defs>
     <style>
       .cls-1 {
-      fill: transparent;
+      fill: white;
       fill-rule: evenodd;
       stroke-dasharray: 120;
       stroke-dashoffset: 120;

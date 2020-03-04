@@ -1,3 +1,13 @@
+$selectorTypes : "people","profile" ,"app-studio", "link-app","accounts","mis","audit-trail","roles-policies","tracking","social","leader-board","settings";
+
+@mixin navLinks(){
+  @each $selectorType in $selectorTypes {
+    .#{$selectorType}-link{
+      background-image: url('../../images/adminLinkImages/#{$selectorType}.svg');
+    }
+  }
+}
+
 .admin-nav {
   height: 100%;
 
@@ -63,25 +73,30 @@
       background-color: black;
     }
 
-    .people-link{
-      background-image: url(../../images/adminLinkImages/people_main.svg);
+    @include navLinks();
+
+    .leader-board-link,.roles-policies-link,.audit-trail-link{
+      background-position: 15px!important;
+      background-size: 35px!important;
     }
-    .profile-link{
-      background-image: url(../../images/adminLinkImages/profile.svg);
-    }
-    .app-studio-link{
-      background-image: url(../../images/adminLinkImages/app_studio.svg);
-    }
-    .web-apps-link{
-      background-image: url(../../images/adminLinkImages/app_studio.svg);
-    }
-    .accounts-link{
-      background-image: url(../../images/adminLinkImages/accounts.svg);
-    }
-    .people-link-active,.profile-link-active,.app-studio-link-active,.web-apps-link-active,.accounts-link-active{
+
+    .people-link-active,.profile-link-active,.app-studio-link-active,.web-apps-link-active,.accounts-link-active,.mis-link-active,.tracking-link-active,.social-link-active{
       background-color: black;
       font-weight: bold;
       pointer-events: none;
     }
+  }
+  .powered-by{
+    background-image: url(../../images/svg/logo-hubbler.svg);
+    width: 150px;
+    height: 40px;
+    display: block;
+    background-repeat: no-repeat;
+    background-position: 20px 20px;
+    position: fixed;
+    padding-left: 20px;
+    color: #fff;
+    font-size: 10px;
+    bottom: 20px;
   }
 }

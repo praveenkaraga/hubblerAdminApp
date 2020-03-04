@@ -23,6 +23,9 @@ import UserInfoSlider from '../../common/UserInfoSlider/UserInfoSlider'
 import ImportUsersPopUp from '../../common/ImportUsersPopUp/ImportUsersPopUp'
 import { capitalFirstLetter } from '../../../utils/helper'
 import ConsoleAddUser from '../consoleAddUser/consoleAddUser'
+import AddUserCommonCard from '../../common/AddUsersCommonCard/AddUsersCommonCard'
+import FullScreenLoader from '../../common/FullScreenLoader/fullScreenLoader'
+
 
 class Console extends Component {
 
@@ -48,7 +51,7 @@ class Console extends Component {
     componentDidMount() { // calling console data and same excel file api
         this.props.getConsoleUserData(30)
         this.props.onClickOfDownloadExcel()
-        this.props.commonConsoleAction({tableLoading: true})
+        this.props.commonConsoleAction({viewDeciderLoader: true})
     }
 
 
@@ -94,9 +97,9 @@ class Console extends Component {
         if (selectedData.includes(true) && (selectedData.includes(false) || selectedData.includes(undefined))) {
             disableHeaderButtonNames = ["edit", "activate", "deactivate"]
         } else if ((selectedData.includes(false) || selectedData.includes(undefined))) {// if all selected users are active ones activate button will be disabled  
-            disableHeaderButtonNames = selectedDataOriginal.length > 1 ? ["edit", "activate"] : ["activate"]
+            disableHeaderButtonNames = ["edit", "activate", "deactivate"]//selectedDataOriginal.length > 1 ? ["edit", "activate"] : ["activate"]
         } else {
-            disableHeaderButtonNames = selectedDataOriginal.length > 1 ? ["edit", "deactivate"] : ["deactivate"] // if all selected users are deactive ones deactivate button will be disabled
+            disableHeaderButtonNames = ["edit", "activate", "deactivate"]//selectedDataOriginal.length > 1 ? ["edit", "deactivate"] : ["deactivate"] // if all selected users are deactive ones deactivate button will be disabled
         }
 
         this.setState({ disableHeaderButtonNames })
@@ -211,15 +214,15 @@ class Console extends Component {
 
 
     onColumnSettingSave = async (settingData) => { // on save of table column setting 
+        this.props.commonConsoleAction({ tableLoading: true })
         const copySavedSettingData = JSON.parse(JSON.stringify(settingData)) //making a deep copy of setting data
         const removeKeys = ["sorter", "title", "dataIndex", "sortDirections", "ellipsis"] //keys to remove from each object
         copySavedSettingData.forEach(data => removeKeys.forEach(key => delete data[key])) //removing all keys that we don't want to send to backend
         await this.props.patchTableColumnSetting({ fields: copySavedSettingData })
-        const { patchColumnSettingStatus, errorMsg, rowsPerPage, activeheading, sortingType, searchData, currentPageNumber } = this.props.consoleReducer
+        const { patchColumnSettingStatus,patchColumnSettingSuccessMessage, errorMsg, rowsPerPage, activeheading, sortingType, searchData, currentPageNumber } = this.props.consoleReducer
         if (patchColumnSettingStatus) {
-            message.success("Table Column Setting Saved")
+            message.success(patchColumnSettingSuccessMessage)
             this.props.getLoginSessionData()
-            this.props.commonConsoleAction({ tableLoading: true })
             this.props.getConsoleUserData(rowsPerPage, currentPageNumber, searchData, activeheading, sortingType)
 
         } else {
@@ -255,7 +258,7 @@ class Console extends Component {
 
 
     render() {
-        const { consoleUserData, totalUsers, currentPageNumber,searchLoader, columnSettingData , tableLoading} = this.props.consoleReducer
+        const { consoleUserData, totalUsers, currentPageNumber,searchLoader, columnSettingData , tableLoading, searchData, viewDeciderLoader} = this.props.consoleReducer
         const { importUsersPopUpVisiblity, sampleExcelFile, uploadPopUpData, uploadPopUpVisibility, startUploadStatus, uploadFileStatus,
             importUsersUploadResponseData, isFileUploaded, clickedTeamUserData, contentLoader } = this.props.teamViewReducer;
         
@@ -263,68 +266,82 @@ class Console extends Component {
 
         const { addUserspopUpStatus, userInfoVisible, userId, checkedDataKeys, disableHeaderButtonNames, visibleColumnSetting, typeOfActionOnUser,
             visibilityOfDeletePopUp, loaderOfDeletePopUp, addUserMode } = this.state;
+       
         return (
             <div className="console_main">
                 <div className="console_heading"><h3>Console</h3></div>
+                {!viewDeciderLoader ?
+                    (searchData !== null) || totalUsers ? 
+                        <AllUserSelect
+                            //all Search and button component props
+                            searchFirstButtonName={"IMPORT USERS"}
+                            searchSecondButtonName={"ADD USER"}
+                            searchFirstButtonClick={() => this.props.commonTeamReducerAction({ importUsersPopUpVisiblity: true })} //enabling the user info slider
+                            searchSecondButtonClick={() => this.setState({ addUserspopUpStatus: true, addUserMode: "add" })}
+                            onSearch={this.userSearchData} searchPlaceHolder={"Search Users / Managers / Designation"}
+                            searchFirstButtonLoader={false}
+                            searchSecondButtonLoader={false} searchLoader={searchLoader} typeOfData="Total Users"
+                            debounceTimeUserSearch = {300}
+                            searchSecondButtonDisable={true}
 
-                <AllUserSelect
-                    //all Search and button component props
-                    searchFirstButtonName={"IMPORT USERS"}
-                    searchSecondButtonName={"ADD USER"}
-                    searchFirstButtonClick={() => this.props.commonTeamReducerAction({ importUsersPopUpVisiblity: true })} //enabling the user info slider
-                    searchSecondButtonClick={() => this.setState({ addUserspopUpStatus: true, addUserMode: "add" })}
-                    onSearch={this.userSearchData} searchPlaceHolder={"Search Users / Managers / Designation"}
-                    searchFirstButtonLoader={false}
-                    searchSecondButtonLoader={false} searchLoader={searchLoader} typeOfData="Total Users"
-                    debounceTimeUserSearch = {300}
+                            // props for main AllUser component
+                            onChangeCheckBox={this.onChangeCheckBox} totalUsers={totalUsers}
+                            onChangeRowsPerPage={this.onChangeRowsPerPage} goPrevPage={() => this.changePage(-1)}
+                            goNextPage={() => this.changePage(1)} currentPageNumber={currentPageNumber}
+                            headingClickData={this.onClickHeadingColumn}
+                            allHeadingsData={tableColumnData}
+                            userData={consoleUserData}
+                            onSelectRow={this.onSelectRow}
+                            onSelectAll={this.onClickSelectAllCheckBox}
 
-                    // props for main AllUser component
-                    onChangeCheckBox={this.onChangeCheckBox} totalUsers={totalUsers}
-                    onChangeRowsPerPage={this.onChangeRowsPerPage} goPrevPage={() => this.changePage(-1)}
-                    goNextPage={() => this.changePage(1)} currentPageNumber={currentPageNumber}
-                    headingClickData={this.onClickHeadingColumn}
-                    allHeadingsData={tableColumnData}
-                    userData={consoleUserData}
-                    onSelectRow={this.onSelectRow}
-                    onSelectAll={this.onClickSelectAllCheckBox}
-
-                    //Loader of Table
-                    tableLoading ={tableLoading}
-
-
-                    //props of column setting component
-                    onClickColumnSetting={this.onClickColumnSetting}
-                    columnSettingData={columnSettingData}
-                    columnConfigurable={true}
-                    onColumnSettingSave={this.onColumnSettingSave}
-                    visibleColumnSetting={visibleColumnSetting}
-                    onColumnSettingCancel={() => this.setState({ visibleColumnSetting: false })}
-                    onSearchColumnSetting={this.onSearchColumnSetting}
-
-                    //props for all the actions to be done on user
-                    onClickUserActivate={() => this.setState({ visibilityOfDeletePopUp: true, typeOfActionOnUser: "activate" })}
-                    onClickUserDeactivate={() => this.setState({ visibilityOfDeletePopUp: true, typeOfActionOnUser: "deactivate" })}
-                    onClickUserDelete={() => this.setState({ visibilityOfDeletePopUp: true, typeOfActionOnUser: "delete" })}
-                    onClickUserEdit={() => this.setState({ addUserspopUpStatus: true, addUserMode: "edit" })}//{() => this.onClickUserActions("edit")}
+                            //Loader of Table
+                            tableLoading ={tableLoading}
 
 
-                    //to check if it is userData or not
-                    isUserData={true}
+                            //props of column setting component
+                            onClickColumnSetting={this.onClickColumnSetting}
+                            columnSettingData={columnSettingData}
+                            columnConfigurable={true}
+                            onColumnSettingSave={this.onColumnSettingSave}
+                            visibleColumnSetting={visibleColumnSetting}
+                            onColumnSettingCancel={() => this.setState({ visibleColumnSetting: false })}
+                            onSearchColumnSetting={this.onSearchColumnSetting}
 
-                    //table fn
-                    onClickTableRow={this.onRowClick}
+                            //props for all the actions to be done on user
+                            onClickUserActivate={() => this.setState({ visibilityOfDeletePopUp: true, typeOfActionOnUser: "activate" })}
+                            onClickUserDeactivate={() => this.setState({ visibilityOfDeletePopUp: true, typeOfActionOnUser: "deactivate" })}
+                            onClickUserDelete={() => this.setState({ visibilityOfDeletePopUp: true, typeOfActionOnUser: "delete" })}
+                            onClickUserEdit={() => this.setState({ addUserspopUpStatus: true, addUserMode: "edit" })}//{() => this.onClickUserActions("edit")}
 
-                    //buttons to show and hide 
-                    showHeaderButtons={this.showButtons()}
-                    disableButtonNames={disableHeaderButtonNames}
 
-                    //to empty the selected Data
-                    selectedDataCount={checkedDataKeys.length}
+                            //to check if it is userData or not
+                            isUserData={true}
 
-                    
+                            //table fn
+                            onClickTableRow={this.onRowClick}
 
-                />
+                            //buttons to show and hide 
+                            showHeaderButtons={this.showButtons()}
+                            disableButtonNames={disableHeaderButtonNames}
 
+                            //to empty the selected Data
+                            selectedDataCount={checkedDataKeys.length}
+
+                        />
+
+                        :           
+                        < AddUserCommonCard 
+                            secondButton={true} 
+                            buttonName={"Import Users"} 
+                            secondButtonName={"Add Users"} 
+                            secondButtonDisable={true}
+                            addUsersCardSubText={"You don't have any Users here. Please add Users."}
+                            addUsersCommonCardSecondButtonClick={() => this.props.commonTeamReducerAction({ importUsersPopUpVisiblity: true })} //enabling the user info slider
+                        />
+
+                    : <FullScreenLoader /> 
+                }
+                
                 <UserInfoSlider visible={userInfoVisible} onCloseFunction={() => this.onCloseUserInfo(false)}
                     teamUserData={clickedTeamUserData}
                     sourceTeamView={true}

@@ -87,7 +87,8 @@ export const teamViewReducer = (state = intialState, action) => {
                 }],
                 total_count: action.payload.data.total_count || '',
                 rootData: uniqBy(newRootData, '_id'),
-                reporteeLoader: false
+                reporteeLoader: false,
+                usersManager:action.payload.data.manager
 
             }
 
