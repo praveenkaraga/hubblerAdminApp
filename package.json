@@ -5,7 +5,7 @@
   "dependencies": {
     "antd": "^3.26.6",
     "axios": "^0.19.2",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.21",
     "moment": "^2.24.0",
     "node-sass": "^4.13.0",
     "randomcolor": "^0.5.4",
