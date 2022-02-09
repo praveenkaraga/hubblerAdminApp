@@ -21,7 +21,7 @@
     "redux-promise": "^0.6.0",
     "sass-loader": "^8.0.0",
     "ua-parser-js": "^0.7.20",
-    "yarn": "^1.19.1"
+    "yarn": "^1.22.0"
   },
   "scripts": {
     "start": "HTTPS=true react-scripts start",
